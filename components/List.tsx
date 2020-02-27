@@ -1,19 +1,25 @@
-import * as React from 'react'
-import ListItem from './ListItem'
-import { User } from '../interfaces'
+import React, { useContext } from "react"
+import styled from "styled-components"
 
-type Props = {
-  items: User[]
+import { ListItem } from "./ListItem"
+
+import { JournalContext } from "../context/JournalProvider"
+
+export const List: React.FC = () => {
+  const { journals } = useContext(JournalContext)
+
+  return (
+    <Wrapper>
+      {journals.map(item => (
+        <ListItem key={item.id} {...item} />
+      ))}
+    </Wrapper>
+  )
 }
 
-const List: React.FunctionComponent<Props> = ({ items }) => (
-  <ul>
-    {items.map(item => (
-      <li key={item.id}>
-        <ListItem data={item} />
-      </li>
-    ))}
-  </ul>
-)
-
-export default List
+// Styles
+const Wrapper = styled.div`
+  & > div {
+    /* margin-bottom: 0.2rem; */
+  }
+`

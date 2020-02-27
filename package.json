@@ -8,15 +8,31 @@
     "type-check": "tsc"
   },
   "dependencies": {
-    "isomorphic-unfetch": "3.0.0",
+    "@apollo/react-hooks": "^3.1.3",
+    "@apollo/react-ssr": "^3.1.3",
+    "@types/styled-components": "^5.0.1",
+    "apollo-boost": "^0.4.7",
+    "apollo-cache-inmemory": "^1.6.5",
+    "apollo-server-micro": "^2.10.1",
+    "date-fns": "^2.10.0",
+    "dotenv": "^8.2.0",
+    "framer-motion": "^1.8.4",
+    "graphql": "^14.6.0",
+    "graphql-tag": "^2.10.3",
+    "graphql-toolkit": "^0.7.5",
+    "isomorphic-unfetch": "^3.0.0",
+    "mongoose": "^5.9.2",
     "next": "latest",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "react-icons": "^3.9.0",
+    "styled-components": "^5.0.1"
   },
   "devDependencies": {
     "@types/node": "^12.12.21",
     "@types/react": "^16.9.16",
     "@types/react-dom": "^16.9.4",
+    "babel-plugin-import-graphql": "^2.7.0",
     "typescript": "3.7.3"
   },
   "license": "ISC"
