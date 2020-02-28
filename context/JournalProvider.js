@@ -31,6 +31,13 @@ const journalReducer = (state, action) => {
         },
         editing: false
       }
+    case "DELETE_SELECTED_JOURNAL":
+      return {
+        ...state,
+        journals: state.journals.filter(
+          journal => journal.id !== action.payload
+        )
+      }
     case "TOGGLE_EDITING":
       return {
         ...state,
@@ -42,7 +49,7 @@ const journalReducer = (state, action) => {
         journals: [
           {
             id: state.journals.length + 1,
-            title: "Untitled",
+            title: "Sans-titre",
             text: "",
             createdAt: Date.now()
           },
@@ -50,7 +57,7 @@ const journalReducer = (state, action) => {
         ],
         selectedJournal: {
           id: state.journals.length + 1,
-          title: "Untitled",
+          title: "Sans-titre",
           text: "",
           createdAt: Date.now()
         },
@@ -76,6 +83,10 @@ export const JournalProvider = ({ children }) => {
     })
   }
 
+  function deleteSelectedJournal(id) {
+    dispatch({ type: "DELETE_SELECTED_JOURNAL", payload: id })
+  }
+
   function toggleEditing() {
     dispatch({ type: "TOGGLE_EDITING" })
   }
@@ -92,6 +103,7 @@ export const JournalProvider = ({ children }) => {
         editing: state.editing,
         selectJournal,
         editSelectedJournal,
+        deleteSelectedJournal,
         toggleEditing,
         newPage
       }}

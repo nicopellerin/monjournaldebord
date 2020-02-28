@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react"
 import styled from "styled-components"
-import { FaCheckCircle } from "react-icons/fa"
+import { FaCheckCircle, FaTimes } from "react-icons/fa"
 import { motion } from "framer-motion"
 
 import { DateNow } from "./DateNow"
@@ -54,6 +54,10 @@ export const FormFormatOne: React.FC = () => {
           <input type="file" />
         </InputWrapper>
         <ButtonWrapper>
+          <ButtonCancel whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <FaTimes style={{ marginRight: 7 }} />
+            Annuler
+          </ButtonCancel>
           <Button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <FaCheckCircle style={{ marginRight: 7 }} />
             Sauvegarder
@@ -127,4 +131,19 @@ const Button = styled(motion.button)`
   justify-content: center;
   cursor: pointer;
   font-size: 1.4rem;
+`
+
+const ButtonCancel = styled(motion.button)`
+  border: none;
+  padding: 1em 1.5em;
+  background: whitesmoke;
+  color: crimson;
+  text-transform: uppercase;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.4rem;
+  margin-right: 2rem;
 `
