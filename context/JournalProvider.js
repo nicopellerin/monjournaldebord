@@ -38,7 +38,23 @@ const journalReducer = (state, action) => {
       }
     case "NEW_PAGE":
       return {
-        ...state
+        ...state,
+        journals: [
+          {
+            id: state.journals.length + 1,
+            title: "Untitled",
+            text: "",
+            createdAt: Date.now()
+          },
+          ...state.journals
+        ],
+        selectedJournal: {
+          id: state.journals.length + 1,
+          title: "Untitled",
+          text: "",
+          createdAt: Date.now()
+        },
+        editing: true
       }
     default:
       return state
@@ -53,8 +69,11 @@ export const JournalProvider = ({ children }) => {
     dispatch({ type: "SELECTED_JOURNAL", payload: id })
   }
 
-  function editSelectedJournal(title, text) {
-    dispatch({ type: "EDIT_SELECTED_JOURNAL", payload: { title, text } })
+  function editSelectedJournal(id, title, text, createdAt) {
+    dispatch({
+      type: "EDIT_SELECTED_JOURNAL",
+      payload: { title, text, id, createdAt }
+    })
   }
 
   function toggleEditing() {
@@ -73,7 +92,8 @@ export const JournalProvider = ({ children }) => {
         editing: state.editing,
         selectJournal,
         editSelectedJournal,
-        toggleEditing
+        toggleEditing,
+        newPage
       }}
     >
       {children}

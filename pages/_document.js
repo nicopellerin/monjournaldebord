@@ -36,6 +36,10 @@ export default class MyDocument extends Document {
           <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
           <meta name="description" content="Mon Journal De Bord" />
           <meta name="theme-color" content="#6cad49" />
+          <link
+            href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap"
+            rel="stylesheet"
+          />
         </Head>
         <body>
           <Main />

@@ -1,8 +1,6 @@
 import { createGlobalStyle } from "styled-components"
 
 const GlobalStyles = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
-
 *, *:before, *:after {
   box-sizing: border-box;
 }

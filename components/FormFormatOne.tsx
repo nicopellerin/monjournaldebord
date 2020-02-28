@@ -21,8 +21,8 @@ export const FormFormatOne: React.FC = () => {
   function handleSubmit(e) {
     e.preventDefault()
 
-    const id = selectedJournal.id
-    const createdAt = selectedJournal.createdAt
+    const id = selectedJournal?.id
+    const createdAt = selectedJournal?.createdAt
 
     editSelectedJournal(id, title, text, createdAt)
   }
