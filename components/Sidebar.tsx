@@ -1,15 +1,23 @@
-import * as React from "react"
+import React, { useContext } from "react"
 import styled from "styled-components"
 import { motion } from "framer-motion"
 import { FaPlusCircle } from "react-icons/fa"
 
 import { List } from "./List"
 
+import { JournalContext } from "../context/JournalProvider"
+
 export const Sidebar: React.FC = () => {
+  const { newPage } = useContext(JournalContext)
+
   return (
     <Wrapper>
       <List />
-      <Button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+      <Button
+        onClick={newPage}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+      >
         <FaPlusCircle style={{ marginRight: 7 }} />
         Nouvelle page
       </Button>
