@@ -19,6 +19,8 @@ export const List: React.FC = () => {
 
 // Styles
 const Wrapper = styled.div`
+  width: 100%;
+
   & > div {
     /* margin-bottom: 0.2rem; */
   }

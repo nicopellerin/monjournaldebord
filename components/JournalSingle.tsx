@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react"
 import styled from "styled-components"
-import { FaCalendar } from "react-icons/fa"
+import { FaCalendar, FaEdit, FaTimes } from "react-icons/fa"
+import { motion } from "framer-motion"
 
 import { DateNow } from "./DateNow"
 
@@ -11,20 +12,45 @@ export const JournalSingle: React.FC = () => {
     selectJournal,
     selectedJournal,
     journals,
-    toggleEditing
+    toggleEditing,
+    deleteSelectedJournal
   } = useContext(JournalContext)
+
+  function handleDelete() {
+    if (journals.length > 1) {
+      selectJournal(journals[1].id)
+    }
+  }
 
   return (
     <Wrapper>
-      <Title>{selectedJournal?.title || journals[0].title}</Title>
-      <DateWrapper>
-        <FaCalendar style={{ marginRight: 8 }} />
-        <DateNow />
-      </DateWrapper>
-      <Text>{selectedJournal?.text || journals[0].text}</Text>
-      <ButtonWrapper>
-        <button onClick={toggleEditing}>Editing</button>
-      </ButtonWrapper>
+      {journals.length > 0 ? (
+        <>
+          <Title>{selectedJournal?.title || journals[0].title}</Title>
+          <DateWrapper>
+            <FaCalendar style={{ marginRight: 8 }} />
+            <DateNow />
+          </DateWrapper>
+          <Text>{selectedJournal?.text || journals[0].text}</Text>
+          <ButtonWrapper>
+            <ButtonEdit onClick={toggleEditing}>
+              <FaEdit style={{ marginRight: 5 }} />
+              Editer
+            </ButtonEdit>
+            <ButtonDelete
+              onClick={() => {
+                deleteSelectedJournal(selectedJournal.id)
+                handleDelete()
+              }}
+            >
+              <FaTimes style={{ marginRight: 5 }} />
+              Supprimer
+            </ButtonDelete>
+          </ButtonWrapper>{" "}
+        </>
+      ) : (
+        <div>No journals</div>
+      )}
     </Wrapper>
   )
 }
@@ -54,4 +80,34 @@ const DateWrapper = styled.div`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
+`
+
+const ButtonEdit = styled(motion.button)`
+  border: none;
+  padding: 1em 1.5em;
+  background: whitesmoke;
+  color: #333;
+  text-transform: uppercase;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.4rem;
+  margin-right: 2rem;
+`
+
+const ButtonDelete = styled(motion.button)`
+  border: none;
+  padding: 1em 1.5em;
+  background: whitesmoke;
+  color: crimson;
+  text-transform: uppercase;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.4rem;
+  margin-right: 2rem;
 `

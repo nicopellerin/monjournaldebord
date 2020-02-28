@@ -37,6 +37,8 @@ const Wrapper = styled.ul`
   padding: 1.1rem 1rem;
   list-style: none;
   background: ${(props: ItemProps) => (props.selected ? "#ddd" : "none")};
+  border-right: ${(props: ItemProps) =>
+    props.selected ? "5px solid darkviolet" : "none"};
 
   &:hover {
     /* background: #f8f8f8; */
@@ -46,7 +48,6 @@ const Wrapper = styled.ul`
 
 const Item = styled.li`
   font-size: 1.6rem;
-  font-weight: 500;
-
   font-weight: ${(props: ItemProps) => (props.selected ? "600" : "400")};
+  width: 100%;
 `
