@@ -1,5 +1,6 @@
 import React, { useContext } from "react"
 import styled from "styled-components"
+import Link from "next/link"
 
 import { JournalContext } from "../context/JournalProvider"
 
@@ -19,14 +20,16 @@ export const ListItem: React.FC<Props> = ({ title, id }) => {
   const { selectJournal, selectedJournal } = useContext(JournalContext)
 
   return (
-    <Wrapper
-      selected={selectedJournal?.id === id}
-      onClick={() => {
-        selectJournal(id)
-      }}
-    >
-      <Item selected={selectedJournal?.id === id}>{maxLength(title)}</Item>
-    </Wrapper>
+    <Link href={`/[id]`} as={`/${id}`}>
+      <Wrapper
+        selected={selectedJournal?.id === id}
+        onClick={() => {
+          selectJournal(id)
+        }}
+      >
+        <Item selected={selectedJournal?.id === id}>{maxLength(title)}</Item>
+      </Wrapper>
+    </Link>
   )
 }
 
