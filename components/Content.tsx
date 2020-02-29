@@ -22,7 +22,7 @@ export const Content: React.FC = () => {
   //   }
   // }, [])
 
-  if (pathname === "/") {
+  if (pathname === "/profil") {
     return <Home />
   }
 

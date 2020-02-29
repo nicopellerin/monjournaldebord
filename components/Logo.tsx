@@ -4,9 +4,9 @@ import styled from "styled-components"
 
 export const Logo = () => {
   return (
-    <Link href="/">
+    <Link href="/profil">
       <AStyled>
-        <h1 style={{ color: "#333", marginBottom: 0 }}>monjournaldebord</h1>
+        <LogoStyled src="/logo.svg" alt="Logo" />
       </AStyled>
     </Link>
   )
@@ -16,4 +16,8 @@ export const Logo = () => {
 const AStyled = styled.a`
   text-decoration: none;
   cursor: pointer;
+`
+
+const LogoStyled = styled.img`
+  width: 20rem;
 `
