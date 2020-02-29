@@ -6,7 +6,7 @@ export const Logo = () => {
   return (
     <Link href="/">
       <AStyled>
-        <h1 style={{ color: "white", marginBottom: 0 }}>monjournaldebord</h1>
+        <h1 style={{ color: "#333", marginBottom: 0 }}>monjournaldebord</h1>
       </AStyled>
     </Link>
   )

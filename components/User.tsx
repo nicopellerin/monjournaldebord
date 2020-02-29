@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import styled from "styled-components"
+import { motion, AnimatePresence } from "framer-motion"
 
 export const User: React.FC = () => {
   const [toggle, setToggle] = useState(false)
@@ -16,9 +17,15 @@ export const User: React.FC = () => {
 
 const UserDropdown: React.FC = () => {
   return (
-    <DropdownWrapper>
-      <DropdownItem>Se déconnecter</DropdownItem>
-    </DropdownWrapper>
+    <AnimatePresence>
+      <DropdownWrapper
+        initial={{ opacity: 0, y: -10, x: "-50%" }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0 }}
+      >
+        <DropdownItem>Se déconnecter</DropdownItem>
+      </DropdownWrapper>
+    </AnimatePresence>
   )
 }
 
@@ -34,12 +41,12 @@ const Wrapper = styled.div`
   }
 `
 
-const DropdownWrapper = styled.div`
+const DropdownWrapper = styled(motion.div)`
   position: absolute;
   width: 13rem;
   bottom: -5.5rem;
   left: 50%;
-  transform: translateX(-50%);
+  /* transform: translateX(-50%); */
   background: white;
   padding: 1.3rem 1.5rem;
   text-align: center;

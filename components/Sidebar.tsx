@@ -15,7 +15,7 @@ export const Sidebar: React.FC = () => {
 
   function addNewPub() {
     newPage()
-    Router.push(`/nouvelle/[id]`, `/nouvelle/${newId}`)
+    Router.push(`/journal/nouveau/[id]`, `/journal/nouveau/${newId}`)
   }
 
   return (

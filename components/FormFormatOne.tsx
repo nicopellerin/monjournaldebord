@@ -8,13 +8,19 @@ import { DateNow } from "./DateNow"
 import { JournalContext } from "../context/JournalProvider"
 
 export const FormFormatOne: React.FC = () => {
-  const { selectedJournal, editSelectedJournal } = useContext(JournalContext)
+  const { selectedJournal, editSelectedJournal, newState } = useContext(
+    JournalContext
+  )
 
   const [title, setTitle] = useState("")
   const [text, setText] = useState("")
 
+  const titleValue = newState ? "" : selectedJournal?.title
+
+  console.log(titleValue)
+
   useEffect(() => {
-    setTitle(selectedJournal?.title)
+    setTitle(titleValue)
     setText(selectedJournal?.text)
   }, [selectedJournal])
 
@@ -39,6 +45,7 @@ export const FormFormatOne: React.FC = () => {
             name="title"
             value={title}
             onChange={e => setTitle(e.target.value)}
+            autoFocus={newState ? true : false}
           />
         </InputWrapper>
         <InputWrapper>
