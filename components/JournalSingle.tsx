@@ -33,11 +33,17 @@ export const JournalSingle: React.FC = () => {
           </DateWrapper>
           <Text>{selectedJournal?.text || journals[0].text}</Text>
           <ButtonWrapper>
-            <ButtonEdit onClick={toggleEditing}>
+            <ButtonEdit
+              onClick={toggleEditing}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
               <FaEdit style={{ marginRight: 5 }} />
               Editer
             </ButtonEdit>
             <ButtonDelete
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => {
                 deleteSelectedJournal(selectedJournal.id)
                 handleDelete()

@@ -1,6 +1,6 @@
-export function maxLength(str) {
-  if (str.length > 28) {
-    return str.slice(0, 28) + "..."
+export function maxLength(str, len = 28) {
+  if (str.length > len) {
+    return str.slice(0, len) + "..."
   }
 
   return str

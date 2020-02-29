@@ -1,22 +1,30 @@
 import React, { useContext, useEffect, useRef } from "react"
 import styled from "styled-components"
+import { useRouter } from "next/router"
 
 import { Book } from "./Book"
 import { JournalSingle } from "./JournalSingle"
+import { Home } from "./Home"
 
 import { JournalContext } from "../context/JournalProvider"
 
 export const Content: React.FC = () => {
   const { editing, selectJournal, journals } = useContext(JournalContext)
 
-  const firstLoad = useRef(false)
+  const { pathname } = useRouter()
 
-  useEffect(() => {
-    if (!firstLoad.current) {
-      firstLoad.current = true
-      selectJournal(journals[0].id)
-    }
-  }, [])
+  // const firstLoad = useRef(false)
+
+  // useEffect(() => {
+  //   if (!firstLoad.current) {
+  //     firstLoad.current = true
+  //     selectJournal(journals[0].id)
+  //   }
+  // }, [])
+
+  if (pathname === "/") {
+    return <Home />
+  }
 
   return <Wrapper>{editing ? <Book /> : <JournalSingle />}</Wrapper>
 }

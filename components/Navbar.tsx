@@ -2,6 +2,7 @@ import * as React from "react"
 import styled from "styled-components"
 
 import { Logo } from "./Logo"
+import { User } from "./User"
 
 export const Navbar: React.FC = () => {
   return (
@@ -9,6 +10,9 @@ export const Navbar: React.FC = () => {
       <LogoWrapper>
         <Logo />
       </LogoWrapper>
+      <UserWrapper>
+        <User />
+      </UserWrapper>
     </Wrapper>
   )
 }
@@ -20,6 +24,7 @@ const Wrapper = styled.div`
   height: 7.5rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 100;
@@ -28,4 +33,8 @@ const Wrapper = styled.div`
 const LogoWrapper = styled.div`
   width: 300px;
   text-align: center;
+`
+
+const UserWrapper = styled.div`
+  margin-right: 7rem;
 `

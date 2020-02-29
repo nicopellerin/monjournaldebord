@@ -2,24 +2,32 @@ import React, { useContext } from "react"
 import styled from "styled-components"
 import { motion } from "framer-motion"
 import { FaPlusCircle } from "react-icons/fa"
+import Router from "next/router"
 
 import { List } from "./List"
 
 import { JournalContext } from "../context/JournalProvider"
 
 export const Sidebar: React.FC = () => {
-  const { newPage } = useContext(JournalContext)
+  const { newPage, journals } = useContext(JournalContext)
+
+  const newId = journals.length + 1
+
+  function addNewPub() {
+    newPage()
+    Router.push(`/nouvelle/[id]`, `/nouvelle/${newId}`)
+  }
 
   return (
     <Wrapper>
       <List />
       <Button
-        onClick={newPage}
+        onClick={addNewPub}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
       >
         <FaPlusCircle style={{ marginRight: 7 }} />
-        Nouvelle page
+        Nouvelle publication
       </Button>
     </Wrapper>
   )
