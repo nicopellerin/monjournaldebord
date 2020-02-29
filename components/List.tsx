@@ -18,10 +18,13 @@ export const List: React.FC = () => {
 }
 
 // Styles
-const Wrapper = styled.div`
+const Wrapper = styled.ul`
   width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 
-  & > div {
-    /* margin-bottom: 0.2rem; */
+  & > li {
+    margin-bottom: 0.2rem;
   }
 `

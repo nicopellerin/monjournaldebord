@@ -2,6 +2,7 @@ import React, { useContext } from "react"
 import styled from "styled-components"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { motion } from "framer-motion"
 
 import { JournalContext } from "../context/JournalProvider"
 
@@ -18,7 +19,7 @@ type ItemProps = {
 }
 
 export const ListItem: React.FC<Props> = ({ title, id }) => {
-  const { selectJournal, selectedJournal } = useContext(JournalContext)
+  const { selectJournal } = useContext(JournalContext)
 
   const {
     query: { id: queryId }
@@ -26,22 +27,25 @@ export const ListItem: React.FC<Props> = ({ title, id }) => {
 
   const numberId = Number(queryId)
 
+  const selected = numberId === id
+
   return (
     <Link href={`/journal/[id]`} as={`/journal/${id}`}>
       <Wrapper
-        selected={numberId === id}
+        whileHover={{ scale: selected ? 1 : 1.05 }}
+        selected={selected}
         onClick={() => {
           selectJournal(id)
         }}
       >
-        <Item selected={numberId === id}>{maxLength(title)}</Item>
+        <Item selected={selected}>{maxLength(title)}</Item>
       </Wrapper>
     </Link>
   )
 }
 
 // Styles
-const Wrapper = styled.ul`
+const Wrapper = styled(motion.li)`
   text-align: center;
   width: 100%;
   padding: 1.1rem 1rem;
@@ -51,12 +55,13 @@ const Wrapper = styled.ul`
     props.selected ? "5px solid darkviolet" : "none"};
 
   &:hover {
-    /* background: #f8f8f8; */
+    background: ${(props: ItemProps) => (props.selected ? "#ddd" : "#f8f8f8")};
     cursor: pointer;
   }
 `
 
-const Item = styled.li`
+const Item = styled(motion.span)`
+  display: block;
   font-size: 1.6rem;
   font-weight: ${(props: ItemProps) => (props.selected ? "600" : "400")};
   width: 100%;
