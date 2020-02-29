@@ -1,6 +1,7 @@
 import React, { useContext } from "react"
 import styled from "styled-components"
 import Link from "next/link"
+import { useRouter } from "next/router"
 
 import { JournalContext } from "../context/JournalProvider"
 
@@ -19,15 +20,21 @@ type ItemProps = {
 export const ListItem: React.FC<Props> = ({ title, id }) => {
   const { selectJournal, selectedJournal } = useContext(JournalContext)
 
+  const {
+    query: { id: queryId }
+  } = useRouter()
+
+  const numberId = Number(queryId)
+
   return (
-    <Link href={`/[id]`} as={`/${id}`}>
+    <Link href={`/journal/[id]`} as={`/journal/${id}`}>
       <Wrapper
-        selected={selectedJournal?.id === id}
+        selected={numberId === id}
         onClick={() => {
           selectJournal(id)
         }}
       >
-        <Item selected={selectedJournal?.id === id}>{maxLength(title)}</Item>
+        <Item selected={numberId === id}>{maxLength(title)}</Item>
       </Wrapper>
     </Link>
   )

@@ -20,18 +20,18 @@ export const Card: React.FC<Props> = ({ id, title, text }) => {
   const { selectJournal } = useContext(JournalContext)
 
   return (
-    <Link href={`/[id]`} as={`/${id}`}>
-      <AStyled>
-        <Wrapper whileHover={{ scale: 1.02 }} onClick={() => selectJournal(id)}>
+    <Wrapper whileHover={{ scale: 1.02 }} onClick={() => selectJournal(id)}>
+      <Link href={`/journal/[id]`} as={`/journal/${id}`}>
+        <AStyled>
           <Title>{maxLength(title, 20)}</Title>
           <DateWrapper>
             <FaCalendar style={{ marginRight: 5 }} />
             <DateNow />
           </DateWrapper>
           <Text>{maxLength(text, 280)}</Text>
-        </Wrapper>
-      </AStyled>
-    </Link>
+        </AStyled>
+      </Link>
+    </Wrapper>
   )
 }
 

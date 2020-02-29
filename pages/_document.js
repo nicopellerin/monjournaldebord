@@ -40,6 +40,7 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap"
             rel="stylesheet"
           />
+          <title>Mon Journal De Bord</title>
         </Head>
         <body>
           <Main />

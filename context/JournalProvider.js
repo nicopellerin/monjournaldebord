@@ -7,7 +7,8 @@ export const JournalContext = createContext(null)
 const initialState = {
   journals: mockData,
   selectedJournal: null,
-  editing: false
+  editing: false,
+  newState: false
 }
 
 const journalReducer = (state, action) => {
@@ -36,7 +37,8 @@ const journalReducer = (state, action) => {
         ...state,
         journals: state.journals.filter(
           journal => journal.id !== action.payload
-        )
+        ),
+        selectedJournal: state.journals[0]
       }
     case "TOGGLE_EDITING":
       return {
@@ -61,7 +63,8 @@ const journalReducer = (state, action) => {
           text: "",
           createdAt: Date.now()
         },
-        editing: true
+        editing: true,
+        newState: true
       }
     default:
       return state
@@ -101,6 +104,7 @@ export const JournalProvider = ({ children }) => {
         journals: state.journals,
         selectedJournal: state.selectedJournal,
         editing: state.editing,
+        newState: state.newState,
         selectJournal,
         editSelectedJournal,
         deleteSelectedJournal,

@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react"
 import styled from "styled-components"
 import { FaCalendar, FaEdit, FaTimes } from "react-icons/fa"
 import { motion } from "framer-motion"
+import Router, { useRouter } from "next/router"
 
 import { DateNow } from "./DateNow"
 
@@ -16,11 +17,13 @@ export const JournalSingle: React.FC = () => {
     deleteSelectedJournal
   } = useContext(JournalContext)
 
-  function handleDelete() {
-    if (journals.length > 1) {
-      selectJournal(journals[1].id)
-    }
-  }
+  // const {
+  //   query: { id }
+  // } = useRouter()
+
+  // useEffect(() => {
+  //   selectJournal(id)
+  // }, [])
 
   return (
     <Wrapper>
@@ -46,7 +49,7 @@ export const JournalSingle: React.FC = () => {
               whileTap={{ scale: 0.98 }}
               onClick={() => {
                 deleteSelectedJournal(selectedJournal.id)
-                handleDelete()
+                Router.push(`/journal/1`, `/journal/1`, { shallow: true })
               }}
             >
               <FaTimes style={{ marginRight: 5 }} />

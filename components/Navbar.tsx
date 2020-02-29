@@ -20,7 +20,7 @@ export const Navbar: React.FC = () => {
 // Styles
 const Wrapper = styled.div`
   width: 100%;
-  background: darkviolet;
+  background: white;
   height: 7.5rem;
   display: flex;
   align-items: center;
