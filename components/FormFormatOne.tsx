@@ -2,8 +2,11 @@ import React, { useContext, useState, useEffect } from "react"
 import styled from "styled-components"
 import { FaCheckCircle, FaTimes } from "react-icons/fa"
 import { motion } from "framer-motion"
+import Link from "next/link"
+import Router from "next/router"
 
 import { DateNow } from "./DateNow"
+import { TextBlock } from "./TextBlock"
 
 import { JournalContext } from "../context/JournalProvider"
 
@@ -17,8 +20,6 @@ export const FormFormatOne: React.FC = () => {
 
   const titleValue = newState ? "" : selectedJournal?.title
 
-  console.log(titleValue)
-
   useEffect(() => {
     setTitle(titleValue)
     setText(selectedJournal?.text)
@@ -31,6 +32,9 @@ export const FormFormatOne: React.FC = () => {
     const createdAt = selectedJournal?.createdAt
 
     editSelectedJournal(id, title, text, createdAt)
+    Router.push(`/journal/[id]`, `/journal/${selectedJournal?.id}`, {
+      shallow: true
+    })
   }
 
   return (
@@ -50,21 +54,27 @@ export const FormFormatOne: React.FC = () => {
         </InputWrapper>
         <InputWrapper>
           <Label>Texte</Label>
-          <TextAreaField
+          <TextBlock textVal={text} />
+          {/* <TextAreaField
             name="text"
             value={text}
             onChange={e => setText(e.target.value)}
-          />
+          /> */}
         </InputWrapper>
         <InputWrapper>
           <Label>Image (optionel)</Label>
           <input type="file" />
         </InputWrapper>
         <ButtonWrapper>
-          <ButtonCancel whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <FaTimes style={{ marginRight: 7 }} />
-            Annuler
-          </ButtonCancel>
+          <Link href={`/journal/[id]`} as={`/journal/${selectedJournal?.id}`}>
+            <ButtonCancel
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <FaTimes style={{ marginRight: 7 }} />
+              Annuler
+            </ButtonCancel>
+          </Link>
           <Button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <FaCheckCircle style={{ marginRight: 7 }} />
             Sauvegarder

@@ -34,10 +34,12 @@ const Wrapper = styled.div`
   position: relative;
 
   & > img {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     cursor: pointer;
+    border: 1px solid #ddd;
+    padding: 2px;
   }
 `
 
@@ -46,7 +48,6 @@ const DropdownWrapper = styled(motion.div)`
   width: 13rem;
   bottom: -5.5rem;
   left: 50%;
-  /* transform: translateX(-50%); */
   background: white;
   padding: 1.3rem 1.5rem;
   text-align: center;

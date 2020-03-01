@@ -26,7 +26,19 @@ export const Content: React.FC = () => {
     return <Home />
   }
 
-  return <Wrapper>{editing ? <Book /> : <JournalSingle />}</Wrapper>
+  if (pathname.includes("edit") || pathname.includes("nouveau")) {
+    return (
+      <Wrapper>
+        <Book />
+      </Wrapper>
+    )
+  }
+
+  return (
+    <Wrapper>
+      <JournalSingle />
+    </Wrapper>
+  )
 }
 
 // Styles

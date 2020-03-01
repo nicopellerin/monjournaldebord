@@ -30,7 +30,8 @@ const journalReducer = (state, action) => {
           text: action.payload.text,
           createdAt: action.payload.createdAt
         },
-        editing: false
+        editing: false,
+        newState: false
       }
     case "DELETE_SELECTED_JOURNAL":
       return {
@@ -43,7 +44,8 @@ const journalReducer = (state, action) => {
     case "TOGGLE_EDITING":
       return {
         ...state,
-        editing: !state.editing
+        editing: !state.editing,
+        newState: false
       }
     case "NEW_PAGE":
       return {
@@ -98,21 +100,21 @@ export const JournalProvider = ({ children }) => {
     dispatch({ type: "NEW_PAGE" })
   }
 
+  const value = useMemo(() => {
+    return {
+      journals: state.journals,
+      selectedJournal: state.selectedJournal,
+      editing: state.editing,
+      newState: state.newState,
+      selectJournal,
+      editSelectedJournal,
+      deleteSelectedJournal,
+      toggleEditing,
+      newPage
+    }
+  }, [state.journals, state.selectedJournal, state.editing, state.newState])
+
   return (
-    <JournalContext.Provider
-      value={{
-        journals: state.journals,
-        selectedJournal: state.selectedJournal,
-        editing: state.editing,
-        newState: state.newState,
-        selectJournal,
-        editSelectedJournal,
-        deleteSelectedJournal,
-        toggleEditing,
-        newPage
-      }}
-    >
-      {children}
-    </JournalContext.Provider>
+    <JournalContext.Provider value={value}>{children}</JournalContext.Provider>
   )
 }

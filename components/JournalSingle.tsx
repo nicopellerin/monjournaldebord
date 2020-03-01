@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { FaCalendar, FaEdit, FaTimes } from "react-icons/fa"
 import { motion } from "framer-motion"
 import Router, { useRouter } from "next/router"
+import Link from "next/link"
 
 import { DateNow } from "./DateNow"
 
@@ -17,13 +18,38 @@ export const JournalSingle: React.FC = () => {
     deleteSelectedJournal
   } = useContext(JournalContext)
 
-  // const {
-  //   query: { id }
-  // } = useRouter()
+  useEffect(() => {
+    const prevIdx = Number(selectedJournal?.id) - 1
+    const nextIdx = Number(selectedJournal?.id) + 1
 
-  // useEffect(() => {
-  //   selectJournal(id)
-  // }, [])
+    const prevPublication = e => {
+      if (prevIdx > 0 && e.keyCode === 38) {
+        Router.push(`/journal/[id]`, `/journal/${prevIdx}`, {
+          shallow: true
+        })
+        selectJournal(prevIdx)
+      }
+    }
+    document.addEventListener("keydown", prevPublication)
+
+    const nextPublication = e => {
+      if (nextIdx <= journals.length && e.keyCode === 40) {
+        Router.push(`/journal/[id]`, `/journal/${nextIdx}`, {
+          shallow: true
+        })
+        selectJournal(nextIdx)
+      }
+    }
+
+    document.addEventListener("keydown", nextPublication)
+
+    return () => {
+      document.removeEventListener("keydown", prevPublication)
+      document.removeEventListener("keydown", nextPublication)
+    }
+  }, [selectedJournal])
+
+  console.log(selectedJournal?.id)
 
   return (
     <Wrapper>
@@ -36,26 +62,35 @@ export const JournalSingle: React.FC = () => {
           </DateWrapper>
           <Text>{selectedJournal?.text || journals[0].text}</Text>
           <ButtonWrapper>
-            <ButtonEdit
-              onClick={toggleEditing}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <Link
+              href={`/journal/edit/[id]`}
+              as={`/journal/edit/${selectedJournal?.id}`}
             >
-              <FaEdit style={{ marginRight: 5 }} />
-              Editer
-            </ButtonEdit>
+              <ButtonEdit
+                onClick={toggleEditing}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <FaEdit style={{ marginRight: 5 }} />
+                Editer
+              </ButtonEdit>
+            </Link>
             <ButtonDelete
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => {
                 deleteSelectedJournal(selectedJournal.id)
-                Router.push(`/journal/1`, `/journal/1`, { shallow: true })
+                Router.push(
+                  `/journal/${journals[0].id}`,
+                  `/journal/${journals[0].id}`,
+                  { shallow: true }
+                )
               }}
             >
               <FaTimes style={{ marginRight: 5 }} />
               Supprimer
             </ButtonDelete>
-          </ButtonWrapper>{" "}
+          </ButtonWrapper>
         </>
       ) : (
         <div>No journals</div>
