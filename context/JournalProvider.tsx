@@ -2,7 +2,24 @@ import { createContext, useReducer, useMemo } from "react"
 
 import mockData from "../mockData.json"
 
-export const JournalContext = createContext(null)
+type ContextProps = {
+  journals: any
+  selectedJournal: Journal
+  editing: boolean
+  newState: boolean
+  selectJournal?: (id) => void
+  editSelectedJournal?: (id, title, text, createdAt) => void
+  deleteSelectedJournal?: (id) => void
+  toggleEditing?: () => void
+  newPage?: () => void
+}
+
+type Journal = {
+  id: number
+  title: string
+  text: string
+  createdAt: string
+}
 
 const initialState = {
   journals: mockData,
@@ -10,6 +27,8 @@ const initialState = {
   editing: false,
   newState: false
 }
+
+export const JournalContext = createContext<ContextProps>(initialState)
 
 const journalReducer = (state, action) => {
   switch (action.type) {
