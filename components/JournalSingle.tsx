@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react"
 import styled from "styled-components"
 import { FaCalendar, FaEdit, FaTimes } from "react-icons/fa"
 import { motion } from "framer-motion"
-import Router, { useRouter } from "next/router"
+import Router from "next/router"
 import Link from "next/link"
 
 import { DateNow } from "./DateNow"
@@ -48,8 +48,6 @@ export const JournalSingle: React.FC = () => {
       document.removeEventListener("keydown", nextPublication)
     }
   }, [selectedJournal])
-
-  console.log(selectedJournal?.id)
 
   return (
     <Wrapper>
