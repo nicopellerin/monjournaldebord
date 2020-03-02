@@ -1,8 +1,9 @@
-import * as React from "react"
-import styled from "styled-components"
+import * as React from 'react'
+import styled from 'styled-components'
 
-import { Logo } from "./Logo"
-import { User } from "./User"
+import { Logo } from './Logo'
+import { User } from './User'
+import { NavbarSearch } from './NavbarSearch'
 
 export const Navbar: React.FC = () => {
   return (
@@ -10,9 +11,14 @@ export const Navbar: React.FC = () => {
       <LogoWrapper>
         <Logo />
       </LogoWrapper>
-      <UserWrapper>
-        <User />
-      </UserWrapper>
+      <RightWrapper>
+        <NavbarSearchWrapper>
+          <NavbarSearch />
+        </NavbarSearchWrapper>
+        <UserWrapper>
+          <User />
+        </UserWrapper>
+      </RightWrapper>
     </Wrapper>
   )
 }
@@ -33,6 +39,15 @@ const Wrapper = styled.div`
 const LogoWrapper = styled.div`
   width: 300px;
   text-align: center;
+`
+
+const RightWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const NavbarSearchWrapper = styled.div`
+  margin-right: 4rem;
 `
 
 const UserWrapper = styled.div`
