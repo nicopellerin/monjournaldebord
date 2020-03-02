@@ -1,21 +1,17 @@
-import React, { useEffect } from 'react'
 import { NextPage } from 'next'
 import Router from 'next/router'
 
-import { Navbar } from '../components/Navbar'
-import { Main } from '../components/Main'
-
 const IndexPage: NextPage = () => {
-    useEffect(() => {
-        Router.push('/profil', '/profil')
-    }, [])
+    return null
+}
 
-    return (
-        <>
-            <Navbar />
-            <Main />
-        </>
-    )
+IndexPage.getInitialProps = async ({ req, res }) => {
+    if (req) {
+        res.writeHead(301, { Location: '/profil' })
+        res.end()
+    } else {
+        Router.push('/profil')
+    }
 }
 
 export default IndexPage
