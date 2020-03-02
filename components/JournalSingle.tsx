@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
-import { FaCalendar, FaEdit, FaTimes } from 'react-icons/fa'
+import { FaCalendarAlt, FaEdit, FaTimes } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import Router from 'next/router'
 import Link from 'next/link'
@@ -54,10 +54,14 @@ export const JournalSingle: React.FC = () => {
       {journals.length > 0 ? (
         <>
           <Title>{selectedJournal?.title || journals[0].title}</Title>
+
           <DateWrapper>
-            <FaCalendar style={{ marginRight: 8 }} />
+            <FaCalendarAlt style={{ marginRight: 8 }} />
             <DateNow dateInfo={Date.parse(selectedJournal?.createdAt)} />
           </DateWrapper>
+          {selectedJournal?.image && (
+            <Image src={selectedJournal.image} alt="" />
+          )}
           <Text>{selectedJournal?.text || journals[0].text}</Text>
           <ButtonWrapper>
             <Link
@@ -78,11 +82,6 @@ export const JournalSingle: React.FC = () => {
               whileTap={{ scale: 0.98 }}
               onClick={() => {
                 deleteSelectedJournal(selectedJournal.id)
-                Router.push(
-                  `/journal/${journals[0].id}`,
-                  `/journal/${journals[0].id}`,
-                  { shallow: true }
-                )
               }}
             >
               <FaTimes style={{ marginRight: 5 }} />
@@ -102,10 +101,18 @@ const Wrapper = styled.div`
   max-width: 80rem;
 `
 
+const Image = styled.img`
+  width: 100%;
+  height: 18rem;
+  margin: 2rem 0 1rem;
+  object-fit: cover;
+  object-position: center;
+`
+
 const Title = styled.h2`
   font-size: 6rem;
   word-break: break-all;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
 `
 
 const Text = styled.p`
@@ -117,6 +124,7 @@ const Text = styled.p`
 const DateWrapper = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 1rem;
 `
 
 const ButtonWrapper = styled.div`
