@@ -1,166 +1,172 @@
-import React, { useContext, useState, useEffect } from "react"
-import styled from "styled-components"
-import { FaCheckCircle, FaTimes } from "react-icons/fa"
-import { motion } from "framer-motion"
-import Link from "next/link"
-import Router from "next/router"
+import React, { useContext, useState, useEffect } from 'react'
+import styled from 'styled-components'
+import { FaCheckCircle, FaTimes } from 'react-icons/fa'
+import { motion } from 'framer-motion'
+import Link from 'next/link'
+import Router from 'next/router'
 
-import { DateNow } from "./DateNow"
-import { TextBlock } from "./TextBlock"
+import { DateNow } from './DateNow'
+import { TextBlock } from './TextBlock'
 
-import { JournalContext } from "../context/JournalProvider"
+import { JournalContext } from '../context/JournalProvider'
 
 export const FormFormatOne: React.FC = () => {
-  const { selectedJournal, editSelectedJournal, newState } = useContext(
-    JournalContext
-  )
+    const { selectedJournal, editSelectedJournal, newState } = useContext(
+        JournalContext
+    )
 
-  const [title, setTitle] = useState("")
-  const [text, setText] = useState("")
+    const [title, setTitle] = useState('')
+    const [text, setText] = useState('')
 
-  const titleValue = newState ? "" : selectedJournal?.title
+    const titleValue = newState ? '' : selectedJournal?.title
 
-  useEffect(() => {
-    setTitle(titleValue)
-    setText(selectedJournal?.text)
-  }, [selectedJournal])
+    useEffect(() => {
+        setTitle(titleValue)
+        setText(selectedJournal?.text)
+    }, [selectedJournal])
 
-  function handleSubmit(e) {
-    e.preventDefault()
+    function handleSubmit(e) {
+        e.preventDefault()
 
-    const id = selectedJournal?.id
-    const createdAt = selectedJournal?.createdAt
+        const id = selectedJournal?.id
+        const createdAt = selectedJournal?.createdAt
 
-    editSelectedJournal(id, title, text, createdAt)
-    Router.push(`/journal/[id]`, `/journal/${selectedJournal?.id}`, {
-      shallow: true
-    })
-  }
+        editSelectedJournal(id, title, text, createdAt)
+        Router.push(`/journal/[id]`, `/journal/${selectedJournal?.id}`, {
+            shallow: true,
+        })
+    }
 
-  return (
-    <Wrapper>
-      <DateWrapper>
-        <DateNow />
-      </DateWrapper>
-      <FormWrapper onSubmit={handleSubmit}>
-        <InputWrapper>
-          <Label>Titre</Label>
-          <InputField
-            name="title"
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-            autoFocus={newState ? true : false}
-          />
-        </InputWrapper>
-        <InputWrapper>
-          <Label>Texte</Label>
-          <TextBlock textVal={text} />
-          {/* <TextAreaField
+    return (
+        <Wrapper>
+            <DateWrapper>
+                <DateNow />
+            </DateWrapper>
+            <FormWrapper onSubmit={handleSubmit}>
+                <InputWrapper>
+                    <Label>Titre</Label>
+                    <InputField
+                        name="title"
+                        value={title}
+                        onChange={e => setTitle(e.target.value)}
+                        autoFocus={newState ? true : false}
+                    />
+                </InputWrapper>
+                <InputWrapper>
+                    <Label>Texte</Label>
+                    <TextBlock textVal={text} />
+                    {/* <TextAreaField
             name="text"
             value={text}
             onChange={e => setText(e.target.value)}
           /> */}
-        </InputWrapper>
-        <InputWrapper>
-          <Label>Image (optionel)</Label>
-          <input type="file" />
-        </InputWrapper>
-        <ButtonWrapper>
-          <Link href={`/journal/[id]`} as={`/journal/${selectedJournal?.id}`}>
-            <ButtonCancel
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <FaTimes style={{ marginRight: 7 }} />
-              Annuler
-            </ButtonCancel>
-          </Link>
-          <Button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <FaCheckCircle style={{ marginRight: 7 }} />
-            Sauvegarder
-          </Button>
-        </ButtonWrapper>
-      </FormWrapper>
-    </Wrapper>
-  )
+                </InputWrapper>
+                <InputWrapper>
+                    <Label>Image (optionel)</Label>
+                    <input type="file" />
+                </InputWrapper>
+                <ButtonWrapper>
+                    <Link
+                        href={`/journal/[id]`}
+                        as={`/journal/${selectedJournal?.id}`}
+                    >
+                        <ButtonCancel
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                        >
+                            <FaTimes style={{ marginRight: 7 }} />
+                            Annuler
+                        </ButtonCancel>
+                    </Link>
+                    <Button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                    >
+                        <FaCheckCircle style={{ marginRight: 7 }} />
+                        Sauvegarder
+                    </Button>
+                </ButtonWrapper>
+            </FormWrapper>
+        </Wrapper>
+    )
 }
 
 // Styles
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 `
 
 const DateWrapper = styled.div`
-  text-align: right;
+    text-align: right;
 `
 
 const FormWrapper = styled.form``
 
 const InputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
 `
 
 const InputField = styled.input`
-  width: 100%;
-  padding: 1rem;
-  font-size: 1.6rem;
-  font-family: inherit;
-  border: 1px solid darkviolet;
-  border-radius: 5px;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.6rem;
+    font-family: inherit;
+    border: 1px solid darkviolet;
+    border-radius: 5px;
 `
 
 const TextAreaField = styled.textarea`
-  width: 100%;
-  min-height: 35vh;
-  padding: 1rem;
-  font-size: 1.6rem;
-  font-family: inherit;
-  border: 1px solid darkviolet;
-  border-radius: 5px;
+    width: 100%;
+    min-height: 35vh;
+    padding: 1rem;
+    font-size: 1.6rem;
+    font-family: inherit;
+    border: 1px solid darkviolet;
+    border-radius: 5px;
 `
 
 const Label = styled.label`
-  font-size: 1.4rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  margin-bottom: 3px;
+    font-size: 1.4rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 3px;
 `
 
 const ButtonWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
 `
 
 const Button = styled(motion.button)`
-  border: none;
-  padding: 1em 2em;
-  background: darkviolet;
-  color: white;
-  text-transform: uppercase;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 1.4rem;
+    border: none;
+    padding: 1em 2em;
+    background: darkviolet;
+    color: white;
+    text-transform: uppercase;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.4rem;
 `
 
 const ButtonCancel = styled(motion.button)`
-  border: none;
-  padding: 1em 1.5em;
-  background: whitesmoke;
-  color: crimson;
-  text-transform: uppercase;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 1.4rem;
-  margin-right: 2rem;
+    border: none;
+    padding: 1em 1.5em;
+    background: whitesmoke;
+    color: crimson;
+    text-transform: uppercase;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.4rem;
+    margin-right: 2rem;
 `
