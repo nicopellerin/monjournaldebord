@@ -2,16 +2,22 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
 
+import { useClickOutside } from '../hooks/useClickOutside'
+
 export const User: React.FC = () => {
     const [toggle, setToggle] = useState(false)
 
+    const node = useClickOutside(setToggle)
+
     return (
-        <>
-            <Wrapper onClick={() => setToggle(prevState => !prevState)}>
-                <img src="/default-profile.png" alt="profile" />
-                {toggle && <UserDropdown />}
-            </Wrapper>
-        </>
+        <Wrapper ref={node}>
+            <img
+                src="/default-profile.png"
+                alt="profile"
+                onClick={() => setToggle(prevState => !prevState)}
+            />
+            {toggle && <UserDropdown />}
+        </Wrapper>
     )
 }
 
