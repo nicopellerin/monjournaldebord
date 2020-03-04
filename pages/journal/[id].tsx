@@ -8,7 +8,7 @@ import { Content } from '../../components/Content'
 import { JournalContext } from '../../context/JournalProvider'
 
 const SinglePage: NextPage = () => {
-  const { selectJournal } = useContext(JournalContext)
+  const { selectJournal, selectedJournal } = useContext(JournalContext)
 
   const {
     query: { id },
@@ -23,7 +23,7 @@ const SinglePage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Éditer | Mon Journal De Bord</title>
+        <title>{selectedJournal?.title} | Mon Journal De Bord</title>
       </Head>
       <Content />
     </>

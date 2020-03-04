@@ -21,8 +21,13 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 300px 1fr;
   height: 100%;
+
+  @media (max-width: 1500px) {
+    grid-template-columns: 275px 1fr;
+  }
 `
 
 const MainWrapper = styled.main`
   height: 100%;
+  overflow: auto;
 `
