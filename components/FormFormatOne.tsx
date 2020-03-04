@@ -11,9 +11,12 @@ import { TextBlock } from './TextBlock'
 import { JournalContext } from '../context/JournalProvider'
 
 export const FormFormatOne: React.FC = () => {
-  const { selectedJournal, editSelectedJournal, newState } = useContext(
-    JournalContext
-  )
+  const {
+    selectedJournal,
+    editSelectedJournal,
+    newState,
+    deleteSelectedJournal,
+  } = useContext(JournalContext)
 
   const {
     query: { id },
@@ -39,6 +42,17 @@ export const FormFormatOne: React.FC = () => {
     Router.push(`/journal/[id]`, `/journal/${selectedJournal?.id}`, {
       shallow: true,
     })
+  }
+
+  function handleCancel() {
+    console.log(Router.pathname.includes('nouveau') && !title && !text)
+    if (Router.pathname.includes('nouveau') && !title && !text) {
+      deleteSelectedJournal(id)
+      Router.push(`/journal/[id]`, `/journal/1`)
+      return
+    }
+    Router.push(`/journal/[id]`, `/journal/${id}`)
+    alert('yo')
   }
 
   return (
@@ -71,15 +85,15 @@ export const FormFormatOne: React.FC = () => {
           <input type="file" />
         </InputWrapper>
         <ButtonWrapper>
-          <Link href={`/journal/[id]`} as={`/journal/${id}`}>
-            <ButtonCancel
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <FaTimes style={{ marginRight: 7 }} />
-              Annuler
-            </ButtonCancel>
-          </Link>
+          <ButtonCancel
+            type="button"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleCancel}
+          >
+            <FaTimes style={{ marginRight: 7 }} />
+            Annuler
+          </ButtonCancel>
           <Button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <FaCheckCircle style={{ marginRight: 7 }} />
             Sauvegarder

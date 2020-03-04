@@ -1,21 +1,20 @@
-import * as React from "react"
-import styled from "styled-components"
+import * as React from 'react'
+import styled from 'styled-components'
 
-import { Sidebar } from "./Sidebar"
-import { Content } from "./Content"
+import { Sidebar } from './Sidebar'
+import { Content } from './Content'
 
 export const Main: React.FC = () => {
   return (
-    <Wrapper>
-      <Sidebar />
+    <>
       <Content />
-    </Wrapper>
+    </>
   )
 }
 
-// Styles
-const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  height: 100%;
-`
+// // Styles
+// const Wrapper = styled.div`
+//   display: grid;
+//   grid-template-columns: 300px 1fr;
+//   height: 100%;
+// `

@@ -1,16 +1,18 @@
 import * as React from 'react'
 import { NextPage } from 'next'
+import Head from 'next/head'
 
-import { Navbar } from '../../components/Navbar'
-import { Main } from '../../components/Main'
+import { Content } from '../../components/Content'
 
 const ProfilPage: NextPage = () => {
-    return (
-        <>
-            <Navbar />
-            <Main />
-        </>
-    )
+  return (
+    <>
+      <Head>
+        <title>Profil | Mon Journal De Bord</title>
+      </Head>
+      <Content />
+    </>
+  )
 }
 
 export default ProfilPage
