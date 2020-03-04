@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 
-import { Navbar } from '../../components/Navbar'
-import { Main } from '../../components/Main'
+import { Content } from '../../components/Content'
 
 import { JournalContext } from '../../context/JournalProvider'
 
@@ -22,8 +22,10 @@ const SinglePage: NextPage = () => {
 
   return (
     <>
-      <Navbar />
-      <Main />
+      <Head>
+        <title>Éditer | Mon Journal De Bord</title>
+      </Head>
+      <Content />
     </>
   )
 }

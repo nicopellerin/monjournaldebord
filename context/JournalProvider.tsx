@@ -8,6 +8,7 @@ type ContextValues = {
   selectedJournal: Journal
   editing: boolean
   newState: boolean
+  length: number
   selectJournal?: (id) => void
   editSelectedJournal?: (id, title, text, createdAt) => void
   deleteSelectedJournal?: (id) => void
@@ -38,6 +39,7 @@ type StateType = {
   selectedJournal: Journal
   editing: boolean
   newState: boolean
+  length: number
 }
 
 const initialState = {
@@ -45,6 +47,7 @@ const initialState = {
   selectedJournal: null,
   editing: false,
   newState: false,
+  length: 0,
 }
 
 export const JournalContext = createContext<ContextValues>(initialState)
@@ -57,6 +60,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
         selectedJournal: state.journals.find(
           journal => journal.id === action.payload
         ),
+        length: state.journals.length,
         editing: false,
       }
     case 'EDIT_SELECTED_JOURNAL':
@@ -77,7 +81,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
         journals: state.journals.filter(
           journal => journal.id !== action.payload
         ),
-        selectedJournal: state.journals[0],
+        // selectedJournal: state.journals[0],
       }
     case 'TOGGLE_EDITING':
       return {
@@ -128,11 +132,6 @@ export const JournalProvider = ({ children }) => {
 
   function deleteSelectedJournal(id) {
     dispatch({ type: 'DELETE_SELECTED_JOURNAL', payload: id })
-    Router.push(
-      `/journal/${state.journals[0].id}`,
-      `/journal/${state.journals[0].id}`,
-      { shallow: true }
-    )
   }
 
   function toggleEditing() {
@@ -149,6 +148,7 @@ export const JournalProvider = ({ children }) => {
       selectedJournal: state.selectedJournal,
       editing: state.editing,
       newState: state.newState,
+      length: state.length,
       selectJournal,
       editSelectedJournal,
       deleteSelectedJournal,

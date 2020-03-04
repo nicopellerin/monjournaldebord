@@ -1,12 +1,12 @@
-import React, { useContext } from "react"
-import styled from "styled-components"
-import { motion } from "framer-motion"
-import { FaPlusCircle } from "react-icons/fa"
-import Router from "next/router"
+import React, { useContext } from 'react'
+import styled from 'styled-components'
+import { motion } from 'framer-motion'
+import { FaPlusCircle } from 'react-icons/fa'
+import Router from 'next/router'
 
-import { List } from "./List"
+import { List } from './List'
 
-import { JournalContext } from "../context/JournalProvider"
+import { JournalContext } from '../context/JournalProvider'
 
 export const Sidebar: React.FC = () => {
   const { newPage, journals } = useContext(JournalContext)
@@ -15,7 +15,9 @@ export const Sidebar: React.FC = () => {
 
   function addNewPub() {
     newPage()
-    Router.push(`/journal/nouveau/[id]`, `/journal/nouveau/${newId}`)
+    Router.push(`/journal/nouveau/[id]`, `/journal/nouveau/${newId}`, {
+      shallow: true,
+    })
   }
 
   return (

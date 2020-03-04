@@ -1,21 +1,22 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { FaCalendarAlt, FaEdit, FaTimes } from 'react-icons/fa'
 import { motion } from 'framer-motion'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 import Link from 'next/link'
 
 import { DateNow } from './DateNow'
 
 import { JournalContext } from '../context/JournalProvider'
 
-export const JournalSingle: React.FC = () => {
+const JournalSingle: React.FC = () => {
   const {
     selectJournal,
     selectedJournal,
     journals,
     toggleEditing,
     deleteSelectedJournal,
+    length,
   } = useContext(JournalContext)
 
   useEffect(() => {
@@ -49,6 +50,13 @@ export const JournalSingle: React.FC = () => {
     }
   }, [selectedJournal])
 
+  const lengthRef = useRef(length)
+
+  const deleteSelected = () => {
+    deleteSelectedJournal(selectedJournal.id)
+
+    Router.push(`/journal/[id]`, `/journal/1`)
+  }
   return (
     <Wrapper>
       {journals.length > 0 ? (
@@ -80,9 +88,7 @@ export const JournalSingle: React.FC = () => {
             <ButtonDelete
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => {
-                deleteSelectedJournal(selectedJournal.id)
-              }}
+              onClick={deleteSelected}
             >
               <FaTimes style={{ marginRight: 5 }} />
               Supprimer
@@ -95,6 +101,8 @@ export const JournalSingle: React.FC = () => {
     </Wrapper>
   )
 }
+
+export default JournalSingle
 
 // Styles
 const Wrapper = styled.div`
