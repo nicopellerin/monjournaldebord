@@ -50,7 +50,7 @@ const Wrapper = styled(motion.li)`
   width: 100%;
   padding: 1.1rem 1rem;
   list-style: none;
-  background: ${(props: ItemProps) => (props.selected ? '#eee' : 'none')};
+  background: ${(props: ItemProps) => (props.selected ? '#f9f9f9' : 'none')};
   border-right: ${(props: ItemProps) =>
     props.selected ? '5px solid darkviolet' : 'none'};
 

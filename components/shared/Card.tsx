@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FaCalendar } from 'react-icons/fa'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { useMedia } from 'react-use-media'
 
 import { DateNow } from '../DateNow'
 
@@ -20,11 +21,17 @@ type Props = {
 export const Card: React.FC<Props> = ({ id, title, text, createdAt }) => {
   const { selectJournal } = useContext(JournalContext)
 
+  const isLaptop = useMedia({
+    maxWidth: 1500,
+  })
+
+  const charLength = isLaptop ? 15 : 20
+
   return (
     <Wrapper whileHover={{ scale: 1.02 }} onClick={() => selectJournal(id)}>
       <Link href={`/journal/[id]`} as={`/journal/${id}`}>
         <AStyled>
-          <Title>{maxLength(title, 20)}</Title>
+          <Title>{maxLength(title, charLength)}</Title>
           <DateWrapper>
             <FaCalendar style={{ marginRight: 5 }} />
             <DateNow dateInfo={Date.parse(createdAt)} />
