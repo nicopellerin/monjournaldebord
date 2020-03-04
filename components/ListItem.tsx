@@ -52,7 +52,7 @@ const Wrapper = styled(motion.li)`
   list-style: none;
   background: ${(props: ItemProps) => (props.selected ? '#f9f9f9' : 'none')};
   border-right: ${(props: ItemProps) =>
-    props.selected ? '5px solid darkviolet' : 'none'};
+    props.selected ? '5px solid var(--primaryColor)' : 'none'};
 
   &:hover {
     background: ${(props: ItemProps) => (props.selected ? '#eee' : '#f8f8f8')};

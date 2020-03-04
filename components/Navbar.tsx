@@ -1,23 +1,52 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import { motion } from 'framer-motion'
+import Link from 'next/link'
+import { FaUserAlt } from 'react-icons/fa'
 
 import { Logo } from './Logo'
 import { User } from './User'
 import { NavbarSearch } from './NavbarSearch'
 
 export const Navbar: React.FC = () => {
+  const loggedIn = false
+
   return (
     <Wrapper>
       <LogoWrapper>
         <Logo />
       </LogoWrapper>
       <RightWrapper>
-        <NavbarSearchWrapper>
-          <NavbarSearch />
-        </NavbarSearchWrapper>
-        <UserWrapper>
-          <User />
-        </UserWrapper>
+        {loggedIn ? (
+          <>
+            <NavbarSearchWrapper>
+              <NavbarSearch />
+            </NavbarSearchWrapper>
+            <UserWrapper>
+              <User />
+            </UserWrapper>
+          </>
+        ) : (
+          <ButtonGroup>
+            <Link href="/connexion">
+              <LoginButton
+                style={{ marginRight: 5 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Se connecter
+              </LoginButton>
+            </Link>
+            <Link href="/inscription">
+              <SignupButton
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <FaUserAlt style={{ marginRight: 5 }} /> S'inscrire
+              </SignupButton>
+            </Link>
+          </ButtonGroup>
+        )}
       </RightWrapper>
     </Wrapper>
   )
@@ -52,4 +81,36 @@ const NavbarSearchWrapper = styled.div`
 
 const UserWrapper = styled.div`
   margin-right: 7rem;
+`
+
+const ButtonGroup = styled.div`
+  display: flex;
+  margin-right: 6rem;
+`
+
+const LoginButton = styled(motion.button)`
+  border: none;
+  padding: 1em 2em;
+  color: #555;
+  text-transform: uppercase;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.4rem;
+`
+
+const SignupButton = styled(motion.button)`
+  border: none;
+  padding: 1em 2em;
+  background: var(--primaryColor);
+  color: white;
+  text-transform: uppercase;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.4rem;
 `

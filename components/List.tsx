@@ -46,7 +46,7 @@ const Title = styled.h3`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: darkviolet;
+  color: var(--primaryColor);
   width: 100%;
   background: #eee;
   padding: 1.3rem 0;

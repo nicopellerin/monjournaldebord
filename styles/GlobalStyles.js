@@ -1,6 +1,12 @@
-import { createGlobalStyle } from "styled-components"
+import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyles = createGlobalStyle`
+
+:root {
+  --primaryColor: #9D00E0;
+}
+
+
 *, *:before, *:after {
   box-sizing: border-box;
 }
@@ -24,11 +30,13 @@ body {
   padding: 0;
   height: 100%;
   font-family: 'Lato', sans-serif;
+  color: #555;
 }
 
 
 h1, h2, h3, h4, h5 {
   margin-top: 0;
+  color: #333;
 }
 `
 

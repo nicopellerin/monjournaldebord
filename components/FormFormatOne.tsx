@@ -131,8 +131,9 @@ const InputField = styled.input`
   padding: 1rem;
   font-size: 1.6rem;
   font-family: inherit;
-  border: 1px solid darkviolet;
+  border: 1px solid #ddd;
   border-radius: 5px;
+  color: #555;
 `
 
 const TextAreaField = styled.textarea`
@@ -141,7 +142,7 @@ const TextAreaField = styled.textarea`
   padding: 1rem;
   font-size: 1.6rem;
   font-family: inherit;
-  border: 1px solid darkviolet;
+  border: 1px solid #ddd;
   border-radius: 5px;
 `
 
@@ -162,7 +163,7 @@ const ButtonWrapper = styled.div`
 const Button = styled(motion.button)`
   border: none;
   padding: 1em 2em;
-  background: darkviolet;
+  background: var(--primaryColor);
   color: white;
   text-transform: uppercase;
   border-radius: 5px;
