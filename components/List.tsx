@@ -19,7 +19,7 @@ export const List: React.FC = () => {
           Accueil
         </Title>
       </Link>
-      <Title style={{ marginBottom: '0.5rem' }}>
+      <Title style={{ marginBottom: '1rem' }}>
         <FaNewspaper style={{ marginRight: 5 }} />
         Journaux
       </Title>

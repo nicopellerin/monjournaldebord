@@ -39,5 +39,5 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   background: ghostwhite;
-  height: 100%;
+  min-height: 100%;
 `

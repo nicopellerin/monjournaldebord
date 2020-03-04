@@ -107,11 +107,13 @@ export default JournalSingle
 // Styles
 const Wrapper = styled.div`
   max-width: 80rem;
+  height: 100%;
+  padding: 8rem 0;
 `
 
 const Image = styled.img`
   width: 100%;
-  height: 18rem;
+  height: 42rem;
   margin: 2rem 0 1rem;
   object-fit: cover;
   object-position: center;
