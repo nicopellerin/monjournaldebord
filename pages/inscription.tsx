@@ -10,7 +10,7 @@ const Inscription: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Inscription | Mon Journal De Bord</title>
+        <title>Inscription | monjournaldebord</title>
       </Head>
       <Wrapper>
         <CtaCard title="Inscription" render={<InscriptionForm />} />

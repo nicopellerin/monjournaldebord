@@ -34,7 +34,7 @@ export default class MyDocument extends Document {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
-          <meta name="description" content="Mon Journal De Bord" />
+          <meta name="description" content="monjournaldebord" />
           <meta name="theme-color" content="#6cad49" />
           <link rel="shortcut icon" href="/favicon.png" />
           <link

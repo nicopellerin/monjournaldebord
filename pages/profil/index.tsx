@@ -8,7 +8,7 @@ const ProfilPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Profil | Mon Journal De Bord</title>
+        <title>Profil | monjournaldebord</title>
       </Head>
       <Content />
     </>

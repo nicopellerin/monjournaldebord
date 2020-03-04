@@ -8,7 +8,7 @@ const NewJournal: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Éditer | Mon Journal De Bord</title>
+        <title>Éditer | monjournaldebord</title>
       </Head>
       <Content />
     </>

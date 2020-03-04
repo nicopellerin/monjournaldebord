@@ -2,22 +2,29 @@ import React from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { FaUserAlt } from 'react-icons/fa'
+import Link from 'next/link'
 
 export const Hero = () => {
   return (
     <Wrapper>
       <Container
-        animate={{ y: [-20, 0], opacity: [0, 1], transition: { delay: 0.2 } }}
+        animate={{
+          y: [-20, 5, 0],
+          opacity: [0, 1],
+          transition: { delay: 0.2 },
+        }}
       >
         <Title>Votre journal</Title>
         <Tagline>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor,
           dolores!
         </Tagline>
-        <Button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-          <FaUserAlt style={{ marginRight: 7 }} />
-          Inscrivez-vous
-        </Button>
+        <Link href="/inscription">
+          <Button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <FaUserAlt style={{ marginRight: 7 }} />
+            Inscrivez-vous
+          </Button>
+        </Link>
       </Container>
     </Wrapper>
   )
@@ -25,15 +32,10 @@ export const Hero = () => {
 
 // Styles
 const Wrapper = styled.div`
-  background: #ddd;
-  /* max-height: 50rem; */
-  height: 70vh;
+  background: #eee;
+  border-bottom: 3px solid rgba(148, 0, 211, 0.1);
+  height: 65vh;
   padding: 8rem;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.6),
-      rgba(255, 255, 255, 0.8)
-    ),
-    url('/bg.jpg');
   background-size: cover;
   background-position: 50%;
 `

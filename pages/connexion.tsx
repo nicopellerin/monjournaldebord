@@ -10,7 +10,7 @@ const Connexion: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Connexion | Mon Journal De Bord</title>
+        <title>Connexion | monjournaldebord</title>
       </Head>
       <Wrapper>
         <CtaCard title="Connexion" render={<ConnexionForm />} />

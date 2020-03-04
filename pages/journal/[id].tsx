@@ -23,7 +23,7 @@ const SinglePage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>{selectedJournal?.title} | Mon Journal De Bord</title>
+        <title>{selectedJournal?.title} | monjournaldebord</title>
       </Head>
       <Content />
     </>

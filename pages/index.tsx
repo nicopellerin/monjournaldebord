@@ -8,7 +8,7 @@ const IndexPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Mon Journal De Bord</title>
+        <title>monjournaldebord</title>
       </Head>
       <Hero />
     </>
