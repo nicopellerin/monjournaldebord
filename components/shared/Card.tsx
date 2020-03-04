@@ -26,7 +26,7 @@ export const Card: React.FC<Props> = ({ id, title, text, createdAt }) => {
   })
 
   const titleLength = isLaptop ? 15 : 20
-  const textLength = isLaptop ? 200 : 280
+  const textLength = isLaptop ? 140 : 280
 
   return (
     <Wrapper whileHover={{ scale: 1.02 }} onClick={() => selectJournal(id)}>
