@@ -1,15 +1,15 @@
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { FaCalendarAlt, FaEdit, FaTimes } from 'react-icons/fa'
 import { motion } from 'framer-motion'
-import Router, { useRouter } from 'next/router'
+import Router from 'next/router'
 import Link from 'next/link'
 
 import { DateNow } from './DateNow'
 
 import { JournalContext } from '../context/JournalProvider'
 
-const JournalSingle: React.FC = () => {
+export const JournalSingle: React.FC = () => {
   const {
     selectJournal,
     selectedJournal,
@@ -49,8 +49,6 @@ const JournalSingle: React.FC = () => {
       document.removeEventListener('keydown', nextPublication)
     }
   }, [selectedJournal])
-
-  const lengthRef = useRef(length)
 
   const deleteSelected = () => {
     deleteSelectedJournal(selectedJournal.id)
@@ -101,8 +99,6 @@ const JournalSingle: React.FC = () => {
     </Wrapper>
   )
 }
-
-export default JournalSingle
 
 // Styles
 const Wrapper = styled.div`

@@ -1,15 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
 
 import { Book } from './Book'
-// import { JournalSingle } from './JournalSingle'
+import { JournalSingle } from './JournalSingle'
 import { Home } from './Home'
-
-const JournalSingleCSR = dynamic(() => import('./JournalSingle') as any, {
-  ssr: false,
-})
 
 export const Content: React.FC = () => {
   const { pathname } = useRouter()
@@ -28,7 +23,7 @@ export const Content: React.FC = () => {
 
   return (
     <Wrapper>
-      <JournalSingleCSR />
+      <JournalSingle />
     </Wrapper>
   )
 }
