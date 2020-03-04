@@ -25,18 +25,19 @@ export const Card: React.FC<Props> = ({ id, title, text, createdAt }) => {
     maxWidth: 1500,
   })
 
-  const charLength = isLaptop ? 15 : 20
+  const titleLength = isLaptop ? 15 : 20
+  const textLength = isLaptop ? 200 : 280
 
   return (
     <Wrapper whileHover={{ scale: 1.02 }} onClick={() => selectJournal(id)}>
       <Link href={`/journal/[id]`} as={`/journal/${id}`}>
         <AStyled>
-          <Title>{maxLength(title, charLength)}</Title>
+          <Title>{maxLength(title, titleLength)}</Title>
           <DateWrapper>
             <FaCalendar style={{ marginRight: 5 }} />
             <DateNow dateInfo={Date.parse(createdAt)} />
           </DateWrapper>
-          <Text>{maxLength(text, 280)}</Text>
+          <Text>{maxLength(text, textLength)}</Text>
         </AStyled>
       </Link>
     </Wrapper>
