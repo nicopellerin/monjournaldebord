@@ -45,14 +45,12 @@ export const FormFormatOne: React.FC = () => {
   }
 
   function handleCancel() {
-    console.log(Router.pathname.includes('nouveau') && !title && !text)
-    if (Router.pathname.includes('nouveau') && !title && !text) {
-      deleteSelectedJournal(id)
-      Router.push(`/journal/[id]`, `/journal/1`)
-      return
-    }
-    Router.push(`/journal/[id]`, `/journal/${id}`)
-    alert('yo')
+    // if (Router.pathname.includes('nouveau') && !title && !text) {
+    //   deleteSelectedJournal(id)
+    //   Router.push(`/journal/[id]`, `/journal/1`)
+    //   return
+    // }
+    Router.push(`/journal/[id]`, `/journal/${id}`, { shallow: true })
   }
 
   return (

@@ -24,7 +24,7 @@ export const JournalSingle: React.FC = () => {
     const nextIdx = Number(selectedJournal?.id) + 1
 
     const prevPublication = e => {
-      if (prevIdx > 0 && e.keyCode === 38) {
+      if (prevIdx > 0 && e.keyCode === 40) {
         Router.push(`/journal/[id]`, `/journal/${prevIdx}`, {
           shallow: true,
         })
@@ -34,7 +34,7 @@ export const JournalSingle: React.FC = () => {
     document.addEventListener('keydown', prevPublication)
 
     const nextPublication = e => {
-      if (nextIdx <= journals.length && e.keyCode === 40) {
+      if (nextIdx <= journals.length && e.keyCode === 38) {
         Router.push(`/journal/[id]`, `/journal/${nextIdx}`, {
           shallow: true,
         })
