@@ -9,11 +9,13 @@ type ContextValues = {
   editing: boolean
   newState: boolean
   length: number
+  search: string
   selectJournal?: (id) => void
   editSelectedJournal?: (id, title, text, createdAt) => void
   deleteSelectedJournal?: (id) => void
   toggleEditing?: () => void
   newPage?: () => void
+  searchJournals?: (input, router) => void
 }
 
 type Journal = {
@@ -31,6 +33,7 @@ type ActionType = {
     | 'DELETE_SELECTED_JOURNAL'
     | 'TOGGLE_EDITING'
     | 'NEW_PAGE'
+    | 'SEARCH_JOURNALS'
   payload?: any
 }
 
@@ -40,6 +43,7 @@ type StateType = {
   editing: boolean
   newState: boolean
   length: number
+  search: string
 }
 
 const initialState = {
@@ -48,6 +52,7 @@ const initialState = {
   editing: false,
   newState: false,
   length: 0,
+  search: '',
 }
 
 export const JournalContext = createContext<ContextValues>(initialState)
@@ -88,6 +93,11 @@ const journalReducer = (state: StateType, action: ActionType) => {
         ...state,
         editing: !state.editing,
         newState: false,
+      }
+    case 'SEARCH_JOURNALS':
+      return {
+        ...state,
+        search: action.payload,
       }
     case 'NEW_PAGE':
       return {
@@ -142,6 +152,11 @@ export const JournalProvider = ({ children }) => {
     dispatch({ type: 'NEW_PAGE' })
   }
 
+  function searchJournals(input, router) {
+    dispatch({ type: 'SEARCH_JOURNALS', payload: input })
+    router.push('/search', '/search', { shallow: true })
+  }
+
   const value = useMemo(() => {
     return {
       journals: state.journals,
@@ -149,13 +164,21 @@ export const JournalProvider = ({ children }) => {
       editing: state.editing,
       newState: state.newState,
       length: state.length,
+      search: state.search,
       selectJournal,
       editSelectedJournal,
       deleteSelectedJournal,
       toggleEditing,
       newPage,
+      searchJournals,
     }
-  }, [state.journals, state.selectedJournal, state.editing, state.newState])
+  }, [
+    state.journals,
+    state.selectedJournal,
+    state.editing,
+    state.newState,
+    state.search,
+  ])
 
   return (
     <JournalContext.Provider value={value}>{children}</JournalContext.Provider>

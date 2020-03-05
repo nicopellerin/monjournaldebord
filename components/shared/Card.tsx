@@ -25,7 +25,7 @@ export const Card: React.FC<Props> = ({ id, title, text, createdAt }) => {
     maxWidth: 1500,
   })
 
-  const titleLength = isLaptop ? 15 : 20
+  const titleLength = isLaptop ? 15 : 18
   const textLength = isLaptop ? 140 : 280
 
   return (

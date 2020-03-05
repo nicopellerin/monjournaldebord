@@ -9,7 +9,7 @@ import { User } from './User'
 import { NavbarSearch } from './NavbarSearch'
 
 export const Navbar: React.FC = () => {
-  const loggedIn = false
+  const loggedIn = true
 
   return (
     <Wrapper>

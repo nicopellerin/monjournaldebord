@@ -36,7 +36,7 @@ export const Sidebar: React.FC = () => {
 }
 
 // Styles
-const Wrapper = styled.div`
+const Wrapper = styled.aside`
   background: whitesmoke;
   width: 100%;
   height: calc(100vh - 75px);

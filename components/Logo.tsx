@@ -3,7 +3,7 @@ import Link from 'next/link'
 import styled from 'styled-components'
 
 export const Logo = () => {
-  const loggedIn = false
+  const loggedIn = true
 
   return (
     <Link href={loggedIn ? '/profil' : '/'}>
