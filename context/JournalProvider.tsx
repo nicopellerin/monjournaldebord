@@ -154,7 +154,7 @@ export const JournalProvider = ({ children }) => {
 
   function searchJournals(input, router) {
     dispatch({ type: 'SEARCH_JOURNALS', payload: input })
-    router.push('/search', '/search', { shallow: true })
+    router.push('/recherche', '/recherche', { shallow: true })
   }
 
   const value = useMemo(() => {
