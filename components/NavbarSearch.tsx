@@ -18,7 +18,7 @@ export const NavbarSearch: React.FC = () => {
   ])
 
   useEffect(() => {
-    if (!search.length) {
+    if (!search.length && Router.router.pathname === '/recherche') {
       Router.push('/profil')
     }
   }, [search])

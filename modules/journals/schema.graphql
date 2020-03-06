@@ -1,0 +1,20 @@
+scalar Date
+
+type Journal {
+  id: ID!
+  title: String!
+  text: String!
+  image: String
+  createdAt: Date
+}
+
+type Query {
+  journals: [Journal]
+  journal(id: ID): Journal
+}
+
+type Mutation {
+  addJournal(title: String!, text: String!, image: String): Journal
+  editJournal(id: ID!, title: String!, text: String!, image: String): Journal
+  deleteJournal(id: ID!): Journal
+}

@@ -16,7 +16,6 @@ export const JournalSingle: React.FC = () => {
     journals,
     toggleEditing,
     deleteSelectedJournal,
-    length,
   } = useContext(JournalContext)
 
   useEffect(() => {

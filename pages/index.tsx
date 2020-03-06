@@ -15,15 +15,4 @@ const IndexPage: NextPage = () => {
   )
 }
 
-IndexPage.getInitialProps = async ({ req, res }) => {
-  const mockCookie = false
-  if (req && !mockCookie) {
-    res.writeHead(301, { Location: '/profil' })
-    res.end()
-  }
-  if (!mockCookie) {
-    Router.push('/profil')
-  }
-}
-
 export default IndexPage

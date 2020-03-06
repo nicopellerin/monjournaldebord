@@ -35,7 +35,7 @@ export default class MyDocument extends Document {
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
           <meta name="description" content="monjournaldebord" />
-          <meta name="theme-color" content="#6cad49" />
+          <meta name="theme-color" content="#9D00E0" />
           <link rel="shortcut icon" href="/favicon.png" />
           <link
             href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap"
@@ -44,7 +44,6 @@ export default class MyDocument extends Document {
         </Head>
         <body>
           <Main />
-          <div id="portal" />
           <NextScript />
         </body>
       </Html>
