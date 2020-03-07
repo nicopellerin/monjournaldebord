@@ -11,7 +11,8 @@ import { JournalContext } from '../context/JournalProvider'
 export const Sidebar: React.FC = () => {
   const { newPage, journals } = useContext(JournalContext)
 
-  const newId = journals.length + 1
+  // TODO - Fix this to real ID
+  const newId = journals[0]?.id + 1
 
   function addNewPub() {
     newPage()

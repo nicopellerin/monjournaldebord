@@ -10,11 +10,11 @@ export const StatsTotalJournals = () => {
     <Wrapper>
       <TotalWrapper>
         <Title># total de publications</Title>
-        <Count>{journals.length}</Count>
+        <Count>{journals?.length}</Count>
       </TotalWrapper>
       <TotalWrapper>
         <Title># total de publications</Title>
-        <Count>{journals.length}</Count>
+        <Count>{journals?.length}</Count>
       </TotalWrapper>
     </Wrapper>
   )

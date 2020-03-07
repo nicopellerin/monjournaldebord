@@ -10,7 +10,9 @@ export const Home: React.FC = () => {
   const { selectJournal } = useContext(JournalContext)
 
   useEffect(() => {
-    selectJournal(null)
+    if (selectJournal) {
+      selectJournal(null)
+    }
   }, [])
   return (
     <Wrapper>

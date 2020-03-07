@@ -5,6 +5,7 @@ import { Layout } from '../components/shared/Layout'
 import { ProfilLayout } from '../components/shared/ProfilLayout'
 
 import { JournalProvider } from '../context/JournalProvider'
+import { withApollo } from '../lib/apollo'
 
 import GlobalStyles from '../styles/GlobalStyles'
 
@@ -37,4 +38,4 @@ class MyApp extends App {
   }
 }
 
-export default MyApp
+export default withApollo(MyApp)

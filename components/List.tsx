@@ -24,7 +24,7 @@ export const List: React.FC = () => {
         Journaux
       </Title>
       <ListStyled>
-        {journals.map(item => (
+        {journals?.map(item => (
           <ListItem key={item.id} {...item} />
         ))}
       </ListStyled>

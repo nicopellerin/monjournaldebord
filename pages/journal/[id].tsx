@@ -16,7 +16,7 @@ const SinglePage: NextPage = () => {
 
   useEffect(() => {
     if (selectJournal) {
-      selectJournal(Number(id))
+      selectJournal(id)
     }
   }, [selectJournal])
 

@@ -1,9 +1,9 @@
-import * as React from 'react'
+import React from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
+import Router from 'next/router'
 
 import { Content } from '../../components/Content'
-import Router from 'next/router'
 
 const ProfilPage: NextPage = () => {
   return (

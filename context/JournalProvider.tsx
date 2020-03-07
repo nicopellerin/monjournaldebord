@@ -1,7 +1,8 @@
-import { createContext, useReducer, useMemo } from 'react'
+import React, { createContext, useReducer, useMemo, useEffect } from 'react'
 import Router from 'next/router'
 
-import mockData from '../mockData.json'
+import { useQuery } from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 
 type ContextValues = {
   journals: any
@@ -16,6 +17,7 @@ type ContextValues = {
   toggleEditing?: () => void
   newPage?: () => void
   searchJournals?: (input, router) => void
+  loadAllJournals?: () => void
 }
 
 type Journal = {
@@ -28,6 +30,7 @@ type Journal = {
 
 type ActionType = {
   type:
+    | 'LOAD_ALL_JOURNALS'
     | 'SELECTED_JOURNAL'
     | 'EDIT_SELECTED_JOURNAL'
     | 'DELETE_SELECTED_JOURNAL'
@@ -47,7 +50,7 @@ type StateType = {
 }
 
 const initialState = {
-  journals: mockData,
+  journals: [],
   selectedJournal: null,
   editing: false,
   newState: false,
@@ -59,13 +62,18 @@ export const JournalContext = createContext<ContextValues>(initialState)
 
 const journalReducer = (state: StateType, action: ActionType) => {
   switch (action.type) {
+    case 'LOAD_ALL_JOURNALS':
+      return {
+        ...state,
+        journals: action.payload,
+      }
     case 'SELECTED_JOURNAL':
       return {
         ...state,
-        selectedJournal: state.journals.find(
+        selectedJournal: state.journals?.find(
           journal => journal.id === action.payload
         ),
-        length: state.journals.length,
+        length: state.journals?.length,
         editing: false,
       }
     case 'EDIT_SELECTED_JOURNAL':
@@ -104,7 +112,9 @@ const journalReducer = (state: StateType, action: ActionType) => {
         ...state,
         journals: [
           {
-            id: state.journals.length + 1,
+            // TODO - Fix this to real ID
+
+            id: state.journals[0]?.id + 1,
             title: 'Sans-titre',
             text: '',
             createdAt: Date.now(),
@@ -112,7 +122,9 @@ const journalReducer = (state: StateType, action: ActionType) => {
           ...state.journals,
         ],
         selectedJournal: {
-          id: state.journals.length + 1,
+          // TODO - Fix this to real ID
+
+          id: state.journals[0]?.id + 1,
           title: 'Sans-titre',
           text: '',
           createdAt: Date.now(),
@@ -126,9 +138,35 @@ const journalReducer = (state: StateType, action: ActionType) => {
 }
 
 export const JournalProvider = ({ children }) => {
+  const ALL_JOURNALS = gql`
+    {
+      journals {
+        id
+        title
+        text
+        image
+        createdAt
+      }
+    }
+  `
+
+  const { loading, data: allJournals } = useQuery(ALL_JOURNALS)
+
   const [state, dispatch] = useReducer(journalReducer, initialState)
 
+  useEffect(() => {
+    if (!state.newState) {
+      loadAllJournals()
+    }
+  }, [state.journals])
+
   // Actions
+  function loadAllJournals() {
+    const allJournalsLoaded =
+      loading || !allJournals.journals ? [] : allJournals.journals
+    dispatch({ type: 'LOAD_ALL_JOURNALS', payload: allJournalsLoaded })
+  }
+
   function selectJournal(id) {
     dispatch({ type: 'SELECTED_JOURNAL', payload: id })
   }
@@ -165,6 +203,7 @@ export const JournalProvider = ({ children }) => {
       newState: state.newState,
       length: state.length,
       search: state.search,
+      loadAllJournals,
       selectJournal,
       editSelectedJournal,
       deleteSelectedJournal,

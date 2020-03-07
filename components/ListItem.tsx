@@ -11,7 +11,7 @@ import { maxLength } from '../utils/maxLength'
 type Props = {
   title: String
   text: String
-  id: Number
+  id: String
 }
 
 type ItemProps = {
@@ -25,9 +25,7 @@ export const ListItem: React.FC<Props> = ({ title, id }) => {
     query: { id: queryId },
   } = useRouter()
 
-  const numberId = Number(queryId)
-
-  const selected = numberId === id
+  const selected = queryId === id
 
   return (
     <Wrapper

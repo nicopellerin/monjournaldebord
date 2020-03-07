@@ -53,7 +53,7 @@ export const CardList: React.FC<Props> = ({ list, expand }) => {
   return (
     <Wrapper>
       <ListWrapper variants={parentVariants} animate={'load'}>
-        {journals.slice(0, 3).map(journal => (
+        {journals?.slice(0, 3).map(journal => (
           <Card key={journal.id} {...journal} />
         ))}
       </ListWrapper>
