@@ -28,6 +28,11 @@ export const FormFormatOne: React.FC = () => {
   const titleValue = newState ? '' : selectedJournal?.title
 
   useEffect(() => {
+    if (newState) {
+      setTitle('')
+      setText('')
+      return
+    }
     setTitle(titleValue)
     setText(selectedJournal?.text)
   }, [selectedJournal])
@@ -71,12 +76,12 @@ export const FormFormatOne: React.FC = () => {
         </InputWrapper>
         <InputWrapper>
           <Label>Texte</Label>
-          <TextBlock textVal={text} />
-          {/* <TextAreaField
+          {/* <TextBlock textVal={text} /> */}
+          <TextAreaField
             name="text"
             value={text}
             onChange={e => setText(e.target.value)}
-          /> */}
+          />
         </InputWrapper>
         <InputWrapper>
           <Label>Image (optionel)</Label>
