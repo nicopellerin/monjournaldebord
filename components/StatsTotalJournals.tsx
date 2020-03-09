@@ -2,9 +2,15 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 
 import { JournalContext } from '../context/JournalProvider'
+import { access } from 'fs'
 
 export const StatsTotalJournals = () => {
   const { journals } = useContext(JournalContext)
+
+  const longestText = journals?.reduce((prev, current) => {
+    if (prev.text.length > current.text.length) return prev
+    else return current
+  })
 
   return (
     <Wrapper>
@@ -13,8 +19,8 @@ export const StatsTotalJournals = () => {
         <Count>{journals?.length}</Count>
       </TotalWrapper>
       <TotalWrapper>
-        <Title># total de publications</Title>
-        <Count>{journals?.length}</Count>
+        <Title>Plus long texte</Title>
+        <Count>{longestText?.title}</Count>
       </TotalWrapper>
     </Wrapper>
   )
