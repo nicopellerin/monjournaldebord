@@ -6,14 +6,23 @@ export const journalsResolvers = {
   Query: {
     async journals(parent, args, ctx, info) {
       const allJournals = await Journal.find()
+      const allJournalsSorted = allJournals.sort((a, b) => {
+        if (a.createdAt > b.createdAt) {
+          return -1
+        }
+        //  4 juillet < 5 juillet
+        if (a.createdAt < b.createdAt) {
+          return 1
+        }
 
-      return allJournals
+        return 0
+      })
+
+      return allJournalsSorted
     },
     journal(parent, { id }, ctx, info) {
       const journalFound = Journal.findById(id)
-
       if (!journalFound) return
-
       return journalFound
     },
   },
@@ -24,8 +33,8 @@ export const journalsResolvers = {
       if (!newJournal) return
 
       try {
-        await Journal.create(newJournal)
-        return newJournal
+        const res = await Journal.create(newJournal)
+        return res
       } catch (err) {
         console.error(err)
       }

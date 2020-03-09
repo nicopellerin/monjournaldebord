@@ -4,10 +4,20 @@ import { FaCalendarAlt, FaEdit, FaTimes } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import Router from 'next/router'
 import Link from 'next/link'
+import gql from 'graphql-tag'
+import { useMutation } from '@apollo/react-hooks'
 
 import { DateNow } from './DateNow'
 
 import { JournalContext } from '../context/JournalProvider'
+
+const DELETE_JOURNAL = gql`
+  mutation($id: ID!) {
+    deleteJournal(id: $id) {
+      title
+    }
+  }
+`
 
 export const JournalSingle: React.FC = () => {
   const {
@@ -17,6 +27,8 @@ export const JournalSingle: React.FC = () => {
     toggleEditing,
     deleteSelectedJournal,
   } = useContext(JournalContext)
+
+  const [deleteJournal, { data }] = useMutation(DELETE_JOURNAL)
 
   useEffect(() => {
     const prevIdx = Number(selectedJournal?.id) - 1
@@ -51,8 +63,8 @@ export const JournalSingle: React.FC = () => {
 
   const deleteSelected = () => {
     deleteSelectedJournal(selectedJournal.id)
-
-    Router.push(`/journal/[id]`, `/journal/1`)
+    deleteJournal({ variables: { id: selectedJournal.id } })
+    Router.push(`/journal/[id]`, `/journal/${journals[0].id}`)
   }
   return (
     <Wrapper>
@@ -67,7 +79,15 @@ export const JournalSingle: React.FC = () => {
           {selectedJournal?.image && (
             <Image src={selectedJournal.image} alt="" />
           )}
-          <Text>{selectedJournal?.text || journals[0].text}</Text>
+          <Text>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: selectedJournal?.text
+                  .replace('\n', '<br />')
+                  .replace('\n\n', '<br/><br/>'),
+              }}
+            />
+          </Text>
           <ButtonWrapper>
             <Link
               href={`/journal/edit/[id]`}
@@ -79,7 +99,7 @@ export const JournalSingle: React.FC = () => {
                 whileTap={{ scale: 0.98 }}
               >
                 <FaEdit style={{ marginRight: 5 }} />
-                Editer
+                Éditer
               </ButtonEdit>
             </Link>
             <ButtonDelete

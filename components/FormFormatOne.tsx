@@ -4,11 +4,49 @@ import { FaCheckCircle, FaTimes, FaCalendarAlt } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Router, { useRouter } from 'next/router'
+import { useMutation } from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 
 import { DateNow } from './DateNow'
 import { TextBlock } from './TextBlock'
 
 import { JournalContext } from '../context/JournalProvider'
+
+const ADD_JOURNAL = gql`
+  mutation($title: String!, $text: String!, $image: String) {
+    addJournal(title: $title, text: $text, image: $image) {
+      id
+      title
+      text
+      image
+      createdAt
+    }
+  }
+`
+
+const EDIT_JOURNAL = gql`
+  mutation($id: ID!, $title: String!, $text: String!, $image: String) {
+    editJournal(id: $id, title: $title, text: $text, image: $image) {
+      id
+      title
+      text
+      image
+      createdAt
+    }
+  }
+`
+
+const ALL_JOURNALS = gql`
+  {
+    journals {
+      id
+      title
+      text
+      image
+      createdAt
+    }
+  }
+`
 
 export const FormFormatOne: React.FC = () => {
   const {
@@ -24,6 +62,7 @@ export const FormFormatOne: React.FC = () => {
 
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
+  const [image, setImage] = useState('')
 
   const titleValue = newState ? '' : selectedJournal?.title
 
@@ -37,14 +76,45 @@ export const FormFormatOne: React.FC = () => {
     setText(selectedJournal?.text)
   }, [selectedJournal])
 
-  function handleSubmit(e) {
+  const [addJournal, { data }] = useMutation(ADD_JOURNAL, {
+    refetchQueries: ['allJournals'],
+  })
+
+  const [editJournal, { data: editData }] = useMutation(EDIT_JOURNAL, {
+    refetchQueries: ['allJournals'],
+  })
+
+  async function handleSubmit(e) {
     e.preventDefault()
 
     const id = selectedJournal?.id
     const createdAt = selectedJournal?.createdAt
 
-    editSelectedJournal(id, title, text, createdAt)
-    Router.push(`/journal/[id]`, `/journal/${selectedJournal?.id}`, {
+    editSelectedJournal(id, title, text, image, createdAt)
+
+    let res
+    if (newState) {
+      res = await addJournal({
+        variables: {
+          title,
+          text,
+          image,
+        },
+      })
+    } else {
+      res = await editJournal({
+        variables: {
+          id,
+          title,
+          text,
+          image,
+        },
+      })
+    }
+
+    res = res?.data?.addJournal?.id || res?.data?.editJournal?.id
+
+    Router.push(`/journal/[id]`, `/journal/${res}`, {
       shallow: true,
     })
   }

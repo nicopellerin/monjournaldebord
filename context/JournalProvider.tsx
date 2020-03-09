@@ -5,9 +5,7 @@ import React, {
   useCallback,
   useState,
 } from 'react'
-import Router from 'next/router'
-
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery, useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 type ContextValues = {
@@ -18,7 +16,7 @@ type ContextValues = {
   length: number
   search: string
   selectJournal?: (id) => void
-  editSelectedJournal?: (id, title, text, createdAt) => void
+  editSelectedJournal?: (id, title, text, image, createdAt) => void
   deleteSelectedJournal?: (id) => void
   toggleEditing?: () => void
   newPage?: () => void
@@ -88,6 +86,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
           id: action.payload.id,
           title: action.payload.title,
           text: action.payload.text,
+          image: action.payload.image,
           createdAt: action.payload.createdAt,
         },
         editing: false,
@@ -122,6 +121,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
             id: state.journals[0]?.id + 1,
             title: 'Sans-titre',
             text: '',
+            image: '',
             createdAt: Date.now(),
           },
           ...state.journals,
@@ -132,6 +132,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
           id: state.journals[0]?.id + 1,
           title: 'Sans-titre',
           text: '',
+          image: '',
           createdAt: Date.now(),
         },
         editing: true,
@@ -143,7 +144,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
 }
 
 const ALL_JOURNALS = gql`
-  {
+  query allJournals {
     journals {
       id
       title
@@ -171,27 +172,32 @@ export const JournalProvider = ({ children }) => {
   )
 
   // Load all journals data
-  const { loading, data: allJournals } = useQuery(ALL_JOURNALS, {
-    skip: skipQuery,
-    onCompleted: data => {
-      thunkDispatch({ type: 'LOAD_ALL_JOURNALS', payload: data.journals })
-      setSkipQuery(true)
-    },
-  })
+  const { loading: journalsLoading, data: allJournals } = useQuery(
+    ALL_JOURNALS,
+    {
+      skip: skipQuery,
+      onCompleted: data => {
+        thunkDispatch({ type: 'LOAD_ALL_JOURNALS', payload: data.journals })
+        setSkipQuery(true)
+      },
+    }
+  )
 
   // Actions
   function selectJournal(id) {
     dispatch({ type: 'SELECTED_JOURNAL', payload: id })
   }
 
-  function editSelectedJournal(id, title, text, createdAt) {
+  function editSelectedJournal(id, title, text, image, createdAt) {
+    setSkipQuery(false)
     dispatch({
       type: 'EDIT_SELECTED_JOURNAL',
-      payload: { title, text, id, createdAt },
+      payload: { title, text, id, image, createdAt },
     })
   }
 
   function deleteSelectedJournal(id) {
+    setSkipQuery(false)
     dispatch({ type: 'DELETE_SELECTED_JOURNAL', payload: id })
   }
 
