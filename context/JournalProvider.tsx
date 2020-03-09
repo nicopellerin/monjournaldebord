@@ -1,4 +1,10 @@
-import React, { createContext, useReducer, useMemo, useEffect } from 'react'
+import React, {
+  createContext,
+  useReducer,
+  useMemo,
+  useCallback,
+  useState,
+} from 'react'
 import Router from 'next/router'
 
 import { useQuery } from '@apollo/react-hooks'
@@ -17,7 +23,6 @@ type ContextValues = {
   toggleEditing?: () => void
   newPage?: () => void
   searchJournals?: (input, router) => void
-  loadAllJournals?: () => void
 }
 
 type Journal = {
@@ -137,36 +142,44 @@ const journalReducer = (state: StateType, action: ActionType) => {
   }
 }
 
+const ALL_JOURNALS = gql`
+  {
+    journals {
+      id
+      title
+      text
+      image
+      createdAt
+    }
+  }
+`
+
 export const JournalProvider = ({ children }) => {
-  const ALL_JOURNALS = gql`
-    {
-      journals {
-        id
-        title
-        text
-        image
-        createdAt
-      }
-    }
-  `
-
-  const { loading, data: allJournals } = useQuery(ALL_JOURNALS)
-
   const [state, dispatch] = useReducer(journalReducer, initialState)
+  const [skipQuery, setSkipQuery] = useState(false)
 
-  useEffect(() => {
-    if (!state.newState) {
-      loadAllJournals()
-    }
-  }, [state.journals])
+  const thunkDispatch = useCallback(
+    action => {
+      console.log(action)
+      if (typeof action === 'function') {
+        action(dispatch)
+      } else {
+        dispatch(action)
+      }
+    },
+    [dispatch]
+  )
+
+  // Load all journals data
+  const { loading, data: allJournals } = useQuery(ALL_JOURNALS, {
+    skip: skipQuery,
+    onCompleted: data => {
+      thunkDispatch({ type: 'LOAD_ALL_JOURNALS', payload: data.journals })
+      setSkipQuery(true)
+    },
+  })
 
   // Actions
-  function loadAllJournals() {
-    const allJournalsLoaded =
-      loading || !allJournals.journals ? [] : allJournals.journals
-    dispatch({ type: 'LOAD_ALL_JOURNALS', payload: allJournalsLoaded })
-  }
-
   function selectJournal(id) {
     dispatch({ type: 'SELECTED_JOURNAL', payload: id })
   }
@@ -203,7 +216,6 @@ export const JournalProvider = ({ children }) => {
       newState: state.newState,
       length: state.length,
       search: state.search,
-      loadAllJournals,
       selectJournal,
       editSelectedJournal,
       deleteSelectedJournal,

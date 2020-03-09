@@ -28,7 +28,7 @@ ProfilPage.getInitialProps = async ({ req, res }) => {
     Router.push('/connexion')
   }
 
-  return {}
+  return { mockCookie }
 }
 
 export default ProfilPage
