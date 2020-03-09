@@ -1,26 +1,5 @@
 {
-  "env": {
-    "development": {
-      "plugins": [
-        [
-          "styled-components",
-          { "ssr": true, "displayName": true, "preprocess": false }
-        ],
-        ["import-graphql"]
-      ],
-      "presets": ["next/babel"]
-    },
-    "production": {
-      "plugins": [
-        [
-          "styled-components",
-          { "ssr": true, "displayName": true, "preprocess": false }
-        ],
-        ["import-graphql"]
-      ],
-      "presets": ["next/babel"]
-    }
-  },
+  "presets": ["next/babel"],
   "plugins": [
     [
       "styled-components",

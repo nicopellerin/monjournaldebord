@@ -70,11 +70,11 @@ export const JournalSingle: React.FC = () => {
     <Wrapper>
       {journals.length > 0 ? (
         <>
-          <Title>{selectedJournal?.title || journals[0].title}</Title>
+          <Title>{selectedJournal?.title}</Title>
 
           <DateWrapper>
             <FaCalendarAlt style={{ marginRight: 8 }} />
-            <DateNow dateInfo={Date.parse(selectedJournal?.createdAt)} />
+            <DateNow dateInfo={selectedJournal?.createdAt} />
           </DateWrapper>
           {selectedJournal?.image && (
             <Image src={selectedJournal.image} alt="" />

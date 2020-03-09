@@ -3,7 +3,7 @@ import format from 'date-fns/format'
 import styled from 'styled-components'
 
 type Props = {
-  dateInfo?: Date | number
+  dateInfo?: any
 }
 
 export const DateNow: React.FC<Props> = ({ dateInfo }) => {

@@ -8,9 +8,12 @@ export const StatsTotalJournals = () => {
   const { journals } = useContext(JournalContext)
 
   const longestText = journals?.reduce((prev, current) => {
-    if (prev.text.length > current.text.length) return prev
-    else return current
-  })
+    if (prev.text.length > current.text.length) {
+      return prev
+    } else {
+      return current
+    }
+  }, journals[0])
 
   return (
     <Wrapper>
