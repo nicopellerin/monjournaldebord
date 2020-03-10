@@ -23,6 +23,7 @@ type ContextValues = {
   toggleEditing?: () => void
   newPage?: () => void
   searchJournals?: (input, router) => void
+  undoNewJournal?: () => void
   setSkipQuery?: any
 }
 
@@ -43,6 +44,7 @@ type ActionType = {
     | 'TOGGLE_EDITING'
     | 'NEW_PAGE'
     | 'SEARCH_JOURNALS'
+    | 'UNDO_NEW_JOURNAL'
   payload?: any
 }
 
@@ -113,6 +115,11 @@ const journalReducer = (state: StateType, action: ActionType) => {
       return {
         ...state,
         search: action.payload,
+      }
+    case 'UNDO_NEW_JOURNAL':
+      return {
+        ...state,
+        journals: state.journals.splice(1),
       }
     case 'NEW_PAGE':
       return {
@@ -218,6 +225,10 @@ export const JournalProvider = ({ children }) => {
     router.push('/recherche', '/recherche', { shallow: true })
   }
 
+  function undoNewJournal() {
+    dispatch({ type: 'UNDO_NEW_JOURNAL' })
+  }
+
   const value = useMemo(() => {
     return {
       journals: state.journals,
@@ -234,6 +245,7 @@ export const JournalProvider = ({ children }) => {
       newPage,
       searchJournals,
       setSkipQuery,
+      undoNewJournal,
     }
   }, [
     state.journals,

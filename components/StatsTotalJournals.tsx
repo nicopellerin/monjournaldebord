@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useContext } from 'react'
+import { useContext, useCallback } from 'react'
 import styled from 'styled-components'
 
 import { JournalContext } from '../context/JournalProvider'
@@ -10,13 +10,16 @@ import Link from 'next/link'
 export const StatsTotalJournals = () => {
   const { journals } = useContext(JournalContext)
 
-  const longestText = journals?.reduce((prev, current) => {
-    if (prev.text.length > current.text.length) {
-      return prev
-    } else {
-      return current
-    }
-  }, journals[0])
+  const longestText = useCallback(
+    journals?.reduce((prev, current) => {
+      if (prev.text.length > current.text.length) {
+        return prev
+      } else {
+        return current
+      }
+    }, journals[0]),
+    [journals]
+  )
 
   return (
     <Wrapper>
@@ -29,7 +32,9 @@ export const StatsTotalJournals = () => {
         <Count>
           {longestText ? (
             <Link as={`/journal/${longestText?.id}`} href={`/journal/[id]`}>
-              <a>{maxLength(longestText?.title, 12)}</a>
+              <a style={{ color: 'var(--primaryColor)' }}>
+                {maxLength(longestText?.title, 12)}
+              </a>
             </Link>
           ) : (
             'N/A'

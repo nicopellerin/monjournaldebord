@@ -9,7 +9,7 @@ import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 import { DateNow } from './DateNow'
-import { TextBlock } from './TextBlock'
+// import { TextBlock } from './TextBlock'
 
 import { JournalContext } from '../context/JournalProvider'
 
@@ -37,25 +37,14 @@ const EDIT_JOURNAL = gql`
   }
 `
 
-const ALL_JOURNALS = gql`
-  {
-    journals {
-      id
-      title
-      text
-      image
-      createdAt
-    }
-  }
-`
-
 export const FormFormatOne: React.FC = () => {
   const {
     selectedJournal,
     editSelectedJournal,
     newState,
-    deleteSelectedJournal,
     setSkipQuery,
+    undoNewJournal,
+    journals,
   } = useContext(JournalContext)
 
   const {
@@ -125,11 +114,11 @@ export const FormFormatOne: React.FC = () => {
   }
 
   function handleCancel() {
-    // if (Router.pathname.includes('nouveau') && !title && !text) {
-    //   deleteSelectedJournal(id)
-    //   Router.push(`/journal/[id]`, `/journal/1`)
-    //   return
-    // }
+    if (Router.pathname.includes('nouveau') && !title && !text) {
+      undoNewJournal()
+      Router.push(`/journal/[id]`, `/journal/${journals[1].id}`)
+      return
+    }
     Router.push(`/journal/[id]`, `/journal/${id}`, { shallow: true })
   }
 

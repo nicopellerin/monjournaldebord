@@ -11,13 +11,9 @@ import { JournalContext } from '../context/JournalProvider'
 import { SidebarNoJournals } from './SidebarNoJournals'
 
 export const Sidebar: React.FC = () => {
-  const {
-    newPage,
-    journals,
-    selectedJournal,
-    journalsLoading,
-    setSkipQuery,
-  } = useContext(JournalContext)
+  const { newPage, journals, journalsLoading, setSkipQuery } = useContext(
+    JournalContext
+  )
 
   function addNewPub() {
     const id = newPage()

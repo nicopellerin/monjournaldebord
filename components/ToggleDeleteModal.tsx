@@ -19,9 +19,12 @@ const DELETE_JOURNAL = gql`
 `
 
 export const ToggleDeleteModal = ({ setToggleDelete }) => {
-  const { selectedJournal, journals, deleteSelectedJournal } = useContext(
-    JournalContext
-  )
+  const {
+    selectedJournal,
+    journals,
+    deleteSelectedJournal,
+    undoNewJournal,
+  } = useContext(JournalContext)
 
   const ref = useClickOutside(setToggleDelete)
 
@@ -34,13 +37,14 @@ export const ToggleDeleteModal = ({ setToggleDelete }) => {
       journal => journal.id === selectedJournal.id
     )
     let idx
-    if (findIdx + 1 < journals.length) {
-      idx = findIdx + 1
+    findIdx + 1 < journals.length ? (idx = findIdx + 1) : (idx = findIdx - 1)
+
+    if (!Router.router.pathname.includes('/nouveau')) {
+      deleteJournal({ variables: { id: selectedJournal.id } })
+      deleteSelectedJournal(selectedJournal.id)
     } else {
-      idx = findIdx - 1
+      undoNewJournal()
     }
-    deleteJournal({ variables: { id: selectedJournal.id } })
-    deleteSelectedJournal(selectedJournal.id)
     if (journals.length) {
       Router.push(`/journal/[id]`, `/journal/${journals[idx].id}`)
     } else {
