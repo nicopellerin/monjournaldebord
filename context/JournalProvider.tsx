@@ -192,42 +192,54 @@ export const JournalProvider = ({ children }) => {
   )
 
   // Actions
-  function selectJournal(id) {
-    dispatch({ type: 'SELECTED_JOURNAL', payload: id })
-  }
+  const selectJournal = useCallback(
+    id => {
+      dispatch({ type: 'SELECTED_JOURNAL', payload: id })
+    },
+    [dispatch]
+  )
 
-  function editSelectedJournal(id, title, text, image, createdAt) {
-    setSkipQuery(false)
-    dispatch({
-      type: 'EDIT_SELECTED_JOURNAL',
-      payload: { title, text, id, image, createdAt },
-    })
-  }
+  const editSelectedJournal = useCallback(
+    (id, title, text, image, createdAt) => {
+      setSkipQuery(false)
+      dispatch({
+        type: 'EDIT_SELECTED_JOURNAL',
+        payload: { title, text, id, image, createdAt },
+      })
+    },
+    [dispatch]
+  )
 
-  function deleteSelectedJournal(id) {
-    setSkipQuery(false)
-    dispatch({ type: 'DELETE_SELECTED_JOURNAL', payload: id })
-  }
+  const deleteSelectedJournal = useCallback(
+    id => {
+      setSkipQuery(false)
+      dispatch({ type: 'DELETE_SELECTED_JOURNAL', payload: id })
+    },
+    [dispatch]
+  )
 
-  function toggleEditing() {
+  const toggleEditing = useCallback(() => {
     dispatch({ type: 'TOGGLE_EDITING' })
-  }
+  }, [dispatch])
 
-  function newPage() {
+  const newPage = useCallback(() => {
     const id = uuidv4()
     setSkipQuery(true)
     dispatch({ type: 'NEW_PAGE', payload: id })
     return id
-  }
+  }, [dispatch])
 
-  function searchJournals(input, router) {
-    dispatch({ type: 'SEARCH_JOURNALS', payload: input })
-    router.push('/recherche', '/recherche', { shallow: true })
-  }
+  const searchJournals = useCallback(
+    (input, router) => {
+      dispatch({ type: 'SEARCH_JOURNALS', payload: input })
+      router.push('/recherche', '/recherche', { shallow: true })
+    },
+    [dispatch]
+  )
 
-  function undoNewJournal() {
+  const undoNewJournal = useCallback(() => {
     dispatch({ type: 'UNDO_NEW_JOURNAL' })
-  }
+  }, [dispatch])
 
   const value = useMemo(() => {
     return {
