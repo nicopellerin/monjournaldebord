@@ -8,12 +8,13 @@ import Router from 'next/router'
 import { List } from './List'
 
 import { JournalContext } from '../context/JournalProvider'
+import { SidebarNoJournals } from './SidebarNoJournals'
 
 export const Sidebar: React.FC = () => {
-  const { newPage, journals } = useContext(JournalContext)
+  const { newPage, journals, journalsLoading } = useContext(JournalContext)
 
   // TODO - Fix this to real ID
-  const newId = journals[0]?.id + 1
+  const newId = 1
 
   function addNewPub() {
     newPage()
@@ -22,8 +23,16 @@ export const Sidebar: React.FC = () => {
     })
   }
 
+  if (!journals.length && !journalsLoading) {
+    return (
+      <Wrapper noJournals={!journals.length}>
+        <SidebarNoJournals />
+      </Wrapper>
+    )
+  }
+
   return (
-    <Wrapper>
+    <Wrapper noJournals={!journals.length && !journalsLoading}>
       <List />
       <Button
         onClick={addNewPub}
@@ -47,9 +56,10 @@ const Wrapper = styled.aside`
   z-index: 99;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: ${(props: { noJournals: boolean }) =>
+    props.noJournals ? 'center' : 'space-between'};
   align-items: center;
-  padding: 4rem 0;
+  padding: 5rem 0;
 `
 
 const Button = styled(motion.button)`

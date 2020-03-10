@@ -1,24 +1,15 @@
 import * as React from 'react'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { FaCalendarAlt, FaEdit, FaTimes } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import Router from 'next/router'
 import Link from 'next/link'
-import gql from 'graphql-tag'
-import { useMutation } from '@apollo/react-hooks'
 
 import { DateNow } from './DateNow'
+import { ToggleDeleteModal } from './ToggleDeleteModal'
 
 import { JournalContext } from '../context/JournalProvider'
-
-const DELETE_JOURNAL = gql`
-  mutation($id: ID!) {
-    deleteJournal(id: $id) {
-      title
-    }
-  }
-`
 
 export const JournalSingle: React.FC = () => {
   const {
@@ -26,18 +17,17 @@ export const JournalSingle: React.FC = () => {
     selectedJournal,
     journals,
     toggleEditing,
-    deleteSelectedJournal,
   } = useContext(JournalContext)
 
-  const [deleteJournal, { data }] = useMutation(DELETE_JOURNAL, {
-    refetchQueries: ['allJournals'],
-  })
+  const [toggleDelete, setToggleDelete] = useState(false)
+
+  useEffect(() => {
+    setToggleDelete(false)
+  }, [selectedJournal])
 
   useEffect(() => {
     const prevIdx = journals
     const nextIdx = journals
-
-    console.log(prevIdx, nextIdx)
 
     const prevPublication = e => {
       if (prevIdx && e.keyCode === 40) {
@@ -66,60 +56,53 @@ export const JournalSingle: React.FC = () => {
     }
   }, [selectedJournal])
 
-  const deleteSelected = () => {
-    deleteSelectedJournal(selectedJournal.id)
-    deleteJournal({ variables: { id: selectedJournal.id } })
-    Router.push(`/journal/[id]`, `/journal/${journals[0].id}`)
-  }
   return (
     <Wrapper>
-      {journals.length > 0 ? (
-        <>
-          <Title>{selectedJournal?.title}</Title>
+      <Content
+        animate={{
+          opacity: toggleDelete ? 0.3 : 1,
+          transition: { duration: 0.2 },
+        }}
+      >
+        <Title>{selectedJournal?.title}</Title>
 
-          <DateWrapper>
-            <FaCalendarAlt style={{ marginRight: 8 }} />
-            <DateNow dateInfo={selectedJournal?.createdAt} />
-          </DateWrapper>
-          {selectedJournal?.image && (
-            <Image src={selectedJournal.image} alt="" />
-          )}
-          <Text>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: selectedJournal?.text
-                  .replace('\n', '<br />')
-                  .replace('\n\n', '<br/><br/>'),
-              }}
-            />
-          </Text>
-          <ButtonWrapper>
-            <Link
-              href={`/journal/edit/[id]`}
-              as={`/journal/edit/${selectedJournal?.id}`}
-            >
-              <ButtonEdit
-                onClick={toggleEditing}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <FaEdit style={{ marginRight: 5 }} />
-                Éditer
-              </ButtonEdit>
-            </Link>
-            <ButtonDelete
+        <DateWrapper>
+          <FaCalendarAlt style={{ marginRight: 8 }} />
+          <DateNow dateInfo={selectedJournal?.createdAt} />
+        </DateWrapper>
+        {selectedJournal?.image && <Image src={selectedJournal.image} alt="" />}
+        <Text
+          dangerouslySetInnerHTML={{
+            __html: selectedJournal?.text
+              .replace('\n', '<br />')
+              .replace('\n\n', '<br/><br/>'),
+          }}
+        />
+        <ButtonWrapper>
+          <Link
+            href={`/journal/edit/[id]`}
+            as={`/journal/edit/${selectedJournal?.id}`}
+          >
+            <ButtonEdit
+              onClick={toggleEditing}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              onClick={deleteSelected}
             >
-              <FaTimes style={{ marginRight: 5 }} />
-              Supprimer
-            </ButtonDelete>
-          </ButtonWrapper>
-        </>
-      ) : (
-        <div>No journals</div>
-      )}
+              <FaEdit style={{ marginRight: 5 }} />
+              Éditer
+            </ButtonEdit>
+          </Link>
+          <ButtonDelete
+            onClick={() => setToggleDelete(true)}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <FaTimes style={{ marginRight: 5 }} />
+            Supprimer
+          </ButtonDelete>
+        </ButtonWrapper>
+      </Content>
+      {toggleDelete && <ToggleDeleteModal setToggleDelete={setToggleDelete} />}
     </Wrapper>
   )
 }
@@ -130,7 +113,10 @@ const Wrapper = styled.div`
   max-width: 80rem;
   height: 100%;
   padding: 8rem 0;
+  position: relative;
 `
+
+const Content = styled(motion.div)``
 
 const Image = styled.img`
   width: 100%;

@@ -4,22 +4,24 @@ import styled from 'styled-components'
 
 import { CardList } from './shared/CardList'
 import { Stats } from './Stats'
+import { NoJournals } from './shared/NoJournals'
 
 import { JournalContext } from '../context/JournalProvider'
 
 export const Home: React.FC = () => {
-  const { selectJournal } = useContext(JournalContext)
+  const { selectJournal, journals } = useContext(JournalContext)
 
   useEffect(() => {
     if (selectJournal) {
       selectJournal(null)
     }
   }, [])
+
   return (
     <Wrapper>
       <RecentWrapper>
         <Title>Publications récentes &mdash;</Title>
-        <CardList />
+        {journals.length ? <CardList /> : <NoJournals />}
       </RecentWrapper>
       <Stats />
     </Wrapper>

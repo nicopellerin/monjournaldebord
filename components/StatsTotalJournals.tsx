@@ -4,6 +4,8 @@ import styled from 'styled-components'
 
 import { JournalContext } from '../context/JournalProvider'
 
+import { maxLength } from '../utils/maxLength'
+
 export const StatsTotalJournals = () => {
   const { journals } = useContext(JournalContext)
 
@@ -23,7 +25,7 @@ export const StatsTotalJournals = () => {
       </TotalWrapper>
       <TotalWrapper>
         <Title>Plus long texte</Title>
-        <Count>{longestText?.title}</Count>
+        <Count>{longestText ? maxLength(longestText?.title, 12) : 'N/A'}</Count>
       </TotalWrapper>
     </Wrapper>
   )

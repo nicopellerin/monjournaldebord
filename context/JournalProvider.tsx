@@ -17,6 +17,7 @@ type ContextValues = {
   newState: boolean
   length: number
   search: string
+  journalsLoading?: boolean
   selectJournal?: (id) => void
   editSelectedJournal?: (id, title, text, image, createdAt) => void
   deleteSelectedJournal?: (id) => void
@@ -101,7 +102,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
         journals: state.journals.filter(
           journal => journal.id !== action.payload
         ),
-        // selectedJournal: state.journals[0],
+        // selectedJournal: state.journals[1],
       }
     case 'TOGGLE_EDITING':
       return {
@@ -180,8 +181,8 @@ export const JournalProvider = withApollo(({ children }) => {
     {
       skip: skipQuery,
       onCompleted: data => {
+        setSkipQuery(false)
         thunkDispatch({ type: 'LOAD_ALL_JOURNALS', payload: data.journals })
-        setSkipQuery(true)
       },
     }
   )
@@ -209,6 +210,7 @@ export const JournalProvider = withApollo(({ children }) => {
   }
 
   function newPage() {
+    setSkipQuery(true)
     dispatch({ type: 'NEW_PAGE' })
   }
 
@@ -225,6 +227,7 @@ export const JournalProvider = withApollo(({ children }) => {
       newState: state.newState,
       length: state.length,
       search: state.search,
+      journalsLoading,
       selectJournal,
       editSelectedJournal,
       deleteSelectedJournal,
