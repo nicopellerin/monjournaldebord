@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import * as React from 'react'
+import { useContext } from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
 
 import { Content } from '../../../components/Content'
 
 import { JournalContext } from '../../../context/JournalProvider'
-import { withApollo } from '../../../lib/apollo'
 
 const NewJournal: NextPage = () => {
   const { selectedJournal } = useContext(JournalContext)
@@ -20,4 +20,4 @@ const NewJournal: NextPage = () => {
   )
 }
 
-export default withApollo(NewJournal)
+export default NewJournal

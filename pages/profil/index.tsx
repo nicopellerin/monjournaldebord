@@ -1,9 +1,7 @@
-import React from 'react'
+import * as React from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import Router from 'next/router'
-
-import { withApollo } from '../../lib/apollo'
 
 import { Content } from '../../components/Content'
 
@@ -33,4 +31,4 @@ ProfilPage.getInitialProps = async ({ req, res }) => {
   return { mockCookie }
 }
 
-export default withApollo(ProfilPage)
+export default ProfilPage
