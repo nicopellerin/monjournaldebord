@@ -9,13 +9,26 @@ import { NoJournals } from './shared/NoJournals'
 import { JournalContext } from '../context/JournalProvider'
 
 export const Home: React.FC = () => {
-  const { selectJournal, journals } = useContext(JournalContext)
+  const { selectJournal, journals, journalsLoading } = useContext(
+    JournalContext
+  )
 
   useEffect(() => {
     if (selectJournal) {
       selectJournal(null)
     }
   }, [])
+
+  if (journalsLoading) {
+    return (
+      <Wrapper>
+        <RecentWrapper>
+          <Title>Publications récentes &mdash;</Title>
+          <CardList />
+        </RecentWrapper>
+      </Wrapper>
+    )
+  }
 
   return (
     <Wrapper>

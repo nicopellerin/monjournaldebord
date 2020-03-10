@@ -5,10 +5,9 @@ import React, {
   useCallback,
   useState,
 } from 'react'
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-
-import { withApollo } from '../lib/apollo'
+import { v4 as uuidv4 } from 'uuid'
 
 type ContextValues = {
   journals: any
@@ -121,8 +120,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
         journals: [
           {
             // TODO - Fix this to real ID
-
-            id: state.journals[0]?.id + 1,
+            id: action.payload,
             title: 'Sans-titre',
             text: '',
             image: '',
@@ -132,8 +130,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
         ],
         selectedJournal: {
           // TODO - Fix this to real ID
-
-          id: state.journals[0]?.id + 1,
+          id: action.payload,
           title: 'Sans-titre',
           text: '',
           image: '',
@@ -159,7 +156,7 @@ const ALL_JOURNALS = gql`
   }
 `
 
-export const JournalProvider = withApollo(({ children }) => {
+export const JournalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(journalReducer, initialState)
   const [skipQuery, setSkipQuery] = useState(false)
 
@@ -210,8 +207,10 @@ export const JournalProvider = withApollo(({ children }) => {
   }
 
   function newPage() {
+    const id = uuidv4()
     setSkipQuery(true)
-    dispatch({ type: 'NEW_PAGE' })
+    dispatch({ type: 'NEW_PAGE', payload: id })
+    return id
   }
 
   function searchJournals(input, router) {
@@ -247,4 +246,4 @@ export const JournalProvider = withApollo(({ children }) => {
   return (
     <JournalContext.Provider value={value}>{children}</JournalContext.Provider>
   )
-})
+}

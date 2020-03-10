@@ -26,6 +26,12 @@ export const JournalSingle: React.FC = () => {
   }, [selectedJournal])
 
   useEffect(() => {
+    if (!journals.length) {
+      Router.push('/profil', '/profil', { shallow: true })
+    }
+  }, [journals])
+
+  useEffect(() => {
     const prevIdx = journals
     const nextIdx = journals
 

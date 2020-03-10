@@ -15,6 +15,7 @@
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-server-micro": "^2.10.1",
     "babel-plugin-styled-components": "^1.10.7",
+    "better-react-spinkit": "^2.0.4",
     "date-fns": "^2.10.0",
     "dotenv": "^8.2.0",
     "dotenv-webpack": "^1.7.0",
@@ -36,6 +37,7 @@
     "slate-react": "^0.57.1",
     "styled-components": "^5.0.1",
     "use-debounced-effect": "^0.0.3",
+    "uuid": "^7.0.2",
     "victory": "^34.1.2"
   },
   "devDependencies": {

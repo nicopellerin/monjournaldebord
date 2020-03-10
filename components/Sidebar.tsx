@@ -11,16 +11,23 @@ import { JournalContext } from '../context/JournalProvider'
 import { SidebarNoJournals } from './SidebarNoJournals'
 
 export const Sidebar: React.FC = () => {
-  const { newPage, journals, journalsLoading } = useContext(JournalContext)
-
-  // TODO - Fix this to real ID
-  const newId = 1
+  const {
+    newPage,
+    journals,
+    selectedJournal,
+    journalsLoading,
+    setSkipQuery,
+  } = useContext(JournalContext)
 
   function addNewPub() {
-    newPage()
-    Router.push(`/journal/nouveau/[id]`, `/journal/nouveau/${newId}`, {
+    const id = newPage()
+    Router.push(`/journal/nouveau/[id]`, `/journal/nouveau/${id}`, {
       shallow: true,
     })
+  }
+
+  if (journalsLoading && !setSkipQuery) {
+    return <div>Loading...</div>
   }
 
   if (!journals.length && !journalsLoading) {

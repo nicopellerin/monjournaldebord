@@ -18,7 +18,7 @@ export const SidebarNoJournals = () => {
   }
 
   return (
-    <Wrapper>
+    <Wrapper initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <Title>Aucune publications</Title>
       <Text>Ajouter une nouvelle publication pour commencer</Text>
       <Button
@@ -34,10 +34,10 @@ export const SidebarNoJournals = () => {
 }
 
 // Styles
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   border: 2px dashed #ddd;
   border-radius: 5px;
-  padding: 1.5rem;
+  padding: 3rem 1.5rem;
 `
 
 const Title = styled.h3`
