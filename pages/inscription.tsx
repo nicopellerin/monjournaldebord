@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import * as React from 'react'
+import { useState } from 'react'
 import Head from 'next/head'
+import { NextPage } from 'next'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
 import { CtaCard } from '../components/shared/CtaCard'
 
-const Inscription: React.FC = () => {
+const Inscription: NextPage = () => {
   return (
     <>
       <Head>
@@ -19,7 +21,7 @@ const Inscription: React.FC = () => {
   )
 }
 
-const InscriptionForm = () => {
+const InscriptionForm: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [password2, setPassword2] = useState('')

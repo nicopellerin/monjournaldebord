@@ -4,6 +4,8 @@ import Head from 'next/head'
 
 import { Content } from '../../../components/Content'
 
+import { withApollo } from '../../../lib/apollo'
+
 const NewJournal: NextPage = () => {
   return (
     <>
@@ -15,4 +17,4 @@ const NewJournal: NextPage = () => {
   )
 }
 
-export default NewJournal
+export default withApollo(NewJournal)

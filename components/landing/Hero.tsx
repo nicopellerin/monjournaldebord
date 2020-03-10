@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { FaUserAlt } from 'react-icons/fa'
@@ -8,6 +8,7 @@ export const Hero = () => {
   return (
     <Wrapper>
       <Container
+        initial={{ opacity: 0 }}
         animate={{
           y: [-20, 5, 0],
           opacity: [0, 1],

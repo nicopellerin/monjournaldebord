@@ -1,4 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react'
+import * as React from 'react'
+import { useContext, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { FaCheckCircle, FaTimes, FaCalendarAlt } from 'react-icons/fa'
 import { motion } from 'framer-motion'
@@ -54,6 +55,7 @@ export const FormFormatOne: React.FC = () => {
     editSelectedJournal,
     newState,
     deleteSelectedJournal,
+    setSkipQuery,
   } = useContext(JournalContext)
 
   const {
@@ -78,6 +80,7 @@ export const FormFormatOne: React.FC = () => {
 
   const [addJournal, { data }] = useMutation(ADD_JOURNAL, {
     refetchQueries: ['allJournals'],
+    onCompleted: () => {},
   })
 
   const [editJournal, { data: editData }] = useMutation(EDIT_JOURNAL, {
@@ -86,6 +89,8 @@ export const FormFormatOne: React.FC = () => {
 
   async function handleSubmit(e) {
     e.preventDefault()
+
+    setSkipQuery(false)
 
     const id = selectedJournal?.id
     const createdAt = selectedJournal?.createdAt

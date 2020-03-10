@@ -1,10 +1,25 @@
-const { parsed: localEnv } = require("dotenv").config();
-const webpack = require("webpack");
+const { parsed: localEnv } = require('dotenv').config()
+const path = require('path')
+const webpack = require('webpack')
+const Dotenv = require('dotenv-webpack')
 
-module.exports = {
-  webpack(config) {
-    config.plugins.push(new webpack.EnvironmentPlugin(localEnv));
+const nextConfig = {
+  webpack: config => {
+    config.plugins = config.plugins || []
+    config.plugins.push(new webpack.EnvironmentPlugin(localEnv))
 
-    return config;
-  }
-};
+    config.plugins = [
+      ...config.plugins,
+
+      new Dotenv({
+        path: path.join(__dirname, '.env'),
+        systemvars: true,
+      }),
+    ]
+
+    return config
+  },
+  target: 'serverless',
+}
+
+module.exports = nextConfig

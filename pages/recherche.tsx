@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react'
+import * as React from 'react'
+import { useContext, useState } from 'react'
 import { NextPage } from 'next'
-import { useRouter } from 'next/router'
 import Head from 'next/head'
 import styled from 'styled-components'
 

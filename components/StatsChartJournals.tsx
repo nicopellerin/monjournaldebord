@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { VictoryBar, VictoryChart, VictoryAxis } from 'victory'
 
 const data = [

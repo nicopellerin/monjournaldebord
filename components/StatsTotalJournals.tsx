@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import * as React from 'react'
+import { useContext } from 'react'
 import styled from 'styled-components'
 
 import { JournalContext } from '../context/JournalProvider'
-import { access } from 'fs'
 
 export const StatsTotalJournals = () => {
   const { journals } = useContext(JournalContext)

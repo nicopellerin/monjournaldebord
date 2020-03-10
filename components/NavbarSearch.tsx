@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react'
+import * as React from 'react'
+import { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { FaSearch, FaTimesCircle } from 'react-icons/fa'
 import useDebouncedEffect from 'use-debounced-effect'

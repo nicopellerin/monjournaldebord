@@ -1,5 +1,4 @@
 import { NextPage } from 'next'
-import Router from 'next/router'
 import Head from 'next/head'
 
 import { Hero } from '../components/landing/Hero'

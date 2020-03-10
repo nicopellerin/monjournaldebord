@@ -8,6 +8,8 @@ import React, {
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
+import { withApollo } from '../lib/apollo'
+
 type ContextValues = {
   journals: any
   selectedJournal: Journal
@@ -21,6 +23,7 @@ type ContextValues = {
   toggleEditing?: () => void
   newPage?: () => void
   searchJournals?: (input, router) => void
+  setSkipQuery?: any
 }
 
 type Journal = {
@@ -155,7 +158,7 @@ const ALL_JOURNALS = gql`
   }
 `
 
-export const JournalProvider = ({ children }) => {
+export const JournalProvider = withApollo(({ children }) => {
   const [state, dispatch] = useReducer(journalReducer, initialState)
   const [skipQuery, setSkipQuery] = useState(false)
 
@@ -228,6 +231,7 @@ export const JournalProvider = ({ children }) => {
       toggleEditing,
       newPage,
       searchJournals,
+      setSkipQuery,
     }
   }, [
     state.journals,
@@ -240,4 +244,4 @@ export const JournalProvider = ({ children }) => {
   return (
     <JournalContext.Provider value={value}>{children}</JournalContext.Provider>
   )
-}
+})

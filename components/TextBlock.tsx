@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import * as React from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import isHotkey from 'is-hotkey'
 import { Editable, withReact, useSlate, Slate } from 'slate-react'
 import { Editor, Transforms, createEditor } from 'slate'

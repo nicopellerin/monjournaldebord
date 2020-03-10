@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 
@@ -10,6 +10,7 @@ export const Stats = () => {
     <>
       <Title>Stats &mdash;</Title>
       <Wrapper
+        initial={{ opacity: 0 }}
         animate={{
           opacity: [0, 1],
           y: [10, 0],
@@ -21,6 +22,7 @@ export const Stats = () => {
         <StatsTotalJournals />
       </Wrapper>
       <motion.div
+        initial={{ opacity: 0 }}
         animate={{
           opacity: [0, 1],
           y: [10, 0],

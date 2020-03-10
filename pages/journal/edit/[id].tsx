@@ -5,6 +5,7 @@ import Head from 'next/head'
 import { Content } from '../../../components/Content'
 
 import { JournalContext } from '../../../context/JournalProvider'
+import { withApollo } from '../../../lib/apollo'
 
 const NewJournal: NextPage = () => {
   const { selectedJournal } = useContext(JournalContext)
@@ -19,4 +20,4 @@ const NewJournal: NextPage = () => {
   )
 }
 
-export default NewJournal
+export default withApollo(NewJournal)

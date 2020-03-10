@@ -40,7 +40,9 @@ export const CardList: React.FC<Props> = ({ list, expand }) => {
         <ListWrapper variants={parentVariants} animate={'load'} expand={expand}>
           {list.map(journal => (
             <motion.div style={{ scaleX, scaleY }} layoutTransition>
-              <motion.div style={{ ...inverted, transformOrigin: 'top' }}>
+              <motion.div
+                style={{ ...inverted, transformOrigin: 'top', height: '100%' }}
+              >
                 <Card key={journal.id} {...journal} />
               </motion.div>
             </motion.div>

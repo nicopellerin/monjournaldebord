@@ -3,6 +3,8 @@ import { NextPage } from 'next'
 import Head from 'next/head'
 import Router from 'next/router'
 
+import { withApollo } from '../../lib/apollo'
+
 import { Content } from '../../components/Content'
 
 const ProfilPage: NextPage = () => {
@@ -31,4 +33,4 @@ ProfilPage.getInitialProps = async ({ req, res }) => {
   return { mockCookie }
 }
 
-export default ProfilPage
+export default withApollo(ProfilPage)

@@ -1,4 +1,5 @@
-import React, { useContext, useEffect } from 'react'
+import * as React from 'react'
+import { useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { FaCalendarAlt, FaEdit, FaTimes } from 'react-icons/fa'
 import { motion } from 'framer-motion'
@@ -28,14 +29,18 @@ export const JournalSingle: React.FC = () => {
     deleteSelectedJournal,
   } = useContext(JournalContext)
 
-  const [deleteJournal, { data }] = useMutation(DELETE_JOURNAL)
+  const [deleteJournal, { data }] = useMutation(DELETE_JOURNAL, {
+    refetchQueries: ['allJournals'],
+  })
 
   useEffect(() => {
-    const prevIdx = Number(selectedJournal?.id) - 1
-    const nextIdx = Number(selectedJournal?.id) + 1
+    const prevIdx = journals
+    const nextIdx = journals
+
+    console.log(prevIdx, nextIdx)
 
     const prevPublication = e => {
-      if (prevIdx > 0 && e.keyCode === 40) {
+      if (prevIdx && e.keyCode === 40) {
         Router.push(`/journal/[id]`, `/journal/${prevIdx}`, {
           shallow: true,
         })
@@ -45,7 +50,7 @@ export const JournalSingle: React.FC = () => {
     document.addEventListener('keydown', prevPublication)
 
     const nextPublication = e => {
-      if (nextIdx <= journals.length && e.keyCode === 38) {
+      if (nextIdx && e.keyCode === 38) {
         Router.push(`/journal/[id]`, `/journal/${nextIdx}`, {
           shallow: true,
         })
@@ -121,6 +126,7 @@ export const JournalSingle: React.FC = () => {
 
 // Styles
 const Wrapper = styled.div`
+  min-width: 60rem;
   max-width: 80rem;
   height: 100%;
   padding: 8rem 0;
