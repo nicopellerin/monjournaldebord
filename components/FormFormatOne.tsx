@@ -92,7 +92,6 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
 
     const id = selectedJournal?.id
     const createdAt = selectedJournal?.createdAt
-    editSelectedJournal(id, title, text, imageUploaded, createdAt)
 
     let res
     if (newState) {
@@ -113,6 +112,8 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
         },
       })
     }
+
+    editSelectedJournal(id, title, text, imageUploaded, createdAt)
 
     res = res?.data?.addJournal?.id || res?.data?.editJournal?.id
 

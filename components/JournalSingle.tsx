@@ -90,7 +90,7 @@ export const JournalSingle: React.FC = () => {
             as={`/journal/edit/${selectedJournal?.id}`}
           >
             <ButtonEdit
-              onClick={toggleEditing}
+              onClick={() => toggleEditing(selectedJournal?.image)}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >

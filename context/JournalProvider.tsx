@@ -22,7 +22,7 @@ type ContextValues = {
   selectJournal?: (id) => void
   editSelectedJournal?: (id, title, text, image, createdAt) => void
   deleteSelectedJournal?: (id) => void
-  toggleEditing?: () => void
+  toggleEditing?: (image) => void
   newPage?: () => string
   searchJournals?: (input, router) => void
   undoNewJournal?: () => void
@@ -121,6 +121,8 @@ const journalReducer = (state: StateType, action: ActionType) => {
         ...state,
         editing: !state.editing,
         newState: false,
+        imageUploaded: action.payload,
+        toggleImageContainer: action.payload ? true : false,
       }
     case 'SEARCH_JOURNALS':
       return {
@@ -172,6 +174,8 @@ const journalReducer = (state: StateType, action: ActionType) => {
         },
         editing: true,
         newState: true,
+        imageUploaded: '',
+        toggleImageContainer: false,
       }
     default:
       return state
@@ -196,7 +200,6 @@ export const JournalProvider = ({ children }) => {
 
   const thunkDispatch = useCallback(
     action => {
-      console.log(action)
       if (typeof action === 'function') {
         action(dispatch)
       } else {
@@ -236,8 +239,11 @@ export const JournalProvider = ({ children }) => {
     dispatch({ type: 'DELETE_SELECTED_JOURNAL', payload: id })
   }
 
-  const toggleEditing = () => {
-    dispatch({ type: 'TOGGLE_EDITING' })
+  const toggleEditing = image => {
+    dispatch({ type: 'TOGGLE_EDITING', payload: image })
+    if (image) {
+      dispatch({ type: 'UPLOADED_IMAGE', payload: image })
+    }
   }
 
   const newPage = () => {
