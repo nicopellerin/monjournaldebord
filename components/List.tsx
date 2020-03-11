@@ -50,13 +50,11 @@ const Title = styled.h3`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--primaryColor);
+  color: ${props => props.theme.colors.sideBarItemColor};
   width: 100%;
-  background: #eee;
+  background: ${props => props.theme.colors.sideBarItemBackground};
   padding: 1.3rem 0;
   margin: 0;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
 `
 
 const ListStyled = styled(motion.ul)`

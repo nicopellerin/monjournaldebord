@@ -65,6 +65,7 @@ const Input = styled.input`
   padding: 0.7rem 0.1rem;
   width: 30rem;
   font-size: 1.4rem;
+  background: none;
 `
 
 const InputWrapper = styled.div`

@@ -11,10 +11,8 @@ export const SidebarNoJournals = () => {
   const { newPage } = useContext(JournalContext)
 
   function addNewPub() {
-    newPage()
-    Router.push(`/journal/nouveau/[id]`, `/journal/nouveau/${1}`, {
-      shallow: true,
-    })
+    const id = newPage()
+    Router.push(`/journal/nouveau/[id]`, `/journal/nouveau/${id}`)
   }
 
   return (

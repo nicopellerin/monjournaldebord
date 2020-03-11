@@ -34,7 +34,7 @@ export const Card: React.FC<Props> = ({ id, title, text, createdAt }) => {
         <AStyled>
           <Title>{maxLength(title, titleLength)}</Title>
           <DateWrapper>
-            <FaCalendar style={{ marginRight: 5 }} />
+            <CalendarIcon />
             <DateNow dateInfo={Date.parse(createdAt)} />
           </DateWrapper>
           <Text>{maxLength(text, textLength)}</Text>
@@ -47,20 +47,22 @@ export const Card: React.FC<Props> = ({ id, title, text, createdAt }) => {
 // Styles
 const Wrapper = styled(motion.div)`
   padding: 3rem;
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
   border-radius: 5px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   height: 100%;
-  background: ghostwhite;
+  background: ${props => props.theme.colors.cardBackground};
 `
 
 const Title = styled.h2`
   font-size: 3rem;
+  color: ${props => props.theme.colors.titleColor};
 `
 
 const Text = styled.p`
   font-size: 1.4rem;
+  color: ${props => props.theme.colors.textColor};
 `
 
 const DateWrapper = styled.div`
@@ -70,4 +72,9 @@ const DateWrapper = styled.div`
 
 const AStyled = styled.a`
   text-decoration: none;
+`
+
+const CalendarIcon = styled(FaCalendar)`
+  margin-right: 5px;
+  color: ${props => props.theme.colors.textColor};
 `

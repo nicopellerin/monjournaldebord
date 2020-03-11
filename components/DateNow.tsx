@@ -24,4 +24,5 @@ const DateStyled = styled.h3`
   font-size: 1.4rem;
   font-weight: 600;
   margin-bottom: 0;
+  color: ${props => props.theme.colors.textColor};
 `

@@ -33,6 +33,6 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ghostwhite;
+  background: ${props => props.theme.colors.contentBackground};
   min-height: 100%;
 `

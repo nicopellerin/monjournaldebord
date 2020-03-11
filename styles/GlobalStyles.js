@@ -31,6 +31,8 @@ body {
   height: 100%;
   font-family: 'Lato', sans-serif;
   color: #555;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 

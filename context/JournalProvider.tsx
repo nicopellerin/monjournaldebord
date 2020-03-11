@@ -10,15 +10,17 @@ import gql from 'graphql-tag'
 import { v4 as uuidv4 } from 'uuid'
 
 type ContextValues = {
-  journals: any
+  journals: Journal[]
   selectedJournal: Journal
   editing: boolean
   newState: boolean
   length: number
   search: string
-  journalsLoading?: boolean
-  imageUploaded?: string
-  toggleImageContainer?: boolean
+  journalsLoading: boolean
+  imageUploaded: string
+  toggleImageContainer: boolean
+  darkMode: boolean
+  setSkipQuery?: any
   selectJournal?: (id) => void
   editSelectedJournal?: (id, title, text, image, createdAt) => void
   deleteSelectedJournal?: (id) => void
@@ -28,11 +30,11 @@ type ContextValues = {
   undoNewJournal?: () => void
   uploadImage?: (image) => void
   removeUploadedImage?: () => void
-  setSkipQuery?: any
+  toggleDarkMode?: () => void
 }
 
 type Journal = {
-  id: number
+  id: string
   title: string
   text: string
   createdAt: string
@@ -52,6 +54,7 @@ type ActionType = {
     | 'UPLOADED_IMAGE'
     | 'REMOVE_UPLOADED_IMAGE'
     | 'TOGGLE_OFF_IMAGE_CONTAINER'
+    | 'TOGGLE_DARK_MODE'
   payload?: any
 }
 
@@ -64,6 +67,7 @@ type StateType = {
   search: string
   imageUploaded: string
   toggleImageContainer: boolean
+  darkMode: boolean
 }
 
 const initialState = {
@@ -75,6 +79,8 @@ const initialState = {
   search: '',
   imageUploaded: '',
   toggleImageContainer: false,
+  darkMode: false,
+  journalsLoading: false,
 }
 
 export const JournalContext = createContext<ContextValues>(initialState)
@@ -177,6 +183,11 @@ const journalReducer = (state: StateType, action: ActionType) => {
         imageUploaded: '',
         toggleImageContainer: false,
       }
+    case 'TOGGLE_DARK_MODE':
+      return {
+        ...state,
+        darkMode: !state.darkMode,
+      }
     default:
       return state
   }
@@ -271,6 +282,10 @@ export const JournalProvider = ({ children }) => {
     setTimeout(() => dispatch({ type: 'REMOVE_UPLOADED_IMAGE' }), 1000)
   }
 
+  const toggleDarkMode = () => {
+    dispatch({ type: 'TOGGLE_DARK_MODE' })
+  }
+
   const value = useMemo(() => {
     return {
       journals: state.journals,
@@ -282,6 +297,7 @@ export const JournalProvider = ({ children }) => {
       imageUploaded: state.imageUploaded,
       toggleImageContainer: state.toggleImageContainer,
       journalsLoading,
+      darkMode: state.darkMode,
       selectJournal,
       editSelectedJournal,
       deleteSelectedJournal,
@@ -292,6 +308,7 @@ export const JournalProvider = ({ children }) => {
       undoNewJournal,
       uploadImage,
       removeUploadedImage,
+      toggleDarkMode,
     }
   }, [
     state.journals,
@@ -301,6 +318,7 @@ export const JournalProvider = ({ children }) => {
     state.search,
     state.imageUploaded,
     state.toggleImageContainer,
+    state.darkMode,
   ])
 
   return (

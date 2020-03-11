@@ -1,14 +1,19 @@
 import * as React from 'react'
+import { useContext } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { FaUserAlt } from 'react-icons/fa'
+import { FaUserAlt, FaMoon, FaSun } from 'react-icons/fa'
 
 import { Logo } from './Logo'
 import { User } from './User'
 import { NavbarSearch } from './NavbarSearch'
 
+import { ThemeContext } from '../context/ThemeProvider'
+
 export const Navbar: React.FC = () => {
+  const { toggleDark, dark } = useContext(ThemeContext)
+
   const loggedIn = true
 
   return (
@@ -47,6 +52,13 @@ export const Navbar: React.FC = () => {
             </Link>
           </ButtonGroup>
         )}
+        <IconGroup>
+          {dark ? (
+            <MoonIcon onClick={toggleDark} />
+          ) : (
+            <SunIcon onClick={toggleDark} />
+          )}
+        </IconGroup>
       </RightWrapper>
     </Wrapper>
   )
@@ -55,7 +67,8 @@ export const Navbar: React.FC = () => {
 // Styles
 const Wrapper = styled.div`
   width: 100%;
-  background: white;
+  background: ${props => props.theme.colors.navBarBackground};
+  transition: background 100ms ease-in-out;
   height: 7.5rem;
   display: flex;
   align-items: center;
@@ -80,7 +93,7 @@ const NavbarSearchWrapper = styled.div`
 `
 
 const UserWrapper = styled.div`
-  margin-right: 7rem;
+  margin-right: 5rem;
 `
 
 const ButtonGroup = styled.div`
@@ -113,4 +126,19 @@ const SignupButton = styled(motion.button)`
   align-items: center;
   cursor: pointer;
   font-size: 1.4rem;
+`
+
+const IconGroup = styled.div`
+  margin-right: 6rem;
+`
+
+const MoonIcon = styled(FaMoon)`
+  font-size: 1.6rem;
+  cursor: pointer;
+`
+
+const SunIcon = styled(FaSun)`
+  font-size: 1.6rem;
+  color: #333;
+  cursor: pointer;
 `

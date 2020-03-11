@@ -10,6 +10,8 @@ import { useClickOutside } from '../hooks/useClickOutside'
 
 import { JournalContext } from '../context/JournalProvider'
 
+import { maxLength } from '../utils/maxLength'
+
 const DELETE_JOURNAL = gql`
   mutation($id: ID!) {
     deleteJournal(id: $id) {
@@ -18,7 +20,12 @@ const DELETE_JOURNAL = gql`
   }
 `
 
-export const ToggleDeleteModal = ({ setToggleDelete }) => {
+type Props = {
+  setToggleDelete: any
+  journalTitle: string
+}
+
+export const ToggleDeleteModal = ({ setToggleDelete, journalTitle }) => {
   const {
     selectedJournal,
     journals,
@@ -60,11 +67,25 @@ export const ToggleDeleteModal = ({ setToggleDelete }) => {
         exit={{ opacity: 0, y: '-40%' }}
         ref={ref}
       >
-        <Title>Confirmer supprimer</Title>
-        <div>
-          <button onClick={deleteSelected}>Confirmer</button>
-          <button onClick={() => setToggleDelete(false)}>Annuler</button>
-        </div>
+        <Title>
+          Supprimer <strong>{maxLength(journalTitle, 20)}</strong>?
+        </Title>
+        <ButtonWrapper>
+          <ButtonDelete
+            onClick={deleteSelected}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Confirmer
+          </ButtonDelete>
+          <ButtonCancel
+            onClick={() => setToggleDelete(false)}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Annuler
+          </ButtonCancel>
+        </ButtonWrapper>
       </ModalWrapper>
     </AnimatePresence>
   )
@@ -80,12 +101,49 @@ const ModalWrapper = styled(motion.div)`
   padding: 5rem;
   border-radius: 5px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-  width: 30rem;
+  min-width: 40rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: 1px solid #ddd;
 `
 
 const Title = styled.h2`
-  font-size: 2rem;
+  font-size: 2.4rem;
+  text-align: center;
+  font-weight: 400;
+  margin-bottom: 2.5rem;
+`
+
+const ButtonWrapper = styled.div`
+  display: flex;
+`
+
+const ButtonDelete = styled(motion.button)`
+  border: none;
+  padding: 0.7em 1.2em;
+  background: crimson;
+  color: white;
+  text-transform: uppercase;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.4rem;
+  margin-right: 2rem;
+`
+
+const ButtonCancel = styled(motion.button)`
+  border: none;
+  padding: 0.7em 1.2em;
+  background: white;
+  color: crimson;
+  text-transform: uppercase;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.4rem;
 `

@@ -20,9 +20,7 @@ export const Sidebar: React.FC = () => {
       return
     }
     const id = newPage()
-    Router.push(`/journal/nouveau/[id]`, `/journal/nouveau/${id}`, {
-      shallow: true,
-    })
+    Router.push(`/journal/nouveau/[id]`, `/journal/nouveau/${id}`)
   }
 
   if (journalsLoading && !setSkipQuery) {
@@ -54,7 +52,8 @@ export const Sidebar: React.FC = () => {
 
 // Styles
 const Wrapper = styled.aside`
-  background: whitesmoke;
+  background: ${props => props.theme.colors.sideBarBackground};
+  transition: background 100ms ease-in-out;
   width: 100%;
   height: calc(100vh - 75px);
   box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.1);

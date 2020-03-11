@@ -44,6 +44,8 @@ export const Home: React.FC = () => {
 // Styles
 const Wrapper = styled.div`
   padding: 8rem;
+  background: ${props => props.theme.colors.background};
+  transition: background 100ms ease-in-out;
 
   @media (max-width: 1500px) {
     padding: 6rem 7rem;
@@ -56,4 +58,5 @@ const RecentWrapper = styled.div`
 
 const Title = styled.h2`
   font-size: 2.4rem;
+  color: ${props => props.theme.colors.titleColor};
 `

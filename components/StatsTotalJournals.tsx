@@ -11,7 +11,7 @@ export const StatsTotalJournals = () => {
   const { journals } = useContext(JournalContext)
 
   const longestText = useCallback(
-    journals?.reduce((prev, current) => {
+    journals?.reduce((prev: any, current: any) => {
       if (prev.text.length > current.text.length) {
         return prev
       } else {
@@ -47,10 +47,10 @@ export const StatsTotalJournals = () => {
 
 // Styles
 const Wrapper = styled.div`
-  background: #fff;
+  background: ${props => props.theme.colors.statsCardBackground};
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   padding: 2rem 3rem;
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
   border-radius: 5px;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -82,9 +82,11 @@ const TotalWrapper = styled.div`
 const Title = styled.h3`
   font-size: 1.6rem;
   font-weight: 400;
+  color: ${props => props.theme.colors.titleColor};
 `
 
 const Count = styled.h4`
   font-size: 2rem;
   margin-bottom: 0;
+  color: ${props => props.theme.colors.titleColor};
 `

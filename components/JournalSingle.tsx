@@ -34,12 +34,15 @@ export const JournalSingle: React.FC = () => {
   }, [journals])
 
   useEffect(() => {
-    const prevIdx = journals
-    const nextIdx = journals
+    const currentIdx = journals?.findIndex(
+      journal => journal.id === selectedJournal?.id
+    )
+    const prevIdx = journals[currentIdx - 1]
+    const nextIdx = journals[currentIdx + 1]
 
     const prevPublication = e => {
-      if (prevIdx && e.keyCode === 40) {
-        Router.push(`/journal/[id]`, `/journal/${prevIdx}`, {
+      if (prevIdx && e.keyCode === 37) {
+        Router.push(`/journal/[id]`, `/journal/${prevIdx.id}`, {
           shallow: true,
         })
         selectJournal(prevIdx)
@@ -48,8 +51,8 @@ export const JournalSingle: React.FC = () => {
     document.addEventListener('keydown', prevPublication)
 
     const nextPublication = e => {
-      if (nextIdx && e.keyCode === 38) {
-        Router.push(`/journal/[id]`, `/journal/${nextIdx}`, {
+      if (nextIdx && e.keyCode === 39) {
+        Router.push(`/journal/[id]`, `/journal/${nextIdx.id}`, {
           shallow: true,
         })
         selectJournal(nextIdx)
@@ -71,14 +74,17 @@ export const JournalSingle: React.FC = () => {
           opacity: toggleDelete ? 0.3 : 1,
           transition: { duration: 0.2 },
         }}
+        disabled={toggleDelete}
       >
         <Title>{selectedJournal?.title}</Title>
 
         <DateWrapper>
-          <FaCalendarAlt style={{ marginRight: 8 }} />
+          <CalendarIcon />
           <DateNow dateInfo={selectedJournal?.createdAt} />
         </DateWrapper>
-        {selectedJournal?.image && <Image src={selectedJournal.image} alt="" />}
+        {selectedJournal?.image && (
+          <Image src={selectedJournal?.image} alt="" />
+        )}
         <Text
           dangerouslySetInnerHTML={{
             __html: selectedJournal?.text
@@ -110,7 +116,12 @@ export const JournalSingle: React.FC = () => {
           </ButtonDelete>
         </ButtonWrapper>
       </Content>
-      {toggleDelete && <ToggleDeleteModal setToggleDelete={setToggleDelete} />}
+      {toggleDelete && (
+        <ToggleDeleteModal
+          setToggleDelete={setToggleDelete}
+          journalTitle={selectedJournal?.title}
+        />
+      )}
     </Wrapper>
   )
 }
@@ -124,7 +135,9 @@ const Wrapper = styled.div`
   position: relative;
 `
 
-const Content = styled(motion.div)``
+const Content = styled(motion.div)`
+  ${(props: { disabled: boolean }) => props.disabled && `pointer-events: none`};
+`
 
 const Image = styled.img`
   width: 100%;
@@ -138,12 +151,14 @@ const Title = styled.h2`
   font-size: 6rem;
   word-break: break-all;
   margin-bottom: 1rem;
+  color: ${props => props.theme.colors.titleColor};
 `
 
 const Text = styled.p`
   font-size: 1.6rem;
   line-height: 1.5em;
   margin-bottom: 3rem;
+  color: ${props => props.theme.colors.textColor};
 `
 
 const DateWrapper = styled.div`
@@ -185,4 +200,9 @@ const ButtonDelete = styled(motion.button)`
   cursor: pointer;
   font-size: 1.4rem;
   margin-right: 2rem;
+`
+
+const CalendarIcon = styled(FaCalendarAlt)`
+  color: ${props => props.theme.colors.textColor};
+  margin-right: 8px;
 `

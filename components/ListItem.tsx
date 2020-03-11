@@ -46,6 +46,7 @@ export const ListItem: React.FC<Props> = ({ title, id }) => {
 // Styles
 const Wrapper = styled(motion.li)`
   text-align: center;
+  color: ${props => props.theme.colors.textColor};
   width: 100%;
   padding: 1.1rem 1rem;
   list-style: none;
@@ -54,7 +55,8 @@ const Wrapper = styled(motion.li)`
     props.selected ? '5px solid var(--primaryColor)' : 'none'};
 
   &:hover {
-    background: ${(props: ItemProps) => (props.selected ? '#eee' : '#f8f8f8')};
+    background: ${(props: ItemProps) =>
+      props.selected ? '#f9f9f9' : '#f8f8f8'};
     cursor: ${(props: ItemProps) => (props.selected ? 'normal' : 'pointer')};
   }
 `

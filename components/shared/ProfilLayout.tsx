@@ -4,15 +4,17 @@ import styled from 'styled-components'
 import { Navbar } from '../Navbar'
 import { Sidebar } from '../Sidebar'
 
+import { ThemeProvider } from '../../context/ThemeProvider'
+
 export const ProfilLayout: React.FC = ({ children }) => {
   return (
-    <>
+    <ThemeProvider>
       <Navbar />
       <Wrapper>
         <Sidebar />
         <MainWrapper>{children}</MainWrapper>
       </Wrapper>
-    </>
+    </ThemeProvider>
   )
 }
 
