@@ -17,13 +17,17 @@ type ContextValues = {
   length: number
   search: string
   journalsLoading?: boolean
+  imageUploaded?: string
+  toggleImageContainer?: boolean
   selectJournal?: (id) => void
   editSelectedJournal?: (id, title, text, image, createdAt) => void
   deleteSelectedJournal?: (id) => void
   toggleEditing?: () => void
-  newPage?: () => void
+  newPage?: () => string
   searchJournals?: (input, router) => void
   undoNewJournal?: () => void
+  uploadImage?: (image) => void
+  removeUploadedImage?: () => void
   setSkipQuery?: any
 }
 
@@ -45,6 +49,9 @@ type ActionType = {
     | 'NEW_PAGE'
     | 'SEARCH_JOURNALS'
     | 'UNDO_NEW_JOURNAL'
+    | 'UPLOADED_IMAGE'
+    | 'REMOVE_UPLOADED_IMAGE'
+    | 'TOGGLE_OFF_IMAGE_CONTAINER'
   payload?: any
 }
 
@@ -55,6 +62,8 @@ type StateType = {
   newState: boolean
   length: number
   search: string
+  imageUploaded: string
+  toggleImageContainer: boolean
 }
 
 const initialState = {
@@ -64,6 +73,8 @@ const initialState = {
   newState: false,
   length: 0,
   search: '',
+  imageUploaded: '',
+  toggleImageContainer: false,
 }
 
 export const JournalContext = createContext<ContextValues>(initialState)
@@ -120,6 +131,22 @@ const journalReducer = (state: StateType, action: ActionType) => {
       return {
         ...state,
         journals: state.journals.splice(1),
+      }
+    case 'UPLOADED_IMAGE':
+      return {
+        ...state,
+        imageUploaded: action.payload,
+        toggleImageContainer: true,
+      }
+    case 'REMOVE_UPLOADED_IMAGE':
+      return {
+        ...state,
+        imageUploaded: '',
+      }
+    case 'TOGGLE_OFF_IMAGE_CONTAINER':
+      return {
+        ...state,
+        toggleImageContainer: false,
       }
     case 'NEW_PAGE':
       return {
@@ -185,61 +212,58 @@ export const JournalProvider = ({ children }) => {
     {
       skip: skipQuery,
       onCompleted: data => {
-        setSkipQuery(false)
         thunkDispatch({ type: 'LOAD_ALL_JOURNALS', payload: data.journals })
+        setSkipQuery(true)
       },
     }
   )
 
   // Actions
-  const selectJournal = useCallback(
-    id => {
-      dispatch({ type: 'SELECTED_JOURNAL', payload: id })
-    },
-    [dispatch]
-  )
+  const selectJournal = id => {
+    dispatch({ type: 'SELECTED_JOURNAL', payload: id })
+  }
 
-  const editSelectedJournal = useCallback(
-    (id, title, text, image, createdAt) => {
-      setSkipQuery(false)
-      dispatch({
-        type: 'EDIT_SELECTED_JOURNAL',
-        payload: { title, text, id, image, createdAt },
-      })
-    },
-    [dispatch]
-  )
+  const editSelectedJournal = (id, title, text, image, createdAt) => {
+    setSkipQuery(false)
+    dispatch({
+      type: 'EDIT_SELECTED_JOURNAL',
+      payload: { title, text, id, image, createdAt },
+    })
+  }
 
-  const deleteSelectedJournal = useCallback(
-    id => {
-      setSkipQuery(false)
-      dispatch({ type: 'DELETE_SELECTED_JOURNAL', payload: id })
-    },
-    [dispatch]
-  )
+  const deleteSelectedJournal = id => {
+    setSkipQuery(false)
+    dispatch({ type: 'DELETE_SELECTED_JOURNAL', payload: id })
+  }
 
-  const toggleEditing = useCallback(() => {
+  const toggleEditing = () => {
     dispatch({ type: 'TOGGLE_EDITING' })
-  }, [dispatch])
+  }
 
-  const newPage = useCallback(() => {
+  const newPage = () => {
     const id = uuidv4()
     setSkipQuery(true)
     dispatch({ type: 'NEW_PAGE', payload: id })
     return id
-  }, [dispatch])
+  }
 
-  const searchJournals = useCallback(
-    (input, router) => {
-      dispatch({ type: 'SEARCH_JOURNALS', payload: input })
-      router.push('/recherche', '/recherche', { shallow: true })
-    },
-    [dispatch]
-  )
+  const searchJournals = (input, router) => {
+    dispatch({ type: 'SEARCH_JOURNALS', payload: input })
+    router.push('/recherche', '/recherche', { shallow: true })
+  }
 
-  const undoNewJournal = useCallback(() => {
+  const undoNewJournal = () => {
     dispatch({ type: 'UNDO_NEW_JOURNAL' })
-  }, [dispatch])
+  }
+
+  const uploadImage = image => {
+    dispatch({ type: 'UPLOADED_IMAGE', payload: image })
+  }
+
+  const removeUploadedImage = () => {
+    dispatch({ type: 'TOGGLE_OFF_IMAGE_CONTAINER' })
+    setTimeout(() => dispatch({ type: 'REMOVE_UPLOADED_IMAGE' }), 1000)
+  }
 
   const value = useMemo(() => {
     return {
@@ -249,6 +273,8 @@ export const JournalProvider = ({ children }) => {
       newState: state.newState,
       length: state.length,
       search: state.search,
+      imageUploaded: state.imageUploaded,
+      toggleImageContainer: state.toggleImageContainer,
       journalsLoading,
       selectJournal,
       editSelectedJournal,
@@ -258,6 +284,8 @@ export const JournalProvider = ({ children }) => {
       searchJournals,
       setSkipQuery,
       undoNewJournal,
+      uploadImage,
+      removeUploadedImage,
     }
   }, [
     state.journals,
@@ -265,6 +293,8 @@ export const JournalProvider = ({ children }) => {
     state.editing,
     state.newState,
     state.search,
+    state.imageUploaded,
+    state.toggleImageContainer,
   ])
 
   return (

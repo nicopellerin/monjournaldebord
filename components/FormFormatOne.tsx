@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { FaCheckCircle, FaTimes, FaCalendarAlt } from 'react-icons/fa'
+import { FaCheckCircle, FaTimes, FaCalendarAlt, FaUpload } from 'react-icons/fa'
 import { motion } from 'framer-motion'
-import Link from 'next/link'
+import axios from 'axios'
 import Router, { useRouter } from 'next/router'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
@@ -37,7 +37,12 @@ const EDIT_JOURNAL = gql`
   }
 `
 
-export const FormFormatOne: React.FC = () => {
+type Props = {
+  loader: string
+  setLoader: any
+}
+
+export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
   const {
     selectedJournal,
     editSelectedJournal,
@@ -45,6 +50,8 @@ export const FormFormatOne: React.FC = () => {
     setSkipQuery,
     undoNewJournal,
     journals,
+    uploadImage,
+    imageUploaded,
   } = useContext(JournalContext)
 
   const {
@@ -53,7 +60,9 @@ export const FormFormatOne: React.FC = () => {
 
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
-  const [image, setImage] = useState('')
+  const [imageName, setImageName] = useState('')
+
+  const imageInputRef = useRef(null)
 
   const titleValue = newState ? '' : selectedJournal?.title
 
@@ -83,8 +92,7 @@ export const FormFormatOne: React.FC = () => {
 
     const id = selectedJournal?.id
     const createdAt = selectedJournal?.createdAt
-
-    editSelectedJournal(id, title, text, image, createdAt)
+    editSelectedJournal(id, title, text, imageUploaded, createdAt)
 
     let res
     if (newState) {
@@ -92,7 +100,7 @@ export const FormFormatOne: React.FC = () => {
         variables: {
           title,
           text,
-          image,
+          image: imageUploaded,
         },
       })
     } else {
@@ -101,7 +109,7 @@ export const FormFormatOne: React.FC = () => {
           id,
           title,
           text,
-          image,
+          image: imageUploaded,
         },
       })
     }
@@ -121,6 +129,35 @@ export const FormFormatOne: React.FC = () => {
     }
     Router.push(`/journal/[id]`, `/journal/${id}`, { shallow: true })
   }
+
+  async function handleImageUpload(e) {
+    const file = e.target.files[0]
+
+    const data = new FormData()
+    data.append('file', file)
+    data.append('upload_preset', 'monjournaldebord')
+
+    setImageName(file.name)
+
+    const res = await axios.post(
+      `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/image/upload`,
+      data,
+      {
+        onUploadProgress: progressEvent => {
+          setLoader(
+            Math.round((progressEvent.loaded / progressEvent.total) * 100) + '%'
+          )
+        },
+      }
+    )
+    uploadImage(res.data.secure_url)
+  }
+
+  useEffect(() => {
+    if (loader === 100 + '%') {
+      setLoader(imageName)
+    }
+  }, [loader])
 
   return (
     <Wrapper>
@@ -149,7 +186,21 @@ export const FormFormatOne: React.FC = () => {
         </InputWrapper>
         <InputWrapper>
           <Label>Image (optionel)</Label>
-          <input type="file" />
+          <input
+            type="file"
+            ref={imageInputRef}
+            onChange={handleImageUpload}
+            hidden
+          />
+          <ButtonUpload
+            type="button"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => imageInputRef.current.click()}
+          >
+            <FaUpload style={{ marginRight: 7 }} />
+            {!loader ? 'Choisir image...' : loader}
+          </ButtonUpload>
         </InputWrapper>
         <ButtonWrapper>
           <ButtonCancel
@@ -176,6 +227,8 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  position: relative;
+  z-index: 2;
 `
 
 const DateWrapper = styled.div`
@@ -225,6 +278,7 @@ const ButtonWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  margin-top: 3.5rem;
 `
 
 const Button = styled(motion.button)`
@@ -254,4 +308,20 @@ const ButtonCancel = styled(motion.button)`
   cursor: pointer;
   font-size: 1.4rem;
   margin-right: 2rem;
+`
+
+const ButtonUpload = styled(motion.button)`
+  border: 1px solid #ddd;
+  padding: 0.7em 1.5em;
+  color: #666;
+  background: white;
+  text-transform: uppercase;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.4rem;
+  min-width: 18rem;
+  margin-top: 0.7rem;
 `
