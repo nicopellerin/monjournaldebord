@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { FaTimesCircle } from 'react-icons/fa'
@@ -51,6 +51,7 @@ const Wrapper = styled(motion.div)`
 
 const ImageWrapper = styled.div`
   position: relative;
+  padding: 1rem;
 `
 
 const Image = styled.img`
@@ -58,16 +59,25 @@ const Image = styled.img`
   object-position: center;
   max-width: 250px;
   height: 250px;
-  border-radius: 5px;
+  border-radius: 3px;
+  margin-left: 1rem;
 `
 
 const CloseIcon = styled(FaTimesCircle)`
   position: absolute;
-  top: -7px;
-  right: -7px;
-  font-size: 2rem;
+  top: 0px;
+  right: 0px;
+  font-size: 2.2rem;
   color: red;
   background: white;
   border-radius: 100%;
   cursor: pointer;
+  z-index: 10;
+  padding: 2px;
+  opacity: 0;
+  transition: opacity 150ms ease-in-out;
+
+  ${Wrapper}:hover & {
+    opacity: 1;
+  }
 `

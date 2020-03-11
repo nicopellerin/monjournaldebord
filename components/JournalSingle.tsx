@@ -19,6 +19,8 @@ export const JournalSingle: React.FC = () => {
     toggleEditing,
   } = useContext(JournalContext)
 
+  console.log(selectedJournal?.text)
+
   const [toggleDelete, setToggleDelete] = useState(false)
 
   useEffect(() => {
@@ -80,7 +82,7 @@ export const JournalSingle: React.FC = () => {
         <Text
           dangerouslySetInnerHTML={{
             __html: selectedJournal?.text
-              .replace('\n', '<br />')
+              .replace('\n', '<br/><br/>')
               .replace('\n\n', '<br/><br/>'),
           }}
         />

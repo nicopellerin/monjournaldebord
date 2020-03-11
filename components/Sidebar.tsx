@@ -16,6 +16,9 @@ export const Sidebar: React.FC = () => {
   )
 
   function addNewPub() {
+    if (Router.router.pathname.includes('nouveau')) {
+      return
+    }
     const id = newPage()
     Router.push(`/journal/nouveau/[id]`, `/journal/nouveau/${id}`, {
       shallow: true,

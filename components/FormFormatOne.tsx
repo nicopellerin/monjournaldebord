@@ -61,6 +61,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [imageName, setImageName] = useState('')
+  const [imageError, setImageError] = useState('')
 
   const imageInputRef = useRef(null)
 
@@ -133,6 +134,10 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
 
   async function handleImageUpload(e) {
     const file = e.target.files[0]
+    console.log(file.size)
+    if (file.size > 1000000 * 3) {
+      return setImageError('Oupsss! Veuillez choisir une image de moins de 3MB')
+    }
 
     const data = new FormData()
     data.append('file', file)
@@ -140,18 +145,23 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
 
     setImageName(file.name)
 
-    const res = await axios.post(
-      `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/image/upload`,
-      data,
-      {
-        onUploadProgress: progressEvent => {
-          setLoader(
-            Math.round((progressEvent.loaded / progressEvent.total) * 100) + '%'
-          )
-        },
-      }
-    )
-    uploadImage(res.data.secure_url)
+    try {
+      const res = await axios.post(
+        `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/image/upload`,
+        data,
+        {
+          onUploadProgress: progressEvent => {
+            setLoader(
+              Math.round((progressEvent.loaded / progressEvent.total) * 100) +
+                '%'
+            )
+          },
+        }
+      )
+      uploadImage(res.data.secure_url)
+    } catch (err) {
+      setImageError('Une erreur est survenue. Veuillez réessayer!')
+    }
   }
 
   useEffect(() => {
@@ -191,6 +201,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
             type="file"
             ref={imageInputRef}
             onChange={handleImageUpload}
+            accept="image/png, image/jpeg"
             hidden
           />
           <ButtonUpload
@@ -203,6 +214,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
             {!loader ? 'Choisir image...' : loader}
           </ButtonUpload>
         </InputWrapper>
+        {imageError && <p>{imageError}</p>}
         <ButtonWrapper>
           <ButtonCancel
             type="button"
@@ -265,6 +277,7 @@ const TextAreaField = styled.textarea`
   font-family: inherit;
   border: 1px solid #ddd;
   border-radius: 5px;
+  resize: none;
 `
 
 const Label = styled.label`
