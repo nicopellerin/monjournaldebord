@@ -21,10 +21,6 @@ export const Sidebar: React.FC = () => {
     Router.push(`/journal/nouveau/[id]`, `/journal/nouveau/${id}`)
   }
 
-  if (journalsLoading) {
-    return <div>Loading...</div>
-  }
-
   if (!journals.length && !journalsLoading) {
     return (
       <Wrapper noJournals={!journals.length}>
@@ -35,15 +31,19 @@ export const Sidebar: React.FC = () => {
 
   return (
     <Wrapper noJournals={!journals.length && !journalsLoading}>
-      <List />
-      <Button
-        onClick={addNewPub}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-      >
-        <FaPlusCircle style={{ marginRight: 7 }} />
-        Nouvelle publication
-      </Button>
+      {!journalsLoading && (
+        <>
+          <List />
+          <Button
+            onClick={addNewPub}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <FaPlusCircle style={{ marginRight: 7 }} />
+            Nouvelle publication
+          </Button>
+        </>
+      )}
     </Wrapper>
   )
 }

@@ -43,7 +43,6 @@ type Journal = {
 
 type ActionType = {
   type:
-    | 'LOAD_ALL_JOURNALS'
     | 'SELECTED_JOURNAL'
     | 'EDIT_SELECTED_JOURNAL'
     | 'DELETE_SELECTED_JOURNAL'
@@ -88,11 +87,6 @@ export const JournalContext = createContext<ContextValues>(initialState)
 
 const journalReducer = (state: StateType, action: ActionType) => {
   switch (action.type) {
-    case 'LOAD_ALL_JOURNALS':
-      return {
-        ...state,
-        journals: action.payload,
-      }
     case 'SELECTED_JOURNAL':
       return {
         ...state,
@@ -262,14 +256,7 @@ export const JournalProvider = ({ children }) => {
   )
 
   // Load all journals data
-  const { loading: journalsLoading, data: allJournals } = useQuery(
-    ALL_JOURNALS,
-    {
-      onCompleted: data => {
-        thunkDispatch({ type: 'LOAD_ALL_JOURNALS', payload: data.journals })
-      },
-    }
-  )
+  const { loading: journalsLoading, data: allJournals } = useQuery(ALL_JOURNALS)
 
   // Load single journal
   const [
@@ -277,7 +264,7 @@ export const JournalProvider = ({ children }) => {
     { data: singleJournal, loading: singleJournalLoading },
   ] = useLazyQuery(GET_JOURNAL, {
     onCompleted: () => {
-      dispatch({
+      thunkDispatch({
         type: 'SELECTED_JOURNAL',
         payload: {
           id: singleJournal?.journal?.id,
@@ -294,9 +281,20 @@ export const JournalProvider = ({ children }) => {
   //   refetchQueries: ['allJournals'],
   // })
 
-  // const [editJournal, { data: editData }] = useMutation(EDIT_JOURNAL, {
-  //   refetchQueries: ['allJournals'],
-  // })
+  const [editJournal] = useMutation(EDIT_JOURNAL, {
+    onCompleted: ({ editJournal }) => {
+      dispatch({
+        type: 'EDIT_SELECTED_JOURNAL',
+        payload: {
+          title: editJournal.title,
+          text: editJournal.text,
+          id: editJournal.id,
+          image: editJournal.image,
+          createdAt: editJournal.createtAt,
+        },
+      })
+    },
+  })
 
   // Actions
   const selectJournal = id => {
@@ -308,11 +306,7 @@ export const JournalProvider = ({ children }) => {
   }
 
   const editSelectedJournal = async (id, title, text, image, createdAt) => {
-    // await editJournal({ variables: { id, title, text, image, createdAt } })
-    dispatch({
-      type: 'EDIT_SELECTED_JOURNAL',
-      payload: { title, text, id, image, createdAt },
-    })
+    await editJournal({ variables: { id, title, text, image, createdAt } })
   }
 
   const deleteSelectedJournal = id => {
@@ -356,7 +350,7 @@ export const JournalProvider = ({ children }) => {
 
   const value = useMemo(() => {
     return {
-      journals: state.journals,
+      journals: allJournals?.journals || [],
       selectedJournal: state.selectedJournal,
       editing: state.editing,
       newState: state.newState,

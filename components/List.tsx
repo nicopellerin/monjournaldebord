@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { FaNewspaper, FaHome } from 'react-icons/fa'
@@ -9,8 +9,16 @@ import { ListItem } from './ListItem'
 
 import { JournalContext } from '../context/JournalProvider'
 
-export const List: React.FC = () => {
+export const List: React.FC = ({ client }: any) => {
   const { journals } = useContext(JournalContext)
+
+  console.log(client)
+
+  const [listJournals, setListJournals] = useState(journals)
+
+  useEffect(() => {
+    setListJournals(journals)
+  }, [journals])
 
   return (
     <Wrapper>
@@ -26,7 +34,7 @@ export const List: React.FC = () => {
       </Title>
       <NavStyled>
         <ListStyled>
-          {journals?.map(item => (
+          {listJournals?.map(item => (
             <ListItem key={item.id} {...item} />
           ))}
         </ListStyled>

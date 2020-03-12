@@ -3,12 +3,14 @@ import styled from 'styled-components'
 
 import { Navbar } from '../Navbar'
 
+import { ThemeProvider } from '../../context/ThemeProvider'
+
 export const Layout: React.FC = ({ children }) => {
   return (
-    <>
+    <ThemeProvider>
       <Navbar />
       <Wrapper>{children}</Wrapper>
-    </>
+    </ThemeProvider>
   )
 }
 

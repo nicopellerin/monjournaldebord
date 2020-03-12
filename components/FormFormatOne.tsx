@@ -46,6 +46,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
   const {
     selectedJournal,
     editSelectedJournal,
+    selectJournal,
     newState,
     undoNewJournal,
     journals,
@@ -90,8 +91,6 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
     const id = selectedJournal?.id
     const createdAt = selectedJournal?.createdAt
 
-    // editSelectedJournal(id, title, text, imageUploaded, createdAt)
-
     let res
     if (newState) {
       res = await addJournal({
@@ -102,17 +101,23 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
         },
       })
     } else {
-      res = await editJournal({
-        variables: {
-          id,
-          title,
-          text,
-          image: imageUploaded,
-        },
-      })
+      try {
+        // res = await editJournal({
+        //   variables: {
+        //     id,
+        //     title,
+        //     text,
+        //     image: imageUploaded,
+        //   },
+        // })
+        editSelectedJournal(id, title, text, imageUploaded, createdAt)
+      } catch (err) {
+        console.error(err.message)
+      }
     }
 
-    res = res?.data?.addJournal?.id || res?.data?.editJournal?.id
+    // res = res?.data?.addJournal?.id || res?.data?.editJournal?.id
+    res = id
 
     Router.push(`/journal/[id]`, `/journal/${res}`)
   }
