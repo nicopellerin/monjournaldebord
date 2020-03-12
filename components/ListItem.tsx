@@ -36,7 +36,7 @@ export const ListItem: React.FC<Props> = ({ title, id }) => {
         selectJournal(id)
       }}
     >
-      <Link href="/journal/[id]" as={`/journal/${id}`}>
+      <Link href={`/journal/[id]`} as={`/journal/${id}`}>
         <Item selected={selected}>{maxLength(title)}</Item>
       </Link>
     </Wrapper>
@@ -61,7 +61,7 @@ const Wrapper = styled(motion.li)`
   }
 `
 
-const Item = styled(motion.a)`
+const Item = styled(motion.span)`
   display: block;
   font-size: 1.6rem;
   font-weight: ${(props: ItemProps) => (props.selected ? '600' : '400')};

@@ -27,13 +27,13 @@ export const List: React.FC = () => {
         <FaNewspaper style={{ marginRight: 5 }} />
         Journaux
       </Title>
-      <nav>
+      <NavStyled>
         <ListStyled>
           {journals?.map(item => (
             <ListItem key={item.id} {...item} />
           ))}
         </ListStyled>
-      </nav>
+      </NavStyled>
     </Wrapper>
   )
 }
@@ -58,6 +58,10 @@ const Title = styled.h3`
   transition: color background 100ms ease-in-out;
   padding: 1.3rem 0;
   margin: 0;
+`
+
+const NavStyled = styled.nav`
+  width: 100%;
 `
 
 const ListStyled = styled(motion.ul)`
