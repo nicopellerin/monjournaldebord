@@ -15,7 +15,11 @@ export const Book: React.FC = () => {
 
   return (
     <AnimatePresence>
-      <Wrapper initial={{ y: -50 }} animate={{ y: 0 }} exit={{ y: 50 }}>
+      <Wrapper
+        initial={{ y: -50 }}
+        animate={{ y: 0, transition: { damping: 300 } }}
+        exit={{ y: 50 }}
+      >
         <FormWrapper>
           <FormFormatOne loader={loader} setLoader={setLoader} />
         </FormWrapper>
