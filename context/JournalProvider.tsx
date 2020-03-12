@@ -17,6 +17,7 @@ type ContextValues = {
   length: number
   search: string
   journalsLoading: boolean
+  singleJournalLoading: boolean
   imageUploaded: string
   toggleImageContainer: boolean
   darkMode: boolean
@@ -80,6 +81,7 @@ const initialState = {
   toggleImageContainer: false,
   darkMode: false,
   journalsLoading: false,
+  singleJournalLoading: false,
 }
 
 export const JournalContext = createContext<ContextValues>(initialState)
@@ -270,16 +272,19 @@ export const JournalProvider = ({ children }) => {
   )
 
   // Load single journal
-  const [loadJournal, { data }] = useLazyQuery(GET_JOURNAL, {
+  const [
+    loadJournal,
+    { data: singleJournal, loading: singleJournalLoading },
+  ] = useLazyQuery(GET_JOURNAL, {
     onCompleted: () => {
       dispatch({
         type: 'SELECTED_JOURNAL',
         payload: {
-          id: data?.journal?.id,
-          title: data?.journal?.title,
-          text: data?.journal?.text,
-          image: data?.journal?.image,
-          createdAt: data?.journal?.createdAt,
+          id: singleJournal?.journal?.id,
+          title: singleJournal?.journal?.title,
+          text: singleJournal?.journal?.text,
+          image: singleJournal?.journal?.image,
+          createdAt: singleJournal?.journal?.createdAt,
         },
       })
     },
@@ -359,8 +364,9 @@ export const JournalProvider = ({ children }) => {
       search: state.search,
       imageUploaded: state.imageUploaded,
       toggleImageContainer: state.toggleImageContainer,
-      journalsLoading,
       darkMode: state.darkMode,
+      journalsLoading,
+      singleJournalLoading,
       selectJournal,
       editSelectedJournal,
       deleteSelectedJournal,

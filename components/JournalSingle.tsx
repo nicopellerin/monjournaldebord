@@ -43,7 +43,7 @@ const JournalSingle: React.FC = () => {
         Router.push(`/journal/[id]`, `/journal/${prevIdx.id}`, {
           shallow: true,
         })
-        selectJournal(prevIdx)
+        selectJournal(prevIdx.id)
       }
     }
     document.addEventListener('keydown', prevPublication)
@@ -53,7 +53,7 @@ const JournalSingle: React.FC = () => {
         Router.push(`/journal/[id]`, `/journal/${nextIdx.id}`, {
           shallow: true,
         })
-        selectJournal(nextIdx)
+        selectJournal(nextIdx.id)
       }
     }
 
