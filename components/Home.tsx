@@ -13,11 +13,11 @@ export const Home: React.FC = () => {
     JournalContext
   )
 
-  useEffect(() => {
-    if (selectJournal) {
-      selectJournal(null)
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (selectJournal) {
+  //     selectJournal(null)
+  //   }
+  // }, [])
 
   if (journalsLoading) {
     return (

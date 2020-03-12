@@ -4,10 +4,24 @@ import styled from 'styled-components'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
+import { useLazyQuery } from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 
 import { JournalContext } from '../context/JournalProvider'
 
 import { maxLength } from '../utils/maxLength'
+
+const GET_JOURNAL = gql`
+  query journal($id: ID!) {
+    journal(id: $id) {
+      id
+      title
+      text
+      image
+      createdAt
+    }
+  }
+`
 
 type Props = {
   title: String
@@ -19,7 +33,7 @@ type ItemProps = {
   selected: Boolean
 }
 
-export const ListItem: React.FC<Props> = ({ title, id }) => {
+export const ListItem: React.FC<Props> = React.memo(({ title, id }) => {
   const { selectJournal } = useContext(JournalContext)
 
   const {
@@ -41,7 +55,7 @@ export const ListItem: React.FC<Props> = ({ title, id }) => {
       </Link>
     </Wrapper>
   )
-}
+})
 
 // Styles
 const Wrapper = styled(motion.li)`

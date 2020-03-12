@@ -6,8 +6,9 @@ import { ProfilLayout } from '../components/shared/ProfilLayout'
 
 import { JournalProvider } from '../context/JournalProvider'
 
-import GlobalStyles from '../styles/GlobalStyles'
 import { withApollo } from '../lib/apollo'
+
+import GlobalStyles from '../styles/GlobalStyles'
 
 class MyApp extends App {
   render() {

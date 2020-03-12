@@ -10,16 +10,13 @@ import { ListItem } from './ListItem'
 import { JournalContext } from '../context/JournalProvider'
 
 export const List: React.FC = () => {
-  const { journals, setSkipQuery } = useContext(JournalContext)
+  const { journals } = useContext(JournalContext)
 
   return (
     <Wrapper>
       <Link href="/profil">
         <Title style={{ marginBottom: '1.2rem', cursor: 'pointer' }}>
-          <FaHome
-            style={{ marginRight: 5 }}
-            onClick={() => setSkipQuery(true)}
-          />
+          <FaHome style={{ marginRight: 5 }} />
           Accueil
         </Title>
       </Link>

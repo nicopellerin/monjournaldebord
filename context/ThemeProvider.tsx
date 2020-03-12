@@ -5,6 +5,11 @@ import { ThemeProvider as StyledThemeProvider } from 'styled-components'
 import lightTheme from '../styles/themes/lightTheme'
 import darkTheme from '../styles/themes/darkTheme'
 
+const initialValues = {
+  dark: false,
+  toggleDark: () => {},
+}
+
 export const ThemeContext = React.createContext(null)
 
 export const ThemeProvider = ({ children }) => {

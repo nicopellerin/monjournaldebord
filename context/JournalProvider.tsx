@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useState,
 } from 'react'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -20,7 +20,6 @@ type ContextValues = {
   imageUploaded: string
   toggleImageContainer: boolean
   darkMode: boolean
-  setSkipQuery?: any
   selectJournal?: (id) => void
   editSelectedJournal?: (id, title, text, image, createdAt) => void
   deleteSelectedJournal?: (id) => void
@@ -95,9 +94,13 @@ const journalReducer = (state: StateType, action: ActionType) => {
     case 'SELECTED_JOURNAL':
       return {
         ...state,
-        selectedJournal: state.journals?.find(
-          journal => journal.id === action.payload
-        ),
+        selectedJournal: {
+          id: action.payload.id,
+          title: action.payload.title,
+          text: action.payload.text,
+          image: action.payload.image,
+          createdAt: action.payload.createdAt,
+        },
         length: state.journals?.length,
         editing: false,
       }
@@ -205,12 +208,48 @@ const ALL_JOURNALS = gql`
   }
 `
 
+const ADD_JOURNAL = gql`
+  mutation($title: String!, $text: String!, $image: String) {
+    addJournal(title: $title, text: $text, image: $image) {
+      id
+      title
+      text
+      image
+      createdAt
+    }
+  }
+`
+
+const EDIT_JOURNAL = gql`
+  mutation($id: ID!, $title: String!, $text: String!, $image: String) {
+    editJournal(id: $id, title: $title, text: $text, image: $image) {
+      id
+      title
+      text
+      image
+      createdAt
+    }
+  }
+`
+
+const GET_JOURNAL = gql`
+  query journal($id: ID!) {
+    journal(id: $id) {
+      id
+      title
+      text
+      image
+      createdAt
+    }
+  }
+`
+
 export const JournalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(journalReducer, initialState)
-  const [skipQuery, setSkipQuery] = useState(false)
 
   const thunkDispatch = useCallback(
     action => {
+      console.log(action)
       if (typeof action === 'function') {
         action(dispatch)
       } else {
@@ -224,21 +263,47 @@ export const JournalProvider = ({ children }) => {
   const { loading: journalsLoading, data: allJournals } = useQuery(
     ALL_JOURNALS,
     {
-      skip: skipQuery,
       onCompleted: data => {
         thunkDispatch({ type: 'LOAD_ALL_JOURNALS', payload: data.journals })
-        setSkipQuery(true)
       },
     }
   )
 
+  // Load single journal
+  const [loadJournal, { data }] = useLazyQuery(GET_JOURNAL, {
+    onCompleted: () => {
+      dispatch({
+        type: 'SELECTED_JOURNAL',
+        payload: {
+          id: data?.journal?.id,
+          title: data?.journal?.title,
+          text: data?.journal?.text,
+          image: data?.journal?.image,
+          createdAt: data?.journal?.createdAt,
+        },
+      })
+    },
+  })
+
+  // const [addJournal, { data }] = useMutation(ADD_JOURNAL, {
+  //   refetchQueries: ['allJournals'],
+  // })
+
+  // const [editJournal, { data: editData }] = useMutation(EDIT_JOURNAL, {
+  //   refetchQueries: ['allJournals'],
+  // })
+
   // Actions
   const selectJournal = id => {
-    dispatch({ type: 'SELECTED_JOURNAL', payload: id })
+    loadJournal({
+      variables: {
+        id,
+      },
+    })
   }
 
-  const editSelectedJournal = (id, title, text, image, createdAt) => {
-    setSkipQuery(false)
+  const editSelectedJournal = async (id, title, text, image, createdAt) => {
+    // await editJournal({ variables: { id, title, text, image, createdAt } })
     dispatch({
       type: 'EDIT_SELECTED_JOURNAL',
       payload: { title, text, id, image, createdAt },
@@ -246,7 +311,6 @@ export const JournalProvider = ({ children }) => {
   }
 
   const deleteSelectedJournal = id => {
-    setSkipQuery(false)
     dispatch({ type: 'DELETE_SELECTED_JOURNAL', payload: id })
   }
 
@@ -259,14 +323,13 @@ export const JournalProvider = ({ children }) => {
 
   const newPage = () => {
     const id = uuidv4()
-    setSkipQuery(true)
     dispatch({ type: 'NEW_PAGE', payload: id })
     return id
   }
 
   const searchJournals = (input, router) => {
     dispatch({ type: 'SEARCH_JOURNALS', payload: input })
-    router.push('/recherche', '/recherche', { shallow: true })
+    router.push('/recherche', '/recherche')
   }
 
   const undoNewJournal = () => {
@@ -304,7 +367,6 @@ export const JournalProvider = ({ children }) => {
       toggleEditing,
       newPage,
       searchJournals,
-      setSkipQuery,
       undoNewJournal,
       uploadImage,
       removeUploadedImage,

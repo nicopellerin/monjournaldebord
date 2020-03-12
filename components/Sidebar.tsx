@@ -11,9 +11,7 @@ import { JournalContext } from '../context/JournalProvider'
 import { SidebarNoJournals } from './SidebarNoJournals'
 
 export const Sidebar: React.FC = () => {
-  const { newPage, journals, journalsLoading, setSkipQuery } = useContext(
-    JournalContext
-  )
+  const { newPage, journals, journalsLoading } = useContext(JournalContext)
 
   function addNewPub() {
     if (Router.router.pathname.includes('nouveau')) {
@@ -23,7 +21,7 @@ export const Sidebar: React.FC = () => {
     Router.push(`/journal/nouveau/[id]`, `/journal/nouveau/${id}`)
   }
 
-  if (journalsLoading && !setSkipQuery) {
+  if (journalsLoading) {
     return <div>Loading...</div>
   }
 

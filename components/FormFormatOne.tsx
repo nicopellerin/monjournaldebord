@@ -47,7 +47,6 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
     selectedJournal,
     editSelectedJournal,
     newState,
-    setSkipQuery,
     undoNewJournal,
     journals,
     uploadImage,
@@ -79,7 +78,6 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
 
   const [addJournal, { data }] = useMutation(ADD_JOURNAL, {
     refetchQueries: ['allJournals'],
-    onCompleted: () => {},
   })
 
   const [editJournal, { data: editData }] = useMutation(EDIT_JOURNAL, {
@@ -89,10 +87,10 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
   async function handleSubmit(e) {
     e.preventDefault()
 
-    setSkipQuery(false)
-
     const id = selectedJournal?.id
     const createdAt = selectedJournal?.createdAt
+
+    // editSelectedJournal(id, title, text, imageUploaded, createdAt)
 
     let res
     if (newState) {
@@ -114,13 +112,9 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
       })
     }
 
-    editSelectedJournal(id, title, text, imageUploaded, createdAt)
-
     res = res?.data?.addJournal?.id || res?.data?.editJournal?.id
 
-    Router.push(`/journal/[id]`, `/journal/${res}`, {
-      shallow: true,
-    })
+    Router.push(`/journal/[id]`, `/journal/${res}`)
   }
 
   function handleCancel() {
