@@ -20,7 +20,7 @@ class MyApp extends App {
     ) {
       return (
         <Layout>
-          <Component {...pageProps} />
+          <Component {...pageProps} key={router.query.id} />
           <GlobalStyles />
         </Layout>
       )
@@ -29,7 +29,7 @@ class MyApp extends App {
     return (
       <JournalProvider>
         <ProfilLayout>
-          <Component {...pageProps} />
+          <Component {...pageProps} key={router.query.id} />
           <div id="portal" />
           <GlobalStyles />
         </ProfilLayout>

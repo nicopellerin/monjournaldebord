@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useRouter } from 'next/router'
 
 import { Book } from './Book'
-import { JournalSingle } from './JournalSingle'
+import JournalSingle from './JournalSingle'
 import { Home } from './Home'
 
 export const Content: React.FC = () => {

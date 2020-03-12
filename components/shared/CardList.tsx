@@ -30,7 +30,6 @@ export const CardList: React.FC<Props> = ({ list, expand }) => {
     load: {
       x: [-10, 0],
       opacity: [0, 1],
-      transition: { staggerChildren: 0.5 },
     },
   }
 

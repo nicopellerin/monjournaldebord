@@ -27,11 +27,13 @@ export const List: React.FC = () => {
         <FaNewspaper style={{ marginRight: 5 }} />
         Journaux
       </Title>
-      <ListStyled>
-        {journals?.map(item => (
-          <ListItem key={item.id} {...item} />
-        ))}
-      </ListStyled>
+      <nav>
+        <ListStyled>
+          {journals?.map(item => (
+            <ListItem key={item.id} {...item} />
+          ))}
+        </ListStyled>
+      </nav>
     </Wrapper>
   )
 }
@@ -53,6 +55,7 @@ const Title = styled.h3`
   color: ${props => props.theme.colors.sideBarItemColor};
   width: 100%;
   background: ${props => props.theme.colors.sideBarItemBackground};
+  transition: color background 100ms ease-in-out;
   padding: 1.3rem 0;
   margin: 0;
 `
@@ -64,11 +67,6 @@ const ListStyled = styled(motion.ul)`
   overflow: hidden;
 
   & > li {
-    /* border-bottom: 1px solid #ddd; */
     margin-bottom: 0.5rem;
-    /* border-top: 1px solid #ddd; */
   }
-
-  /* & > li:first-child {
-  } */
 `

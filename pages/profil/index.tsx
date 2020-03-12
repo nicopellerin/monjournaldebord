@@ -4,6 +4,7 @@ import Head from 'next/head'
 import Router from 'next/router'
 
 import { Content } from '../../components/Content'
+import { motion } from 'framer-motion'
 
 const ProfilPage: NextPage = () => {
   return (

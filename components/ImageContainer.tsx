@@ -23,6 +23,7 @@ export const ImageContainer: React.FC<Props> = ({ setLoader }) => {
       initial={{ y: 140, x: -50, scale: 0.9 }}
       animate={{ x: 20, scale: 1 }}
       exit={{ x: -300, scale: 0.9 }}
+      transition={{ damping: 300 }}
     >
       <ImageWrapper>
         <CloseIcon onClick={removeImage} />

@@ -11,15 +11,13 @@ import { ToggleDeleteModal } from './ToggleDeleteModal'
 
 import { JournalContext } from '../context/JournalProvider'
 
-export const JournalSingle: React.FC = () => {
+const JournalSingle: React.FC = () => {
   const {
     selectJournal,
     selectedJournal,
     journals,
     toggleEditing,
   } = useContext(JournalContext)
-
-  console.log(selectedJournal?.text)
 
   const [toggleDelete, setToggleDelete] = useState(false)
 
@@ -69,53 +67,73 @@ export const JournalSingle: React.FC = () => {
 
   return (
     <Wrapper>
-      <Content
-        animate={{
-          opacity: toggleDelete ? 0.3 : 1,
-          transition: { duration: 0.2 },
+      <motion.div
+        initial={{
+          scale: 0.96,
+          y: 30,
+          opacity: 0,
         }}
-        disabled={toggleDelete}
+        animate={{
+          scale: 1,
+          y: 0,
+          opacity: 1,
+          transition: { duration: 0.5, ease: [0.48, 0.15, 0.25, 0.96] },
+        }}
+        exit={{
+          scale: 0.6,
+          y: 100,
+          opacity: 0,
+          transition: { duration: 0.2, ease: [0.48, 0.15, 0.25, 0.96] },
+        }}
       >
-        <Title>{selectedJournal?.title}</Title>
-
-        <DateWrapper>
-          <CalendarIcon />
-          <DateNow dateInfo={selectedJournal?.createdAt} />
-        </DateWrapper>
-        {selectedJournal?.image && (
-          <Image src={selectedJournal?.image} alt="" />
-        )}
-        <Text
-          dangerouslySetInnerHTML={{
-            __html: selectedJournal?.text
-              .replace('\n', '<br/><br/>')
-              .replace('\n\n', '<br/><br/>'),
+        <Content
+          animate={{
+            opacity: toggleDelete ? 0.3 : 1,
+            transition: { duration: 0.2 },
           }}
-        />
-        <ButtonWrapper>
-          <Link
-            href={`/journal/edit/[id]`}
-            as={`/journal/edit/${selectedJournal?.id}`}
-          >
-            <ButtonEdit
-              onClick={() => toggleEditing(selectedJournal?.image)}
+          disabled={toggleDelete}
+        >
+          <Title>{selectedJournal?.title}</Title>
+
+          <DateWrapper>
+            <CalendarIcon />
+            <DateNow dateInfo={selectedJournal?.createdAt} />
+          </DateWrapper>
+          {selectedJournal?.image && (
+            <Image src={selectedJournal?.image} alt="" />
+          )}
+          <Text
+            dangerouslySetInnerHTML={{
+              __html: selectedJournal?.text
+                .replace('\n', '<br/><br/>')
+                .replace('\n\n', '<br/><br/>'),
+            }}
+          />
+          <ButtonWrapper>
+            <Link
+              href={`/journal/edit/[id]`}
+              as={`/journal/edit/${selectedJournal?.id}`}
+            >
+              <ButtonEdit
+                onClick={() => toggleEditing(selectedJournal?.image)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <FaEdit style={{ marginRight: 5 }} />
+                Éditer
+              </ButtonEdit>
+            </Link>
+            <ButtonDelete
+              onClick={() => setToggleDelete(true)}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <FaEdit style={{ marginRight: 5 }} />
-              Éditer
-            </ButtonEdit>
-          </Link>
-          <ButtonDelete
-            onClick={() => setToggleDelete(true)}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <FaTimes style={{ marginRight: 5 }} />
-            Supprimer
-          </ButtonDelete>
-        </ButtonWrapper>
-      </Content>
+              <FaTimes style={{ marginRight: 5 }} />
+              Supprimer
+            </ButtonDelete>
+          </ButtonWrapper>
+        </Content>
+      </motion.div>
       {toggleDelete && (
         <ToggleDeleteModal
           setToggleDelete={setToggleDelete}
@@ -125,6 +143,8 @@ export const JournalSingle: React.FC = () => {
     </Wrapper>
   )
 }
+
+export default JournalSingle
 
 // Styles
 const Wrapper = styled.div`
