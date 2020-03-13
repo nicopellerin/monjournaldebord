@@ -15,6 +15,7 @@ const JournalSingle: React.FC = () => {
   const {
     selectJournal,
     selectedJournal,
+    journalsLoading,
     journals,
     toggleEditing,
   } = useContext(JournalContext)
@@ -26,7 +27,7 @@ const JournalSingle: React.FC = () => {
   }, [selectedJournal])
 
   useEffect(() => {
-    if (!journals.length) {
+    if (!journals.length && !journalsLoading) {
       Router.push('/profil', '/profil', { shallow: true })
     }
   }, [journals])

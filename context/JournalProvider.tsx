@@ -5,7 +5,12 @@ import React, {
   useCallback,
   useState,
 } from 'react'
-import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks'
+import {
+  useQuery,
+  useMutation,
+  useLazyQuery,
+  useApolloClient,
+} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -23,6 +28,7 @@ type ContextValues = {
   darkMode: boolean
   selectJournal?: (id) => void
   editSelectedJournal?: (id, title, text, image, createdAt) => void
+  addNewJournal?: (title, text, image) => void
   deleteSelectedJournal?: (id) => void
   toggleEditing?: (image) => void
   newPage?: () => string
@@ -44,6 +50,7 @@ type Journal = {
 type ActionType = {
   type:
     | 'SELECTED_JOURNAL'
+    | 'ADD_JOURNAL'
     | 'EDIT_SELECTED_JOURNAL'
     | 'DELETE_SELECTED_JOURNAL'
     | 'TOGGLE_EDITING'
@@ -100,6 +107,17 @@ const journalReducer = (state: StateType, action: ActionType) => {
         length: state.journals?.length,
         editing: false,
       }
+    case 'ADD_JOURNAL':
+      return {
+        ...state,
+        selectedJournal: {
+          id: action.payload.id,
+          title: action.payload.title,
+          text: action.payload.text,
+          image: action.payload.image,
+          createdAt: action.payload.createdAt,
+        },
+      }
     case 'EDIT_SELECTED_JOURNAL':
       return {
         ...state,
@@ -137,7 +155,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
     case 'UNDO_NEW_JOURNAL':
       return {
         ...state,
-        journals: state.journals.splice(1),
+        // selectedJournal: state.journals[0],
       }
     case 'UPLOADED_IMAGE':
       return {
@@ -240,6 +258,14 @@ const GET_JOURNAL = gql`
   }
 `
 
+const DELETE_JOURNAL = gql`
+  mutation($id: ID!) {
+    deleteJournal(id: $id) {
+      id
+    }
+  }
+`
+
 export const JournalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(journalReducer, initialState)
 
@@ -257,6 +283,10 @@ export const JournalProvider = ({ children }) => {
 
   // Load all journals data
   const { loading: journalsLoading, data: allJournals } = useQuery(ALL_JOURNALS)
+  // const client = useApolloClient()
+  // const { journals: journalsCache } = client.readQuery({ query: ALL_JOURNALS })
+
+  // console.log(journalsCache)
 
   // Load single journal
   const [
@@ -277,10 +307,31 @@ export const JournalProvider = ({ children }) => {
     },
   })
 
-  // const [addJournal, { data }] = useMutation(ADD_JOURNAL, {
-  //   refetchQueries: ['allJournals'],
-  // })
+  // Delete journal
+  const [deleteJournal, { data: deletedJournal }] = useMutation(
+    DELETE_JOURNAL,
+    {
+      refetchQueries: ['allJournals'],
+    }
+  )
 
+  // Add journal
+  const [addJournal, { data: addedJournal }] = useMutation(ADD_JOURNAL, {
+    refetchQueries: ['allJournals'],
+    onCompleted: ({ addJournal }) =>
+      dispatch({
+        type: 'ADD_JOURNAL',
+        payload: {
+          id: addJournal.id,
+          title: addJournal.title,
+          text: addJournal.text,
+          image: addJournal.image,
+          createdAt: addJournal.createdAt,
+        },
+      }),
+  })
+
+  // Edit journal
   const [editJournal] = useMutation(EDIT_JOURNAL, {
     onCompleted: ({ editJournal }) => {
       dispatch({
@@ -306,11 +357,14 @@ export const JournalProvider = ({ children }) => {
   }
 
   const editSelectedJournal = async (id, title, text, image, createdAt) => {
-    await editJournal({ variables: { id, title, text, image, createdAt } })
+    const res = await editJournal({
+      variables: { id, title, text, image, createdAt },
+    })
+    return res?.data?.editJournal?.id
   }
 
-  const deleteSelectedJournal = id => {
-    dispatch({ type: 'DELETE_SELECTED_JOURNAL', payload: id })
+  const deleteSelectedJournal = async id => {
+    await deleteJournal({ variables: { id } })
   }
 
   const toggleEditing = image => {
@@ -318,6 +372,17 @@ export const JournalProvider = ({ children }) => {
     if (image) {
       dispatch({ type: 'UPLOADED_IMAGE', payload: image })
     }
+  }
+
+  const addNewJournal = async (title, text, image) => {
+    const res = await addJournal({
+      variables: {
+        title,
+        text,
+        image,
+      },
+    })
+    return res?.data?.addJournal?.id
   }
 
   const newPage = () => {
@@ -361,6 +426,7 @@ export const JournalProvider = ({ children }) => {
       darkMode: state.darkMode,
       journalsLoading,
       singleJournalLoading,
+      addNewJournal,
       selectJournal,
       editSelectedJournal,
       deleteSelectedJournal,
@@ -381,6 +447,7 @@ export const JournalProvider = ({ children }) => {
     state.imageUploaded,
     state.toggleImageContainer,
     state.darkMode,
+    allJournals,
   ])
 
   return (

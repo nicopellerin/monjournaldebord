@@ -12,20 +12,15 @@ import { JournalContext } from '../context/JournalProvider'
 
 import { maxLength } from '../utils/maxLength'
 
-const DELETE_JOURNAL = gql`
-  mutation($id: ID!) {
-    deleteJournal(id: $id) {
-      title
-    }
-  }
-`
-
 type Props = {
   setToggleDelete: any
   journalTitle: string
 }
 
-export const ToggleDeleteModal = ({ setToggleDelete, journalTitle }) => {
+export const ToggleDeleteModal: React.FC<Props> = ({
+  setToggleDelete,
+  journalTitle,
+}) => {
   const {
     selectedJournal,
     journals,
@@ -35,10 +30,6 @@ export const ToggleDeleteModal = ({ setToggleDelete, journalTitle }) => {
 
   const ref = useClickOutside(setToggleDelete)
 
-  const [deleteJournal, { data }] = useMutation(DELETE_JOURNAL, {
-    refetchQueries: ['allJournals'],
-  })
-
   const deleteSelected = () => {
     const findIdx = journals.findIndex(
       journal => journal.id === selectedJournal.id
@@ -47,7 +38,6 @@ export const ToggleDeleteModal = ({ setToggleDelete, journalTitle }) => {
     findIdx + 1 < journals.length ? (idx = findIdx + 1) : (idx = findIdx - 1)
 
     if (!Router.router.pathname.includes('/nouveau')) {
-      deleteJournal({ variables: { id: selectedJournal.id } })
       deleteSelectedJournal(selectedJournal.id)
     } else {
       undoNewJournal()

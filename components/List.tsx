@@ -9,16 +9,8 @@ import { ListItem } from './ListItem'
 
 import { JournalContext } from '../context/JournalProvider'
 
-export const List: React.FC = ({ client }: any) => {
+export const List: React.FC = () => {
   const { journals } = useContext(JournalContext)
-
-  console.log(client)
-
-  const [listJournals, setListJournals] = useState(journals)
-
-  useEffect(() => {
-    setListJournals(journals)
-  }, [journals])
 
   return (
     <Wrapper>
@@ -34,7 +26,7 @@ export const List: React.FC = ({ client }: any) => {
       </Title>
       <NavStyled>
         <ListStyled>
-          {listJournals?.map(item => (
+          {journals?.map(item => (
             <ListItem key={item.id} {...item} />
           ))}
         </ListStyled>

@@ -25,18 +25,6 @@ const ADD_JOURNAL = gql`
   }
 `
 
-const EDIT_JOURNAL = gql`
-  mutation($id: ID!, $title: String!, $text: String!, $image: String) {
-    editJournal(id: $id, title: $title, text: $text, image: $image) {
-      id
-      title
-      text
-      image
-      createdAt
-    }
-  }
-`
-
 type Props = {
   loader: string
   setLoader: any
@@ -46,6 +34,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
   const {
     selectedJournal,
     editSelectedJournal,
+    addNewJournal,
     selectJournal,
     newState,
     undoNewJournal,
@@ -77,14 +66,6 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
     setText(selectedJournal?.text)
   }, [selectedJournal])
 
-  const [addJournal, { data }] = useMutation(ADD_JOURNAL, {
-    refetchQueries: ['allJournals'],
-  })
-
-  const [editJournal, { data: editData }] = useMutation(EDIT_JOURNAL, {
-    refetchQueries: ['allJournals'],
-  })
-
   async function handleSubmit(e) {
     e.preventDefault()
 
@@ -93,31 +74,20 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
 
     let res
     if (newState) {
-      res = await addJournal({
-        variables: {
-          title,
-          text,
-          image: imageUploaded,
-        },
-      })
+      res = await addNewJournal(title, text, imageUploaded)
     } else {
       try {
-        // res = await editJournal({
-        //   variables: {
-        //     id,
-        //     title,
-        //     text,
-        //     image: imageUploaded,
-        //   },
-        // })
-        editSelectedJournal(id, title, text, imageUploaded, createdAt)
+        res = await editSelectedJournal(
+          id,
+          title,
+          text,
+          imageUploaded,
+          createdAt
+        )
       } catch (err) {
         console.error(err.message)
       }
     }
-
-    // res = res?.data?.addJournal?.id || res?.data?.editJournal?.id
-    res = id
 
     Router.push(`/journal/[id]`, `/journal/${res}`)
   }
@@ -125,7 +95,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
   function handleCancel() {
     if (Router.pathname.includes('nouveau') && !title && !text) {
       undoNewJournal()
-      Router.push(`/journal/[id]`, `/journal/${journals[1].id}`)
+      Router.push(`/journal/[id]`, `/journal/${journals[0].id}`)
       return
     }
     Router.push(`/journal/[id]`, `/journal/${id}`, { shallow: true })
