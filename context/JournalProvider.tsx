@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useReducer,
-  useMemo,
-  useCallback,
-  useState,
-} from 'react'
+import React, { createContext, useReducer, useMemo, useCallback } from 'react'
 import {
   useQuery,
   useMutation,
@@ -267,6 +261,8 @@ const DELETE_JOURNAL = gql`
 `
 
 export const JournalProvider = ({ children }) => {
+  const client = useApolloClient()
+
   const [state, dispatch] = useReducer(journalReducer, initialState)
 
   const thunkDispatch = useCallback(
@@ -283,10 +279,6 @@ export const JournalProvider = ({ children }) => {
 
   // Load all journals data
   const { loading: journalsLoading, data: allJournals } = useQuery(ALL_JOURNALS)
-  // const client = useApolloClient()
-  // const { journals: journalsCache } = client.readQuery({ query: ALL_JOURNALS })
-
-  // console.log(journalsCache)
 
   // Load single journal
   const [
@@ -297,11 +289,11 @@ export const JournalProvider = ({ children }) => {
       thunkDispatch({
         type: 'SELECTED_JOURNAL',
         payload: {
-          id: singleJournal?.journal?.id,
-          title: singleJournal?.journal?.title,
-          text: singleJournal?.journal?.text,
-          image: singleJournal?.journal?.image,
-          createdAt: singleJournal?.journal?.createdAt,
+          id: singleJournal.journal.id,
+          title: singleJournal.journal.title,
+          text: singleJournal.journal.text,
+          image: singleJournal.journal.image,
+          createdAt: singleJournal.journal.createdAt,
         },
       })
     },
@@ -311,14 +303,47 @@ export const JournalProvider = ({ children }) => {
   const [deleteJournal, { data: deletedJournal }] = useMutation(
     DELETE_JOURNAL,
     {
-      refetchQueries: ['allJournals'],
+      onCompleted: ({ deleteJournal }) => {
+        const { journals } = client.readQuery({
+          query: ALL_JOURNALS,
+        })
+
+        client.writeQuery({
+          query: ALL_JOURNALS,
+          data: {
+            journals: journals.filter(
+              journal => journal.id !== deleteJournal.id
+            ),
+          },
+        })
+      },
     }
   )
 
   // Add journal
   const [addJournal, { data: addedJournal }] = useMutation(ADD_JOURNAL, {
-    refetchQueries: ['allJournals'],
-    onCompleted: ({ addJournal }) =>
+    onCompleted: ({ addJournal }) => {
+      const { journals } = client.readQuery({
+        query: ALL_JOURNALS,
+      })
+
+      client.writeQuery({
+        query: ALL_JOURNALS,
+        data: {
+          journals: [
+            {
+              __typename: 'Journal',
+              id: addJournal.id,
+              title: addJournal.title,
+              text: addJournal.text,
+              image: addJournal.image,
+              createdAt: addJournal.createdAt,
+            },
+            ...journals,
+          ],
+        },
+      })
+
       dispatch({
         type: 'ADD_JOURNAL',
         payload: {
@@ -328,7 +353,8 @@ export const JournalProvider = ({ children }) => {
           image: addJournal.image,
           createdAt: addJournal.createdAt,
         },
-      }),
+      })
+    },
   })
 
   // Edit journal
