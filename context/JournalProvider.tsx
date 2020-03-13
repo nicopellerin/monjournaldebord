@@ -281,47 +281,42 @@ export const JournalProvider = ({ children }) => {
   const { loading: journalsLoading, data: allJournals } = useQuery(ALL_JOURNALS)
 
   // Load single journal
-  const [
-    loadJournal,
-    { data: singleJournal, loading: singleJournalLoading },
-  ] = useLazyQuery(GET_JOURNAL, {
-    onCompleted: () => {
-      thunkDispatch({
-        type: 'SELECTED_JOURNAL',
-        payload: {
-          id: singleJournal.journal.id,
-          title: singleJournal.journal.title,
-          text: singleJournal.journal.text,
-          image: singleJournal.journal.image,
-          createdAt: singleJournal.journal.createdAt,
-        },
-      })
-    },
-  })
-
-  // Delete journal
-  const [deleteJournal, { data: deletedJournal }] = useMutation(
-    DELETE_JOURNAL,
+  const [loadJournal, { loading: singleJournalLoading }] = useLazyQuery(
+    GET_JOURNAL,
     {
-      onCompleted: ({ deleteJournal }) => {
-        const { journals } = client.readQuery({
-          query: ALL_JOURNALS,
-        })
-
-        client.writeQuery({
-          query: ALL_JOURNALS,
-          data: {
-            journals: journals.filter(
-              journal => journal.id !== deleteJournal.id
-            ),
+      onCompleted: ({ journal }) => {
+        thunkDispatch({
+          type: 'SELECTED_JOURNAL',
+          payload: {
+            id: journal.id,
+            title: journal.title,
+            text: journal.text,
+            image: journal.image,
+            createdAt: journal.createdAt,
           },
         })
       },
     }
   )
 
+  // Delete journal
+  const [deleteJournal] = useMutation(DELETE_JOURNAL, {
+    onCompleted: ({ deleteJournal }) => {
+      const { journals } = client.readQuery({
+        query: ALL_JOURNALS,
+      })
+
+      client.writeQuery({
+        query: ALL_JOURNALS,
+        data: {
+          journals: journals.filter(journal => journal.id !== deleteJournal.id),
+        },
+      })
+    },
+  })
+
   // Add journal
-  const [addJournal, { data: addedJournal }] = useMutation(ADD_JOURNAL, {
+  const [addJournal] = useMutation(ADD_JOURNAL, {
     onCompleted: ({ addJournal }) => {
       const { journals } = client.readQuery({
         query: ALL_JOURNALS,
