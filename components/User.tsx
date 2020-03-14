@@ -38,7 +38,7 @@ export const User: React.FC<Props> = ({ username }) => {
 const UserDropdown: React.FC = () => {
   const client = useApolloClient()
 
-  const { logout } = useContext(UserContext)
+  const { logout, email } = useContext(UserContext)
 
   return (
     <AnimatePresence>
@@ -47,7 +47,11 @@ const UserDropdown: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0 }}
       >
+        <DropdownItem>
+          <UserEmail>{email}</UserEmail>
+        </DropdownItem>
         <DropdownItem
+          style={{ cursor: 'pointer' }}
           onClick={() => {
             cookies.remove('token_login')
             client.resetStore()
@@ -71,7 +75,7 @@ const Wrapper = styled.div`
 const DropdownWrapper = styled(motion.div)`
   position: absolute;
   width: 15rem;
-  bottom: -5.5rem;
+  bottom: -8.5rem;
   left: 76%;
   background: white;
   padding: 1.3rem 1.5rem;
@@ -91,16 +95,16 @@ const DropdownWrapper = styled(motion.div)`
     border-right: 10px solid transparent;
     border-top: 10px solid #fff;
   }
+
+  & > :not(:last-child) {
+    margin-bottom: 1rem;
+  }
 `
 
 const DropdownItem = styled.span`
   display: flex;
   align-items: center;
   font-size: 1.4rem;
-
-  &:hover {
-    cursor: pointer;
-  }
 `
 
 const UserInfoWrapper = styled.div`
@@ -112,6 +116,12 @@ const UsernameText = styled.span`
   display: block;
   font-size: 1.6rem;
   margin-right: 2rem;
+  cursor: initial;
+`
+
+const UserEmail = styled.span`
+  color: #999;
+  pointer-events: none;
 `
 
 const UserImage = styled.img`

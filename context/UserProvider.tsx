@@ -63,6 +63,7 @@ const reducer = (state: StateType, action: ActionType) => {
       return {
         ...state,
         username: action.payload.username,
+        email: action.payload.email,
       }
     case 'LOGOUT':
       return initialState
@@ -70,6 +71,7 @@ const reducer = (state: StateType, action: ActionType) => {
       return {
         ...state,
         username: action.payload.username,
+        email: action.payload.email,
       }
     default:
       return state
@@ -88,8 +90,10 @@ export const UserProvider = ({ children }) => {
 
   const [signinUser] = useMutation(LOGIN, {
     onCompleted: ({ signinUser }) => {
-      console.log(signinUser.username)
-      dispatch({ type: 'LOGIN', payload: { username: signinUser.username } })
+      dispatch({
+        type: 'LOGIN',
+        payload: { username: signinUser.username, email: signinUser.email },
+      })
     },
   })
 
@@ -97,7 +101,7 @@ export const UserProvider = ({ children }) => {
     onCompleted: ({ me }) => {
       dispatch({
         type: 'USER_INFO',
-        payload: { username: me.username },
+        payload: { username: me.username, email: me.email },
       })
     },
   })

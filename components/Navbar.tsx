@@ -56,13 +56,15 @@ export const Navbar: React.FC = () => {
             </Link>
           </ButtonGroup>
         )}
-        <IconGroup>
-          {dark ? (
-            <MoonIcon onClick={toggleDark} />
-          ) : (
-            <SunIcon onClick={toggleDark} />
-          )}
-        </IconGroup>
+        {username && (
+          <IconGroup>
+            {dark ? (
+              <MoonIcon onClick={toggleDark} />
+            ) : (
+              <SunIcon onClick={toggleDark} />
+            )}
+          </IconGroup>
+        )}
       </RightWrapper>
     </Wrapper>
   )
