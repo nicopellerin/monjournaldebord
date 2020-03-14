@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 
+import { StatsTotalImages } from './StatsTotalImages'
 import { StatsTotalJournals } from './StatsTotalJournals'
 import { StatsChartJournals } from './StatsChartJournals'
 
@@ -18,7 +19,7 @@ export const Stats = () => {
         }}
       >
         <StatsTotalJournals />
-        <StatsTotalJournals />
+        <StatsTotalImages />
         <StatsTotalJournals />
       </Wrapper>
       <motion.div

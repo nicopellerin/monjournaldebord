@@ -13,10 +13,19 @@ const initialValues = {
 export const ThemeContext = React.createContext(null)
 
 export const ThemeProvider = ({ children }) => {
+  const localStorageDarkMode =
+    typeof window !== 'undefined' &&
+    JSON.parse(localStorage.getItem('mjdb-darkmode'))
+
   const [dark, setDark] = useState(false)
+
+  useEffect(() => {
+    setDark(localStorageDarkMode)
+  }, [])
 
   const toggleDark = () => {
     let darkVar = !dark
+    localStorage.setItem('mjdb-darkmode', JSON.stringify(darkVar))
     setDark(darkVar)
   }
 

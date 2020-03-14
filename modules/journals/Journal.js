@@ -1,6 +1,10 @@
 import mongoose, { Schema } from 'mongoose'
 
 const JournalSchema = new Schema({
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'users',
+  },
   title: {
     type: String,
     required: true,

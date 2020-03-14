@@ -2,6 +2,7 @@ import * as React from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import Router from 'next/router'
+import nextCookies from 'next-cookies'
 
 import { Content } from '../../components/Content'
 
@@ -16,19 +17,19 @@ const ProfilPage: NextPage = () => {
   )
 }
 
-ProfilPage.getInitialProps = async ({ req, res }) => {
-  const mockCookie = true
+ProfilPage.getInitialProps = async ctx => {
+  const { token_login } = nextCookies(ctx)
 
-  if (req && !mockCookie) {
-    res.writeHead(302, { Location: '/connexion' })
-    res.end()
+  if (ctx.req && !token_login) {
+    ctx.res.writeHead(302, { Location: '/connexion' })
+    ctx.res.end()
   }
 
-  if (!mockCookie) {
+  if (!token_login) {
     Router.push('/connexion')
   }
 
-  return { mockCookie }
+  return { token_login }
 }
 
 export default ProfilPage

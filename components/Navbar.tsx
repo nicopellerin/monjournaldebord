@@ -10,11 +10,15 @@ import { User } from './User'
 import { NavbarSearch } from './NavbarSearch'
 
 import { ThemeContext } from '../context/ThemeProvider'
+import { UserContext } from '../context/UserProvider'
 
 export const Navbar: React.FC = () => {
   const { toggleDark, dark } = useContext(ThemeContext)
+  const { username, userLoading } = useContext(UserContext)
 
-  const loggedIn = true
+  if (userLoading) {
+    return null
+  }
 
   return (
     <Wrapper>
@@ -22,13 +26,13 @@ export const Navbar: React.FC = () => {
         <Logo />
       </LogoWrapper>
       <RightWrapper>
-        {loggedIn ? (
+        {username ? (
           <>
             <NavbarSearchWrapper>
               <NavbarSearch />
             </NavbarSearchWrapper>
             <UserWrapper>
-              <User />
+              <User username={username} />
             </UserWrapper>
           </>
         ) : (

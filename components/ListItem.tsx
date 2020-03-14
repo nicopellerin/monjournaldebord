@@ -4,20 +4,19 @@ import styled from 'styled-components'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
-import gql from 'graphql-tag'
 
 import { JournalContext } from '../context/JournalProvider'
 
 import { maxLength } from '../utils/maxLength'
 
-type Props = {
-  title: String
-  text: String
-  id: String
+interface Props {
+  title: string
+  text: string
+  id: string | string[]
 }
 
-type ItemProps = {
-  selected: Boolean
+interface ItemProps {
+  selected: boolean
 }
 
 export const ListItem: React.FC<Props> = React.memo(({ title, id }) => {

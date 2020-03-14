@@ -1,12 +1,16 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import Head from 'next/head'
 import { NextPage } from 'next'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import cookies from 'js-cookie'
+import Router from 'next/router'
 
 import { CtaCard } from '../components/shared/CtaCard'
+
+import { UserContext } from '../context/UserProvider'
 
 const Connexion: NextPage = () => {
   return (
@@ -25,8 +29,13 @@ const ConnexionForm: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  function handleSubmit(e) {
+  const { login } = useContext(UserContext)
+
+  async function handleSubmit(e) {
     e.preventDefault()
+    const token = await login(email, password)
+    cookies.set('token_login', token)
+    Router.push('/profil')
   }
 
   return (
@@ -46,7 +55,11 @@ const ConnexionForm: React.FC = () => {
           onChange={e => setPassword(e.target.value)}
           placeholder="Mot de passe"
         />
-        <Button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+        <Button
+          type="submit"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
           Se Connecter
         </Button>
       </Form>
@@ -69,7 +82,7 @@ const Wrapper = styled.div`
   height: calc(100vh - 75px);
 `
 
-const Form = styled.div`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;

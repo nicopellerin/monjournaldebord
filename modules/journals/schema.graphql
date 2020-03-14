@@ -6,6 +6,7 @@ type Journal {
   text: String!
   image: String
   createdAt: Date
+  author: User!
 }
 
 type Query {

@@ -1,29 +1,45 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaSignOutAlt } from 'react-icons/fa'
+import cookies from 'js-cookie'
+import Router from 'next/router'
+import { useApolloClient } from '@apollo/react-hooks'
 
 import { useClickOutside } from '../hooks/useClickOutside'
 
-export const User: React.FC = () => {
+import { UserContext } from '../context/UserProvider'
+
+interface Props {
+  username: string
+}
+
+export const User: React.FC<Props> = ({ username }) => {
   const [toggle, setToggle] = useState(false)
 
   const node = useClickOutside(setToggle)
 
   return (
     <Wrapper ref={node}>
-      <img
-        src="/default-profile.png"
-        alt="profile"
-        onClick={() => setToggle(prevState => !prevState)}
-      />
-      {toggle && <UserDropdown />}
+      <UserInfoWrapper>
+        <UsernameText>{username}</UsernameText>
+        <UserImage
+          src="/default-profile.png"
+          alt="profile"
+          onClick={() => setToggle(prevState => !prevState)}
+        />
+        {toggle && <UserDropdown />}
+      </UserInfoWrapper>
     </Wrapper>
   )
 }
 
 const UserDropdown: React.FC = () => {
+  const client = useApolloClient()
+
+  const { logout } = useContext(UserContext)
+
   return (
     <AnimatePresence>
       <DropdownWrapper
@@ -31,7 +47,14 @@ const UserDropdown: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0 }}
       >
-        <DropdownItem>
+        <DropdownItem
+          onClick={() => {
+            cookies.remove('token_login')
+            client.resetStore()
+            logout()
+            Router.push('/connexion')
+          }}
+        >
           <FaSignOutAlt style={{ marginRight: 5 }} />
           Se déconnecter
         </DropdownItem>
@@ -43,22 +66,13 @@ const UserDropdown: React.FC = () => {
 // Styles
 const Wrapper = styled.div`
   position: relative;
-
-  & > img {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 1px solid #ddd;
-    padding: 2px;
-  }
 `
 
 const DropdownWrapper = styled(motion.div)`
   position: absolute;
   width: 15rem;
   bottom: -5.5rem;
-  left: 50%;
+  left: 76%;
   background: white;
   padding: 1.3rem 1.5rem;
   text-align: center;
@@ -87,4 +101,24 @@ const DropdownItem = styled.span`
   &:hover {
     cursor: pointer;
   }
+`
+
+const UserInfoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const UsernameText = styled.span`
+  display: block;
+  font-size: 1.6rem;
+  margin-right: 2rem;
+`
+
+const UserImage = styled.img`
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  padding: 2px;
 `

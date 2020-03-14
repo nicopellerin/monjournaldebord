@@ -5,6 +5,7 @@ import { Layout } from '../components/shared/Layout'
 import { ProfilLayout } from '../components/shared/ProfilLayout'
 
 import { JournalProvider } from '../context/JournalProvider'
+import { UserProvider } from '../context/UserProvider'
 
 import { withApollo } from '../lib/apollo'
 
@@ -20,21 +21,25 @@ class MyApp extends App {
       router.pathname === '/'
     ) {
       return (
-        <Layout>
-          <Component {...pageProps} key={router.query.id} />
-          <GlobalStyles />
-        </Layout>
+        <UserProvider>
+          <Layout>
+            <Component {...pageProps} key={router.query.id} />
+            <GlobalStyles />
+          </Layout>
+        </UserProvider>
       )
     }
 
     return (
-      <JournalProvider>
-        <ProfilLayout>
-          <Component {...pageProps} />
-          <div id="portal" />
-          <GlobalStyles />
-        </ProfilLayout>
-      </JournalProvider>
+      <UserProvider>
+        <JournalProvider>
+          <ProfilLayout>
+            <Component {...pageProps} />
+            <div id="portal" />
+            <GlobalStyles />
+          </ProfilLayout>
+        </JournalProvider>
+      </UserProvider>
     )
   }
 }

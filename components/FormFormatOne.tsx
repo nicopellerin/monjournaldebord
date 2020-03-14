@@ -49,6 +49,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
 
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
+  const [formErrors, setFormErrors] = useState({ title: '', text: '' })
   const [imageName, setImageName] = useState('')
   const [imageError, setImageError] = useState('')
 
@@ -66,8 +67,26 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
     setText(selectedJournal?.text)
   }, [selectedJournal])
 
+  function validateForm(title, text) {
+    if (!title) {
+      setFormErrors(prevState => ({
+        ...prevState,
+        title: 'Veuillez entrer un titre!',
+      }))
+    }
+    if (!text) {
+      setFormErrors(prevState => ({
+        ...prevState,
+        text: 'Veuillez entrer un text!',
+      }))
+    }
+  }
+
   async function handleSubmit(e) {
     e.preventDefault()
+
+    // validateForm(title, text)
+    // if (Object.values(formErrors).length) return
 
     const id = selectedJournal?.id
     const createdAt = selectedJournal?.createdAt
@@ -93,17 +112,20 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
   }
 
   function handleCancel() {
-    if (Router.pathname.includes('nouveau') && !title && !text) {
-      undoNewJournal()
+    if (!journals) {
+      Router.push(`/profil`)
+    }
+    if (Router.pathname.includes('nouveau')) {
+      undoNewJournal(journals[1].id)
       Router.push(`/journal/[id]`, `/journal/${journals[0].id}`)
       return
     }
-    Router.push(`/journal/[id]`, `/journal/${id}`, { shallow: true })
+    Router.push(`/journal/[id]`, `/journal/${id}`)
   }
 
   async function handleImageUpload(e) {
     const file = e.target.files[0]
-    console.log(file.size)
+
     if (file.size > 1000000 * 3) {
       return setImageError('Oupsss! Veuillez choisir une image de moins de 3MB')
     }
@@ -149,6 +171,10 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
         <InputWrapper>
           <Label>Titre</Label>
           <InputField
+            error={formErrors.title ? true : false}
+            onFocus={() =>
+              setFormErrors(prevState => ({ ...prevState, title: '' }))
+            }
             name="title"
             value={title}
             onChange={e => setTitle(e.target.value)}
@@ -159,6 +185,10 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
           <Label>Texte</Label>
           {/* <TextBlock textVal={text} /> */}
           <TextAreaField
+            error={formErrors.text ? true : false}
+            onFocus={() =>
+              setFormErrors(prevState => ({ ...prevState, text: '' }))
+            }
             name="text"
             value={text}
             onChange={e => setText(e.target.value)}
@@ -233,7 +263,8 @@ const InputField = styled.input`
   padding: 1rem;
   font-size: 1.6rem;
   font-family: inherit;
-  border: 1px solid #ddd;
+  border: ${(props: { error: boolean }) =>
+    props.error ? '1px solid red' : '1px solid #ddd'};
   border-radius: 5px;
   color: #555;
 `
@@ -244,7 +275,8 @@ const TextAreaField = styled.textarea`
   padding: 1rem;
   font-size: 1.6rem;
   font-family: inherit;
-  border: 1px solid #ddd;
+  border: ${(props: { error: boolean }) =>
+    props.error ? '1px solid red' : '1px solid #ddd'};
   border-radius: 5px;
   resize: none;
 `

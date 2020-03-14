@@ -1,34 +1,32 @@
 import { GraphQLScalarType, Kind } from 'graphql'
 
 import Journal from './Journal'
+import User from '../users/User'
 
 export const journalsResolvers = {
   Query: {
-    async journals(parent, args, ctx, info) {
-      const allJournals = await Journal.find()
-      const allJournalsSorted = allJournals.sort((a, b) => {
-        if (a.createdAt > b.createdAt) {
-          return -1
-        }
-        //  4 juillet < 5 juillet
-        if (a.createdAt < b.createdAt) {
-          return 1
-        }
-
-        return 0
-      })
-
-      return allJournalsSorted
+    async journals(parent, args, { user }, info) {
+      if (!user) return
+      const allJournals = await Journal.find({ author: user._id })
+        .populate({ path: 'users', model: 'users' })
+        .sort({ _id: -1 })
+      console.log(allJournals)
+      return allJournals
     },
-    journal(parent, { id }, ctx, info) {
+    journal(parent, { id }, { user }, info) {
+      if (!user) {
+        return
+      }
       const journalFound = Journal.findById(id)
       if (!journalFound) return
       return journalFound
     },
   },
   Mutation: {
-    async addJournal(parent, args, ctx, info) {
-      const newJournal = { ...args }
+    async addJournal(parent, args, { user }, info) {
+      // if (!user) return
+      console.log(user)
+      const newJournal = { ...args, author: user }
 
       if (!newJournal) return
 
@@ -39,7 +37,9 @@ export const journalsResolvers = {
         console.error(err)
       }
     },
-    async editJournal(parent, args, ctx, info) {
+    async editJournal(parent, args, { user }, info) {
+      if (!user) return
+
       const editedJournal = { ...args }
       try {
         await Journal.findByIdAndUpdate(args.id, editedJournal)
@@ -48,12 +48,28 @@ export const journalsResolvers = {
         console.error(err)
       }
     },
-    async deleteJournal(parent, { id }, ctx, info) {
+    async deleteJournal(parent, { id }, { user }, info) {
+      if (!user) return
+
       try {
         const deletedJournal = await Journal.findByIdAndDelete(id)
         return deletedJournal
       } catch (err) {
         console.error(err)
+      }
+    },
+  },
+
+  Journal: {
+    author: (parent, args, { user }, info) => {
+      if (!user) return
+
+      return {
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        createdAt: user.createdAt,
+        journals: user.journals,
       }
     },
   },

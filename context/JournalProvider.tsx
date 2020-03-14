@@ -1,4 +1,5 @@
-import React, { createContext, useReducer, useMemo, useCallback } from 'react'
+import * as React from 'react'
+import { createContext, useReducer, useMemo, useCallback } from 'react'
 import {
   useQuery,
   useMutation,
@@ -8,7 +9,15 @@ import {
 import gql from 'graphql-tag'
 import { v4 as uuidv4 } from 'uuid'
 
-type ContextValues = {
+type Journal = {
+  id: string
+  title: string
+  text: string
+  createdAt: string
+  image: string
+}
+
+interface ContextValue {
   journals: Journal[]
   selectedJournal: Journal
   editing: boolean
@@ -20,25 +29,48 @@ type ContextValues = {
   imageUploaded: string
   toggleImageContainer: boolean
   darkMode: boolean
-  selectJournal?: (id) => void
-  editSelectedJournal?: (id, title, text, image, createdAt) => void
-  addNewJournal?: (title, text, image) => void
-  deleteSelectedJournal?: (id) => void
-  toggleEditing?: (image) => void
-  newPage?: () => string
-  searchJournals?: (input, router) => void
-  undoNewJournal?: () => void
-  uploadImage?: (image) => void
-  removeUploadedImage?: () => void
-  toggleDarkMode?: () => void
+  selectJournal: (id: string | string[]) => void
+  editSelectedJournal: (
+    id: string,
+    title: string,
+    text: string,
+    image: string,
+    createdAt: string
+  ) => void
+  addNewJournal: (title: string, text: string, image: string) => void
+  deleteSelectedJournal: (id: string) => void
+  toggleEditing: (image: string) => void
+  newPage: () => string
+  searchJournals: (input, router) => void
+  undoNewJournal: (id: string) => void
+  uploadImage: (image: string) => void
+  removeUploadedImage: () => void
+  toggleDarkMode: () => void
 }
 
-type Journal = {
-  id: string
-  title: string
-  text: string
-  createdAt: string
-  image: string
+const JournalValue: ContextValue = {
+  journals: [],
+  selectedJournal: null,
+  editing: false,
+  newState: false,
+  length: 0,
+  search: '',
+  journalsLoading: false,
+  singleJournalLoading: false,
+  imageUploaded: '',
+  toggleImageContainer: false,
+  darkMode: false,
+  selectJournal: () => {},
+  editSelectedJournal: () => {},
+  addNewJournal: () => {},
+  deleteSelectedJournal: () => {},
+  toggleEditing: () => {},
+  newPage: () => '',
+  searchJournals: () => {},
+  undoNewJournal: () => {},
+  uploadImage: () => {},
+  removeUploadedImage: () => {},
+  toggleDarkMode: () => {},
 }
 
 type ActionType = {
@@ -84,7 +116,7 @@ const initialState = {
   singleJournalLoading: false,
 }
 
-export const JournalContext = createContext<ContextValues>(initialState)
+export const JournalContext = createContext(JournalValue)
 
 const journalReducer = (state: StateType, action: ActionType) => {
   switch (action.type) {
@@ -131,7 +163,6 @@ const journalReducer = (state: StateType, action: ActionType) => {
         journals: state.journals.filter(
           journal => journal.id !== action.payload
         ),
-        // selectedJournal: state.journals[1],
       }
     case 'TOGGLE_EDITING':
       return {
@@ -149,7 +180,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
     case 'UNDO_NEW_JOURNAL':
       return {
         ...state,
-        // selectedJournal: state.journals[0],
+        selectedJournal: state.journals[0],
       }
     case 'UPLOADED_IMAGE':
       return {
@@ -170,17 +201,6 @@ const journalReducer = (state: StateType, action: ActionType) => {
     case 'NEW_PAGE':
       return {
         ...state,
-        journals: [
-          {
-            // TODO - Fix this to real ID
-            id: action.payload,
-            title: 'Sans-titre',
-            text: '',
-            image: '',
-            createdAt: Date.now(),
-          },
-          ...state.journals,
-        ],
         selectedJournal: {
           // TODO - Fix this to real ID
           id: action.payload,
@@ -417,8 +437,13 @@ export const JournalProvider = ({ children }) => {
     router.push('/recherche', '/recherche')
   }
 
-  const undoNewJournal = () => {
+  const undoNewJournal = id => {
     dispatch({ type: 'UNDO_NEW_JOURNAL' })
+    loadJournal({
+      variables: {
+        id,
+      },
+    })
   }
 
   const uploadImage = image => {
