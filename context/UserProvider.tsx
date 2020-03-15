@@ -1,7 +1,8 @@
 import * as React from 'react'
-import { createContext, useReducer, useMemo, useEffect } from 'react'
+import { createContext, useReducer, useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useRouter } from 'next/router'
 
 interface UserContextValue {
   login: (email, password) => void
@@ -88,6 +89,10 @@ const initialState = {
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
+  const router = useRouter()
+
+  let skipQuery = !router.pathname.includes('profil')
+
   const [signinUser] = useMutation(LOGIN, {
     onCompleted: ({ signinUser }) => {
       dispatch({
@@ -98,6 +103,7 @@ export const UserProvider = ({ children }) => {
   })
 
   const { loading: userLoading } = useQuery(USER_INFO, {
+    skip: skipQuery,
     onCompleted: ({ me }) => {
       dispatch({
         type: 'USER_INFO',

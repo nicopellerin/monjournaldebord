@@ -1,31 +1,40 @@
+import { AuthenticationError } from 'apollo-server-micro'
 import { GraphQLScalarType, Kind } from 'graphql'
 
 import Journal from './Journal'
-import User from '../users/User'
 
 export const journalsResolvers = {
   Query: {
     async journals(parent, args, { user }, info) {
-      if (!user) return
+      if (!user) {
+        throw new AuthenticationError('Pas authorizé.')
+      }
+
       const allJournals = await Journal.find({ author: user._id })
         .populate({ path: 'users', model: 'users' })
         .sort({ _id: -1 })
-      console.log(allJournals)
+
       return allJournals
     },
     journal(parent, { id }, { user }, info) {
       if (!user) {
-        return
+        throw new AuthenticationError('Pas authorizé.')
       }
+
       const journalFound = Journal.findById(id)
-      if (!journalFound) return
+      if (!journalFound) {
+        throw new Error('Journal not found')
+      }
+
       return journalFound
     },
   },
   Mutation: {
     async addJournal(parent, args, { user }, info) {
-      // if (!user) return
-      console.log(user)
+      if (!user) {
+        throw new AuthenticationError('Pas authorizé.')
+      }
+
       const newJournal = { ...args, author: user }
 
       if (!newJournal) return
@@ -38,7 +47,9 @@ export const journalsResolvers = {
       }
     },
     async editJournal(parent, args, { user }, info) {
-      if (!user) return
+      if (!user) {
+        throw new AuthenticationError('Pas authorizé.')
+      }
 
       const editedJournal = { ...args }
       try {
@@ -49,7 +60,9 @@ export const journalsResolvers = {
       }
     },
     async deleteJournal(parent, { id }, { user }, info) {
-      if (!user) return
+      if (!user) {
+        throw new AuthenticationError('Pas authorizé.')
+      }
 
       try {
         const deletedJournal = await Journal.findByIdAndDelete(id)
@@ -62,7 +75,9 @@ export const journalsResolvers = {
 
   Journal: {
     author: (parent, args, { user }, info) => {
-      if (!user) return
+      if (!user) {
+        throw new AuthenticationError('Pas authorizé.')
+      }
 
       return {
         username: user.username,

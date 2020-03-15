@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Head from 'next/head'
 import { NextPage } from 'next'
 import styled from 'styled-components'
@@ -22,9 +22,11 @@ const Inscription: NextPage = () => {
 }
 
 const InscriptionForm: React.FC = () => {
+  const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [password2, setPassword2] = useState('')
+  const [avatar, setAvatar] = useState('')
+  // const [password2, setPassword2] = useState('')
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -33,6 +35,13 @@ const InscriptionForm: React.FC = () => {
   return (
     <>
       <Form onSubmit={handleSubmit}>
+        <InputField
+          name="username"
+          type="text"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+          placeholder="Nom d'utilisateur"
+        />
         <InputField
           name="email"
           type="email"
@@ -47,12 +56,17 @@ const InscriptionForm: React.FC = () => {
           onChange={e => setPassword(e.target.value)}
           placeholder="Mot de passe"
         />
-        <InputField
+        {/* <InputField
           name="password2"
           type="password"
           value={password2}
           onChange={e => setPassword2(e.target.value)}
           placeholder="Confirmer mot de passe"
+        /> */}
+        <input
+          name="avatar"
+          type="file"
+          onChange={e => setPassword(e.target.value)}
         />
         <Button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
           S'inscrire'

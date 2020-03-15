@@ -1,5 +1,5 @@
-import { ApolloServer } from 'apollo-server-micro'
-import { mergeTypeDefs, mergeResolvers } from 'graphql-toolkit'
+import { ApolloServer, AuthenticationError } from 'apollo-server-micro'
+import { mergeTypeDefs, mergeResolvers } from '@graphql-toolkit/schema-merging'
 
 import connectDB from '../../lib/mongoose'
 
@@ -18,7 +18,13 @@ const apolloServer = new ApolloServer({
   resolvers,
   context: async ({ req }) => {
     const token = req.headers.authorization
-    const user = await getUserFromToken(token)
+    let user = {}
+    if (token) {
+      user = await getUserFromToken(token, AuthenticationError)
+      return {
+        user,
+      }
+    }
     return {
       user,
     }

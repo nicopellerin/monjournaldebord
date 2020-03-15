@@ -18,6 +18,9 @@ const UserSchema = new Schema({
     trim: true,
     required: 'Veuillez entrer un mot de passe',
   },
+  avatar: {
+    type: String,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
