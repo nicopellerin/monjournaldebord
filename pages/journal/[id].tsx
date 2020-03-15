@@ -3,7 +3,6 @@ import { useContext, useEffect } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import { Circle } from 'better-react-spinkit'
 
 import { Content } from '../../components/Content'
 
@@ -29,7 +28,7 @@ const SinglePage: NextPage = () => {
       <Head>
         <title>{selectedJournal?.title} | monjournaldebord</title>
       </Head>
-      {!singleJournalLoading ? <Content /> : <Circle />}
+      <Content />
     </>
   )
 }

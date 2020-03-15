@@ -124,13 +124,13 @@ const journalReducer = (state: StateType, action: ActionType) => {
     case 'SELECTED_JOURNAL':
       return {
         ...state,
-        // selectedJournal: {
-        //   id: action.payload.id,
-        //   title: action.payload.title,
-        //   text: action.payload.text,
-        //   image: action.payload.image,
-        //   createdAt: action.payload.createdAt,
-        // },
+        selectedJournal: {
+          id: action.payload.id,
+          title: action.payload.title,
+          text: action.payload.text,
+          image: action.payload.image,
+          createdAt: action.payload.createdAt,
+        },
         length: state.journals?.length,
         editing: false,
       }
@@ -306,10 +306,19 @@ export const JournalProvider = ({ children }) => {
     loadJournal,
     { data: singleJournalData, loading: singleJournalLoading },
   ] = useLazyQuery(GET_JOURNAL, {
-    partialRefetch: true,
+    onCompleted: ({ journal }) => {
+      dispatch({
+        type: 'SELECTED_JOURNAL',
+        payload: {
+          id: journal.id,
+          title: journal.title,
+          text: journal.text,
+          image: journal.image,
+          createdAt: journal.createdAt,
+        },
+      })
+    },
   })
-
-  console.log(singleJournalData)
 
   // Delete journal
   const [deleteJournal] = useMutation(DELETE_JOURNAL, {
@@ -387,6 +396,13 @@ export const JournalProvider = ({ children }) => {
         id,
       },
     })
+    // const cache = client.readQuery({
+    //   query: GET_JOURNAL,
+    //   variables: {
+    //     id,
+    //   },
+    // })
+    // console.log(cache)
   }
 
   const editSelectedJournal = async (id, title, text, image, createdAt) => {
@@ -454,7 +470,7 @@ export const JournalProvider = ({ children }) => {
   const value = useMemo(() => {
     return {
       journals: allJournals?.journals || [],
-      selectedJournal: singleJournalData?.journal,
+      selectedJournal: state.selectedJournal,
       editing: state.editing,
       newState: state.newState,
       length: state.length,
@@ -478,6 +494,7 @@ export const JournalProvider = ({ children }) => {
     }
   }, [
     state.journals,
+    state.selectedJournal,
     state.editing,
     state.newState,
     state.search,
@@ -485,7 +502,6 @@ export const JournalProvider = ({ children }) => {
     state.toggleImageContainer,
     state.darkMode,
     allJournals,
-    singleJournalData,
   ])
 
   return (
