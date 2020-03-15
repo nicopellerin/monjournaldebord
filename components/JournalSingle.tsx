@@ -5,7 +5,6 @@ import { FaCalendarAlt, FaEdit, FaTimes } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import Router from 'next/router'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 import { DateNow } from './DateNow'
 import { ToggleDeleteModal } from './ToggleDeleteModal'
@@ -17,6 +16,7 @@ const JournalSingle: React.FC = () => {
     selectJournal,
     selectedJournal,
     journalsLoading,
+    singleJournalLoading,
     journals,
     toggleEditing,
   } = useContext(JournalContext)

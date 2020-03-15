@@ -8,6 +8,7 @@ import {
 } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { v4 as uuidv4 } from 'uuid'
+import Router from 'next/router'
 
 type Journal = {
   id: string
@@ -123,13 +124,13 @@ const journalReducer = (state: StateType, action: ActionType) => {
     case 'SELECTED_JOURNAL':
       return {
         ...state,
-        selectedJournal: {
-          id: action.payload.id,
-          title: action.payload.title,
-          text: action.payload.text,
-          image: action.payload.image,
-          createdAt: action.payload.createdAt,
-        },
+        // selectedJournal: {
+        //   id: action.payload.id,
+        //   title: action.payload.title,
+        //   text: action.payload.text,
+        //   image: action.payload.image,
+        //   createdAt: action.payload.createdAt,
+        // },
         length: state.journals?.length,
         editing: false,
       }
@@ -301,23 +302,14 @@ export const JournalProvider = ({ children }) => {
   const { loading: journalsLoading, data: allJournals } = useQuery(ALL_JOURNALS)
 
   // Load single journal
-  const [loadJournal, { loading: singleJournalLoading }] = useLazyQuery(
-    GET_JOURNAL,
-    {
-      onCompleted: ({ journal }) => {
-        thunkDispatch({
-          type: 'SELECTED_JOURNAL',
-          payload: {
-            id: journal.id,
-            title: journal.title,
-            text: journal.text,
-            image: journal.image,
-            createdAt: journal.createdAt,
-          },
-        })
-      },
-    }
-  )
+  const [
+    loadJournal,
+    { data: singleJournalData, loading: singleJournalLoading },
+  ] = useLazyQuery(GET_JOURNAL, {
+    partialRefetch: true,
+  })
+
+  console.log(singleJournalData)
 
   // Delete journal
   const [deleteJournal] = useMutation(DELETE_JOURNAL, {
@@ -462,7 +454,7 @@ export const JournalProvider = ({ children }) => {
   const value = useMemo(() => {
     return {
       journals: allJournals?.journals || [],
-      selectedJournal: state.selectedJournal,
+      selectedJournal: singleJournalData?.journal,
       editing: state.editing,
       newState: state.newState,
       length: state.length,
@@ -486,7 +478,6 @@ export const JournalProvider = ({ children }) => {
     }
   }, [
     state.journals,
-    state.selectedJournal,
     state.editing,
     state.newState,
     state.search,
@@ -494,6 +485,7 @@ export const JournalProvider = ({ children }) => {
     state.toggleImageContainer,
     state.darkMode,
     allJournals,
+    singleJournalData,
   ])
 
   return (

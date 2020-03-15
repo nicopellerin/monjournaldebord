@@ -34,7 +34,7 @@ class MyApp extends App {
       <UserProvider>
         <JournalProvider>
           <ProfilLayout>
-            <Component {...pageProps} />
+            <Component {...pageProps} key={router.query.id} />
             <div id="portal" />
             <GlobalStyles />
           </ProfilLayout>

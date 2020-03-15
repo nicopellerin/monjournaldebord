@@ -1,3 +1,4 @@
+import { AuthenticationError } from 'apollo-server-micro'
 import User from './User'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
@@ -12,7 +13,7 @@ export const usersResolvers = {
     async signupUser(parent, { username, email, password }, ctx, info) {
       const user = await User.findOne({ email })
       if (user) {
-        throw new Error('Email already exists')
+        throw new AuthenticationError('Invalid')
       }
 
       const hash = await bcrypt.hash(password, 10)
@@ -35,7 +36,7 @@ export const usersResolvers = {
     async signinUser(parent, { email, password }, ctx, info) {
       const user = await User.findOne({ email })
       if (!user) {
-        throw new Error('User does not exist')
+        throw new AuthenticationError('Invalid')
       }
 
       const passwordsMatch = await bcrypt.compare(password, user.password)
