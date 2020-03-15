@@ -18,10 +18,10 @@ const SinglePage: NextPage = () => {
   } = useRouter()
 
   useEffect(() => {
-    if (selectJournal) {
+    if (id) {
       selectJournal(id)
     }
-  }, [selectJournal])
+  }, [id])
 
   return (
     <>

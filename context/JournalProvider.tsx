@@ -396,13 +396,6 @@ export const JournalProvider = ({ children }) => {
         id,
       },
     })
-    // const cache = client.readQuery({
-    //   query: GET_JOURNAL,
-    //   variables: {
-    //     id,
-    //   },
-    // })
-    // console.log(cache)
   }
 
   const editSelectedJournal = async (id, title, text, image, createdAt) => {
