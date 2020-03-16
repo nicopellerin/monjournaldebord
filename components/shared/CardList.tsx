@@ -34,8 +34,6 @@ export const CardList: React.FC<Props> = ({ list, expand }) => {
     },
   }
 
-  console.log(journals)
-
   if (list) {
     return (
       <Wrapper>

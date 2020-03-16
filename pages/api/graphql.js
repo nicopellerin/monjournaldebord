@@ -18,9 +18,10 @@ const apolloServer = new ApolloServer({
   resolvers,
   context: async ({ req }) => {
     const token = req.headers.authorization
-    let user = {}
+    let user = { username: '', email: '', createdAt: '', avatar: '' }
     if (token) {
       user = await getUserFromToken(token, AuthenticationError)
+
       return {
         user,
       }

@@ -33,9 +33,14 @@ const ConnexionForm: React.FC = () => {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    const token = await login(email, password)
-    cookies.set('token_login', token)
-    Router.push('/profil')
+
+    try {
+      const token = await login(email, password)
+      cookies.set('token_login', token)
+      Router.push('/profil')
+    } catch (err) {
+      console.error(err.message)
+    }
   }
 
   return (

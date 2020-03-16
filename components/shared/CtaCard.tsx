@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 type Props = {
   title: string
@@ -9,10 +9,17 @@ type Props = {
 
 export const CtaCard: React.FC<Props> = ({ title, render }) => {
   return (
-    <Wrapper animate={{ y: [-10, 0] }}>
-      <Title>{title}</Title>
-      {render}
-    </Wrapper>
+    <AnimatePresence>
+      <Wrapper
+        initial={{ y: -20 }}
+        animate={{ y: 0 }}
+        exit={{ y: 20 }}
+        transition={{ damping: 500 }}
+      >
+        <Title>{title}</Title>
+        {render}
+      </Wrapper>
+    </AnimatePresence>
   )
 }
 

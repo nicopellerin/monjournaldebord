@@ -25,19 +25,19 @@ export const Logo = () => {
           <g
             id="Page-1"
             stroke="none"
-            stroke-width="1"
+            strokeWidth="1"
             fill="none"
-            fill-rule="evenodd"
+            fillRule="evenodd"
           >
             <g id="Artboard" transform="translate(-198.000000, -141.000000)">
               <g id="Group" transform="translate(194.000000, 121.000000)">
                 <text
                   id="monjournaldebord"
-                  font-family="BarlowCondensed-Light, Barlow Condensed"
-                  font-size="72"
-                  font-style="condensed"
-                  font-weight="300"
-                  letter-spacing="-3.5"
+                  fontFamily="BarlowCondensed-Light, Barlow Condensed"
+                  fontSize="72"
+                  fontStyle="condensed"
+                  fontWeight="300"
+                  letterSpacing="-3.5"
                   fill={dark ? '#fff' : '#000'}
                 >
                   <tspan x="0.092" y="72">
@@ -46,8 +46,8 @@ export const Logo = () => {
                   <tspan
                     x="95.144"
                     y="72"
-                    font-family="BarlowCondensed-Medium, Barlow Condensed"
-                    font-weight="400"
+                    fontFamily="BarlowCondensed-Medium, Barlow Condensed"
+                    fontWeight="400"
                   >
                     journaldebord
                   </tspan>

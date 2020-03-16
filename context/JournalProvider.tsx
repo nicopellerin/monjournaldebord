@@ -190,7 +190,8 @@ const journalReducer = (state: StateType, action: ActionType) => {
     case 'UNDO_NEW_JOURNAL':
       return {
         ...state,
-        selectedJournal: state.journals[0],
+        // journals: state.journals.splice(1),
+        // selectedJournal: state.journals[1],
       }
     case 'UPLOADED_IMAGE':
       return {
@@ -211,15 +212,6 @@ const journalReducer = (state: StateType, action: ActionType) => {
     case 'NEW_PAGE':
       return {
         ...state,
-        selectedJournal: {
-          // TODO - Fix this to real ID
-          id: action.payload,
-          title: 'Sans-titre',
-          text: '',
-          image: '',
-          createdAt: Date.now(),
-          mood: '',
-        },
         editing: true,
         newState: true,
         imageUploaded: '',

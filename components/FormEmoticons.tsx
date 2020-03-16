@@ -25,6 +25,7 @@ export const FormEmoticons: React.FC<Props> = ({
       <EmoticonsWrapper>
         {emoticons.map(emoticon => (
           <Emoticon
+            key={emoticon.id}
             active={emoticon.path === mood}
             src={emoticon.path}
             alt={emoticon.type}

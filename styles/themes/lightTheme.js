@@ -7,7 +7,7 @@ export default {
     contentBackground: 'ghostwhite',
     statsCardBackground: 'white',
     sideBarItemBackground: '#eee',
-    sideBarItemColor: 'var(--primaryColor)',
+    sideBarItemColor: '#333',
     titleColor: '#333',
     textColor: '#555',
   },

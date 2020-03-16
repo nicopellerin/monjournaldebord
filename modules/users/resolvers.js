@@ -10,7 +10,7 @@ export const usersResolvers = {
     },
   },
   Mutation: {
-    async signupUser(parent, { username, email, password }, ctx, info) {
+    async signupUser(parent, { username, email, password, avatar }, ctx, info) {
       const user = await User.findOne({ email })
       if (user) {
         throw new AuthenticationError('Invalid')
@@ -22,6 +22,7 @@ export const usersResolvers = {
         username,
         email,
         password: hash,
+        avatar,
       }).save()
 
       const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {

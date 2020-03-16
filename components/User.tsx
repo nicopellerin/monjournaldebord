@@ -10,12 +10,14 @@ import { useApolloClient } from '@apollo/react-hooks'
 import { useClickOutside } from '../hooks/useClickOutside'
 
 import { UserContext } from '../context/UserProvider'
+import { maxLength } from '../utils/maxLength'
 
 interface Props {
   username: string
+  avatar?: string
 }
 
-export const User: React.FC<Props> = ({ username }) => {
+export const User: React.FC<Props> = ({ username, avatar }) => {
   const [toggle, setToggle] = useState(false)
 
   const node = useClickOutside(setToggle)
@@ -24,12 +26,14 @@ export const User: React.FC<Props> = ({ username }) => {
     <Wrapper ref={node}>
       <UserInfoWrapper>
         <UsernameText>{username}</UsernameText>
-        <UserImage
-          src="/default-profile.png"
-          alt="profile"
-          onClick={() => setToggle(prevState => !prevState)}
-        />
-        {toggle && <UserDropdown />}
+        <div style={{ position: 'relative' }}>
+          <UserImage
+            src={avatar ? avatar : '/default-profile.png'}
+            alt="profile"
+            onClick={() => setToggle(prevState => !prevState)}
+          />
+          {toggle && <UserDropdown />}
+        </div>
       </UserInfoWrapper>
     </Wrapper>
   )
@@ -48,7 +52,7 @@ const UserDropdown: React.FC = () => {
         exit={{ opacity: 0 }}
       >
         <DropdownItem>
-          <UserEmail>{email}</UserEmail>
+          <UserEmail>{maxLength(email, 16)}</UserEmail>
         </DropdownItem>
         <DropdownItem
           style={{ cursor: 'pointer' }}
@@ -76,7 +80,7 @@ const DropdownWrapper = styled(motion.div)`
   position: absolute;
   width: 15rem;
   bottom: -9.5rem;
-  left: 78%;
+  left: 50%;
   background: white;
   padding: 1.3rem 1.5rem;
   text-align: center;

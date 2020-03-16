@@ -130,11 +130,11 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
   }
 
   function handleCancel() {
-    if (!journals) {
-      Router.push(`/profil`)
+    if (!journals.length) {
+      return Router.push(`/profil`)
     }
     if (Router.pathname.includes('nouveau')) {
-      undoNewJournal(journals[1].id)
+      undoNewJournal(journals[0]?.id)
       Router.push(`/journal/[id]`, `/journal/${journals[0].id}`)
       return
     }

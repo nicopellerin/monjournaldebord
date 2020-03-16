@@ -14,7 +14,7 @@ import { UserContext } from '../context/UserProvider'
 
 export const Navbar: React.FC = () => {
   const { toggleDark, dark } = useContext(ThemeContext)
-  const { username, userLoading } = useContext(UserContext)
+  const { username, avatar, userLoading } = useContext(UserContext)
 
   if (userLoading) {
     return null
@@ -32,7 +32,7 @@ export const Navbar: React.FC = () => {
               <NavbarSearch />
             </NavbarSearchWrapper>
             <UserWrapper>
-              <User username={username} />
+              <User username={username} avatar={avatar} />
             </UserWrapper>
           </>
         ) : (

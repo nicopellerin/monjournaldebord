@@ -41,7 +41,7 @@ export const StatsTotalImages = () => {
       <TotalWrapper>
         <Title>Mood plus fréquente</Title>
         <Count>
-          {mostFrequentMood ? (
+          {mostFrequentMood && mostFrequentMood[0] ? (
             <Mood src={mostFrequentMood[0][0]} alt="mood" />
           ) : (
             'N/A'
@@ -99,5 +99,5 @@ const Count = styled.h4`
 `
 
 const Mood = styled.img`
-  width: 32px;
+  width: 28px;
 `

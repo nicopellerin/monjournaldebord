@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { useContext, useState, useEffect } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { motion } from 'framer-motion'
 import { FaNewspaper, FaHome } from 'react-icons/fa'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import { ListItem } from './ListItem'
 
@@ -12,10 +13,15 @@ import { JournalContext } from '../context/JournalProvider'
 export const List: React.FC = () => {
   const { journals } = useContext(JournalContext)
 
+  const { pathname } = useRouter()
+
   return (
     <Wrapper>
       <Link href="/profil">
-        <Title style={{ marginBottom: '1.2rem', cursor: 'pointer' }}>
+        <Title
+          style={{ marginBottom: '1.2rem', cursor: 'pointer' }}
+          active={pathname === '/profil' ? true : false}
+        >
           <FaHome style={{ marginRight: 5 }} />
           Accueil
         </Title>
@@ -53,6 +59,11 @@ const Title = styled.h3`
   width: 100%;
   background: ${props => props.theme.colors.sideBarItemBackground};
   transition: color background 100ms ease-in-out;
+  ${(props: { active?: boolean }) =>
+    props.active &&
+    css`
+      font-weight: 600;
+    `}
   padding: 1.3rem 0;
   margin: 0;
 `

@@ -16,7 +16,6 @@ const JournalSingle: React.FC = () => {
     selectJournal,
     selectedJournal,
     journalsLoading,
-    singleJournalLoading,
     journals,
     toggleEditing,
   } = useContext(JournalContext)
