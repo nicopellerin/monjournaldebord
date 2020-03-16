@@ -1,11 +1,18 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import { motion } from 'framer-motion'
 
 export const MoodToday = () => {
   return (
     <Wrapper>
       <Title>Mood de la journée &mdash;</Title>
-      <Content>
+      <Content
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: [0, 1],
+          y: [10, 0],
+        }}
+      >
         <Input maxLength={80} placeholder="Aujourd'hui, je me sens..." />
       </Content>
     </Wrapper>
@@ -19,7 +26,7 @@ const Wrapper = styled.div`
   border-radius: 5px;
 `
 
-const Content = styled.div`
+const Content = styled(motion.div)`
   display: flex;
   align-items: center;
   padding: 2.5rem 3rem;
