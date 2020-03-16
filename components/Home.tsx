@@ -46,6 +46,7 @@ const Wrapper = styled.div`
   padding: 8rem;
   background: ${props => props.theme.colors.background};
   transition: background 100ms ease-in-out;
+  height: 100%;
 
   @media (max-width: 1500px) {
     padding: 6rem 7rem;

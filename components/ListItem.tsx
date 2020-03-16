@@ -66,6 +66,7 @@ const Wrapper = styled(motion.li)`
 
 const Item = styled(motion.span)`
   display: flex;
+  justify-content: center;
   font-size: 1.6rem;
   font-weight: ${(props: ItemProps) => (props.selected ? '600' : '400')};
   width: 100%;

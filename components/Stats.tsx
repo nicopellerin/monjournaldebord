@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 import { StatsTotalImages } from './StatsTotalImages'
 import { StatsTotalJournals } from './StatsTotalJournals'
-import { StatsChartJournals } from './StatsChartJournals'
+// import { StatsChartJournals } from './StatsChartJournals'
 
 export const Stats = () => {
   return (
