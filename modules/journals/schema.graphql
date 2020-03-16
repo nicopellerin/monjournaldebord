@@ -5,6 +5,7 @@ type Journal {
   title: String!
   text: String!
   image: String
+  mood: String!
   createdAt: Date
   author: User!
 }
@@ -15,7 +16,18 @@ type Query {
 }
 
 type Mutation {
-  addJournal(title: String!, text: String!, image: String): Journal
-  editJournal(id: ID!, title: String!, text: String!, image: String): Journal
+  addJournal(
+    title: String!
+    text: String!
+    image: String
+    mood: String!
+  ): Journal
+  editJournal(
+    id: ID!
+    title: String!
+    text: String!
+    image: String
+    mood: String!
+  ): Journal
   deleteJournal(id: ID!): Journal
 }

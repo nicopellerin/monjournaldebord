@@ -16,6 +16,10 @@ const JournalSchema = new Schema({
   image: {
     type: String,
   },
+  mood: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

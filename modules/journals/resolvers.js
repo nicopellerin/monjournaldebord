@@ -37,8 +37,6 @@ export const journalsResolvers = {
 
       const newJournal = { ...args, author: user }
 
-      if (!newJournal) return
-
       try {
         const res = await Journal.create(newJournal)
         return res

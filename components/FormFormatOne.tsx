@@ -12,6 +12,18 @@ import { DateNow } from './DateNow'
 // import { TextBlock } from './TextBlock'
 
 import { JournalContext } from '../context/JournalProvider'
+import { FormEmoticons } from './FormEmoticons'
+
+const emoticons = [
+  { id: 1, type: 'Joyeux(se)', path: '/emotions/happy.png' },
+  { id: 2, type: 'Fou/folle', path: '/emotions/crazy.png' },
+  { id: 3, type: 'En amour', path: '/emotions/love.png' },
+  { id: 4, type: 'Aux anges', path: '/emotions/angel.png' },
+  { id: 5, type: 'Triste', path: '/emotions/sad.png' },
+  { id: 6, type: 'Malade', path: '/emotions/sick.png' },
+  { id: 7, type: 'Fatigué(e)', path: '/emotions/sleepy.png' },
+  { id: 8, type: 'Fâché(e)', path: '/emotions/angry.png' },
+]
 
 const ADD_JOURNAL = gql`
   mutation($title: String!, $text: String!, $image: String) {
@@ -49,6 +61,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
 
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
+  const [mood, setMood] = useState('')
   const [formErrors, setFormErrors] = useState({ title: '', text: '' })
   const [imageName, setImageName] = useState('')
   const [imageError, setImageError] = useState('')
@@ -56,15 +69,18 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
   const imageInputRef = useRef(null)
 
   const titleValue = newState ? '' : selectedJournal?.title
+  const moodValue = newState ? '' : selectedJournal?.mood
 
   useEffect(() => {
     if (newState) {
       setTitle('')
       setText('')
+      setMood('')
       return
     }
     setTitle(titleValue)
     setText(selectedJournal?.text)
+    setMood(moodValue)
   }, [selectedJournal])
 
   function validateForm(title, text) {
@@ -92,8 +108,9 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
     const createdAt = selectedJournal?.createdAt
 
     let res
+
     if (newState) {
-      res = await addNewJournal(title, text, imageUploaded)
+      res = await addNewJournal(title, text, imageUploaded, mood)
     } else {
       try {
         res = await editSelectedJournal(
@@ -101,7 +118,8 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
           title,
           text,
           imageUploaded,
-          createdAt
+          createdAt,
+          mood
         )
       } catch (err) {
         console.error(err.message)
@@ -181,6 +199,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
             autoFocus={newState ? true : false}
           />
         </InputWrapper>
+        <FormEmoticons mood={mood} setMood={setMood} emoticons={emoticons} />
         <InputWrapper>
           <Label>Texte</Label>
           {/* <TextBlock textVal={text} /> */}
@@ -271,7 +290,7 @@ const InputField = styled.input`
 
 const TextAreaField = styled.textarea`
   width: 100%;
-  min-height: 35vh;
+  min-height: 25vh;
   padding: 1rem;
   font-size: 1.6rem;
   font-family: inherit;

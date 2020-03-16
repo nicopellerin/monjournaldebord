@@ -96,11 +96,13 @@ const JournalSingle: React.FC = () => {
           disabled={toggleDelete}
         >
           <Title>{selectedJournal?.title}</Title>
-
-          <DateWrapper>
-            <CalendarIcon />
-            <DateNow dateInfo={selectedJournal?.createdAt} />
-          </DateWrapper>
+          <Heading>
+            <DateWrapper>
+              <CalendarIcon />
+              <DateNow dateInfo={selectedJournal?.createdAt} />
+            </DateWrapper>
+            <Mood src={selectedJournal?.mood} alt="Mood" />
+          </Heading>
           {selectedJournal?.image && (
             <Image src={selectedJournal?.image} alt="" />
           )}
@@ -184,10 +186,20 @@ const Text = styled.p`
   color: ${props => props.theme.colors.textColor};
 `
 
-const DateWrapper = styled.div`
+const Heading = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
+`
+
+const DateWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 1.5rem;
+`
+
+const Mood = styled.img`
+  width: 32px;
 `
 
 const ButtonWrapper = styled.div`
@@ -227,5 +239,5 @@ const ButtonDelete = styled(motion.button)`
 
 const CalendarIcon = styled(FaCalendarAlt)`
   color: ${props => props.theme.colors.textColor};
-  margin-right: 8px;
+  margin-right: 5px;
 `

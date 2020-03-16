@@ -8,7 +8,6 @@ import {
 } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { v4 as uuidv4 } from 'uuid'
-import Router from 'next/router'
 
 type Journal = {
   id: string
@@ -16,6 +15,7 @@ type Journal = {
   text: string
   createdAt: string
   image: string
+  mood: string
 }
 
 interface ContextValue {
@@ -36,9 +36,15 @@ interface ContextValue {
     title: string,
     text: string,
     image: string,
-    createdAt: string
+    createdAt: string,
+    mood: string
   ) => void
-  addNewJournal: (title: string, text: string, image: string) => void
+  addNewJournal: (
+    title: string,
+    text: string,
+    image: string,
+    mood: string
+  ) => void
   deleteSelectedJournal: (id: string) => void
   toggleEditing: (image: string) => void
   newPage: () => string
@@ -130,6 +136,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
           text: action.payload.text,
           image: action.payload.image,
           createdAt: action.payload.createdAt,
+          mood: action.payload.mood,
         },
         length: state.journals?.length,
         editing: false,
@@ -143,6 +150,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
           text: action.payload.text,
           image: action.payload.image,
           createdAt: action.payload.createdAt,
+          mood: action.payload.mood,
         },
       }
     case 'EDIT_SELECTED_JOURNAL':
@@ -154,6 +162,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
           text: action.payload.text,
           image: action.payload.image,
           createdAt: action.payload.createdAt,
+          mood: action.payload.mood,
         },
         editing: false,
         newState: false,
@@ -209,6 +218,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
           text: '',
           image: '',
           createdAt: Date.now(),
+          mood: '',
         },
         editing: true,
         newState: true,
@@ -238,25 +248,39 @@ const ALL_JOURNALS = gql`
 `
 
 const ADD_JOURNAL = gql`
-  mutation($title: String!, $text: String!, $image: String) {
-    addJournal(title: $title, text: $text, image: $image) {
+  mutation($title: String!, $text: String!, $image: String, $mood: String!) {
+    addJournal(title: $title, text: $text, image: $image, mood: $mood) {
       id
       title
       text
       image
       createdAt
+      mood
     }
   }
 `
 
 const EDIT_JOURNAL = gql`
-  mutation($id: ID!, $title: String!, $text: String!, $image: String) {
-    editJournal(id: $id, title: $title, text: $text, image: $image) {
+  mutation(
+    $id: ID!
+    $title: String!
+    $text: String!
+    $image: String
+    $mood: String!
+  ) {
+    editJournal(
+      id: $id
+      title: $title
+      text: $text
+      image: $image
+      mood: $mood
+    ) {
       id
       title
       text
       image
       createdAt
+      mood
     }
   }
 `
@@ -269,6 +293,7 @@ const GET_JOURNAL = gql`
       text
       image
       createdAt
+      mood
     }
   }
 `
@@ -315,6 +340,7 @@ export const JournalProvider = ({ children }) => {
           text: journal.text,
           image: journal.image,
           createdAt: journal.createdAt,
+          mood: journal.mood,
         },
       })
     },
@@ -354,6 +380,7 @@ export const JournalProvider = ({ children }) => {
               text: addJournal.text,
               image: addJournal.image,
               createdAt: addJournal.createdAt,
+              mood: addJournal.mood,
             },
             ...journals,
           ],
@@ -368,6 +395,7 @@ export const JournalProvider = ({ children }) => {
           text: addJournal.text,
           image: addJournal.image,
           createdAt: addJournal.createdAt,
+          mood: addJournal.mood,
         },
       })
     },
@@ -384,6 +412,7 @@ export const JournalProvider = ({ children }) => {
           id: editJournal.id,
           image: editJournal.image,
           createdAt: editJournal.createtAt,
+          mood: editJournal.mood,
         },
       })
     },
@@ -416,12 +445,13 @@ export const JournalProvider = ({ children }) => {
     }
   }
 
-  const addNewJournal = async (title, text, image) => {
+  const addNewJournal = async (title, text, image, mood) => {
     const res = await addJournal({
       variables: {
         title,
         text,
         image,
+        mood,
       },
     })
     return res?.data?.addJournal?.id
