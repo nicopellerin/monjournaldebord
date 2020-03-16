@@ -76,7 +76,6 @@ const ListStyled = styled(motion.ul)`
   width: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
 
   /* & > li {
     margin-bottom: 0.5rem;

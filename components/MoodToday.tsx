@@ -1,8 +1,15 @@
 import * as React from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 
 export const MoodToday = () => {
+  const [mood, setMood] = useState('')
+
+  function handleSubmit(e) {
+    e.preventDefault()
+  }
+
   return (
     <Wrapper>
       <Title>Mood de la journée &mdash;</Title>
@@ -13,7 +20,15 @@ export const MoodToday = () => {
           y: [10, 0],
         }}
       >
-        <Input maxLength={80} placeholder="Aujourd'hui, je me sens..." />
+        <form onSubmit={handleSubmit}>
+          <Input
+            maxLength={80}
+            placeholder="Aujourd'hui, je me sens..."
+            name="mood"
+            value={mood}
+            onChange={e => setMood(e.target.value)}
+          />
+        </form>
       </Content>
     </Wrapper>
   )
