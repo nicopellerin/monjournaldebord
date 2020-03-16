@@ -190,8 +190,6 @@ const journalReducer = (state: StateType, action: ActionType) => {
     case 'UNDO_NEW_JOURNAL':
       return {
         ...state,
-        // journals: state.journals.splice(1),
-        // selectedJournal: state.journals[1],
       }
     case 'UPLOADED_IMAGE':
       return {

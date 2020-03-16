@@ -1,45 +1,17 @@
 import * as React from 'react'
-import { useContext, useCallback } from 'react'
+import { useContext } from 'react'
 import styled from 'styled-components'
 
 import { JournalContext } from '../context/JournalProvider'
 
-import { maxLength } from '../utils/maxLength'
-import Link from 'next/link'
-
 export const StatsTotalJournals = () => {
   const { journals } = useContext(JournalContext)
-
-  const longestText = useCallback(
-    journals?.reduce((prev: any, current: any) => {
-      if (prev.text.length > current.text.length) {
-        return prev
-      } else {
-        return current
-      }
-    }, journals[0]),
-    [journals]
-  )
 
   return (
     <Wrapper>
       <TotalWrapper>
         <Title>Total de publications</Title>
         <Count>{journals?.length}</Count>
-      </TotalWrapper>
-      <TotalWrapper>
-        <Title>Plus long texte</Title>
-        <Count>
-          {longestText ? (
-            <Link as={`/journal/${longestText?.id}`} href={`/journal/[id]`}>
-              <a style={{ color: 'var(--primaryColor)' }}>
-                {maxLength(longestText?.title, 12)}
-              </a>
-            </Link>
-          ) : (
-            'N/A'
-          )}
-        </Count>
       </TotalWrapper>
     </Wrapper>
   )
@@ -50,24 +22,7 @@ const Wrapper = styled.div`
   background: ${props => props.theme.colors.statsCardBackground};
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   padding: 2rem 3rem;
-  /* border: 1px solid #ddd; */
   border-radius: 5px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 2rem;
-
-  & > div:first-of-type {
-    position: relative;
-
-    &::after {
-      content: '';
-      position: absolute;
-      right: -1rem;
-      width: 1px;
-      height: 100%;
-      background: #ddd;
-    }
-  }
 `
 
 const TotalWrapper = styled.div`
@@ -83,6 +38,7 @@ const Title = styled.h3`
   font-size: 1.6rem;
   font-weight: 400;
   color: ${props => props.theme.colors.titleColor};
+  border-bottom: 1px dashed #333;
 `
 
 const Count = styled.h4`

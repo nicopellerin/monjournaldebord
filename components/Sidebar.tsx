@@ -53,7 +53,7 @@ const Wrapper = styled.aside`
   background: ${props => props.theme.colors.sideBarBackground};
   transition: background 100ms ease-in-out;
   width: 100%;
-  height: calc(100vh - 75px);
+  /* height: calc(100vh - 75px); */
   box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 99;

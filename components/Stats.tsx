@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 
 import { StatsTotalImages } from './StatsTotalImages'
 import { StatsTotalJournals } from './StatsTotalJournals'
+import { StatsLongestText } from './StatsLongestText'
 // import { StatsChartJournals } from './StatsChartJournals'
 
 export const Stats = () => {
@@ -20,7 +21,7 @@ export const Stats = () => {
       >
         <StatsTotalJournals />
         <StatsTotalImages />
-        {/* <StatsTotalJournals /> */}
+        <StatsLongestText />
       </Wrapper>
       {/* <motion.div
         initial={{ opacity: 0 }}

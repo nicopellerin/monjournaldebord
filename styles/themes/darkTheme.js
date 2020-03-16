@@ -10,5 +10,6 @@ export default {
     sideBarItemColor: '#f4f4f4',
     titleColor: '#f4f4f4',
     textColor: '#f4f4f4',
+    inputField: '#222',
   },
 }
