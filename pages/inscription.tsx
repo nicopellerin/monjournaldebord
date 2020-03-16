@@ -5,6 +5,7 @@ import { NextPage } from 'next'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { FaUpload } from 'react-icons/fa'
 
 import { CtaCard } from '../components/shared/CtaCard'
 
@@ -26,7 +27,10 @@ const InscriptionForm: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [avatar, setAvatar] = useState('')
+  const [loader, setLoader] = useState('')
   // const [password2, setPassword2] = useState('')
+
+  const imageInputRef = useRef(null)
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -35,26 +39,29 @@ const InscriptionForm: React.FC = () => {
   return (
     <>
       <Form onSubmit={handleSubmit}>
+        <Label htmlFor="username">Nom d'utilisateur</Label>
         <InputField
+          id="username"
           name="username"
           type="text"
           value={username}
           onChange={e => setUsername(e.target.value)}
-          placeholder="Nom d'utilisateur"
         />
+        <Label htmlFor="email">Courriel</Label>
         <InputField
+          id="email"
           name="email"
           type="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          placeholder="Courriel"
         />
+        <Label htmlFor="password">Mot de passe</Label>
         <InputField
+          id="password"
           name="password"
           type="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
-          placeholder="Mot de passe"
         />
         {/* <InputField
           name="password2"
@@ -64,12 +71,25 @@ const InscriptionForm: React.FC = () => {
           placeholder="Confirmer mot de passe"
         /> */}
         <input
+          id="avatar"
           name="avatar"
           type="file"
+          ref={imageInputRef}
           onChange={e => setPassword(e.target.value)}
+          hidden
         />
+        <Label htmlFor="avatar">Avatar (optionel)</Label>
+        <ButtonUpload
+          type="button"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => imageInputRef.current.click()}
+        >
+          <FaUpload style={{ marginRight: 7 }} />
+          {!loader ? 'Choisir image...' : loader}
+        </ButtonUpload>
         <Button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-          S'inscrire'
+          S'inscrire
         </Button>
       </Form>
       <Link href="/connexion">
@@ -132,4 +152,28 @@ const Astyled = styled.a`
   &:hover {
     text-decoration: underline;
   }
+`
+
+const ButtonUpload = styled(motion.button)`
+  border: 1px solid #ddd;
+  padding: 0.7em 1.5em;
+  color: #666;
+  background: white;
+  text-transform: uppercase;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.4rem;
+  min-width: 18rem;
+  margin-bottom: 2rem;
+`
+
+const Label = styled.label`
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+  letter-spacing: 0.1em;
 `

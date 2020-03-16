@@ -41,19 +41,21 @@ const ConnexionForm: React.FC = () => {
   return (
     <>
       <Form onSubmit={handleSubmit}>
+        <Label htmlFor="email">Courriel</Label>
         <InputField
+          id="email"
           name="email"
           type="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          placeholder="Courriel"
         />
+        <Label htmlFor="password">Mot de passe</Label>
         <InputField
+          id="password"
           name="password"
           type="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
-          placeholder="Mot de passe"
         />
         <Button
           type="submit"
@@ -123,4 +125,12 @@ const Astyled = styled.a`
   &:hover {
     text-decoration: underline;
   }
+`
+
+const Label = styled.label`
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+  letter-spacing: 0.1em;
 `

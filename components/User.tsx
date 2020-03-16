@@ -75,8 +75,8 @@ const Wrapper = styled.div`
 const DropdownWrapper = styled(motion.div)`
   position: absolute;
   width: 15rem;
-  bottom: -8.5rem;
-  left: 76%;
+  bottom: -9.5rem;
+  left: 78%;
   background: white;
   padding: 1.3rem 1.5rem;
   text-align: center;
@@ -98,6 +98,8 @@ const DropdownWrapper = styled(motion.div)`
 
   & > :not(:last-child) {
     margin-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
   }
 `
 

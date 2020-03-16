@@ -1,17 +1,14 @@
 import * as React from 'react'
-import { useContext, useCallback } from 'react'
+import { useContext, useMemo } from 'react'
 import styled from 'styled-components'
 
 import { JournalContext } from '../context/JournalProvider'
 
-import { maxLength } from '../utils/maxLength'
-import Link from 'next/link'
-
 export const StatsTotalImages = () => {
   const { journals } = useContext(JournalContext)
 
+  // Calculate number of total images
   let count = 0
-
   React.useMemo(
     () =>
       journals?.forEach(journal => {
@@ -22,6 +19,19 @@ export const StatsTotalImages = () => {
     [journals]
   )
 
+  // Calculate most frequent mood
+  const mostFrequentMoodObj = useMemo(
+    () =>
+      journals?.reduce((prev, cur) => {
+        prev[cur.mood] = (prev[cur.mood] || 0) + 1
+
+        return prev
+      }, {}),
+    [journals]
+  )
+
+  const mostFrequentMood = Object.entries(mostFrequentMoodObj)
+
   return (
     <Wrapper>
       <TotalWrapper>
@@ -29,18 +39,14 @@ export const StatsTotalImages = () => {
         <Count>{count}</Count>
       </TotalWrapper>
       <TotalWrapper>
-        <Title>Plus long texte</Title>
-        {/* <Count>
-          {longestText ? (
-            <Link as={`/journal/${longestText?.id}`} href={`/journal/[id]`}>
-              <a style={{ color: 'var(--primaryColor)' }}>
-                {maxLength(longestText?.title, 12)}
-              </a>
-            </Link>
+        <Title>Mood plus fréquente</Title>
+        <Count>
+          {mostFrequentMood ? (
+            <Mood src={mostFrequentMood[0][0]} alt="mood" />
           ) : (
             'N/A'
           )}
-        </Count> */}
+        </Count>
       </TotalWrapper>
     </Wrapper>
   )
@@ -90,4 +96,8 @@ const Count = styled.h4`
   font-size: 2rem;
   margin-bottom: 0;
   color: ${props => props.theme.colors.titleColor};
+`
+
+const Mood = styled.img`
+  width: 32px;
 `
