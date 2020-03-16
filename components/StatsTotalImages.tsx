@@ -35,7 +35,7 @@ export const StatsTotalImages = () => {
   return (
     <Wrapper>
       <TotalWrapper>
-        <Title>Mood plus fréquente</Title>
+        <Title>Mood le plus fréquent</Title>
         <Count>
           {mostFrequentMood && mostFrequentMood[0] ? (
             <Mood src={mostFrequentMood[0][0]} alt="mood" />

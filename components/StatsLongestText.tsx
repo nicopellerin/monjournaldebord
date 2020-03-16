@@ -24,7 +24,7 @@ export const StatsLongestText = () => {
   return (
     <Wrapper>
       <TotalWrapper>
-        <Title>Plus long texte</Title>
+        <Title>Plus longue publications</Title>
         <Count>
           {longestText ? (
             <Link as={`/journal/${longestText?.id}`} href={`/journal/[id]`}>
