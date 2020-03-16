@@ -9,11 +9,13 @@ interface UserContextValue {
   login: (email, password) => void
   logout: () => void
   signup: (username, email, password, avatar) => void
+  updateDailyMoodAction: (mood) => void
   username: string
   email: string
   password: string
   createdAt: string
   avatar: string
+  dailyMood: string
   userLoading: boolean
 }
 
@@ -21,18 +23,20 @@ const UserValue: UserContextValue = {
   login: () => {},
   logout: () => {},
   signup: () => {},
+  updateDailyMoodAction: () => {},
   username: '',
   email: '',
   password: '',
   createdAt: '',
   avatar: '',
+  dailyMood: '',
   userLoading: false,
 }
 
 export const UserContext = createContext(UserValue)
 
 type ActionType = {
-  type: 'LOGIN' | 'USER_INFO' | 'LOGOUT' | 'SIGNUP'
+  type: 'LOGIN' | 'USER_INFO' | 'LOGOUT' | 'SIGNUP' | 'UPDATE_DAILY_MOOD'
   payload?: any
 }
 
@@ -42,6 +46,7 @@ type StateType = {
   password: string
   createdAt: string
   avatar: string
+  dailyMood: string
 }
 
 const LOGIN = gql`
@@ -83,6 +88,16 @@ const USER_INFO = gql`
       username
       email
       avatar
+      dailyMood
+    }
+  }
+`
+
+const UPDATE_DAILY_MOOD = gql`
+  mutation($mood: String!) {
+    updateDailyMood(mood: $mood) {
+      username
+      dailyMood
     }
   }
 `
@@ -108,6 +123,12 @@ const reducer = (state: StateType, action: ActionType) => {
         username: action.payload.username,
         email: action.payload.email,
         avatar: action.payload.avatar,
+        dailyMood: action.payload.dailyMood,
+      }
+    case 'UPDATE_DAILY_MOOD':
+      return {
+        ...state,
+        dailyMood: action.payload,
       }
     default:
       return state
@@ -120,6 +141,7 @@ const initialState = {
   password: '',
   createdAt: '',
   avatar: '',
+  dailyMood: '',
 }
 
 export const UserProvider = ({ children }) => {
@@ -160,10 +182,23 @@ export const UserProvider = ({ children }) => {
   const { loading: userLoading } = useQuery(USER_INFO, {
     skip: skipQuery,
     onCompleted: ({ me }) => {
-      console.log(me)
       dispatch({
         type: 'USER_INFO',
-        payload: { username: me.username, email: me.email, avatar: me.avatar },
+        payload: {
+          username: me.username,
+          email: me.email,
+          avatar: me.avatar,
+          dailyMood: me.dailyMood,
+        },
+      })
+    },
+  })
+
+  const [updateDailyMood] = useMutation(UPDATE_DAILY_MOOD, {
+    onCompleted: ({ updateDailyMood }) => {
+      dispatch({
+        type: 'UPDATE_DAILY_MOOD',
+        payload: updateDailyMood.dailyMood,
       })
     },
   })
@@ -201,6 +236,14 @@ export const UserProvider = ({ children }) => {
     return res?.data?.signupUser?.token
   }
 
+  const updateDailyMoodAction = async mood => {
+    await updateDailyMood({
+      variables: {
+        mood,
+      },
+    })
+  }
+
   const value = useMemo(
     () => ({
       username: state.username,
@@ -208,12 +251,21 @@ export const UserProvider = ({ children }) => {
       password: state.password,
       createdAt: state.createdAt,
       avatar: state.avatar,
+      dailyMood: state.dailyMood,
       userLoading,
       login,
       logout,
       signup,
+      updateDailyMoodAction,
     }),
-    [state.username, state.email, state.password, state.createdAt, state.avatar]
+    [
+      state.username,
+      state.email,
+      state.password,
+      state.createdAt,
+      state.avatar,
+      state.dailyMood,
+    ]
   )
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>

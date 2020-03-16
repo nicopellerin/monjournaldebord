@@ -56,5 +56,15 @@ export const usersResolvers = {
         return authedUser
       }
     },
+
+    async updateDailyMood(parent, { mood }, { user }) {
+      if (!user) {
+        throw new AuthenticationError('Invalid')
+      }
+
+      await User.updateOne({ _id: user.id }, { dailyMood: mood })
+
+      return user
+    },
   },
 }

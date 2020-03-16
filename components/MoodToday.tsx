@@ -1,13 +1,18 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 
-export const MoodToday = () => {
-  const [mood, setMood] = useState('')
+import { UserContext } from '../context/UserProvider'
 
-  function handleSubmit(e) {
+export const MoodToday = () => {
+  const { updateDailyMoodAction, dailyMood } = useContext(UserContext)
+
+  const [mood, setMood] = useState(dailyMood)
+
+  async function handleSubmit(e) {
     e.preventDefault()
+    await updateDailyMoodAction(mood)
   }
 
   return (

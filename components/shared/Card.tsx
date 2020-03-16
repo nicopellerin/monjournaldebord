@@ -75,7 +75,7 @@ const Title = styled.h2`
 `
 
 const Text = styled.p`
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   color: ${props => props.theme.colors.textColor};
 `
 

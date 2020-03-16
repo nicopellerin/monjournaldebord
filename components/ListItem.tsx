@@ -101,6 +101,8 @@ const RightMenu: React.FC<RightMenuProps> = ({
   yVal,
   setRightMenuVisible,
 }) => {
+  const [toggleConfirmDelete, setToggleConfirmDelete] = useState(false)
+
   const { selectJournal } = useContext(JournalContext)
 
   return (
@@ -113,21 +115,32 @@ const RightMenu: React.FC<RightMenuProps> = ({
       transition={{ duration: 0.1 }}
     >
       <RightMenuList>
-        <Link href={`/journal/edit/[id]`} as={`/journal/edit/${id}`}>
-          <RightMenuListItem
-            onClick={() => {
-              selectJournal(id)
-              setRightMenuVisible(false)
-            }}
-          >
-            <EditIcon />
-            Éditer
-          </RightMenuListItem>
-        </Link>
-        <RightMenuListItem>
-          <DeleteIcon />
-          Supprimer
-        </RightMenuListItem>
+        {toggleConfirmDelete ? (
+          <div>Yo</div>
+        ) : (
+          <>
+            <Link href={`/journal/edit/[id]`} as={`/journal/edit/${id}`}>
+              <RightMenuListItem
+                onClick={() => {
+                  selectJournal(id)
+                  setRightMenuVisible(false)
+                }}
+              >
+                <EditIcon />
+                Éditer
+              </RightMenuListItem>
+            </Link>
+            <RightMenuListItem
+              onClick={() => {
+                setToggleConfirmDelete(true)
+                alert('soonz')
+              }}
+            >
+              <DeleteIcon />
+              Supprimer
+            </RightMenuListItem>
+          </>
+        )}
       </RightMenuList>
     </RightMenuWrapper>
   )
