@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import cookies from 'js-cookie'
 import Router from 'next/router'
+import { FaSignInAlt } from 'react-icons/fa'
 
 import { CtaCard } from '../components/shared/CtaCard'
 
@@ -67,7 +68,7 @@ const ConnexionForm: React.FC = () => {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
-          Se Connecter
+          <FaSignInAlt style={{ marginRight: 7 }} /> Se Connecter
         </Button>
       </Form>
       <Link href="/inscription">

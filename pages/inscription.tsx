@@ -5,7 +5,7 @@ import { NextPage } from 'next'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { FaUpload } from 'react-icons/fa'
+import { FaUpload, FaUserAlt } from 'react-icons/fa'
 import axios from 'axios'
 import cookies from 'js-cookie'
 import Router from 'next/router'
@@ -144,6 +144,7 @@ const InscriptionForm: React.FC = () => {
           {!loader ? 'Choisir image...' : loader}
         </ButtonUpload>
         <Button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+          <FaUserAlt style={{ marginRight: 7 }} />
           S'inscrire
         </Button>
       </Form>
@@ -216,7 +217,6 @@ const ButtonUpload = styled(motion.button)`
   padding: 0.7em 1.5em;
   color: #666;
   background: white;
-  text-transform: uppercase;
   border-radius: 5px;
   display: flex;
   align-items: center;

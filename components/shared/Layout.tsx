@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { Navbar } from '../Navbar'
+import { Footer } from './Footer'
 
 import { ThemeProvider } from '../../context/ThemeProvider'
 
@@ -9,6 +9,7 @@ export const Layout: React.FC = ({ children }) => {
   return (
     <ThemeProvider>
       <Wrapper>{children}</Wrapper>
+      <Footer />
     </ThemeProvider>
   )
 }

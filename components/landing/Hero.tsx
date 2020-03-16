@@ -8,19 +8,35 @@ import { Logo } from '../Logo'
 export const Hero = () => {
   return (
     <Wrapper>
-      <Container
-        initial={{ opacity: 0 }}
-        animate={{
-          y: [-20, 5, 0],
-          opacity: [0, 1],
-          transition: { delay: 0.2 },
-        }}
-      >
-        <Logo width={70} />
-        <Tagline>
+      <Container>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{
+            y: [-20, 5, 0],
+            opacity: [0, 1],
+            transition: { delay: 0.1 },
+          }}
+        >
+          <Logo width={70} />
+        </motion.div>
+        <Tagline
+          initial={{ opacity: 0 }}
+          animate={{
+            y: [-20, 5, 0],
+            opacity: [0, 1],
+            transition: { delay: 0.3 },
+          }}
+        >
           Un journal de bord en ligne. Facile d'utilisation et gratuit.
         </Tagline>
-        <ButtonGroup>
+        <ButtonGroup
+          initial={{ opacity: 0 }}
+          animate={{
+            y: [-20, 5, 0],
+            opacity: [0, 1],
+            transition: { delay: 0.5 },
+          }}
+        >
           <Link href="/connexion">
             <ButtonLogin
               whileHover={{ scale: 1.02 }}
@@ -67,14 +83,14 @@ const Container = styled(motion.div)`
   height: 100%;
 `
 
-const Tagline = styled.span`
+const Tagline = styled(motion.span)`
   display: block;
   font-size: 2rem;
   margin-top: 3rem;
   margin-bottom: 5rem;
 `
 
-const ButtonGroup = styled.div`
+const ButtonGroup = styled(motion.div)`
   display: flex;
 `
 
