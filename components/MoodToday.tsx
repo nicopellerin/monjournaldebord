@@ -13,7 +13,11 @@ export const MoodToday = () => {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    await updateDailyMoodAction(mood)
+    try {
+      await updateDailyMoodAction(mood)
+    } catch (err) {
+      console.error(err.message)
+    }
   }
 
   return (
@@ -31,7 +35,7 @@ export const MoodToday = () => {
             Mood de la journée
           </Title>
         </Heading>
-        <form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
           <Input
             maxLength={80}
             placeholder="Aujourd'hui, je me sens..."
@@ -39,7 +43,7 @@ export const MoodToday = () => {
             value={mood}
             onChange={e => setMood(e.target.value)}
           />
-        </form>
+        </Form>
       </Content>
     </Wrapper>
   )
@@ -70,13 +74,19 @@ const Title = styled.h2`
   font-weight: 500;
 `
 
-const Input = styled.input`
-  border: none;
+const Form = styled.form`
+  padding: 1.5rem 2rem 1.5rem 2rem;
+  background: whitesmoke;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
-  border-bottom: 1px solid #ddd;
-  background: whitesmoke;
-  padding: 2.5rem 2rem;
+`
+
+const Input = styled.input`
+  border: none;
+  border-radius: 5px;
+  border-bottom: 1px dotted #ddd;
+  padding: 2rem 2rem 2rem 2rem;
+  background: rgba(255, 255, 255, 0.4);
   width: 100%;
   font-size: 1.8rem;
   color: ${props => props.theme.colors.textColor};
@@ -87,7 +97,7 @@ const Heading = styled.div`
   width: 100%;
   background: ${props => props.theme.colors.inputField};
   border-bottom: 1px solid #eee;
-  padding: 2rem 1.8rem;
+  padding: 2.5rem 1.8rem;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   margin-bottom: 1rem;

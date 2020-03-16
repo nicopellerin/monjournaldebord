@@ -8,7 +8,6 @@ import { ThemeProvider } from '../../context/ThemeProvider'
 export const Layout: React.FC = ({ children }) => {
   return (
     <ThemeProvider>
-      <Navbar />
       <Wrapper>{children}</Wrapper>
     </ThemeProvider>
   )

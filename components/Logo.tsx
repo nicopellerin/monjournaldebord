@@ -6,7 +6,11 @@ import { useRouter } from 'next/router'
 
 import { ThemeContext } from '../context/ThemeProvider'
 
-export const Logo = () => {
+interface Props {
+  width?: number
+}
+
+export const Logo: React.FC<Props> = ({ width }) => {
   const { pathname } = useRouter()
   const { dark } = useContext(ThemeContext)
 
@@ -16,7 +20,7 @@ export const Logo = () => {
     <Link href={loggedIn ? '/profil' : '/'}>
       <AStyled>
         <svg
-          width="20rem"
+          width={width ? `${width}rem` : '20rem'}
           // height="67px"
           viewBox="0 0 418 67"
           version="1.1"
