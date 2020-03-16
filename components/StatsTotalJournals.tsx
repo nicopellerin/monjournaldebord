@@ -24,7 +24,7 @@ export const StatsTotalJournals = () => {
   return (
     <Wrapper>
       <TotalWrapper>
-        <Title># total de publications</Title>
+        <Title>Total de publications</Title>
         <Count>{journals?.length}</Count>
       </TotalWrapper>
       <TotalWrapper>

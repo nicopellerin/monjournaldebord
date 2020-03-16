@@ -243,6 +243,7 @@ const ALL_JOURNALS = gql`
       text
       image
       createdAt
+      mood
     }
   }
 `
@@ -427,9 +428,16 @@ export const JournalProvider = ({ children }) => {
     })
   }
 
-  const editSelectedJournal = async (id, title, text, image, createdAt) => {
+  const editSelectedJournal = async (
+    id,
+    title,
+    text,
+    image,
+    createdAt,
+    mood
+  ) => {
     const res = await editJournal({
-      variables: { id, title, text, image, createdAt },
+      variables: { id, title, text, image, createdAt, mood },
     })
     return res?.data?.editJournal?.id
   }

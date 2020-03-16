@@ -170,6 +170,7 @@ const Image = styled.img`
   margin: 2rem 0 1rem;
   object-fit: cover;
   object-position: center;
+  border-radius: 5px;
 `
 
 const Title = styled.h2`

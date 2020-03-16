@@ -22,7 +22,7 @@ export const Stats = () => {
         <StatsTotalImages />
         <StatsTotalJournals />
       </Wrapper>
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0 }}
         animate={{
           opacity: [0, 1],
@@ -31,7 +31,7 @@ export const Stats = () => {
         }}
       >
         <StatsChartJournals />
-      </motion.div>
+      </motion.div> */}
     </>
   )
 }

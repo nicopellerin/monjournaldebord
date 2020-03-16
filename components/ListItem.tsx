@@ -13,13 +13,14 @@ interface Props {
   title: string
   text: string
   id: string | string[]
+  mood: string
 }
 
 interface ItemProps {
   selected: boolean
 }
 
-export const ListItem: React.FC<Props> = React.memo(({ title, id }) => {
+export const ListItem: React.FC<Props> = React.memo(({ title, id, mood }) => {
   const { selectJournal } = useContext(JournalContext)
 
   const {
@@ -37,7 +38,10 @@ export const ListItem: React.FC<Props> = React.memo(({ title, id }) => {
       }}
     >
       <Link href={`/journal/[id]`} as={`/journal/${id}`}>
-        <Item selected={selected}>{maxLength(title)}</Item>
+        <Item selected={selected}>
+          <Mood src={mood} alt="Mood" />
+          <Text>{maxLength(title, 23)}</Text>
+        </Item>
       </Link>
     </Wrapper>
   )
@@ -45,15 +49,14 @@ export const ListItem: React.FC<Props> = React.memo(({ title, id }) => {
 
 // Styles
 const Wrapper = styled(motion.li)`
-  text-align: center;
   color: ${props => props.theme.colors.textColor};
   width: 100%;
-  padding: 1.1rem 1rem;
+  padding: 1.5rem 3rem;
   list-style: none;
   background: ${(props: ItemProps) => (props.selected ? '#f9f9f9' : 'none')};
   border-right: ${(props: ItemProps) =>
     props.selected ? '5px solid var(--primaryColor)' : 'none'};
-
+  border-bottom: 1px solid #eee;
   &:hover {
     background: ${(props: ItemProps) =>
       props.selected ? '#f9f9f9' : '#f8f8f8'};
@@ -62,8 +65,20 @@ const Wrapper = styled(motion.li)`
 `
 
 const Item = styled(motion.span)`
-  display: block;
+  display: flex;
   font-size: 1.6rem;
   font-weight: ${(props: ItemProps) => (props.selected ? '600' : '400')};
   width: 100%;
+`
+
+const Mood = styled.img`
+  width: 24px;
+  margin-right: 10px;
+  background: #eee;
+  padding: 3px;
+  border-radius: 100%;
+`
+
+const Text = styled.span`
+  margin-top: 2px;
 `

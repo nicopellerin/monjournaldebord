@@ -17,6 +17,7 @@ type Journal = {
   text: string
   createdAt: string
   image: string
+  mood: string
 }
 
 export const CardList: React.FC<Props> = ({ list, expand }) => {
@@ -32,6 +33,8 @@ export const CardList: React.FC<Props> = ({ list, expand }) => {
       opacity: [0, 1],
     },
   }
+
+  console.log(journals)
 
   if (list) {
     return (

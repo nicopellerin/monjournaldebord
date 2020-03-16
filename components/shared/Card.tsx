@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { FaCalendar } from 'react-icons/fa'
+import { FaCalendar, FaRegImage } from 'react-icons/fa'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useMedia } from 'react-use-media'
@@ -15,10 +15,19 @@ type Props = {
   id: string
   title: string
   text: string
+  image: string
   createdAt: string
+  mood: string
 }
 
-export const Card: React.FC<Props> = ({ id, title, text, createdAt }) => {
+export const Card: React.FC<Props> = ({
+  id,
+  title,
+  text,
+  image,
+  createdAt,
+  mood,
+}) => {
   const { selectJournal } = useContext(JournalContext)
 
   const isLaptop = useMedia({
@@ -29,30 +38,35 @@ export const Card: React.FC<Props> = ({ id, title, text, createdAt }) => {
   const textLength = isLaptop ? 140 : 280
 
   return (
-    <Wrapper whileHover={{ scale: 1.02 }} onClick={() => selectJournal(id)}>
-      <Link href={`/journal/[id]`} as={`/journal/${id}`}>
-        <AStyled>
+    <Link href={`/journal/[id]`} as={`/journal/${id}`}>
+      <AStyled>
+        <Wrapper whileHover={{ scale: 1.02 }} onClick={() => selectJournal(id)}>
+          {image && <ImageIcon />}
+
           <Title>{maxLength(title, titleLength)}</Title>
-          <DateWrapper>
-            <CalendarIcon />
-            <DateNow dateInfo={Date.parse(createdAt)} />
-          </DateWrapper>
+          <Heading>
+            <DateWrapper>
+              <CalendarIcon />
+              <DateNow dateInfo={Date.parse(createdAt)} />
+            </DateWrapper>
+            <Mood src={mood} alt="Mood" />
+          </Heading>
           <Text>{maxLength(text, textLength)}</Text>
-        </AStyled>
-      </Link>
-    </Wrapper>
+        </Wrapper>
+      </AStyled>
+    </Link>
   )
 }
 
 // Styles
 const Wrapper = styled(motion.div)`
   padding: 3rem;
-  /* border: 1px solid #ddd; */
   border-radius: 5px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   height: 100%;
   background: ${props => props.theme.colors.cardBackground};
+  position: relative;
 `
 
 const Title = styled.h2`
@@ -68,13 +82,32 @@ const Text = styled.p`
 const DateWrapper = styled.div`
   display: flex;
   align-items: center;
+  margin-right: 1rem;
 `
 
 const AStyled = styled.a`
   text-decoration: none;
 `
 
+const Heading = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+`
+
 const CalendarIcon = styled(FaCalendar)`
   margin-right: 5px;
   color: ${props => props.theme.colors.textColor};
+`
+
+const ImageIcon = styled(FaRegImage)`
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 1.5rem;
+  color: #999;
+`
+
+const Mood = styled.img`
+  width: 20px;
 `

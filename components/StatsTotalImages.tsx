@@ -25,7 +25,7 @@ export const StatsTotalImages = () => {
   return (
     <Wrapper>
       <TotalWrapper>
-        <Title># total d'images</Title>
+        <Title>Total d'images</Title>
         <Count>{count}</Count>
       </TotalWrapper>
       <TotalWrapper>
