@@ -16,6 +16,7 @@ const UserSchema = new Schema({
   password: {
     type: String,
     trim: true,
+    min: [6, 'Veuillez entrer un mot de passe de plus de 6 charactères'],
     required: 'Veuillez entrer un mot de passe',
   },
   avatar: {

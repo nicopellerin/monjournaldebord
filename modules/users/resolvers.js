@@ -16,6 +16,12 @@ export const usersResolvers = {
         throw new AuthenticationError('Invalid')
       }
 
+      if (email.length < 6) {
+        throw new AuthenticationError(
+          'Veuillez entrer un mot de passe de plus de 6 charactères'
+        )
+      }
+
       const hash = await bcrypt.hash(password, 10)
 
       const newUser = await new User({

@@ -34,6 +34,7 @@ const InscriptionForm: React.FC = () => {
   const [avatarName, setAvatarName] = useState('')
   const [loader, setLoader] = useState('')
   const [imageError, setImageError] = useState('')
+  const [formErrors, setFormErrors] = useState('')
   // const [password2, setPassword2] = useState('')
 
   const { signup } = useContext(UserContext)
@@ -43,12 +44,18 @@ const InscriptionForm: React.FC = () => {
   async function handleSubmit(e) {
     e.preventDefault()
 
+    if (password.length < 6) {
+      return setFormErrors(
+        'Veuillez entrer un mot de passe de plus de 6 charactères'
+      )
+    }
+
     try {
       const token = await signup(username, email, password, avatar)
       cookies.set('token_login', token)
       Router.push('/profil')
     } catch (err) {
-      console.error(err)
+      console.error(err.message)
     }
   }
 
@@ -148,7 +155,8 @@ const InscriptionForm: React.FC = () => {
           S'inscrire
         </Button>
       </Form>
-      {imageError && <p>{imageError}</p>}
+      {imageError && <ErrorsStyled>{imageError}</ErrorsStyled>}
+      {formErrors && <ErrorsStyled>{formErrors}</ErrorsStyled>}
       <Link href="/connexion">
         <Astyled>
           Vous avez déj&agrave; un compte? Cliquez içi pour vous connecter
@@ -233,4 +241,10 @@ const Label = styled.label`
   text-transform: uppercase;
   margin-bottom: 3px;
   letter-spacing: 0.1em;
+`
+
+const ErrorsStyled = styled.span`
+  color: red;
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
 `
