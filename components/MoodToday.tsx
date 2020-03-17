@@ -91,6 +91,10 @@ const Input = styled.input`
   font-size: 1.8rem;
   color: ${props => props.theme.colors.textColor};
   font-weight: 500;
+
+  &::placeholder {
+    color: #aaa;
+  }
 `
 
 const Heading = styled.div`
