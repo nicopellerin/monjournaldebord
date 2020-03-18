@@ -36,6 +36,7 @@ interface RightMenuStyledProps {
 
 export const ListItem: React.FC<Props> = React.memo(({ title, id, mood }) => {
   const { selectJournal } = useContext(JournalContext)
+
   const [rightMenuVisible, setRightMenuVisible] = useState(false)
   const [xVal, setXVal] = useState(0)
   const [yVal, setYVal] = useState(0)
@@ -103,7 +104,7 @@ const RightMenu: React.FC<RightMenuProps> = ({
 }) => {
   const [toggleConfirmDelete, setToggleConfirmDelete] = useState(false)
 
-  const { selectJournal } = useContext(JournalContext)
+  const { selectJournal, toggleDeleteAction } = useContext(JournalContext)
 
   return (
     <RightMenuWrapper
@@ -115,32 +116,28 @@ const RightMenu: React.FC<RightMenuProps> = ({
       transition={{ duration: 0.1 }}
     >
       <RightMenuList>
-        {toggleConfirmDelete ? (
-          <div>Yo</div>
-        ) : (
-          <>
-            <Link href={`/journal/edit/[id]`} as={`/journal/edit/${id}`}>
-              <RightMenuListItem
-                onClick={() => {
-                  selectJournal(id)
-                  setRightMenuVisible(false)
-                }}
-              >
-                <EditIcon />
-                Éditer
-              </RightMenuListItem>
-            </Link>
-            <RightMenuListItem
-              onClick={() => {
-                setToggleConfirmDelete(true)
-                alert('soonz')
-              }}
-            >
-              <DeleteIcon />
-              Supprimer
-            </RightMenuListItem>
-          </>
-        )}
+        <Link href={`/journal/edit/[id]`} as={`/journal/edit/${id}`}>
+          <RightMenuListItem
+            onClick={() => {
+              selectJournal(id)
+              setRightMenuVisible(false)
+            }}
+          >
+            <EditIcon />
+            Éditer
+          </RightMenuListItem>
+        </Link>
+        <Link href={`/journal/[id]`} as={`/journal/${id}`}>
+          <RightMenuListItem
+            onClick={() => {
+              setRightMenuVisible(false)
+              toggleDeleteAction()
+            }}
+          >
+            <DeleteIcon />
+            Supprimer
+          </RightMenuListItem>
+        </Link>
       </RightMenuList>
     </RightMenuWrapper>
   )

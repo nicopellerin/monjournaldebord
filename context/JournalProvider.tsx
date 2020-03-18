@@ -30,6 +30,7 @@ interface ContextValue {
   imageUploaded: string
   toggleImageContainer: boolean
   darkMode: boolean
+  toggleDelete: boolean
   selectJournal: (id: string | string[]) => void
   editSelectedJournal: (
     id: string,
@@ -53,6 +54,7 @@ interface ContextValue {
   uploadImage: (image: string) => void
   removeUploadedImage: () => void
   toggleDarkMode: () => void
+  toggleDeleteAction: () => void
 }
 
 const JournalValue: ContextValue = {
@@ -67,6 +69,7 @@ const JournalValue: ContextValue = {
   imageUploaded: '',
   toggleImageContainer: false,
   darkMode: false,
+  toggleDelete: false,
   selectJournal: () => {},
   editSelectedJournal: () => {},
   addNewJournal: () => {},
@@ -78,6 +81,7 @@ const JournalValue: ContextValue = {
   uploadImage: () => {},
   removeUploadedImage: () => {},
   toggleDarkMode: () => {},
+  toggleDeleteAction: () => {},
 }
 
 type ActionType = {
@@ -94,6 +98,7 @@ type ActionType = {
     | 'REMOVE_UPLOADED_IMAGE'
     | 'TOGGLE_OFF_IMAGE_CONTAINER'
     | 'TOGGLE_DARK_MODE'
+    | 'TOGGLE_DELETE'
   payload?: any
 }
 
@@ -107,6 +112,7 @@ type StateType = {
   imageUploaded: string
   toggleImageContainer: boolean
   darkMode: boolean
+  toggleDelete: boolean
 }
 
 const initialState = {
@@ -121,6 +127,7 @@ const initialState = {
   darkMode: false,
   journalsLoading: false,
   singleJournalLoading: false,
+  toggleDelete: false,
 }
 
 export const JournalContext = createContext(JournalValue)
@@ -206,6 +213,11 @@ const journalReducer = (state: StateType, action: ActionType) => {
       return {
         ...state,
         toggleImageContainer: false,
+      }
+    case 'TOGGLE_DELETE':
+      return {
+        ...state,
+        toggleDelete: !state.toggleDelete,
       }
     case 'NEW_PAGE':
       return {
@@ -488,6 +500,10 @@ export const JournalProvider = ({ children }) => {
     dispatch({ type: 'TOGGLE_DARK_MODE' })
   }
 
+  const toggleDeleteAction = () => {
+    dispatch({ type: 'TOGGLE_DELETE' })
+  }
+
   const value = useMemo(() => {
     return {
       journals: allJournals?.journals || [],
@@ -499,6 +515,7 @@ export const JournalProvider = ({ children }) => {
       imageUploaded: state.imageUploaded,
       toggleImageContainer: state.toggleImageContainer,
       darkMode: state.darkMode,
+      toggleDelete: state.toggleDelete,
       journalsLoading,
       singleJournalLoading,
       addNewJournal,
@@ -512,6 +529,7 @@ export const JournalProvider = ({ children }) => {
       uploadImage,
       removeUploadedImage,
       toggleDarkMode,
+      toggleDeleteAction,
     }
   }, [
     state.journals,
@@ -522,6 +540,7 @@ export const JournalProvider = ({ children }) => {
     state.imageUploaded,
     state.toggleImageContainer,
     state.darkMode,
+    state.toggleDelete,
     allJournals,
   ])
 

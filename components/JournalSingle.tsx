@@ -18,13 +18,9 @@ const JournalSingle: React.FC = () => {
     journalsLoading,
     journals,
     toggleEditing,
+    toggleDelete,
+    toggleDeleteAction,
   } = useContext(JournalContext)
-
-  const [toggleDelete, setToggleDelete] = useState(false)
-
-  useEffect(() => {
-    setToggleDelete(false)
-  }, [selectedJournal])
 
   useEffect(() => {
     if (!journals.length && !journalsLoading) {
@@ -127,7 +123,7 @@ const JournalSingle: React.FC = () => {
               </ButtonEdit>
             </Link>
             <ButtonDelete
-              onClick={() => setToggleDelete(true)}
+              onClick={toggleDeleteAction}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -140,7 +136,7 @@ const JournalSingle: React.FC = () => {
 
       {toggleDelete && (
         <ToggleDeleteModal
-          setToggleDelete={setToggleDelete}
+          setToggleDelete={toggleDeleteAction}
           journalTitle={selectedJournal?.title}
         />
       )}
