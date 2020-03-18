@@ -12,6 +12,7 @@ import { FaSignInAlt } from 'react-icons/fa'
 import { CtaCard } from '../components/shared/CtaCard'
 
 import { UserContext } from '../context/UserProvider'
+import { withApollo } from '../lib/apollo'
 
 const Connexion: NextPage = () => {
   return (
@@ -80,7 +81,7 @@ const ConnexionForm: React.FC = () => {
   )
 }
 
-export default Connexion
+export default withApollo(Connexion)
 
 // Styles
 const Wrapper = styled.div`

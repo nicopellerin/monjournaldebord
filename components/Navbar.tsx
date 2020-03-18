@@ -11,10 +11,12 @@ import { NavbarSearch } from './NavbarSearch'
 
 import { ThemeContext } from '../context/ThemeProvider'
 import { UserContext } from '../context/UserProvider'
+import { JournalContext } from '../context/JournalProvider'
 
 export const Navbar: React.FC = () => {
   const { toggleDark, dark } = useContext(ThemeContext)
   const { username, avatar, userLoading } = useContext(UserContext)
+  const { journals } = useContext(JournalContext)
 
   if (userLoading) {
     return null
@@ -28,9 +30,11 @@ export const Navbar: React.FC = () => {
       <RightWrapper>
         {username ? (
           <>
-            <NavbarSearchWrapper>
-              <NavbarSearch />
-            </NavbarSearchWrapper>
+            {journals.length > 0 && (
+              <NavbarSearchWrapper>
+                <NavbarSearch />
+              </NavbarSearchWrapper>
+            )}
             <UserWrapper>
               <User username={username} avatar={avatar} />
             </UserWrapper>
@@ -81,7 +85,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   position: relative;
-  z-index: 100;
+  z-index: 1000;
 `
 
 const LogoWrapper = styled.div`

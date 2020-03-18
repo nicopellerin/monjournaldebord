@@ -1,30 +1,32 @@
 import * as React from 'react'
-import { useState } from 'react'
 import styled, { css } from 'styled-components'
 
 interface Props {
   emoticons: { id: number; type: string; path: string }[]
   setMood: any
   mood: string
+  label?: string
+  size?: number
 }
 
 export const FormEmoticons: React.FC<Props> = ({
   emoticons,
   mood,
   setMood,
+  label,
+  // size,
 }) => {
-  const [selected, setSelected] = useState(null)
-
   function handleClick(emoticon: { id: number; type: string; path: string }) {
     setMood(emoticon.path)
   }
 
   return (
     <Wrapper>
-      <Label>Mood</Label>
+      {label && <Label>{label}</Label>}
       <EmoticonsWrapper>
         {emoticons.map(emoticon => (
           <Emoticon
+            // size={size}
             key={emoticon.id}
             active={emoticon.path === mood}
             src={emoticon.path}

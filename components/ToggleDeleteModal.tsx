@@ -42,7 +42,7 @@ export const ToggleDeleteModal: React.FC<Props> = ({
     } else {
       undoNewJournal(selectedJournal.id)
     }
-    if (journals.length) {
+    if (journals.length > 1) {
       Router.push(`/journal/[id]`, `/journal/${journals[idx].id}`)
     } else {
       Router.push(`/profil`, `/profil`, { shallow: true })

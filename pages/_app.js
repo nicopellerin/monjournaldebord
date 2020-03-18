@@ -26,6 +26,7 @@ class MyApp extends App {
             <Component {...pageProps} key={router.query.id} />
             <GlobalStyles />
           </Layout>
+          <div id="portal" />
         </UserProvider>
       )
     }
@@ -35,9 +36,9 @@ class MyApp extends App {
         <JournalProvider>
           <ProfilLayout>
             <Component {...pageProps} key={router.query.id} />
-            <div id="portal" />
             <GlobalStyles />
           </ProfilLayout>
+          <div id="portal" />
         </JournalProvider>
       </UserProvider>
     )

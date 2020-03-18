@@ -14,7 +14,7 @@ import { DateNow } from './DateNow'
 import { JournalContext } from '../context/JournalProvider'
 import { FormEmoticons } from './FormEmoticons'
 
-const emoticons = [
+export const emoticons = [
   { id: 1, type: 'Joyeux(se)', path: '/emotions/happy.png' },
   { id: 2, type: 'Fou/folle', path: '/emotions/crazy.png' },
   { id: 3, type: 'En amour', path: '/emotions/love.png' },
@@ -199,7 +199,12 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
             autoFocus={newState ? true : false}
           />
         </InputWrapper>
-        <FormEmoticons mood={mood} setMood={setMood} emoticons={emoticons} />
+        <FormEmoticons
+          mood={mood}
+          setMood={setMood}
+          emoticons={emoticons}
+          label="Mood"
+        />
         <InputWrapper>
           <Label>Texte</Label>
           {/* <TextBlock textVal={text} /> */}

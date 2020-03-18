@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useContext } from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import Router from 'next/router'
@@ -6,13 +7,17 @@ import nextCookies from 'next-cookies'
 
 import { Content } from '../../components/Content'
 
-const ProfilPage: NextPage = () => {
+import { JournalContext } from '../../context/JournalProvider'
+import { NoJournalsProfil } from '../../components/NoJournalsProfil'
+
+const ProfilPage = () => {
+  const { journals } = useContext(JournalContext)
   return (
     <>
       <Head>
         <title>Profil | monjournaldebord</title>
       </Head>
-      <Content />
+      {journals.length ? <Content /> : <NoJournalsProfil />}
     </>
   )
 }
