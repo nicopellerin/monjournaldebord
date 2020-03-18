@@ -37,6 +37,8 @@ export const ToggleDeleteModal: React.FC<Props> = ({
     let idx
     findIdx + 1 < journals.length ? (idx = findIdx + 1) : (idx = findIdx - 1)
 
+    setToggleDelete(false)
+
     if (!Router.router.pathname.includes('/nouveau')) {
       deleteSelectedJournal(selectedJournal.id)
     } else {
@@ -45,7 +47,7 @@ export const ToggleDeleteModal: React.FC<Props> = ({
     if (journals.length > 1) {
       Router.push(`/journal/[id]`, `/journal/${journals[idx].id}`)
     } else {
-      Router.push(`/profil`, `/profil`, { shallow: true })
+      Router.push(`/profil`, `/profil`)
     }
   }
 

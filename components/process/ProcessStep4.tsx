@@ -37,14 +37,14 @@ export const ProcessStep4 = ({ journal, setJournal, paginate }) => {
   async function handleSubmit(e) {
     e.preventDefault()
 
-    const { title, text, imageUploaded, mood } = journal
+    const { title, text, image, mood } = journal
 
     // validateForm(title, text)
     // if (Object.values(formErrors).length) return
 
     let res
     try {
-      res = await addNewJournal(title, text, imageUploaded, mood)
+      res = await addNewJournal(title, text, image, mood)
       Router.push(`/journal/[id]`, `/journal/${res}`)
     } catch (err) {
       console.error(err)
@@ -196,6 +196,10 @@ const ButtonUpload = styled(motion.button)`
 `
 
 const Image = styled(motion.img)`
-  width: 30rem;
+  width: 100%;
+  height: 42rem;
   margin-bottom: 4rem;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 5px;
 `

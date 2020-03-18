@@ -11,13 +11,15 @@ import { JournalContext } from '../../context/JournalProvider'
 import { NoJournalsProfil } from '../../components/NoJournalsProfil'
 
 const ProfilPage = () => {
-  const { journals } = useContext(JournalContext)
+  const { journals, journalsLoading } = useContext(JournalContext)
+
   return (
     <>
       <Head>
         <title>Profil | monjournaldebord</title>
       </Head>
-      {journals.length ? <Content /> : <NoJournalsProfil />}
+      {!journalsLoading && journals.length > 0 && <Content />}
+      {!journalsLoading && journals.length === 0 && <NoJournalsProfil />}
     </>
   )
 }
