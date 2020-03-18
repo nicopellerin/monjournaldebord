@@ -68,9 +68,13 @@ export const usersResolvers = {
         throw new AuthenticationError('Invalid')
       }
 
-      await User.updateOne({ _id: user.id }, { dailyMood: mood })
+      const res = await User.findOneAndUpdate(
+        { _id: user.id },
+        { $set: { dailyMood: mood } },
+        { new: true }
+      )
 
-      return user
+      return res
     },
   },
 }
