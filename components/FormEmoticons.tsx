@@ -6,7 +6,7 @@ interface Props {
   setMood: any
   mood: string
   label?: string
-  size?: number
+  size?: boolean
 }
 
 export const FormEmoticons: React.FC<Props> = ({
@@ -14,7 +14,7 @@ export const FormEmoticons: React.FC<Props> = ({
   mood,
   setMood,
   label,
-  // size,
+  size,
 }) => {
   function handleClick(emoticon: { id: number; type: string; path: string }) {
     setMood(emoticon.path)
@@ -23,10 +23,14 @@ export const FormEmoticons: React.FC<Props> = ({
   return (
     <Wrapper>
       {label && <Label>{label}</Label>}
-      <EmoticonsWrapper>
+      <EmoticonsWrapper
+        style={size && { gridGap: '3rem', marginBottom: '3rem' }}
+      >
         {emoticons.map(emoticon => (
           <Emoticon
-            // size={size}
+            style={
+              size ? { width: '12rem', padding: '20px' } : { width: '42px' }
+            }
             key={emoticon.id}
             active={emoticon.path === mood}
             src={emoticon.path}

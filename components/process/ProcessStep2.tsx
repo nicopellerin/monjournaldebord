@@ -45,10 +45,10 @@ export const ProcessStep2: React.FC<Props> = ({
           whileTap={{ scale: 0.98 }}
         >
           <FaArrowLeft style={{ marginRight: 5 }} />
-          Précendent
+          Précedent
         </ButtonPrev>
         <ButtonNext
-          onClick={() => paginate(1)}
+          onClick={() => (journal.text ? paginate(1) : null)}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -79,27 +79,20 @@ const InputWrapper = styled.div`
   width: 30vw;
 `
 
-const InputField = styled.input`
-  width: 100%;
-  padding: 1rem;
-  font-size: 2.2rem;
-  font-family: inherit;
-  border: ${(props: { error: boolean }) =>
-    props.error ? '1px solid red' : '1px solid #ddd'};
-  border-radius: 5px;
-  color: #555;
-`
-
 const TextAreaField = styled.textarea`
   width: 100%;
   min-height: 30vh;
-  padding: 1rem;
-  font-size: 2.2rem;
+  padding: 1.5rem;
+  font-size: 1.8rem;
   font-family: inherit;
   border: ${(props: { error: boolean }) =>
     props.error ? '1px solid red' : '1px solid #ddd'};
   border-radius: 5px;
   resize: none;
+
+  &:focus {
+    outline: none;
+  }
 `
 
 const Label = styled.label`
@@ -118,10 +111,10 @@ const ButtonWrapper = styled.div`
 `
 
 const ButtonNext = styled(motion.button)`
-  border: none;
+  border: 2px solid var(--primaryColor);
   padding: 1.1em 2.2em;
-  background: var(--primaryColor);
-  color: white;
+  background: none;
+  color: var(--primaryColor);
   text-transform: uppercase;
   border-radius: 5px;
   display: flex;
@@ -129,12 +122,13 @@ const ButtonNext = styled(motion.button)`
   justify-content: center;
   cursor: pointer;
   font-size: 1.6rem;
+  font-weight: 500;
 `
 
 const ButtonPrev = styled(motion.button)`
   border: none;
   padding: 1.1em 2.2em;
-  background: whitesmoke;
+  background: ghostwhite;
   color: #333;
   text-transform: uppercase;
   border-radius: 5px;

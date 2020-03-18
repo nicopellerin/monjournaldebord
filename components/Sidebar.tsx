@@ -30,9 +30,9 @@ export const Sidebar: React.FC = () => {
   }
 
   return (
-    <Wrapper noJournals={!journals.length && !journalsLoading}>
+    <>
       {!journalsLoading && (
-        <>
+        <Wrapper noJournals={!journals.length && !journalsLoading}>
           <List />
           <Button
             onClick={addNewPub}
@@ -42,9 +42,9 @@ export const Sidebar: React.FC = () => {
             <FaPlusCircle style={{ marginRight: 7 }} />
             Nouvelle publication
           </Button>
-        </>
+        </Wrapper>
       )}
-    </Wrapper>
+    </>
   )
 }
 

@@ -20,11 +20,27 @@ export const ProcessStep1: React.FC<Props> = ({
       animate={{
         y: [-20, 5, 0],
         opacity: [0, 1],
-        transition: { delay: 0.1 },
+        // transition: { delay: 0.1 },
       }}
     >
-      <Title>{"Allo! Tu n'as encore rien publié :)"}</Title>
-      <InputWrapper>
+      <Title
+        initial={{ opacity: 0 }}
+        animate={{
+          y: [-20, 5, 0],
+          opacity: [0, 1],
+          transition: { delay: 0.1 },
+        }}
+      >
+        {"Allo! Tu n'as encore rien publié ;)"}
+      </Title>
+      <InputWrapper
+        initial={{ opacity: 0 }}
+        animate={{
+          y: [-20, 5, 0],
+          opacity: [0, 1],
+          transition: { delay: 0.3 },
+        }}
+      >
         <Label>Titre</Label>
         <InputField
           error={false}
@@ -35,9 +51,16 @@ export const ProcessStep1: React.FC<Props> = ({
           }}
         />
       </InputWrapper>
-      <ButtonWrapper>
+      <ButtonWrapper
+        initial={{ opacity: 0 }}
+        animate={{
+          y: [-20, 5, 0],
+          opacity: [0, 1],
+          transition: { delay: 0.5 },
+        }}
+      >
         <ButtonNext
-          onClick={() => paginate(1)}
+          onClick={() => (journal.title ? paginate(1) : null)}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -57,11 +80,11 @@ const Wrapper = styled(motion.div)`
   min-height: 100%;
 `
 
-const Title = styled.h1`
+const Title = styled(motion.h1)`
   font-size: 6rem;
 `
 
-const InputWrapper = styled.div`
+const InputWrapper = styled(motion.div)`
   display: flex;
   flex-direction: column;
   margin-bottom: 1.5rem;
@@ -77,6 +100,10 @@ const InputField = styled.input`
     props.error ? '1px solid red' : '1px solid #ddd'};
   border-radius: 5px;
   color: #555;
+
+  &:focus {
+    outline: none;
+  }
 `
 
 const Label = styled.label`
@@ -87,7 +114,7 @@ const Label = styled.label`
   letter-spacing: 0.1em;
 `
 
-const ButtonWrapper = styled.div`
+const ButtonWrapper = styled(motion.div)`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -95,10 +122,10 @@ const ButtonWrapper = styled.div`
 `
 
 const ButtonNext = styled(motion.button)`
-  border: none;
+  border: 2px solid var(--primaryColor);
   padding: 1.1em 2.2em;
-  background: var(--primaryColor);
-  color: white;
+  background: none;
+  color: var(--primaryColor);
   text-transform: uppercase;
   border-radius: 5px;
   display: flex;
@@ -106,19 +133,5 @@ const ButtonNext = styled(motion.button)`
   justify-content: center;
   cursor: pointer;
   font-size: 1.6rem;
-`
-
-const ButtonPrev = styled(motion.button)`
-  border: none;
-  padding: 1.5em 2em;
-  background: whitesmoke;
-  color: crimson;
-  text-transform: uppercase;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 1.4rem;
-  margin-right: 2rem;
+  font-weight: 500;
 `

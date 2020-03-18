@@ -155,6 +155,7 @@ export const UserProvider = ({ children }) => {
   // Queries
   const [signinUser] = useMutation(LOGIN, {
     onCompleted: ({ signinUser }) => {
+      console.log(signinUser)
       dispatch({
         type: 'LOGIN',
         payload: {

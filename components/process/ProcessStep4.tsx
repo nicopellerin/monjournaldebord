@@ -106,7 +106,7 @@ export const ProcessStep4 = ({ journal, setJournal, paginate }) => {
           whileTap={{ scale: 0.98 }}
         >
           <FaArrowLeft style={{ marginRight: 5 }} />
-          Précendent
+          Précedent
         </ButtonPrev>
         <ButtonNext
           onClick={handleSubmit}
@@ -151,10 +151,10 @@ const ButtonWrapper = styled.div`
 `
 
 const ButtonNext = styled(motion.button)`
-  border: none;
-  padding: 1em 2.2em;
-  background: var(--primaryColor);
-  color: white;
+  border: 2px solid var(--primaryColor);
+  padding: 1.1em 2.2em;
+  background: none;
+  color: var(--primaryColor);
   text-transform: uppercase;
   border-radius: 5px;
   display: flex;
@@ -162,12 +162,13 @@ const ButtonNext = styled(motion.button)`
   justify-content: center;
   cursor: pointer;
   font-size: 1.6rem;
+  font-weight: 500;
 `
 
 const ButtonPrev = styled(motion.button)`
   border: none;
   padding: 1.1em 2.2em;
-  background: whitesmoke;
+  background: ghostwhite;
   color: #333;
   text-transform: uppercase;
   border-radius: 5px;

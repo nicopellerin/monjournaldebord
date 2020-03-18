@@ -35,7 +35,7 @@ export const Card: React.FC<Props> = ({
   })
 
   const titleLength = isLaptop ? 15 : 18
-  const textLength = isLaptop ? 140 : 280
+  const textLength = isLaptop ? 140 : 200
 
   return (
     <Link href={`/journal/[id]`} as={`/journal/${id}`}>
@@ -77,6 +77,8 @@ const Title = styled.h2`
 const Text = styled.p`
   font-size: 1.6rem;
   color: ${props => props.theme.colors.textColor};
+  word-wrap: break-word;
+  line-height: 1.4em;
 `
 
 const DateWrapper = styled.div`

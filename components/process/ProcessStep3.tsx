@@ -13,7 +13,11 @@ interface Props {
   paginate: any
 }
 
-export const ProcessStep3: React.FC<Props> = ({ setJournal, paginate }) => {
+export const ProcessStep3: React.FC<Props> = ({
+  setJournal,
+  paginate,
+  journal,
+}) => {
   const [mood, setMood] = useState('')
 
   useEffect(() => {
@@ -36,7 +40,7 @@ export const ProcessStep3: React.FC<Props> = ({ setJournal, paginate }) => {
         emoticons={emoticons}
         mood={mood}
         setMood={setMood}
-        size={30}
+        size={true}
       />
       <ButtonWrapper>
         <ButtonPrev
@@ -45,10 +49,10 @@ export const ProcessStep3: React.FC<Props> = ({ setJournal, paginate }) => {
           whileTap={{ scale: 0.98 }}
         >
           <FaArrowLeft style={{ marginRight: 5 }} />
-          Précendent
+          Précedent
         </ButtonPrev>
         <ButtonNext
-          onClick={() => paginate(1)}
+          onClick={() => (journal.mood ? paginate(1) : null)}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -72,44 +76,6 @@ const Title = styled.h1`
   font-size: 6rem;
 `
 
-const InputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1.5rem;
-  width: 30vw;
-`
-
-const InputField = styled.input`
-  width: 100%;
-  padding: 1rem;
-  font-size: 2.2rem;
-  font-family: inherit;
-  border: ${(props: { error: boolean }) =>
-    props.error ? '1px solid red' : '1px solid #ddd'};
-  border-radius: 5px;
-  color: #555;
-`
-
-const TextAreaField = styled.textarea`
-  width: 100%;
-  min-height: 30vh;
-  padding: 1rem;
-  font-size: 2.2rem;
-  font-family: inherit;
-  border: ${(props: { error: boolean }) =>
-    props.error ? '1px solid red' : '1px solid #ddd'};
-  border-radius: 5px;
-  resize: none;
-`
-
-const Label = styled.label`
-  font-size: 1.4rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  margin-bottom: 3px;
-  letter-spacing: 0.1em;
-`
-
 const ButtonWrapper = styled.div`
   width: 100%;
   display: flex;
@@ -118,10 +84,10 @@ const ButtonWrapper = styled.div`
 `
 
 const ButtonNext = styled(motion.button)`
-  border: none;
+  border: 2px solid var(--primaryColor);
   padding: 1.1em 2.2em;
-  background: var(--primaryColor);
-  color: white;
+  background: none;
+  color: var(--primaryColor);
   text-transform: uppercase;
   border-radius: 5px;
   display: flex;
@@ -134,7 +100,7 @@ const ButtonNext = styled(motion.button)`
 const ButtonPrev = styled(motion.button)`
   border: none;
   padding: 1.1em 2.2em;
-  background: whitesmoke;
+  background: ghostwhite;
   color: #333;
   text-transform: uppercase;
   border-radius: 5px;
@@ -144,4 +110,5 @@ const ButtonPrev = styled(motion.button)`
   cursor: pointer;
   font-size: 1.6rem;
   margin-right: 2rem;
+  font-weight: 500;
 `

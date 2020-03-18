@@ -66,7 +66,7 @@ const Content = styled(motion.div)`
 `
 
 const Title = styled.h2`
-  font-size: 2.4rem;
+  font-size: 2rem;
   color: ${props => props.theme.colors.textColor};
   margin: 0;
   display: flex;
@@ -85,10 +85,10 @@ const Input = styled.input`
   border: none;
   border-radius: 5px;
   border-bottom: 1px dotted #ddd;
-  padding: 2rem 2rem 2rem 2rem;
+  padding: 1.8rem;
   background: rgba(255, 255, 255, 0.4);
   width: 100%;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   color: ${props => props.theme.colors.textColor};
   font-weight: 500;
 
