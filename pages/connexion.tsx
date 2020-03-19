@@ -8,6 +8,7 @@ import Link from 'next/link'
 import cookies from 'js-cookie'
 import Router from 'next/router'
 import { FaSignInAlt, FaExclamationCircle } from 'react-icons/fa'
+import { Circle } from 'better-react-spinkit'
 
 import { CtaCard } from '../components/shared/CtaCard'
 
@@ -31,11 +32,14 @@ const ConnexionForm: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loginError, setLoginError] = useState('')
+  const [isSubmiting, setIsSubmiting] = useState(false)
 
   const { login } = useContext(UserContext)
 
   async function handleSubmit(e) {
     e.preventDefault()
+
+    setIsSubmiting(true)
 
     try {
       const token = await login(email, password)
@@ -45,6 +49,8 @@ const ConnexionForm: React.FC = () => {
     } catch (err) {
       console.error(err.message)
       setLoginError(err.message.replace('GraphQL error:', ''))
+    } finally {
+      setIsSubmiting(false)
     }
   }
 
@@ -79,8 +85,15 @@ const ConnexionForm: React.FC = () => {
           type="submit"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
+          disabled={isSubmiting}
         >
-          <FaSignInAlt style={{ marginRight: 7 }} /> Se Connecter
+          {isSubmiting ? (
+            <Circle color="white" />
+          ) : (
+            <>
+              <FaSignInAlt style={{ marginRight: 7 }} /> Se Connecter
+            </>
+          )}
         </Button>
       </Form>
       {loginError && (

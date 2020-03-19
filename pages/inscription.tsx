@@ -9,6 +9,7 @@ import { FaUpload, FaUserAlt, FaExclamationCircle } from 'react-icons/fa'
 import axios from 'axios'
 import cookies from 'js-cookie'
 import Router from 'next/router'
+import { Circle } from 'better-react-spinkit'
 
 import { CtaCard } from '../components/shared/CtaCard'
 import { UserContext } from '../context/UserProvider'
@@ -35,6 +36,7 @@ const InscriptionForm: React.FC = () => {
   const [loader, setLoader] = useState('')
   const [imageError, setImageError] = useState('')
   const [formErrors, setFormErrors] = useState('')
+  const [isSubmiting, setIsSubmiting] = useState(false)
   // const [password2, setPassword2] = useState('')
 
   const { signup } = useContext(UserContext)
@@ -54,12 +56,16 @@ const InscriptionForm: React.FC = () => {
       )
     }
 
+    setIsSubmiting(true)
+
     try {
       const token = await signup(username, email, password, avatar)
       cookies.set('token_login', token)
       Router.push('/profil')
     } catch (err) {
       console.error(err.message)
+    } finally {
+      setIsSubmiting(false)
     }
   }
 
@@ -162,9 +168,19 @@ const InscriptionForm: React.FC = () => {
           <FaUpload style={{ marginRight: 7 }} />
           {!loader ? 'Choisir image...' : loader}
         </ButtonUpload>
-        <Button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-          <FaUserAlt style={{ marginRight: 7 }} />
-          S'inscrire
+        <Button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          disabled={isSubmiting}
+        >
+          {isSubmiting ? (
+            <Circle color="white" />
+          ) : (
+            <>
+              <FaUserAlt style={{ marginRight: 7 }} />
+              S'inscrire
+            </>
+          )}
         </Button>
       </Form>
       <AnimatePresence>
