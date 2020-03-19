@@ -105,11 +105,13 @@ const ConnexionForm: React.FC<FormProps> = ({
   }
 
   useEffect(() => {
+    let id
     if (loginError) {
-      setTimeout(() => {
+      id = setTimeout(() => {
         setLoginError('')
       }, 3000)
     }
+    return () => clearTimeout(id)
   }, [loginError])
 
   return (

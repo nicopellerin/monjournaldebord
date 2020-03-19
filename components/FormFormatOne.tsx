@@ -1,15 +1,18 @@
 import * as React from 'react'
 import { useContext, useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { FaCheckCircle, FaTimes, FaCalendarAlt, FaUpload } from 'react-icons/fa'
+import {
+  FaCheckCircle,
+  FaTimes,
+  FaCalendarAlt,
+  FaUpload,
+  FaExclamationCircle,
+} from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import axios from 'axios'
 import Router, { useRouter } from 'next/router'
-import { useMutation } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 
 import { DateNow } from './DateNow'
-// import { TextBlock } from './TextBlock'
 
 import { JournalContext } from '../context/JournalProvider'
 import { FormEmoticons } from './FormEmoticons'
@@ -24,18 +27,6 @@ export const emoticons = [
   { id: 7, type: 'Fatigué(e)', path: '/emotions/sleepy.png' },
   { id: 8, type: 'Fâché(e)', path: '/emotions/angry.png' },
 ]
-
-const ADD_JOURNAL = gql`
-  mutation($title: String!, $text: String!, $image: String) {
-    addJournal(title: $title, text: $text, image: $image) {
-      id
-      title
-      text
-      image
-      createdAt
-    }
-  }
-`
 
 type Props = {
   loader: string
@@ -62,9 +53,9 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [mood, setMood] = useState('')
-  const [formErrors, setFormErrors] = useState({ title: '', text: '' })
   const [imageName, setImageName] = useState('')
   const [imageError, setImageError] = useState('')
+  const [formErrors, setFormErrors] = useState([])
 
   const imageInputRef = useRef(null)
 
@@ -83,26 +74,38 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
     setMood(moodValue)
   }, [selectedJournal])
 
-  function validateForm(title, text) {
+  useEffect(() => {
+    let id
+    if (formErrors) {
+      id = setTimeout(() => {
+        setFormErrors([])
+      }, 3000)
+    }
+
+    return () => clearTimeout(id)
+  }, [formErrors])
+
+  function validateForm(title, text, mood) {
+    let errors = []
     if (!title) {
-      setFormErrors(prevState => ({
-        ...prevState,
-        title: 'Veuillez entrer un titre!',
-      }))
+      errors.push('Veuillez entrer un titre!')
     }
     if (!text) {
-      setFormErrors(prevState => ({
-        ...prevState,
-        text: 'Veuillez entrer un text!',
-      }))
+      errors.push('Veuillez entrer un text!')
     }
+    if (!mood) {
+      errors.push('Veuillez choisir un mood!')
+    }
+    setFormErrors(errors)
+    return errors
   }
 
   async function handleSubmit(e) {
     e.preventDefault()
 
-    // validateForm(title, text)
-    // if (Object.values(formErrors).length) return
+    const errors = validateForm(title, text, mood)
+
+    if (errors.length) return
 
     const id = selectedJournal?.id
     const createdAt = selectedJournal?.createdAt
@@ -189,10 +192,6 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
         <InputWrapper>
           <Label>Titre</Label>
           <InputField
-            error={formErrors.title ? true : false}
-            onFocus={() =>
-              setFormErrors(prevState => ({ ...prevState, title: '' }))
-            }
             name="title"
             value={title}
             onChange={e => setTitle(e.target.value)}
@@ -207,12 +206,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
         />
         <InputWrapper>
           <Label>Texte</Label>
-          {/* <TextBlock textVal={text} /> */}
           <TextAreaField
-            error={formErrors.text ? true : false}
-            onFocus={() =>
-              setFormErrors(prevState => ({ ...prevState, text: '' }))
-            }
             name="text"
             value={text}
             onChange={e => setText(e.target.value)}
@@ -237,7 +231,16 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
             {!loader ? 'Choisir image...' : loader}
           </ButtonUpload>
         </InputWrapper>
+
         {imageError && <p>{imageError}</p>}
+        {formErrors &&
+          formErrors.map(error => (
+            <ErrorMsg key={error}>
+              <FaExclamationCircle style={{ marginRight: 5 }} />
+              {error}
+            </ErrorMsg>
+          ))}
+
         <ButtonWrapper>
           <ButtonCancel
             type="button"
@@ -287,8 +290,7 @@ const InputField = styled.input`
   padding: 1rem;
   font-size: 1.6rem;
   font-family: inherit;
-  border: ${(props: { error: boolean }) =>
-    props.error ? '1px solid red' : '1px solid #ddd'};
+  border: 1px solid #ddd;
   border-radius: 5px;
   color: #555;
 `
@@ -299,8 +301,7 @@ const TextAreaField = styled.textarea`
   padding: 1rem;
   font-size: 1.6rem;
   font-family: inherit;
-  border: ${(props: { error: boolean }) =>
-    props.error ? '1px solid red' : '1px solid #ddd'};
+  border: 1px solid #ddd;
   border-radius: 5px;
   resize: none;
 `
@@ -363,4 +364,13 @@ const ButtonUpload = styled(motion.button)`
   font-size: 1.4rem;
   min-width: 18rem;
   margin-top: 0.7rem;
+`
+
+const ErrorMsg = styled(motion.span)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  color: red;
+  margin-bottom: 1.5rem;
 `
