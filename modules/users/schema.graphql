@@ -8,6 +8,10 @@ type User {
   dailyMood: String
 }
 
+type Token {
+  token: String
+}
+
 type Query {
   me: User!
 }

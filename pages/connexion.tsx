@@ -1,13 +1,13 @@
 import * as React from 'react'
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import Head from 'next/head'
 import { NextPage } from 'next'
 import styled from 'styled-components'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import cookies from 'js-cookie'
 import Router from 'next/router'
-import { FaSignInAlt } from 'react-icons/fa'
+import { FaSignInAlt, FaExclamationCircle } from 'react-icons/fa'
 
 import { CtaCard } from '../components/shared/CtaCard'
 
@@ -30,6 +30,7 @@ const Connexion: NextPage = () => {
 const ConnexionForm: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [loginError, setLoginError] = useState('')
 
   const { login } = useContext(UserContext)
 
@@ -42,8 +43,17 @@ const ConnexionForm: React.FC = () => {
       Router.push('/profil')
     } catch (err) {
       console.error(err.message)
+      setLoginError(err.message.replace('GraphQL error:', ''))
     }
   }
+
+  useEffect(() => {
+    if (loginError) {
+      setTimeout(() => {
+        setLoginError('')
+      }, 3000)
+    }
+  }, [loginError])
 
   return (
     <>
@@ -72,6 +82,18 @@ const ConnexionForm: React.FC = () => {
           <FaSignInAlt style={{ marginRight: 7 }} /> Se Connecter
         </Button>
       </Form>
+      {loginError && (
+        <AnimatePresence>
+          <ErrorMsg
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+          >
+            <FaExclamationCircle style={{ marginRight: 5 }} />
+            {loginError}
+          </ErrorMsg>
+        </AnimatePresence>
+      )}
       <Link href="/inscription">
         <Astyled>
           Vous n'avez pas de compte? Cliquez içi pour vous inscrire
@@ -140,4 +162,13 @@ const Label = styled.label`
   text-transform: uppercase;
   margin-bottom: 3px;
   letter-spacing: 0.1em;
+`
+
+const ErrorMsg = styled(motion.span)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  color: red;
+  margin-bottom: 3rem;
 `

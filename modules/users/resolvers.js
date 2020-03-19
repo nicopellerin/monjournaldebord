@@ -1,8 +1,11 @@
 import { AuthenticationError } from 'apollo-server-micro'
-import User from './User'
 import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
 
+import User from './User'
+
+import { createAccessToken } from '../../lib/auth'
+
+// Resolver
 export const usersResolvers = {
   Query: {
     me(parent, args, { user }, info) {
@@ -31,9 +34,7 @@ export const usersResolvers = {
         avatar,
       }).save()
 
-      const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
-        expiresIn: '7d',
-      })
+      const token = createAccessToken(newUser)
 
       const authedUser = { ...newUser._doc, token }
 
@@ -41,26 +42,26 @@ export const usersResolvers = {
     },
 
     async signinUser(parent, { email, password }, ctx, info) {
-      const user = await User.findOne({ email })
-      if (!user) {
-        throw new AuthenticationError('Invalid')
+      if (!email || !password) {
+        throw new AuthenticationError(
+          'Veuillez entre un courriel et mot de passe'
+        )
       }
 
+      const user = await User.findOne({ email })
+      if (!user) {
+        throw new AuthenticationError('Mauvais courriel ou mot de passe')
+      }
       const passwordsMatch = await bcrypt.compare(password, user.password)
-
       if (passwordsMatch) {
-        const token = await jwt.sign(
-          { userId: user._id },
-          process.env.JWT_SECRET,
-          {
-            expiresIn: '7d',
-          }
-        )
+        const token = createAccessToken(user)
 
         const authedUser = { ...user._doc, token }
 
         return authedUser
       }
+
+      throw new AuthenticationError('Mauvais courriel ou mot de passe')
     },
 
     async updateDailyMood(parent, { mood }, { user }) {

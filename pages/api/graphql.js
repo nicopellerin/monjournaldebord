@@ -17,17 +17,16 @@ const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   context: async ({ req }) => {
-    const token = req.headers.authorization
-    let user = { username: '', email: '', createdAt: '', avatar: '' }
-    if (token) {
-      user = await getUserFromToken(token, AuthenticationError)
+    const token = req.headers.authorization || ''
+    if (!token) return
 
+    try {
+      const user = await getUserFromToken(token)
       return {
         user,
       }
-    }
-    return {
-      user,
+    } catch (err) {
+      throw new AuthenticationError('Veuillez vous connecter!')
     }
   },
 })
