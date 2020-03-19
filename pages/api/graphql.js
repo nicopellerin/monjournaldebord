@@ -19,10 +19,9 @@ const apolloServer = new ApolloServer({
   context: async ({ req }) => {
     const token = req.headers.authorization
     if (!token) return
-    console.log('TOKEN', token)
+
     try {
       const user = await getUserFromToken(token)
-      console.log('USER', user)
 
       return {
         user,

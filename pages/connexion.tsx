@@ -9,30 +9,79 @@ import cookies from 'js-cookie'
 import Router from 'next/router'
 import { FaSignInAlt, FaExclamationCircle } from 'react-icons/fa'
 import { Circle } from 'better-react-spinkit'
+import Lottie from 'react-lottie'
 
 import { CtaCard } from '../components/shared/CtaCard'
+
+import successAnimation from '../lotties/success.json'
 
 import { UserContext } from '../context/UserProvider'
 import { withApollo } from '../lib/apollo'
 
+const connexionOptions = {
+  loop: false,
+  autoplay: true,
+  animationData: successAnimation,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice',
+  },
+}
+
 const Connexion: NextPage = () => {
+  const [isSubmiting, setIsSubmiting] = useState(false)
+  const [success, setSuccess] = useState(false)
+
   return (
     <>
       <Head>
         <title>Connexion | monjournaldebord</title>
       </Head>
       <Wrapper>
-        <CtaCard title="Connexion" render={<ConnexionForm />} />
+        {success ? (
+          <motion.div
+            animate={{ scale: [0.9, 1] }}
+            transition={{ yoyo: Infinity, duration: 2 }}
+            exit={{ opacity: 0 }}
+          >
+            <Lottie
+              options={connexionOptions}
+              height={200}
+              width={200}
+              isStopped={isSubmiting}
+            />
+            <Connected>Vous êtes maintenant connecté</Connected>
+          </motion.div>
+        ) : (
+          <CtaCard
+            title="Connexion"
+            render={
+              <ConnexionForm
+                setSuccess={setSuccess}
+                isSubmiting={isSubmiting}
+                setIsSubmiting={setIsSubmiting}
+              />
+            }
+          />
+        )}
       </Wrapper>
     </>
   )
 }
 
-const ConnexionForm: React.FC = () => {
+interface FormProps {
+  isSubmiting: boolean
+  setSuccess: React.Dispatch<React.SetStateAction<boolean>>
+  setIsSubmiting: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const ConnexionForm: React.FC<FormProps> = ({
+  setSuccess,
+  setIsSubmiting,
+  isSubmiting,
+}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loginError, setLoginError] = useState('')
-  const [isSubmiting, setIsSubmiting] = useState(false)
 
   const { login } = useContext(UserContext)
 
@@ -45,7 +94,8 @@ const ConnexionForm: React.FC = () => {
       const token = await login(email, password)
       // const in15Minutes = new Date(new Date().getTime() + 15 * 60 * 1000)
       cookies.set('token_login', token, { expires: 7 })
-      Router.push('/profil')
+      setSuccess(true)
+      setTimeout(() => Router.push('/profil'), 1000)
     } catch (err) {
       console.error(err.message)
       setLoginError(err.message.replace('GraphQL error:', ''))
@@ -63,57 +113,59 @@ const ConnexionForm: React.FC = () => {
   }, [loginError])
 
   return (
-    <>
-      <Form onSubmit={handleSubmit}>
-        <Label htmlFor="email">Courriel</Label>
-        <InputField
-          id="email"
-          name="email"
-          type="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
-        <Label htmlFor="password">Mot de passe</Label>
-        <InputField
-          id="password"
-          name="password"
-          type="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-        />
-        <Button
-          type="submit"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          disabled={isSubmiting}
-        >
-          {isSubmiting ? (
-            <Circle color="white" />
-          ) : (
-            <>
-              <FaSignInAlt style={{ marginRight: 7 }} /> Se Connecter
-            </>
-          )}
-        </Button>
-      </Form>
-      {loginError && (
-        <AnimatePresence>
-          <ErrorMsg
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
+    <AnimatePresence>
+      <>
+        <Form onSubmit={handleSubmit} exit={{ opacity: 0 }}>
+          <Label htmlFor="email">Courriel</Label>
+          <InputField
+            id="email"
+            name="email"
+            type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+          <Label htmlFor="password">Mot de passe</Label>
+          <InputField
+            id="password"
+            name="password"
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+          <Button
+            type="submit"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            disabled={isSubmiting}
           >
-            <FaExclamationCircle style={{ marginRight: 5 }} />
-            {loginError}
-          </ErrorMsg>
-        </AnimatePresence>
-      )}
-      <Link href="/inscription">
-        <Astyled>
-          Vous n'avez pas de compte? Cliquez içi pour vous inscrire
-        </Astyled>
-      </Link>
-    </>
+            {isSubmiting ? (
+              <Circle color="white" />
+            ) : (
+              <>
+                <FaSignInAlt style={{ marginRight: 7 }} /> Se Connecter
+              </>
+            )}
+          </Button>
+        </Form>
+        {loginError && (
+          <AnimatePresence>
+            <ErrorMsg
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+            >
+              <FaExclamationCircle style={{ marginRight: 5 }} />
+              {loginError}
+            </ErrorMsg>
+          </AnimatePresence>
+        )}
+        <Link href="/inscription">
+          <Astyled>
+            Vous n'avez pas de compte? Cliquez içi pour vous inscrire
+          </Astyled>
+        </Link>
+      </>
+    </AnimatePresence>
   )
 }
 
@@ -127,7 +179,7 @@ const Wrapper = styled.div`
   height: 100vh;
 `
 
-const Form = styled.form`
+const Form = styled(motion.form)`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -185,4 +237,10 @@ const ErrorMsg = styled(motion.span)`
   font-size: 1.4rem;
   color: red;
   margin-bottom: 3rem;
+`
+
+const Connected = styled.h2`
+  font-size: 2.4rem;
+  font-weight: 400;
+  margin-top: 3rem;
 `
