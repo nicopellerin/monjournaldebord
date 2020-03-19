@@ -14,9 +14,13 @@ export const usersResolvers = {
   },
   Mutation: {
     async signupUser(parent, { username, email, password, avatar }, ctx, info) {
+      if (!username || !email || !password) {
+        throw new AuthenticationError('Veuillez remplir les champs requis')
+      }
+
       const user = await User.findOne({ email })
       if (user) {
-        throw new AuthenticationError('Invalid')
+        throw new AuthenticationError('Un utilisateur existe déja')
       }
 
       if (email.length < 6) {

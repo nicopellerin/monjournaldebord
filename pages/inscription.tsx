@@ -3,9 +3,9 @@ import { useState, useRef, useEffect, useContext } from 'react'
 import Head from 'next/head'
 import { NextPage } from 'next'
 import styled from 'styled-components'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { FaUpload, FaUserAlt } from 'react-icons/fa'
+import { FaUpload, FaUserAlt, FaExclamationCircle } from 'react-icons/fa'
 import axios from 'axios'
 import cookies from 'js-cookie'
 import Router from 'next/router'
@@ -43,6 +43,10 @@ const InscriptionForm: React.FC = () => {
 
   async function handleSubmit(e) {
     e.preventDefault()
+
+    if (!username || !email || !password) {
+      return setFormErrors('Veuillez remplir les champs requis')
+    }
 
     if (password.length < 6) {
       return setFormErrors(
@@ -97,6 +101,14 @@ const InscriptionForm: React.FC = () => {
       setLoader(avatarName)
     }
   }, [loader])
+
+  useEffect(() => {
+    if (formErrors) {
+      setTimeout(() => {
+        setFormErrors('')
+      }, 3000)
+    }
+  }, [formErrors])
 
   return (
     <>
@@ -155,8 +167,30 @@ const InscriptionForm: React.FC = () => {
           S'inscrire
         </Button>
       </Form>
-      {imageError && <ErrorsStyled>{imageError}</ErrorsStyled>}
-      {formErrors && <ErrorsStyled>{formErrors}</ErrorsStyled>}
+      <AnimatePresence>
+        <>
+          {imageError && (
+            <ErrorMsg
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+            >
+              <FaExclamationCircle style={{ marginRight: 5 }} />
+              {imageError}
+            </ErrorMsg>
+          )}
+          {formErrors && (
+            <ErrorMsg
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+            >
+              <FaExclamationCircle style={{ marginRight: 5 }} />
+              {formErrors}
+            </ErrorMsg>
+          )}
+        </>
+      </AnimatePresence>
       <Link href="/connexion">
         <Astyled>
           Vous avez déj&agrave; un compte? Cliquez içi pour vous connecter
@@ -243,8 +277,11 @@ const Label = styled.label`
   letter-spacing: 0.1em;
 `
 
-const ErrorsStyled = styled.span`
-  color: red;
+const ErrorMsg = styled(motion.span)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 1.4rem;
-  margin-bottom: 2rem;
+  color: red;
+  margin-bottom: 3rem;
 `
