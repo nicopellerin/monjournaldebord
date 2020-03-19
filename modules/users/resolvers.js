@@ -15,7 +15,7 @@ export const usersResolvers = {
   Mutation: {
     async signupUser(parent, { username, email, password, avatar }, ctx, info) {
       if (!username || !email || !password) {
-        throw new AuthenticationError('Veuillez remplir les champs requis')
+        throw new AuthenticationError('Veuillez remplir tous les champs requis')
       }
 
       const user = await User.findOne({ email })
@@ -38,11 +38,7 @@ export const usersResolvers = {
         avatar,
       }).save()
 
-      const token = createAccessToken(newUser)
-
-      const authedUser = { ...newUser._doc, token }
-
-      return authedUser
+      return { token: createAccessToken(newUser) }
     },
 
     async signinUser(parent, { email, password }, ctx, info) {
@@ -53,16 +49,13 @@ export const usersResolvers = {
       }
 
       const user = await User.findOne({ email })
+
       if (!user) {
         throw new AuthenticationError('Mauvais courriel ou mot de passe')
       }
       const passwordsMatch = await bcrypt.compare(password, user.password)
       if (passwordsMatch) {
-        const token = createAccessToken(user)
-
-        const authedUser = { ...user._doc, token }
-
-        return authedUser
+        return { token: createAccessToken(user) }
       }
 
       throw new AuthenticationError('Mauvais courriel ou mot de passe')

@@ -39,7 +39,8 @@ const ConnexionForm: React.FC = () => {
 
     try {
       const token = await login(email, password)
-      cookies.set('token_login', token)
+      // const in15Minutes = new Date(new Date().getTime() + 15 * 60 * 1000)
+      cookies.set('token_login', token, { expires: 7 })
       Router.push('/profil')
     } catch (err) {
       console.error(err.message)

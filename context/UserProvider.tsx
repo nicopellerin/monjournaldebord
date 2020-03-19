@@ -3,7 +3,6 @@ import { createContext, useReducer, useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { useRouter } from 'next/router'
-import { resolve } from 'url'
 
 interface UserContextValue {
   login: (email, password) => void
@@ -36,7 +35,7 @@ const UserValue: UserContextValue = {
 export const UserContext = createContext(UserValue)
 
 type ActionType = {
-  type: 'LOGIN' | 'USER_INFO' | 'LOGOUT' | 'SIGNUP' | 'UPDATE_DAILY_MOOD'
+  type: 'USER_INFO' | 'LOGOUT' | 'UPDATE_DAILY_MOOD'
   payload?: any
 }
 
@@ -52,11 +51,7 @@ type StateType = {
 const LOGIN = gql`
   mutation($email: String!, $password: String!) {
     signinUser(email: $email, password: $password) {
-      username
-      createdAt
-      email
       token
-      avatar
     }
   }
 `
@@ -74,9 +69,6 @@ const SIGNUP = gql`
       password: $password
       avatar: $avatar
     ) {
-      username
-      email
-      avatar
       token
     }
   }
@@ -104,19 +96,8 @@ const UPDATE_DAILY_MOOD = gql`
 
 const reducer = (state: StateType, action: ActionType) => {
   switch (action.type) {
-    case 'LOGIN':
-      return {
-        ...state,
-        username: action.payload.username,
-        email: action.payload.email,
-      }
     case 'LOGOUT':
       return initialState
-    case 'SIGNUP':
-      return {
-        ...state,
-        username: action.payload.username,
-      }
     case 'USER_INFO':
       return {
         ...state,
@@ -152,33 +133,8 @@ export const UserProvider = ({ children }) => {
   let skipQuery =
     !router.pathname.includes('profil') && !router.pathname.includes('journal')
 
-  // Queries
-  const [signinUser] = useMutation(LOGIN, {
-    onCompleted: ({ signinUser }) => {
-      console.log(signinUser)
-      dispatch({
-        type: 'LOGIN',
-        payload: {
-          username: signinUser.username,
-          email: signinUser.email,
-          avatar: signinUser.avatar,
-        },
-      })
-    },
-  })
-
-  const [signupUser] = useMutation(SIGNUP, {
-    onCompleted: ({ signupUser }) => {
-      dispatch({
-        type: 'SIGNUP',
-        payload: {
-          username: signupUser.username,
-          email: signupUser.email,
-          avatar: signupUser.avatar,
-        },
-      })
-    },
-  })
+  const [signinUser] = useMutation(LOGIN)
+  const [signupUser] = useMutation(SIGNUP)
 
   const { loading: userLoading } = useQuery(USER_INFO, {
     skip: skipQuery,
@@ -212,6 +168,7 @@ export const UserProvider = ({ children }) => {
         password,
       },
     })
+
     return res?.data?.signinUser?.token
   }
 

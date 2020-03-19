@@ -45,7 +45,7 @@ const InscriptionForm: React.FC = () => {
     e.preventDefault()
 
     if (!username || !email || !password) {
-      return setFormErrors('Veuillez remplir les champs requis')
+      return setFormErrors('Veuillez remplir tous les champs requis')
     }
 
     if (password.length < 6) {
