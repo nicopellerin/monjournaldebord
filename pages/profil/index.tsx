@@ -2,7 +2,6 @@ import * as React from 'react'
 import { useContext } from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
-import Router from 'next/router'
 import nextCookies from 'next-cookies'
 
 import { Content } from '../../components/Content'
@@ -10,7 +9,7 @@ import { Content } from '../../components/Content'
 import { JournalContext } from '../../context/JournalProvider'
 import { NoJournalsProfil } from '../../components/NoJournalsProfil'
 
-const ProfilPage = () => {
+const ProfilPage: NextPage = () => {
   const { journals, journalsLoading } = useContext(JournalContext)
 
   return (
@@ -27,13 +26,10 @@ const ProfilPage = () => {
 ProfilPage.getInitialProps = async ctx => {
   const { token_login } = nextCookies(ctx)
 
-  if (ctx.req && !token_login) {
+  if (ctx.res && !token_login) {
     ctx.res.writeHead(302, { Location: '/connexion' })
     ctx.res.end()
-  }
-
-  if (!token_login) {
-    Router.push('/connexion')
+    return {}
   }
 
   return { token_login }
