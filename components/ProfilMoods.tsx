@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import format from 'date-fns/format'
 import { fr } from 'date-fns/locale'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaPlusCircle } from 'react-icons/fa'
+import { FaPlusCircle, FaCalendarAlt, FaCalendarDay } from 'react-icons/fa'
 
 import { MoodsContext } from '../context/MoodsProvider'
 
@@ -32,12 +32,15 @@ export const ProfilMoods = () => {
 
   return (
     <Wrapper>
-      <Content>
+      <Content animate={{ y: [10, 0], opacity: [0, 1] }}>
         {Object.entries(moodsByDate).map(
           ([date, moods]: [string, string[]], i) => {
             return (
               <DateGroup>
-                <Title key={i}>{date}</Title>
+                <Title key={i}>
+                  <FaCalendarDay style={{ marginRight: 10 }} />
+                  {date}
+                </Title>
                 <AnimatePresence initial={false}>
                   <List
                     animate={{ height: showLess ? '29rem' : 'auto' }}
@@ -54,13 +57,13 @@ export const ProfilMoods = () => {
                   </List>
                 </AnimatePresence>
                 {moods.length > 4 && (
-                  <ButtonWrapper>
+                  <ButtonWrapper onClick={() => setShowLess(!showLess)}>
                     <FaPlusCircle
-                      onClick={() => setShowLess(!showLess)}
-                      size={20}
+                      size={18}
                       color="#9D00E0"
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: 'pointer', marginRight: 5 }}
                     />
+                    Voir liste complète
                   </ButtonWrapper>
                 )}
               </DateGroup>
@@ -78,16 +81,19 @@ const Wrapper = styled.div`
   background: ${props => props.theme.colors.background};
   transition: background 100ms ease-in-out;
   min-height: 100%;
+  display: flex;
+  justify-content: center;
 
   @media (max-width: 1500px) {
     padding: 10em 9rem;
   }
 `
 
-const Content = styled.div`
+const Content = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 50rem;
 `
 
 const Title = styled.h3`
@@ -97,6 +103,8 @@ const Title = styled.h3`
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
 `
 
 const List = styled(motion.ul)`
@@ -107,7 +115,6 @@ const List = styled(motion.ul)`
   width: 50rem;
   overflow: hidden;
   position: relative;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   background: none;
   margin-bottom: 2rem;
   ${(props: StylesProps) => props.lessThanFour && 'height: auto'}!important;
@@ -134,6 +141,7 @@ const ListItem = styled(motion.li)`
   white-space: pre-wrap;
   padding: 2rem;
   background: white;
+  line-height: 1.4em;
 
   &:not(:last-of-type) {
     border-bottom: 1px solid #eee;
@@ -141,7 +149,7 @@ const ListItem = styled(motion.li)`
 `
 
 const DateGroup = styled.div`
-  /* box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); */
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   background: ghostwhite;
 
   &:not(:last-of-type) {
@@ -152,9 +160,14 @@ const DateGroup = styled.div`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   padding: 1rem 2rem;
   background: ghostwhite;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primaryColor);
+  cursor: pointer;
 `

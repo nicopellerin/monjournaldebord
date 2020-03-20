@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useContext, useState, useEffect } from 'react'
+import { useContext } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -18,12 +18,8 @@ export const Navbar: React.FC = () => {
   const { toggleDark, dark } = useContext(ThemeContext)
   const { username, avatar, userLoading } = useContext(UserContext)
   const { journals } = useContext(JournalContext)
-  // const [show, setShow] = useState(token)
 
   const token = cookies.get('token_login')
-  // useEffect(() => {
-  //   setShow(true)
-  // }, [token])
 
   if (userLoading) {
     return null

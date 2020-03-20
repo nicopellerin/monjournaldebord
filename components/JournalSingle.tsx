@@ -67,7 +67,7 @@ const JournalSingle: React.FC = () => {
       <motion.div
         initial={{
           scale: 0.96,
-          y: 30,
+          y: 10,
           opacity: 0,
         }}
         animate={{
