@@ -18,9 +18,11 @@ export const usersResolvers = {
         throw new AuthenticationError('Veuillez remplir tous les champs requis')
       }
 
-      const user = await User.findOne({ email })
+      const user = await User.findOne({ $or: [{ email }, { username }] })
       if (user) {
-        throw new AuthenticationError('Un utilisateur existe déja')
+        throw new AuthenticationError(
+          "Ce nom d'utilisateur ou courriel existe déja"
+        )
       }
 
       if (email.length < 6) {

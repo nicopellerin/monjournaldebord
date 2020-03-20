@@ -13,6 +13,7 @@ import { Circle } from 'better-react-spinkit'
 
 import { CtaCard } from '../components/shared/CtaCard'
 import { UserContext } from '../context/UserProvider'
+import { maxLength } from '../utils/maxLength'
 
 const Inscription: NextPage = () => {
   return (
@@ -64,6 +65,7 @@ const InscriptionForm: React.FC = () => {
       Router.push('/profil')
     } catch (err) {
       console.error(err.message)
+      setFormErrors(err.message.replace('GraphQL error:', ''))
     } finally {
       setIsSubmiting(false)
     }
@@ -166,7 +168,7 @@ const InscriptionForm: React.FC = () => {
           onClick={() => imageInputRef.current.click()}
         >
           <FaUpload style={{ marginRight: 7 }} />
-          {!loader ? 'Choisir image...' : loader}
+          {!loader ? 'Choisir image...' : maxLength(loader, 30)}
         </ButtonUpload>
         <Button
           whileHover={{ scale: 1.02 }}
