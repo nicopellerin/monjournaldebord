@@ -11,11 +11,11 @@ interface UserContextValue {
   updateDailyMoodAction: (mood) => void
   username: string
   email: string
-  password: string
   createdAt: string
   avatar: string
-  dailyMood: string
   userLoading: boolean
+  loadingMoods: boolean
+  moods: [{ mood: string; createdAt: string }]
 }
 
 const UserValue: UserContextValue = {
@@ -25,17 +25,17 @@ const UserValue: UserContextValue = {
   updateDailyMoodAction: () => {},
   username: '',
   email: '',
-  password: '',
   createdAt: '',
   avatar: '',
-  dailyMood: '',
   userLoading: false,
+  loadingMoods: false,
+  moods: [{ mood: '', createdAt: '' }],
 }
 
 export const UserContext = createContext(UserValue)
 
 type ActionType = {
-  type: 'USER_INFO' | 'LOGOUT' | 'UPDATE_DAILY_MOOD'
+  type: 'USER_INFO' | 'LOGOUT' | 'UPDATE_DAILY_MOOD' | 'GET_ALL_MOODS'
   payload?: any
 }
 
@@ -45,7 +45,7 @@ type StateType = {
   password: string
   createdAt: string
   avatar: string
-  dailyMood: string
+  moods: []
 }
 
 const LOGIN = gql`
@@ -80,7 +80,15 @@ const USER_INFO = gql`
       username
       email
       avatar
-      dailyMood
+    }
+  }
+`
+
+const GET_ALL_MOODS = gql`
+  query allMoods {
+    getAllMoods {
+      mood
+      createdAt
     }
   }
 `
@@ -88,8 +96,7 @@ const USER_INFO = gql`
 const UPDATE_DAILY_MOOD = gql`
   mutation($mood: String!) {
     updateDailyMood(mood: $mood) {
-      username
-      dailyMood
+      mood
     }
   }
 `
@@ -104,12 +111,16 @@ const reducer = (state: StateType, action: ActionType) => {
         username: action.payload.username,
         email: action.payload.email,
         avatar: action.payload.avatar,
-        dailyMood: action.payload.dailyMood,
       }
     case 'UPDATE_DAILY_MOOD':
       return {
         ...state,
-        dailyMood: action.payload,
+        moods: [action.payload, ...state.moods],
+      }
+    case 'GET_ALL_MOODS':
+      return {
+        ...state,
+        moods: action.payload,
       }
     default:
       return state
@@ -119,10 +130,9 @@ const reducer = (state: StateType, action: ActionType) => {
 const initialState = {
   username: '',
   email: '',
-  password: '',
   createdAt: '',
   avatar: '',
-  dailyMood: '',
+  moods: [],
 }
 
 export const UserProvider = ({ children }) => {
@@ -136,6 +146,13 @@ export const UserProvider = ({ children }) => {
   const [signinUser] = useMutation(LOGIN)
   const [signupUser] = useMutation(SIGNUP)
 
+  const { loading: loadingMoods } = useQuery(GET_ALL_MOODS, {
+    skip: !state.username,
+    onCompleted: ({ getAllMoods }) => {
+      dispatch({ type: 'GET_ALL_MOODS', payload: getAllMoods })
+    },
+  })
+
   const { loading: userLoading } = useQuery(USER_INFO, {
     skip: skipQuery,
     onCompleted: ({ me }) => {
@@ -145,7 +162,6 @@ export const UserProvider = ({ children }) => {
           username: me.username,
           email: me.email,
           avatar: me.avatar,
-          dailyMood: me.dailyMood,
         },
       })
     },
@@ -155,7 +171,7 @@ export const UserProvider = ({ children }) => {
     onCompleted: ({ updateDailyMood }) => {
       dispatch({
         type: 'UPDATE_DAILY_MOOD',
-        payload: updateDailyMood.dailyMood,
+        payload: updateDailyMood,
       })
     },
   })
@@ -206,24 +222,17 @@ export const UserProvider = ({ children }) => {
     () => ({
       username: state.username,
       email: state.email,
-      password: state.password,
       createdAt: state.createdAt,
       avatar: state.avatar,
-      dailyMood: state.dailyMood,
+      moods: state.moods,
       userLoading,
       login,
       logout,
       signup,
       updateDailyMoodAction,
+      loadingMoods,
     }),
-    [
-      state.username,
-      state.email,
-      state.password,
-      state.createdAt,
-      state.avatar,
-      state.dailyMood,
-    ]
+    [state.username, state.email, state.createdAt, state.avatar, state.moods]
   )
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>

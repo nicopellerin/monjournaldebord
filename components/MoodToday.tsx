@@ -1,24 +1,42 @@
 import * as React from 'react'
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
-import { motion } from 'framer-motion'
-import { FaSun } from 'react-icons/fa'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FaSun, FaCheckCircle, FaClock } from 'react-icons/fa'
+import format from 'date-fns/format'
 
 import { UserContext } from '../context/UserProvider'
 
 export const MoodToday = () => {
-  const { updateDailyMoodAction, dailyMood } = useContext(UserContext)
+  const { updateDailyMoodAction, moods } = useContext(UserContext)
 
-  const [mood, setMood] = useState(dailyMood)
+  const [mood, setMood] = useState('')
+  const [saved, setSaved] = useState(false)
+  const [dateSaved, setDateSaved] = useState(0)
 
   async function handleSubmit(e) {
     e.preventDefault()
     try {
+      const dateInit = new Date()
+      const dateNow = dateInit.getTime()
+      setDateSaved(dateNow)
       await updateDailyMoodAction(mood)
+      setSaved(true)
     } catch (err) {
       console.error(err.message)
     }
   }
+
+  useEffect(() => {
+    let id
+    if (saved) {
+      id = setTimeout(() => {
+        setSaved(false), setMood('')
+      }, 2000)
+    }
+
+    return () => clearTimeout(id)
+  }, [saved])
 
   return (
     <Wrapper>
@@ -44,7 +62,47 @@ export const MoodToday = () => {
             onChange={e => setMood(e.target.value)}
           />
         </Form>
+
+        <AnimatePresence>
+          {saved && (
+            <SavedText
+              initial={{ x: '-50%', opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, y: [10, -1, 0], scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+            >
+              <FaCheckCircle style={{ marginRight: 5 }} />
+              Sauvegardé
+            </SavedText>
+          )}
+        </AnimatePresence>
       </Content>
+      <LastMood
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: [0, 1],
+          y: [10, 0],
+          transition: {
+            delay: 0.2,
+          },
+        }}
+      >
+        {moods?.length > 0 && (
+          <MoodWrapper>
+            <Mood>
+              {'« '}
+              {moods[0]?.mood}
+              {' »'}
+            </Mood>
+            <MoodDate>
+              <FaClock style={{ marginRight: 5 }} />
+              {format(
+                dateSaved || Number(moods[0]?.createdAt),
+                'dd/MM/yyyy - HH:mm'
+              )}
+            </MoodDate>
+          </MoodWrapper>
+        )}
+      </LastMood>
     </Wrapper>
   )
 }
@@ -54,15 +112,17 @@ const Wrapper = styled.div`
   width: 100%;
   margin-bottom: 6rem;
   border-radius: 5px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 6rem;
 `
 
 const Content = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  /* padding: 2.5rem 3rem; */
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  width: 50%;
+  position: relative;
 `
 
 const Title = styled.h2`
@@ -105,4 +165,44 @@ const Heading = styled.div`
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   margin-bottom: 1rem;
+`
+
+const SavedText = styled(motion.span)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  bottom: -35px;
+  color: green;
+  font-size: 1.4rem;
+`
+
+const LastMood = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const Mood = styled.p`
+  font-size: 2.2rem;
+  text-align: center;
+  line-height: 1.5em;
+  margin-top: 0;
+`
+
+const MoodWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const MoodDate = styled.span`
+  background: ghostwhite;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `

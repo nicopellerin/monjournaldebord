@@ -5,7 +5,12 @@ type User {
   createdAt: Date
   token: String
   avatar: String
-  dailyMood: String
+}
+
+type Mood {
+  author: User
+  mood: String
+  createdAt: Date
 }
 
 type Token {
@@ -14,6 +19,7 @@ type Token {
 
 type Query {
   me: User!
+  getAllMoods: [Mood]
 }
 
 type Mutation {
@@ -24,5 +30,5 @@ type Mutation {
     avatar: String
   ): Token!
   signinUser(email: String!, password: String!): Token!
-  updateDailyMood(mood: String!): User
+  updateDailyMood(mood: String!): Mood
 }

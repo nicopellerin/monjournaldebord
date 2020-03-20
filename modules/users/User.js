@@ -23,9 +23,6 @@ const UserSchema = new Schema({
   avatar: {
     type: String,
   },
-  dailyMood: {
-    type: String,
-  },
   createdAt: {
     type: Date,
     default: Date.now,

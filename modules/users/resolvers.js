@@ -2,6 +2,7 @@ import { AuthenticationError } from 'apollo-server-micro'
 import bcrypt from 'bcryptjs'
 
 import User from './User'
+import Mood from './Mood'
 
 import { createAccessToken } from '../../lib/auth'
 
@@ -10,6 +11,15 @@ export const usersResolvers = {
   Query: {
     me(parent, args, { user }, info) {
       return user
+    },
+    async getAllMoods(parent, args, { user }) {
+      if (!user) {
+        throw new AuthenticationError('Pas authorizé.')
+      }
+
+      const moods = await Mood.find({ author: user._id }).sort({ _id: -1 })
+
+      return moods
     },
   },
   Mutation: {
@@ -68,13 +78,28 @@ export const usersResolvers = {
         throw new AuthenticationError('Invalid')
       }
 
-      const res = await User.findOneAndUpdate(
-        { _id: user.id },
-        { $set: { dailyMood: mood } },
-        { new: true }
-      )
+      // const res = await Mood.findOneAndUpdate(
+      //   { _id: user.id },
+      //   { $set: { mood, author: user.id } },
+      //   { new: true }
+      // )
+      const res = await Mood.create({ author: user, mood })
 
       return res
+    },
+  },
+  Mood: {
+    author: (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError('Pas authorizé.')
+      }
+
+      return {
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        createdAt: user.createdAt,
+      }
     },
   },
 }

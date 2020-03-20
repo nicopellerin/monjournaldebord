@@ -39,12 +39,8 @@ export const ProcessStep4 = ({ journal, setJournal, paginate }) => {
 
     const { title, text, image, mood } = journal
 
-    // validateForm(title, text)
-    // if (Object.values(formErrors).length) return
-
-    let res
     try {
-      res = await addNewJournal(title, text, image, mood)
+      const res = await addNewJournal(title, text, image, mood)
       Router.push(`/profil`, `/profil`)
     } catch (err) {
       console.error(err)

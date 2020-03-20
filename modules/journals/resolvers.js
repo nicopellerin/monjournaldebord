@@ -11,7 +11,7 @@ export const journalsResolvers = {
       }
 
       const allJournals = await Journal.find({ author: user._id })
-        .populate({ path: 'users', model: 'users' })
+        // .populate({ path: 'users', model: 'users' })
         .sort({ _id: -1 })
 
       return allJournals
@@ -82,7 +82,6 @@ export const journalsResolvers = {
         email: user.email,
         password: user.password,
         createdAt: user.createdAt,
-        journals: user.journals,
       }
     },
   },
