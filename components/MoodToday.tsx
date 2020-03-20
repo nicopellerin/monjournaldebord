@@ -155,6 +155,10 @@ const Input = styled.input`
   &::placeholder {
     color: #aaa;
   }
+
+  &:focus {
+    outline: none;
+  }
 `
 
 const Heading = styled.div`
