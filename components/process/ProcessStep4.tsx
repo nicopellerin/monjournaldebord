@@ -45,7 +45,7 @@ export const ProcessStep4 = ({ journal, setJournal, paginate }) => {
     let res
     try {
       res = await addNewJournal(title, text, image, mood)
-      Router.push(`/journal/[id]`, `/journal/${res}`)
+      Router.push(`/profil`, `/profil`)
     } catch (err) {
       console.error(err)
     }
