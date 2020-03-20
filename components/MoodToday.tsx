@@ -2,13 +2,14 @@ import * as React from 'react'
 import { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaSun, FaCheckCircle, FaClock } from 'react-icons/fa'
+import { FaRegSmile, FaCheckCircle, FaClock } from 'react-icons/fa'
 import format from 'date-fns/format'
+import { fr } from 'date-fns/locale'
 
-import { UserContext } from '../context/UserProvider'
+import { MoodsContext } from '../context/MoodsProvider'
 
 export const MoodToday = () => {
-  const { updateDailyMoodAction, moods } = useContext(UserContext)
+  const { updateDailyMoodAction, moods } = useContext(MoodsContext)
 
   const [mood, setMood] = useState('')
   const [saved, setSaved] = useState(false)
@@ -49,7 +50,7 @@ export const MoodToday = () => {
       >
         <Heading>
           <Title>
-            <FaSun style={{ marginRight: 7 }} />
+            <FaRegSmile style={{ marginRight: 7 }} />
             Mood de la journée
           </Title>
         </Heading>
@@ -97,7 +98,10 @@ export const MoodToday = () => {
               <FaClock style={{ marginRight: 5 }} />
               {format(
                 dateSaved || Number(moods[0]?.createdAt),
-                'dd/MM/yyyy - HH:mm'
+                'iiii dd MMMM - HH:mm',
+                {
+                  locale: fr,
+                }
               )}
             </MoodDate>
           </MoodWrapper>

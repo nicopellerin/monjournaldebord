@@ -10,6 +10,9 @@ import { createAccessToken } from '../../lib/auth'
 export const usersResolvers = {
   Query: {
     me(parent, args, { user }, info) {
+      if (!user) {
+        throw new AuthenticationError('No USER.')
+      }
       return user
     },
     async getAllMoods(parent, args, { user }) {

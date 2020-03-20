@@ -1,9 +1,10 @@
 import * as React from 'react'
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { FaUserAlt, FaMoon, FaSun } from 'react-icons/fa'
+import cookies from 'js-cookie'
 
 import { Logo } from './Logo'
 import { User } from './User'
@@ -17,6 +18,12 @@ export const Navbar: React.FC = () => {
   const { toggleDark, dark } = useContext(ThemeContext)
   const { username, avatar, userLoading } = useContext(UserContext)
   const { journals } = useContext(JournalContext)
+  // const [show, setShow] = useState(token)
+
+  const token = cookies.get('token_login')
+  // useEffect(() => {
+  //   setShow(true)
+  // }, [token])
 
   if (userLoading) {
     return null
@@ -28,7 +35,7 @@ export const Navbar: React.FC = () => {
         <Logo />
       </LogoWrapper>
       <RightWrapper>
-        {username ? (
+        {token ? (
           <>
             {journals.length > 0 && (
               <NavbarSearchWrapper>
@@ -60,15 +67,17 @@ export const Navbar: React.FC = () => {
             </Link>
           </ButtonGroup>
         )}
-        {username && (
-          <IconGroup>
-            {dark ? (
-              <MoonIcon onClick={toggleDark} />
-            ) : (
-              <SunIcon onClick={toggleDark} />
-            )}
-          </IconGroup>
-        )}
+        <IconGroup>
+          {username && (
+            <>
+              {dark ? (
+                <MoonIcon onClick={toggleDark} />
+              ) : (
+                <SunIcon onClick={toggleDark} />
+              )}
+            </>
+          )}
+        </IconGroup>
       </RightWrapper>
     </Wrapper>
   )
@@ -140,6 +149,7 @@ const SignupButton = styled(motion.button)`
 
 const IconGroup = styled.div`
   margin-right: 6rem;
+  width: 2rem;
 `
 
 const MoonIcon = styled(FaMoon)`

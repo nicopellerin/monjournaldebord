@@ -6,6 +6,7 @@ import { ProfilLayout } from '../components/shared/ProfilLayout'
 
 import { JournalProvider } from '../context/JournalProvider'
 import { UserProvider } from '../context/UserProvider'
+import { MoodsProvider } from '../context/MoodsProvider'
 
 import { withApollo } from '../lib/apollo'
 
@@ -33,13 +34,15 @@ class MyApp extends App {
 
     return (
       <UserProvider>
-        <JournalProvider>
-          <ProfilLayout>
-            <Component {...pageProps} key={router.query.id} />
-            <GlobalStyles />
-          </ProfilLayout>
-          <div id="portal" />
-        </JournalProvider>
+        <MoodsProvider>
+          <JournalProvider>
+            <ProfilLayout>
+              <Component {...pageProps} key={router.query.id} />
+              <GlobalStyles />
+            </ProfilLayout>
+            <div id="portal" />
+          </JournalProvider>
+        </MoodsProvider>
       </UserProvider>
     )
   }

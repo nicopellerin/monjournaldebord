@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useContext, useState, useEffect } from 'react'
 import styled, { css } from 'styled-components'
 import { motion } from 'framer-motion'
-import { FaNewspaper, FaHome } from 'react-icons/fa'
+import { FaNewspaper, FaHome, FaRegSmile } from 'react-icons/fa'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -24,6 +24,15 @@ export const List: React.FC = () => {
         >
           <FaHome style={{ marginRight: 5 }} />
           Accueil
+        </Title>
+      </Link>
+      <Link href="/profil/moods">
+        <Title
+          style={{ marginBottom: '1.2rem', cursor: 'pointer' }}
+          active={pathname === '/profil/moods' ? true : false}
+        >
+          <FaRegSmile style={{ marginRight: 5 }} />
+          Moods
         </Title>
       </Link>
       <Title style={{ marginBottom: '1rem' }}>

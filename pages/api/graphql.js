@@ -25,6 +25,7 @@ const apolloServer = new ApolloServer({
 
       return {
         user,
+        token,
       }
     } catch (err) {
       throw new AuthenticationError('Veuillez vous connecter!')
