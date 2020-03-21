@@ -70,9 +70,10 @@ export const MoodToday = () => {
         <AnimatePresence>
           {saved && (
             <SavedText
-              initial={{ x: '-50%', opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, y: [10, -1, 0], scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
+              initial={{ x: '-50%', y: 0 }}
+              animate={{ y: 35 }}
+              exit={{ y: 0 }}
+              transition={{ damping: 200 }}
             >
               <FaCheckCircle style={{ marginRight: 5 }} />
               Sauvegardé
@@ -142,6 +143,8 @@ const Form = styled.form`
   background: whitesmoke;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
+  position: relative;
+  z-index: 10;
 `
 
 const Input = styled.input`
@@ -180,9 +183,13 @@ const SavedText = styled(motion.span)`
   justify-content: center;
   position: absolute;
   left: 50%;
-  bottom: -35px;
+  bottom: 0px;
   color: green;
   font-size: 1.4rem;
+  padding: 1rem;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.1);
 `
 
 const LastMood = styled(motion.div)`
