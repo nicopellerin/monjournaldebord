@@ -66,33 +66,33 @@ export const ListItem: React.FC<Props> = React.memo(({ title, id, mood }) => {
   }, [])
 
   return (
-    <Outer ref={ref}>
-      <Wrapper
-        ref={itemRef}
-        selected={selected}
-        onClick={() => {
-          setRightMenuVisible(false)
-          selectJournal(id)
-        }}
-      >
-        <Link href={`/journal/[id]`} as={`/journal/${id}`}>
+    <Link href={`/journal/[id]`} as={`/journal/${id}`}>
+      <Outer ref={ref}>
+        <Wrapper
+          ref={itemRef}
+          selected={selected}
+          onClick={() => {
+            setRightMenuVisible(false)
+            selectJournal(id)
+          }}
+        >
           <Item selected={selected}>
             <Mood src={mood} alt="Mood" />
             <Text>{maxLength(title, 23)}</Text>
           </Item>
-        </Link>
-      </Wrapper>
-      <AnimatePresence>
-        {rightMenuVisible && (
-          <RightMenu
-            id={id}
-            xVal={xVal}
-            yVal={yVal}
-            setRightMenuVisible={setRightMenuVisible}
-          />
-        )}
-      </AnimatePresence>
-    </Outer>
+        </Wrapper>
+        <AnimatePresence>
+          {rightMenuVisible && (
+            <RightMenu
+              id={id}
+              xVal={xVal}
+              yVal={yVal}
+              setRightMenuVisible={setRightMenuVisible}
+            />
+          )}
+        </AnimatePresence>
+      </Outer>
+    </Link>
   )
 })
 

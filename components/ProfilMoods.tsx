@@ -60,13 +60,7 @@ export const ProfilMoods = React.memo(() => {
                         {moodItem?.mood}
                         <AnimatePresence>
                           {showDeleteIcon === moodItem.id && (
-                            <motion.div
-                              style={{
-                                position: 'absolute',
-                                right: '2rem',
-                                top: '38%',
-                                transform: 'translateZ(0,-48%, 0)',
-                              }}
+                            <ListItemDeleteIconWrapper
                               initial={{
                                 y: 21,
                                 opacity: 0.7,
@@ -75,7 +69,7 @@ export const ProfilMoods = React.memo(() => {
                               exit={{}}
                             >
                               <ListItemDeleteIcon />
-                            </motion.div>
+                            </ListItemDeleteIconWrapper>
                           )}
                         </AnimatePresence>
                       </ListItem>
@@ -186,6 +180,13 @@ const ListItem = styled(motion.li)`
   &:not(:last-of-type) {
     border-bottom: 1px solid #eee;
   }
+`
+
+const ListItemDeleteIconWrapper = styled(motion.div)`
+  position: absolute;
+  right: 2rem;
+  top: 38%;
+  transform: translateZ(0, -48%, 0);
 `
 
 const ListItemDeleteIcon = styled(FaTimesCircle)`
