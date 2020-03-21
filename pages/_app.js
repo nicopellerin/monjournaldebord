@@ -17,32 +17,32 @@ class MyApp extends App {
     const { Component, pageProps, router } = this.props
 
     if (
-      router.pathname.startsWith('/connexion') ||
-      router.pathname.startsWith('/inscription') ||
-      router.pathname === '/'
+      router.pathname.startsWith('/profil') ||
+      router.pathname.startsWith('/profil/moods') ||
+      router.pathname.startsWith('/journal')
     ) {
       return (
         <UserProvider>
-          <Layout>
-            <Component {...pageProps} key={router.query.id} />
-            <GlobalStyles />
-          </Layout>
-          <div id="portal" />
+          <MoodsProvider>
+            <JournalProvider>
+              <ProfilLayout>
+                <Component {...pageProps} key={router.query.id} />
+                <GlobalStyles />
+              </ProfilLayout>
+              <div id="portal" />
+            </JournalProvider>
+          </MoodsProvider>
         </UserProvider>
       )
     }
 
     return (
       <UserProvider>
-        <MoodsProvider>
-          <JournalProvider>
-            <ProfilLayout>
-              <Component {...pageProps} key={router.query.id} />
-              <GlobalStyles />
-            </ProfilLayout>
-            <div id="portal" />
-          </JournalProvider>
-        </MoodsProvider>
+        <Layout>
+          <Component {...pageProps} key={router.query.id} />
+          <GlobalStyles />
+        </Layout>
+        <div id="portal" />
       </UserProvider>
     )
   }

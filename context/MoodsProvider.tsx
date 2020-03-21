@@ -7,6 +7,7 @@ interface MoodsContextValue {
   moods: [{ id: string; mood: string; createdAt: Date }]
   updateDailyMoodAction: (mood) => Promise<any>
   deleteSingleMoodAction: (id) => Promise<any>
+  loadingMoods: boolean
 }
 
 const MoodsValue: MoodsContextValue = {
@@ -15,6 +16,7 @@ const MoodsValue: MoodsContextValue = {
     return mood
   },
   deleteSingleMoodAction: id => id,
+  loadingMoods: false,
 }
 
 export const MoodsContext = createContext(MoodsValue)
@@ -135,6 +137,7 @@ export const MoodsProvider = ({ children }) => {
       moods: state.moods,
       updateDailyMoodAction,
       deleteSingleMoodAction,
+      loadingMoods,
     }
   }, [state.moods])
 
