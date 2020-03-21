@@ -62,10 +62,14 @@ const Wrapper = styled.div`
 const Input = styled.input`
   border: none;
   border-bottom: 1px solid #ddd;
-  padding: 0.7rem 0.1rem;
+  padding: 0.8rem 0.1rem;
   width: 30rem;
   font-size: 1.4rem;
   background: none;
+
+  &::placeholder {
+    color: #aaa;
+  }
 `
 
 const InputWrapper = styled.div`

@@ -14,7 +14,7 @@ export const Logo: React.FC<Props> = ({ width }) => {
   const { pathname } = useRouter()
   const { dark } = useContext(ThemeContext)
 
-  const loggedIn = true && pathname.includes('/profil')
+  const loggedIn = pathname.includes('/profil') || pathname.includes('/journal')
 
   return (
     <Link href={loggedIn ? '/profil' : '/'}>

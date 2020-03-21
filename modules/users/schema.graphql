@@ -8,6 +8,7 @@ type User {
 }
 
 type Mood {
+  id: ID!
   author: User
   mood: String
   createdAt: Date

@@ -4,12 +4,12 @@ import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 
 interface MoodsContextValue {
-  moods: [{ mood: string; createdAt: string }]
+  moods: [{ id: string; mood: string; createdAt: string }]
   updateDailyMoodAction: (mood) => void
 }
 
 const MoodsValue: MoodsContextValue = {
-  moods: [{ mood: '', createdAt: '' }],
+  moods: [{ id: '', mood: '', createdAt: '' }],
   updateDailyMoodAction: () => {},
 }
 
@@ -27,6 +27,7 @@ type StateType = {
 const GET_ALL_MOODS = gql`
   query allMoods {
     getAllMoods {
+      id
       mood
       createdAt
     }

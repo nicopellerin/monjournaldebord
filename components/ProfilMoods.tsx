@@ -13,9 +13,10 @@ interface StylesProps {
   lessThanFour: boolean
 }
 
-export const ProfilMoods = () => {
+export const ProfilMoods = React.memo(() => {
   const { moods } = useContext(MoodsContext)
   const [showLess, setShowLess] = useState(true)
+  const [showDeleteIcon, setshowDeleteIcon] = useState(null)
 
   const moodsByDate = useMemo(
     () =>
@@ -24,7 +25,7 @@ export const ProfilMoods = () => {
           locale: fr,
         })
         dates[date] = dates[date] || []
-        dates[date].push(cur.mood)
+        dates[date].push({ id: cur.id, mood: cur.mood })
         return dates
       }, {}),
     [moods]
@@ -34,10 +35,10 @@ export const ProfilMoods = () => {
     <Wrapper>
       <Content animate={{ y: [10, 0], opacity: [0, 1] }}>
         {Object.entries(moodsByDate).map(
-          ([date, moods]: [string, string[]], i) => {
+          ([date, moods]: [string, [{ id: string; mood: string }]], i) => {
             return (
-              <DateGroup>
-                <Title key={i}>
+              <DateGroup key={i}>
+                <Title>
                   <FaCalendarDay style={{ marginRight: 10 }} />
                   {date}
                 </Title>
@@ -49,9 +50,34 @@ export const ProfilMoods = () => {
                     showLess={showLess ? true : false}
                     lessThanFour={moods?.length < 5}
                   >
-                    {moods.map((mood, i) => (
-                      <ListItem layoutTransition key={i}>
-                        {mood}
+                    {moods.map(moodItem => (
+                      <ListItem
+                        layoutTransition
+                        key={moodItem.id}
+                        onMouseOver={() => setshowDeleteIcon(moodItem.id)}
+                        onMouseLeave={() => setshowDeleteIcon(null)}
+                      >
+                        {moodItem?.mood}
+                        <AnimatePresence>
+                          {showDeleteIcon === moodItem.id && (
+                            <motion.div
+                              style={{
+                                position: 'absolute',
+                                right: '2rem',
+                                top: '38%',
+                                transform: 'translateZ(0,-48%, 0)',
+                              }}
+                              initial={{
+                                y: 21,
+                                opacity: 0.7,
+                              }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{}}
+                            >
+                              <ListItemDeleteIcon />
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </ListItem>
                     ))}
                   </List>
@@ -86,7 +112,7 @@ export const ProfilMoods = () => {
       </Content>
     </Wrapper>
   )
-}
+})
 
 // Styles
 const Wrapper = styled.div`
@@ -112,7 +138,7 @@ const Content = styled(motion.div)`
 const Title = styled.h3`
   font-size: 2rem;
   background: ghostwhite;
-  padding: 2rem;
+  padding: 2rem 3rem;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
@@ -152,13 +178,19 @@ const ListItem = styled(motion.li)`
   font-size: 1.6rem;
   width: 100%;
   white-space: pre-wrap;
-  padding: 2rem;
+  padding: 2rem 3rem;
   background: white;
   line-height: 1.4em;
+  position: relative;
 
   &:not(:last-of-type) {
     border-bottom: 1px solid #eee;
   }
+`
+
+const ListItemDeleteIcon = styled(FaTimesCircle)`
+  color: red;
+  cursor: pointer;
 `
 
 const DateGroup = styled.div`
@@ -174,7 +206,7 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 1.2rem 2rem;
   background: ghostwhite;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
