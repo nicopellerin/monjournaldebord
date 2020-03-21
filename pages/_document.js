@@ -45,7 +45,7 @@ export default class MyDocument extends Document {
             name="og:description"
             content="Un journal de bord en ligne. Facile d'utilisation et gratuit."
           />
-          <meta name="og:image" content="/og-image-2.png" />
+          <meta name="og:image" content="/og-image-3.png" />
           <link rel="shortcut icon" href="/favicon.png" />
           <link
             href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap"

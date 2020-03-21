@@ -47,7 +47,7 @@ export const ProfilMoods = () => {
                     exit={{ opacity: 0 }}
                     transition={{ damping: 300 }}
                     showLess={showLess ? true : false}
-                    lessThanFour={moods.length < 5}
+                    lessThanFour={moods?.length < 5}
                   >
                     {moods.map((mood, i) => (
                       <ListItem layoutTransition key={i}>
@@ -63,7 +63,7 @@ export const ProfilMoods = () => {
                       color="#9D00E0"
                       style={{ cursor: 'pointer', marginRight: 5 }}
                     />
-                    Voir liste complète
+                    Voir liste complète ({moods?.length})
                   </ButtonWrapper>
                 )}
               </DateGroup>
