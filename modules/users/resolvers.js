@@ -90,6 +90,16 @@ export const usersResolvers = {
 
       return res
     },
+
+    async deleteSingleMood(parent, { id }, { user }) {
+      if (!user) {
+        throw new AuthenticationError('Invalid')
+      }
+
+      const res = await Mood.findByIdAndDelete(id)
+
+      return res
+    },
   },
   Mood: {
     author: (parent, args, { user }) => {

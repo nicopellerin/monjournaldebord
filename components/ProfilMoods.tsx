@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { FaPlusCircle, FaCalendarDay, FaTimesCircle } from 'react-icons/fa'
 
 import { MoodsContext } from '../context/MoodsProvider'
+import { ProfilMoodsItem } from './ProfilMoodsItem'
 
 interface StylesProps {
   showLess: boolean
@@ -16,17 +17,19 @@ interface StylesProps {
 export const ProfilMoods = React.memo(() => {
   const { moods } = useContext(MoodsContext)
   const [showLess, setShowLess] = useState(true)
-  const [showDeleteIcon, setshowDeleteIcon] = useState(null)
 
   const moodsByDate = useMemo(
     () =>
       moods?.reduce((dates, cur) => {
-        console.log(typeof cur.createdAt)
         const date = format(cur.createdAt, 'iiii dd MMMM', {
           locale: fr,
         })
         dates[date] = dates[date] || []
-        dates[date].push({ id: cur.id, mood: cur.mood })
+        dates[date].push({
+          id: cur.id,
+          mood: cur.mood,
+          createdAt: cur.createdAt,
+        })
         return dates
       }, {}),
     [moods]
@@ -36,14 +39,21 @@ export const ProfilMoods = React.memo(() => {
     <Wrapper>
       <Content animate={{ y: [10, 0], opacity: [0, 1] }}>
         {Object.entries(moodsByDate).map(
-          ([date, moods]: [string, [{ id: string; mood: string }]], i) => {
+          (
+            [date, moods]: [
+              string,
+              [{ id: string; mood: string; createdAt: Date }]
+            ],
+            i
+          ) => {
             return (
-              <DateGroup key={i}>
-                <Title>
-                  <FaCalendarDay style={{ marginRight: 10 }} />
-                  {date}
-                </Title>
-                <AnimatePresence initial={false}>
+              <AnimatePresence>
+                <DateGroup layoutTransition exit={{ opacity: 0 }} key={i}>
+                  <Title>
+                    <FaCalendarDay style={{ marginRight: 10 }} />
+                    {date}
+                  </Title>
+
                   <List
                     animate={{ height: showLess ? '29rem' : 'auto' }}
                     exit={{ opacity: 0 }}
@@ -52,57 +62,36 @@ export const ProfilMoods = React.memo(() => {
                     lessThanFour={moods?.length < 5}
                   >
                     {moods.map(moodItem => (
-                      <ListItem
-                        layoutTransition
-                        key={moodItem.id}
-                        onMouseOver={() => {
-                          setshowDeleteIcon(moodItem.id)
-                        }}
-                        onMouseLeave={() => setshowDeleteIcon(null)}
-                      >
-                        {moodItem?.mood}
-                        <AnimatePresence>
-                          {showDeleteIcon === moodItem.id && (
-                            <ListItemDeleteIconWrapper
-                              initial={{
-                                y: 21,
-                                opacity: 0.7,
-                              }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{}}
-                            >
-                              <ListItemDeleteIcon />
-                            </ListItemDeleteIconWrapper>
-                          )}
-                        </AnimatePresence>
-                      </ListItem>
+                      <AnimatePresence initial={false}>
+                        <ProfilMoodsItem key={moodItem.id} {...moodItem} />
+                      </AnimatePresence>
                     ))}
                   </List>
-                </AnimatePresence>
-                {moods.length > 4 && (
-                  <ButtonWrapper onClick={() => setShowLess(!showLess)}>
-                    {showLess ? (
-                      <>
-                        <FaPlusCircle
-                          size={18}
-                          color="#9D00E0"
-                          style={{ cursor: 'pointer', marginRight: 5 }}
-                        />
-                        Voir liste complète ({moods?.length})
-                      </>
-                    ) : (
-                      <>
-                        <FaTimesCircle
-                          size={18}
-                          color="#9D00E0"
-                          style={{ cursor: 'pointer', marginRight: 5 }}
-                        />
-                        Fermer
-                      </>
-                    )}
-                  </ButtonWrapper>
-                )}
-              </DateGroup>
+                  {moods.length > 4 && (
+                    <ButtonWrapper onClick={() => setShowLess(!showLess)}>
+                      {showLess ? (
+                        <>
+                          <FaPlusCircle
+                            size={18}
+                            color="#9D00E0"
+                            style={{ cursor: 'pointer', marginRight: 5 }}
+                          />
+                          Voir liste complète ({moods?.length})
+                        </>
+                      ) : (
+                        <>
+                          <FaTimesCircle
+                            size={18}
+                            color="#9D00E0"
+                            style={{ cursor: 'pointer', marginRight: 5 }}
+                          />
+                          Fermer
+                        </>
+                      )}
+                    </ButtonWrapper>
+                  )}
+                </DateGroup>
+              </AnimatePresence>
             )
           }
         )}
@@ -166,38 +155,12 @@ const List = styled(motion.ul)`
     bottom: 0;
     width: 100%;
     height: 40px;
-    ${(props: StylesProps) => !props.showLess && 'opacity: 0'}
-    ${(props: StylesProps) => props.lessThanFour && 'opacity: 0'}
+    ${(props: StylesProps) => !props.showLess && 'visibility: hidden'}
+    ${(props: StylesProps) => props.lessThanFour && 'visibility: hidden'}
   }
 `
 
-const ListItem = styled(motion.li)`
-  font-size: 1.6rem;
-  width: 100%;
-  white-space: pre-wrap;
-  padding: 2rem 3rem;
-  background: white;
-  line-height: 1.4em;
-  position: relative;
-
-  &:not(:last-of-type) {
-    border-bottom: 1px solid #eee;
-  }
-`
-
-const ListItemDeleteIconWrapper = styled(motion.div)`
-  position: absolute;
-  right: 2rem;
-  top: 38%;
-  transform: translateZ(0, -48%, 0);
-`
-
-const ListItemDeleteIcon = styled(FaTimesCircle)`
-  color: red;
-  cursor: pointer;
-`
-
-const DateGroup = styled.div`
+const DateGroup = styled(motion.div)`
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   background: ghostwhite;
 

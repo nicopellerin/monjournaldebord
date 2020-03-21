@@ -6,6 +6,7 @@ import { useQuery, useMutation } from '@apollo/react-hooks'
 interface MoodsContextValue {
   moods: [{ id: string; mood: string; createdAt: Date }]
   updateDailyMoodAction: (mood) => Promise<any>
+  deleteSingleMoodAction: (id) => Promise<any>
 }
 
 const MoodsValue: MoodsContextValue = {
@@ -13,12 +14,13 @@ const MoodsValue: MoodsContextValue = {
   updateDailyMoodAction: mood => {
     return mood
   },
+  deleteSingleMoodAction: id => id,
 }
 
 export const MoodsContext = createContext(MoodsValue)
 
 type ActionType = {
-  type: 'GET_ALL_MOODS' | 'UPDATE_DAILY_MOOD'
+  type: 'GET_ALL_MOODS' | 'UPDATE_DAILY_MOOD' | 'DELETE_SINGLE_MOOD'
   payload?: any
 }
 
@@ -39,6 +41,17 @@ const GET_ALL_MOODS = gql`
 const UPDATE_DAILY_MOOD = gql`
   mutation($mood: String!) {
     updateDailyMood(mood: $mood) {
+      id
+      mood
+      createdAt
+    }
+  }
+`
+
+const DELETE_SINGLE_MOOD = gql`
+  mutation($id: ID!) {
+    deleteSingleMood(id: $id) {
+      id
       mood
       createdAt
     }
@@ -56,6 +69,11 @@ const reducer = (state: StateType, action: ActionType) => {
       return {
         ...state,
         moods: [action.payload, ...state.moods],
+      }
+    case 'DELETE_SINGLE_MOOD':
+      return {
+        ...state,
+        moods: state.moods.filter(mood => mood.id !== action.payload.id),
       }
     default:
       return state
@@ -85,6 +103,13 @@ export const MoodsProvider = ({ children }) => {
     },
   })
 
+  const [deleteSingleMood] = useMutation(DELETE_SINGLE_MOOD, {
+    onCompleted: ({ deleteSingleMood }) => {
+      console.log(deleteSingleMood)
+      dispatch({ type: 'DELETE_SINGLE_MOOD', payload: deleteSingleMood })
+    },
+  })
+
   const updateDailyMoodAction = async mood => {
     const res = await updateDailyMood({
       variables: {
@@ -95,10 +120,21 @@ export const MoodsProvider = ({ children }) => {
     return res?.data?.updateDailyMood
   }
 
+  const deleteSingleMoodAction = async id => {
+    const res = await deleteSingleMood({
+      variables: {
+        id,
+      },
+    })
+
+    return res?.data?.updateDailyMood
+  }
+
   const value = useMemo(() => {
     return {
       moods: state.moods,
       updateDailyMoodAction,
+      deleteSingleMoodAction,
     }
   }, [state.moods])
 

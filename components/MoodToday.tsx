@@ -13,21 +13,20 @@ export const MoodToday = () => {
 
   const [mood, setMood] = useState('')
   const [saved, setSaved] = useState(false)
-  const [dateSaved, setDateSaved] = useState()
 
   async function handleSubmit(e) {
     e.preventDefault()
+
+    if (!mood.length) return
+
     try {
-      // const dateInit = new Date()
-      // const dateNow = dateInit.getTime()
-      const res = await updateDailyMoodAction(mood)
-      setDateSaved(res.createdAt)
+      await updateDailyMoodAction(mood)
       setSaved(true)
     } catch (err) {
       console.error(err.message)
     }
   }
-  console.log(moods[0]?.createdAt)
+
   useEffect(() => {
     let id
     if (saved) {
