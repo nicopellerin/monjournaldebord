@@ -4,13 +4,15 @@ import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 
 interface MoodsContextValue {
-  moods: [{ id: string; mood: string; createdAt: string }]
-  updateDailyMoodAction: (mood) => void
+  moods: [{ id: string; mood: string; createdAt: Date }]
+  updateDailyMoodAction: (mood) => Promise<any>
 }
 
 const MoodsValue: MoodsContextValue = {
-  moods: [{ id: '', mood: '', createdAt: '' }],
-  updateDailyMoodAction: () => {},
+  moods: [{ id: '', mood: '', createdAt: new Date() }],
+  updateDailyMoodAction: mood => {
+    return mood
+  },
 }
 
 export const MoodsContext = createContext(MoodsValue)
@@ -21,7 +23,7 @@ type ActionType = {
 }
 
 type StateType = {
-  moods: []
+  moods: [{ id: string; mood: string; createdAt: Date }]
 }
 
 const GET_ALL_MOODS = gql`
@@ -38,6 +40,7 @@ const UPDATE_DAILY_MOOD = gql`
   mutation($mood: String!) {
     updateDailyMood(mood: $mood) {
       mood
+      createdAt
     }
   }
 `
@@ -83,11 +86,13 @@ export const MoodsProvider = ({ children }) => {
   })
 
   const updateDailyMoodAction = async mood => {
-    await updateDailyMood({
+    const res = await updateDailyMood({
       variables: {
         mood,
       },
     })
+
+    return res?.data?.updateDailyMood
   }
 
   const value = useMemo(() => {

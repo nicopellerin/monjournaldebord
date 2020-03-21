@@ -13,21 +13,21 @@ export const MoodToday = () => {
 
   const [mood, setMood] = useState('')
   const [saved, setSaved] = useState(false)
-  const [dateSaved, setDateSaved] = useState(0)
+  const [dateSaved, setDateSaved] = useState()
 
   async function handleSubmit(e) {
     e.preventDefault()
     try {
-      const dateInit = new Date()
-      const dateNow = dateInit.getTime()
-      setDateSaved(dateNow)
-      await updateDailyMoodAction(mood)
+      // const dateInit = new Date()
+      // const dateNow = dateInit.getTime()
+      const res = await updateDailyMoodAction(mood)
+      setDateSaved(res.createdAt)
       setSaved(true)
     } catch (err) {
       console.error(err.message)
     }
   }
-
+  console.log(moods[0]?.createdAt)
   useEffect(() => {
     let id
     if (saved) {
@@ -96,13 +96,9 @@ export const MoodToday = () => {
             </Mood>
             <MoodDate>
               <FaClock style={{ marginRight: 5 }} />
-              {format(
-                dateSaved || Number(moods[0]?.createdAt),
-                'iiii dd MMMM - HH:mm',
-                {
-                  locale: fr,
-                }
-              )}
+              {format(moods[0]?.createdAt, 'iiii dd MMMM - HH:mm', {
+                locale: fr,
+              })}
             </MoodDate>
           </MoodWrapper>
         )}

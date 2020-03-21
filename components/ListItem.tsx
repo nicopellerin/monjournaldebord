@@ -102,8 +102,6 @@ const RightMenu: React.FC<RightMenuProps> = ({
   yVal,
   setRightMenuVisible,
 }) => {
-  const [toggleConfirmDelete, setToggleConfirmDelete] = useState(false)
-
   const { selectJournal, toggleDeleteAction } = useContext(JournalContext)
 
   return (

@@ -21,7 +21,8 @@ export const ProfilMoods = React.memo(() => {
   const moodsByDate = useMemo(
     () =>
       moods?.reduce((dates, cur) => {
-        const date = format(Number(cur.createdAt), 'iiii dd MMMM', {
+        console.log(typeof cur.createdAt)
+        const date = format(cur.createdAt, 'iiii dd MMMM', {
           locale: fr,
         })
         dates[date] = dates[date] || []
@@ -54,7 +55,9 @@ export const ProfilMoods = React.memo(() => {
                       <ListItem
                         layoutTransition
                         key={moodItem.id}
-                        onMouseOver={() => setshowDeleteIcon(moodItem.id)}
+                        onMouseOver={() => {
+                          setshowDeleteIcon(moodItem.id)
+                        }}
                         onMouseLeave={() => setshowDeleteIcon(null)}
                       >
                         {moodItem?.mood}
