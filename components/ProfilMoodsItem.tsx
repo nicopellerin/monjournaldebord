@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { FaTimesCircle } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -14,8 +14,7 @@ interface Props {
 }
 
 export const ProfilMoodsItem: React.FC<Props> = ({ id, mood, createdAt }) => {
-  console.log(id)
-  const [showDeleteIcon, setshowDeleteIcon] = useState(null)
+  const [selected, setSelected] = useState(false)
 
   const { deleteSingleMoodAction } = useContext(MoodsContext)
 
@@ -25,20 +24,34 @@ export const ProfilMoodsItem: React.FC<Props> = ({ id, mood, createdAt }) => {
     stiffness: 100,
   }
 
+  let timeout
+  const handleHoverEffect = () => {
+    timeout = setTimeout(() => {
+      setSelected(true)
+    }, 500)
+  }
+
+  useEffect(() => {
+    return () => clearTimeout(timeout)
+  }, [timeout])
+
   return (
     <ListItem
       positionTransition={spring}
       exit={{}}
       key={id}
-      onMouseOver={() => {
-        setshowDeleteIcon(id)
+      onHoverStart={() => handleHoverEffect()}
+      onHoverEnd={() => {
+        setSelected(false)
+        clearTimeout(timeout)
       }}
-      onMouseLeave={() => setshowDeleteIcon(null)}
     >
       <Hour>{format(createdAt, 'H:mm')}</Hour> {mood}
       <AnimatePresence>
-        {showDeleteIcon === id && (
+        {selected && (
           <ListItemDeleteIconWrapper
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.92 }}
             initial={{
               y: 21,
               opacity: 0.7,

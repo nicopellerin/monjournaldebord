@@ -70,6 +70,10 @@ const Input = styled.input`
   &::placeholder {
     color: #aaa;
   }
+
+  &:focus {
+    outline: none;
+  }
 `
 
 const InputWrapper = styled.div`

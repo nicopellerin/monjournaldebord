@@ -19,7 +19,8 @@ class MyApp extends App {
     if (
       router.pathname.startsWith('/profil') ||
       router.pathname.startsWith('/profil/moods') ||
-      router.pathname.startsWith('/journal')
+      router.pathname.startsWith('/journal') ||
+      router.pathname.startsWith('/recherche')
     ) {
       return (
         <UserProvider>

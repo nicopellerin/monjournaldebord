@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState, useContext, useEffect } from 'react'
+import { useState, useContext, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaRegSmile, FaCheckCircle, FaClock } from 'react-icons/fa'
@@ -14,6 +14,8 @@ export const MoodToday = () => {
   const [mood, setMood] = useState('')
   const [saved, setSaved] = useState(false)
 
+  const inputRef = useRef(null)
+
   async function handleSubmit(e) {
     e.preventDefault()
 
@@ -22,6 +24,8 @@ export const MoodToday = () => {
     try {
       await updateDailyMoodAction(mood)
       setSaved(true)
+      inputRef.current.blur()
+      setMood('')
     } catch (err) {
       console.error(err.message)
     }
@@ -31,7 +35,7 @@ export const MoodToday = () => {
     let id
     if (saved) {
       id = setTimeout(() => {
-        setSaved(false), setMood('')
+        setSaved(false)
       }, 2000)
     }
 
@@ -53,8 +57,9 @@ export const MoodToday = () => {
             Mood de la journée
           </Title>
         </Heading>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} autoComplete="off">
           <Input
+            ref={inputRef}
             maxLength={80}
             placeholder="Aujourd'hui, je me sens..."
             name="mood"
@@ -62,7 +67,6 @@ export const MoodToday = () => {
             onChange={e => setMood(e.target.value)}
           />
         </Form>
-
         <AnimatePresence>
           {saved && (
             <SavedText
