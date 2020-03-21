@@ -27,7 +27,8 @@ export const Hero = () => {
             transition: { delay: 0.3 },
           }}
         >
-          Un journal de bord en ligne. Facile d'utilisation et gratuit.
+          Créer ton propre journal de bord en ligne. Facile d'utilisation et
+          100% gratuit.
         </Tagline>
         <ButtonGroup
           initial={{ opacity: 0 }}

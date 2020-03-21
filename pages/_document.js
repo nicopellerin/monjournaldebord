@@ -36,16 +36,18 @@ export default class MyDocument extends Document {
           <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
           <meta
             name="description"
-            content="Un journal de bord en ligne. Facile d'utilisation et gratuit."
+            content="Créer ton propre journal de bord en ligne. Facile d'utilisation et
+            100% gratuit."
           />
           <meta name="theme-color" content="#9D00E0" />
           <meta name="og:title" content="monjournaldebord" />
           <meta name="og:url" content="https://monjournaldebord.ca" />
           <meta
             name="og:description"
-            content="Un journal de bord en ligne. Facile d'utilisation et gratuit."
+            content="Créer ton propre journal de bord en ligne. Facile d'utilisation et
+            100% gratuit."
           />
-          <meta name="og:image" content="/og-image-3.png" />
+          <meta name="og:image" content="/og-image-4.png" />
           <link rel="shortcut icon" href="/favicon.png" />
           <link
             href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap"

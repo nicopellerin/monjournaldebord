@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import format from 'date-fns/format'
 import { fr } from 'date-fns/locale'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaPlusCircle, FaCalendarAlt, FaCalendarDay } from 'react-icons/fa'
+import { FaPlusCircle, FaCalendarDay, FaTimesCircle } from 'react-icons/fa'
 
 import { MoodsContext } from '../context/MoodsProvider'
 
@@ -19,7 +19,7 @@ export const ProfilMoods = () => {
 
   const moodsByDate = useMemo(
     () =>
-      moods.reduce((dates, cur) => {
+      moods?.reduce((dates, cur) => {
         const date = format(Number(cur.createdAt), 'iiii dd MMMM', {
           locale: fr,
         })
@@ -58,12 +58,25 @@ export const ProfilMoods = () => {
                 </AnimatePresence>
                 {moods.length > 4 && (
                   <ButtonWrapper onClick={() => setShowLess(!showLess)}>
-                    <FaPlusCircle
-                      size={18}
-                      color="#9D00E0"
-                      style={{ cursor: 'pointer', marginRight: 5 }}
-                    />
-                    Voir liste complète ({moods?.length})
+                    {showLess ? (
+                      <>
+                        <FaPlusCircle
+                          size={18}
+                          color="#9D00E0"
+                          style={{ cursor: 'pointer', marginRight: 5 }}
+                        />
+                        Voir liste complète ({moods?.length})
+                      </>
+                    ) : (
+                      <>
+                        <FaTimesCircle
+                          size={18}
+                          color="#9D00E0"
+                          style={{ cursor: 'pointer', marginRight: 5 }}
+                        />
+                        Fermer
+                      </>
+                    )}
                   </ButtonWrapper>
                 )}
               </DateGroup>
