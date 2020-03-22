@@ -121,5 +121,6 @@ const AllJournals = styled(motion.button)`
   cursor: pointer;
   display: flex;
   align-items: center;
+  font-size: 1.2rem;
   font-weight: 500;
 `
