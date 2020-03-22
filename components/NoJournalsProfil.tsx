@@ -45,7 +45,7 @@ export const NoJournalsProfil = () => {
 
   return (
     <Wrapper>
-      <AnimatePresence initial={false}>
+      <AnimatePresence initial={false} custom={direction}>
         {page === 0 && (
           <motion.div
             style={{ position: 'absolute' }}
