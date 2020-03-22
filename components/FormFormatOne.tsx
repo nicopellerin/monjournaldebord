@@ -265,7 +265,7 @@ const DateWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-bottom: 1rem;
+  margin-bottom: 1.8rem;
 `
 
 const FormWrapper = styled.form``

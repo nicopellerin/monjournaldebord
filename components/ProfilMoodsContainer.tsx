@@ -97,12 +97,14 @@ const Title = styled.h3`
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
-  cursor: move;
+  /* cursor: move; */
+  /* border-bottom: 3px solid #ddd; */
 `
 
 const Wrapper = styled(motion.div)`
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   background: ghostwhite;
+  border-bottom: 3px solid #ddd;
 
   &:not(:last-of-type) {
     margin-bottom: 6rem;

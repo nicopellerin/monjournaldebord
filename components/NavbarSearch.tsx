@@ -30,7 +30,9 @@ export const NavbarSearch: React.FC = () => {
 
   return (
     <Wrapper>
-      <FaSearch style={{ fontSize: '1.6rem', marginRight: 7, color: '#333' }} />
+      <FaSearch
+        style={{ fontSize: '1.6rem', marginRight: 10, color: '#440061' }}
+      />
       <InputWrapper>
         <Input
           name="title"

@@ -67,6 +67,7 @@ const Wrapper = styled(motion.div)`
   height: 100%;
   background: ${props => props.theme.colors.cardBackground};
   position: relative;
+  border-bottom: 3px solid #ddd;
 `
 
 const Title = styled.h2`

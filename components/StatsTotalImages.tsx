@@ -53,24 +53,8 @@ const Wrapper = styled.div`
   background: ${props => props.theme.colors.statsCardBackground};
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   padding: 2rem 3rem;
-  /* border: 1px solid #ddd; */
   border-radius: 5px;
-  /* display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 2rem; */
-
-  /* & > div:first-of-type {
-    position: relative;
-
-    &::after {
-      content: '';
-      position: absolute;
-      right: -1rem;
-      width: 1px;
-      height: 100%;
-      background: #ddd;
-    }
-  } */
+  border-bottom: 3px solid #ddd;
 `
 
 const TotalWrapper = styled.div`

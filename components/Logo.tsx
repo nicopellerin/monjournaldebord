@@ -20,7 +20,7 @@ export const Logo: React.FC<Props> = ({ width }) => {
     <Link href={loggedIn ? '/profil' : '/'}>
       <AStyled>
         <svg
-          width={width ? `${width}rem` : '20rem'}
+          width={width ? `${width}rem` : '22rem'}
           // height="67px"
           viewBox="0 0 418 67"
           version="1.1"

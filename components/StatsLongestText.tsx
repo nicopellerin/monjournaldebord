@@ -47,6 +47,7 @@ const Wrapper = styled.div`
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   padding: 2rem 3rem;
   border-radius: 5px;
+  border-bottom: 3px solid #ddd;
 `
 
 const TotalWrapper = styled.div`

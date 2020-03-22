@@ -42,7 +42,7 @@ const Wrapper = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background: ghostwhite; */
+  border-bottom: 3px solid #ddd;
   padding: 7rem 9rem;
   border-radius: 23px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
@@ -52,7 +52,6 @@ const UserImage = styled.img`
   width: 20rem;
   height: 20rem;
   border-radius: 50%;
-  /* cursor: pointer; */
   border: 1px solid #ddd;
   padding: 2px;
   margin-bottom: 3rem;

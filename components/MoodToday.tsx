@@ -131,6 +131,7 @@ const Content = styled(motion.div)`
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   position: relative;
+  border-bottom: 3px solid #ddd;
 `
 
 const Title = styled.h2`
