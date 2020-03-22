@@ -114,7 +114,7 @@ const ButtonWrapper = styled.div`
 const ButtonDelete = styled(motion.button)`
   border: none;
   padding: 0.7em 1.2em;
-  background: crimson;
+  background: red;
   color: white;
   text-transform: uppercase;
   border-radius: 5px;
@@ -130,7 +130,7 @@ const ButtonCancel = styled(motion.button)`
   border: none;
   padding: 0.7em 1.2em;
   background: white;
-  color: crimson;
+  color: red;
   text-transform: uppercase;
   border-radius: 5px;
   display: flex;
