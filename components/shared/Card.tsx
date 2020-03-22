@@ -34,7 +34,7 @@ export const Card: React.FC<Props> = ({
     maxWidth: 1500,
   })
 
-  const titleLength = isLaptop ? 15 : 18
+  const titleLength = isLaptop ? 15 : 30
   const textLength = isLaptop ? 140 : 200
 
   return (
@@ -67,13 +67,16 @@ const Wrapper = styled(motion.div)`
   height: 100%;
   background: ${props => props.theme.colors.cardBackground};
   position: relative;
+  border-top: 5px solid #eef;
+
   border-bottom: 3px solid #ddd;
 `
 
 const Title = styled.h2`
-  font-size: 3rem;
+  font-size: 2.6rem;
   margin-bottom: 2rem;
   color: ${props => props.theme.colors.titleColor};
+  font-weight: 400;
 `
 
 const Text = styled.p`

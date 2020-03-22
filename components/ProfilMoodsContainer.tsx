@@ -97,8 +97,8 @@ const Title = styled.h3`
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
-  /* cursor: move; */
-  /* border-bottom: 3px solid #ddd; */
+  color: #440061;
+  border-top: 5px solid #eef;
 `
 
 const Wrapper = styled(motion.div)`

@@ -127,6 +127,10 @@ const UsernameText = styled.span`
   font-size: 1.6rem;
   margin-right: 2rem;
   cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 const UserEmail = styled.span`

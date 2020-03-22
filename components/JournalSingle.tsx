@@ -93,7 +93,7 @@ const JournalSingle: React.FC = () => {
           <Title>{selectedJournal?.title}</Title>
           <Heading>
             <DateWrapper>
-              <CalendarIcon />
+              <CalendarIcon size={14} />
               <DateNow dateInfo={selectedJournal?.createdAt} />
             </DateWrapper>
             <Mood src={selectedJournal?.mood} alt="Mood" />
@@ -160,7 +160,7 @@ const Wrapper = styled.div`
   min-width: 60rem;
   max-width: 80rem;
   height: 100%;
-  padding: 8rem 0;
+  padding: 9rem 0 12rem 0;
   position: relative;
 `
 
@@ -171,7 +171,7 @@ const Content = styled(motion.div)`
 const Image = styled.img`
   width: 100%;
   height: 42rem;
-  margin: 2rem 0 1rem;
+  margin: 2.2rem 0 2rem;
   object-fit: cover;
   object-position: center;
   border-radius: 5px;
@@ -201,6 +201,9 @@ const DateWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-right: 1.5rem;
+  margin-left: 0.5rem;
+  padding-left: 0.5rem;
+  border-left: 1px solid #ddd;
 `
 
 const Mood = styled.img`
@@ -210,11 +213,12 @@ const Mood = styled.img`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-top: 1rem;
+  margin-top: 2rem;
 `
 
 const ButtonPDF = styled(motion.button)`
   border: 1px solid #ddd;
+  border-bottom: 3px solid #ddd;
   padding: 1em 1.5em;
   background: ghostwhite;
   color: #440061;
@@ -230,6 +234,7 @@ const ButtonPDF = styled(motion.button)`
 
 const ButtonEdit = styled(motion.button)`
   border: none;
+  border-bottom: 3px solid #ddd;
   padding: 1em 1.5em;
   background: whitesmoke;
   color: #333;
@@ -245,6 +250,7 @@ const ButtonEdit = styled(motion.button)`
 
 const ButtonDelete = styled(motion.button)`
   border: none;
+  border-bottom: 3px solid #ddd;
   padding: 1em 1.5em;
   background: whitesmoke;
   color: crimson;

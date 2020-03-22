@@ -26,6 +26,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-top: 5px solid #eef;
   border-bottom: 3px solid #ddd;
 `
 

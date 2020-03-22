@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { UserContext } from '../context/UserProvider'
-import { FaUserSecret } from 'react-icons/fa'
+import { FaUserSecret, FaRegEnvelope } from 'react-icons/fa'
 
 export const ProfilInfo = () => {
   const { username, avatar, email } = useContext(UserContext)
@@ -16,9 +16,13 @@ export const ProfilInfo = () => {
           alt="Profil"
         />
         <Username>{username}</Username>
-        <Email>{email}</Email>
+        <Email>
+          <FaRegEnvelope style={{ marginRight: 5 }} />
+          {email}
+        </Email>
+        <Dots>&#8411;</Dots>
         <ButtonPassword whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-          <FaUserSecret style={{ marginRight: 7 }} />
+          <FaUserSecret style={{ marginRight: 5 }} />
           Changer mot de passe
         </ButtonPassword>
       </Wrapper>
@@ -30,7 +34,7 @@ export const ProfilInfo = () => {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
-          Supprimer compte
+          Supprimer mon compte
         </ButtonDeleteAccount>
       </motion.div>
     </>
@@ -42,6 +46,7 @@ const Wrapper = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-top: 15px solid #eee;
   border-bottom: 3px solid #ddd;
   padding: 7rem 9rem;
   border-radius: 23px;
@@ -63,10 +68,11 @@ const Username = styled.h2`
 `
 
 const Email = styled.h3`
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 400;
-  margin-bottom: 6rem;
   color: #440061;
+  display: flex;
+  align-items: center;
 `
 
 const ButtonPassword = styled(motion.button)`
@@ -74,16 +80,13 @@ const ButtonPassword = styled(motion.button)`
   border: 1px solid #440061;
   border-bottom: 3px solid #440061;
   padding: 1em 1.5em;
-  /* background: ghostwhite; */
   color: #440061;
-  /* text-transform: uppercase; */
   border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   font-size: 1.4rem;
-  /* margin-bottom: 3rem; */
 `
 
 const ButtonDeleteAccount = styled(motion.button)`
@@ -91,7 +94,6 @@ const ButtonDeleteAccount = styled(motion.button)`
   padding: 1em 1.5em;
   background: none;
   color: crimson;
-  text-transform: uppercase;
   text-decoration: underline;
   border-radius: 5px;
   display: flex;
@@ -100,4 +102,10 @@ const ButtonDeleteAccount = styled(motion.button)`
   cursor: pointer;
   font-size: 1.2rem;
   margin-top: 4rem;
+`
+
+const Dots = styled.span`
+  display: block;
+  font-size: 5rem;
+  text-align: center;
 `

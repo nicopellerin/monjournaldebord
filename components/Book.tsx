@@ -52,5 +52,6 @@ const FormWrapper = styled.div`
   padding: 4rem;
   position: relative;
   z-index: 3;
+  border-top: 5px solid #eef;
   border-bottom: 3px solid #ddd;
 `

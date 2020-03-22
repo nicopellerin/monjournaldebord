@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useState, useContext, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaRegSmile, FaCheckCircle, FaClock } from 'react-icons/fa'
+import { FaRegSmile, FaCheckCircle, FaRegClock } from 'react-icons/fa'
 import format from 'date-fns/format'
 import { fr } from 'date-fns/locale'
 
@@ -103,7 +103,7 @@ export const MoodToday = () => {
               </span>
             </Mood>
             <MoodDate>
-              <FaClock style={{ marginRight: 5 }} />
+              <FaRegClock style={{ marginRight: 5 }} />
               {format(moods[0]?.createdAt, 'iiii dd MMMM - HH:mm', {
                 locale: fr,
               })}
@@ -131,11 +131,12 @@ const Content = styled(motion.div)`
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   position: relative;
+  border-top: 5px solid #eef;
   border-bottom: 3px solid #ddd;
 `
 
 const Title = styled.h2`
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: ${props => props.theme.colors.textColor};
   margin: 0;
   display: flex;
@@ -156,7 +157,7 @@ const Input = styled.input`
   border: none;
   border-radius: 5px;
   border-bottom: 1px dotted #ddd;
-  padding: 1.8rem;
+  padding: 1.6rem;
   background: rgba(255, 255, 255, 0.4);
   width: 100%;
   font-size: 1.6rem;
@@ -226,4 +227,5 @@ const MoodDate = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
+  border-bottom: 2px solid #eee;
 `
