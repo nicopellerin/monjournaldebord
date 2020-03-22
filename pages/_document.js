@@ -47,7 +47,7 @@ export default class MyDocument extends Document {
             content="Créer ton propre journal de bord en ligne. Facile d'utilisation et
             100% gratuit."
           />
-          <meta name="og:image" content="/og-image-4.png" />
+          <meta name="og:image" content="/og-image-5.png" />
           <link rel="shortcut icon" href="/favicon.png" />
           <link
             href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap"
