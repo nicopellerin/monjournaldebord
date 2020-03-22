@@ -217,7 +217,7 @@ const ButtonPDF = styled(motion.button)`
   border: 1px solid #ddd;
   padding: 1em 1.5em;
   background: none;
-  color: var(--primaryColor);
+  color: #440061;
   text-transform: uppercase;
   border-radius: 5px;
   display: flex;
@@ -260,7 +260,7 @@ const ButtonDelete = styled(motion.button)`
 `
 
 const CalendarIcon = styled(FaCalendarAlt)`
-  color: ${props => props.theme.colors.textColor};
+  color: #440061;
   margin-right: 5px;
 `
 

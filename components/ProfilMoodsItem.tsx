@@ -103,7 +103,6 @@ const ListItem = styled(motion.li)`
   background: white;
   line-height: 1.4em;
   position: relative;
-  transition: 200ms ease-in-out;
 
   &:not(:last-of-type) {
     border-bottom: 1px solid #eee;

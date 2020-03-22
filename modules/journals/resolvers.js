@@ -51,7 +51,9 @@ export const journalsResolvers = {
 
       const editedJournal = { ...args }
       try {
-        const res = await Journal.findByIdAndUpdate(args.id, editedJournal)
+        const res = await Journal.findByIdAndUpdate(args.id, editedJournal, {
+          new: true,
+        })
 
         return res
       } catch (err) {
