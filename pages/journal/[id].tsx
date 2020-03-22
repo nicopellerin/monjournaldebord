@@ -9,9 +9,7 @@ import { Content } from '../../components/Content'
 import { JournalContext } from '../../context/JournalProvider'
 
 const SinglePage: NextPage = () => {
-  const { selectJournal, selectedJournal, singleJournalLoading } = useContext(
-    JournalContext
-  )
+  const { selectJournal, selectedJournal } = useContext(JournalContext)
 
   const {
     query: { id },

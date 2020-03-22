@@ -46,7 +46,7 @@ const JournalSingle: React.FC = () => {
     document.addEventListener('keydown', prevPublication)
 
     const nextPublication = e => {
-      if (nextIdx && e.keyCode === 39) {
+      if (currentIdx + 1 < 5 && e.keyCode === 39) {
         Router.push(`/journal/[id]`, `/journal/${nextIdx.id}`, {
           shallow: true,
         })

@@ -15,7 +15,7 @@ interface Props {
   title: string
   text: string
   id: string | string[]
-  mood: string
+  mood?: string
 }
 
 interface ItemProps {
@@ -34,7 +34,7 @@ interface RightMenuStyledProps {
   yVal: number
 }
 
-export const ListItem: React.FC<Props> = React.memo(({ title, id, mood }) => {
+export const ListItem: React.FC<Props> = React.memo(({ title, id }) => {
   const { selectJournal } = useContext(JournalContext)
 
   const [rightMenuVisible, setRightMenuVisible] = useState(false)
@@ -77,7 +77,7 @@ export const ListItem: React.FC<Props> = React.memo(({ title, id, mood }) => {
           }}
         >
           <Item selected={selected}>
-            <Mood src={mood} alt="Mood" />
+            {/* <Mood src={mood} alt="Mood" /> */}
             <Text>{maxLength(title, 23)}</Text>
           </Item>
         </Wrapper>
@@ -144,6 +144,7 @@ const RightMenu: React.FC<RightMenuProps> = ({
 // Styles
 const Outer = styled.div`
   position: relative;
+  /* box-shadow: inset -2px 0px 10px rgba(0, 0, 0, 0.01); */
 `
 
 const Wrapper = styled(motion.li)`

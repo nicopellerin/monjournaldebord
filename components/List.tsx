@@ -2,9 +2,10 @@ import * as React from 'react'
 import { useContext, useState, useEffect } from 'react'
 import styled, { css } from 'styled-components'
 import { motion } from 'framer-motion'
-import { FaNewspaper, FaHome, FaRegSmile } from 'react-icons/fa'
+import { FaNewspaper, FaHome, FaRegSmile, FaCaretRight } from 'react-icons/fa'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useMedia } from 'react-use-media'
 
 import { ListItem } from './ListItem'
 
@@ -15,6 +16,16 @@ export const List: React.FC = () => {
 
   const { pathname } = useRouter()
 
+  // const isLaptop = useMedia({
+  //   maxWidth: 1500,
+  // })
+
+  // const isLaptopHeight = useMedia({
+  //   maxHeight: 1000,
+  // })
+
+  // // let sliceLen = isLaptop ? 6 : 8
+
   return (
     <Wrapper>
       <Link href="/profil">
@@ -22,7 +33,7 @@ export const List: React.FC = () => {
           style={{ marginBottom: '1.2rem', cursor: 'pointer' }}
           active={pathname === '/profil' ? true : false}
         >
-          <FaHome style={{ marginRight: 5 }} />
+          <FaHome style={{ marginRight: 7 }} />
           Accueil
         </Title>
       </Link>
@@ -31,21 +42,34 @@ export const List: React.FC = () => {
           style={{ marginBottom: '1.2rem', cursor: 'pointer' }}
           active={pathname === '/profil/moods' ? true : false}
         >
-          <FaRegSmile style={{ marginRight: 5 }} />
+          <FaRegSmile style={{ marginRight: 7 }} />
           Moods
         </Title>
       </Link>
-      <Title style={{ marginBottom: '1rem' }}>
-        <FaNewspaper style={{ marginRight: 5 }} />
-        Journaux
-      </Title>
+      <Link href="/journal/liste">
+        <Title
+          style={{ marginBottom: '1rem', cursor: 'pointer' }}
+          active={pathname.includes('/journal') ? true : false}
+        >
+          <FaNewspaper style={{ marginRight: 7 }} />
+          Publications
+        </Title>
+      </Link>
       <NavStyled>
         <ListStyled>
-          {journals?.map(item => (
+          {journals?.slice(0, 5).map(item => (
             <ListItem key={item.id} {...item} />
           ))}
         </ListStyled>
       </NavStyled>
+      {journals?.length > 8 && (
+        <Link href="/journal/liste">
+          <AllJournals whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <FaCaretRight />
+            Voir liste complète ({journals?.length})
+          </AllJournals>
+        </Link>
+      )}
     </Wrapper>
   )
 }
@@ -85,8 +109,17 @@ const ListStyled = styled(motion.ul)`
   width: 100%;
   margin: 0;
   padding: 0;
+`
 
-  /* & > li {
-    margin-bottom: 0.5rem;
-  } */
+const AllJournals = styled(motion.button)`
+  border: 1px solid #eee;
+  background: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-top: 2rem;
+  color: var(--primaryColor);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
 `

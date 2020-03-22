@@ -1,19 +1,28 @@
 import * as React from 'react'
 import { useState, useContext, useEffect } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { FaTimesCircle } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
 import format from 'date-fns/format'
 
 import { MoodsContext } from '../context/MoodsProvider'
+import Link from 'next/link'
+
+import { maxLength } from '../utils/maxLength'
 
 interface Props {
   id: string
+  title: string
   mood: string
   createdAt: Date
 }
 
-export const ProfilMoodsItem: React.FC<Props> = ({ id, mood, createdAt }) => {
+export const ProfilMoodsItem: React.FC<Props> = ({
+  id,
+  mood,
+  title,
+  createdAt,
+}) => {
   const [selected, setSelected] = useState(false)
 
   const { deleteSingleMoodAction } = useContext(MoodsContext)
@@ -34,6 +43,23 @@ export const ProfilMoodsItem: React.FC<Props> = ({ id, mood, createdAt }) => {
   useEffect(() => {
     return () => clearTimeout(timeout)
   }, [timeout])
+
+  if (title) {
+    return (
+      <Link href={`/journal/[id]`} as={`/journal/${id}`}>
+        <ListItem
+          positionTransition={spring}
+          exit={{}}
+          key={id}
+          style={{ cursor: 'pointer' }}
+          whileHover={{ scale: 1.01, fontWeight: 'bold' }}
+        >
+          <Hour>{format(createdAt, 'H:mm')}</Hour> {maxLength(title, 38)}
+          <Mood src={mood} alt="mood" />
+        </ListItem>
+      </Link>
+    )
+  }
 
   return (
     <ListItem
@@ -70,7 +96,7 @@ export const ProfilMoodsItem: React.FC<Props> = ({ id, mood, createdAt }) => {
 
 // Styles
 const ListItem = styled(motion.li)`
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   width: 100%;
   white-space: pre-wrap;
   padding: 2rem 3rem;
@@ -96,11 +122,22 @@ const ListItemDeleteIcon = styled(FaTimesCircle)`
 `
 
 const Hour = styled.span`
+  display: inline-block;
   font-size: 1.2rem;
   font-weight: 600;
   background: #f4f4f4;
-  padding: 2px 5px;
+  padding: 0px 5px;
   border-radius: 5px;
-  margin-right: 5px;
+  margin-right: 10px;
   color: var(--primaryColor);
+  min-width: 40px;
+  text-align: center;
+`
+
+const Mood = styled.img`
+  width: 20px;
+  position: absolute;
+  right: 2rem;
+  top: 38%;
+  transform: translateZ(0, -48%, 0);
 `

@@ -5,15 +5,16 @@ import format from 'date-fns/format'
 import { fr } from 'date-fns/locale'
 import { motion } from 'framer-motion'
 
-import { MoodsContext } from '../context/MoodsProvider'
 import { ProfilMoodsContainer } from './ProfilMoodsContainer'
 
-export const ProfilMoods = React.memo(() => {
-  const { moods } = useContext(MoodsContext)
+interface Props {
+  list: any
+}
 
-  const moodsByDate = useMemo(
+export const ProfilMoods: React.FC<Props> = React.memo(({ list }) => {
+  const listByDate = useMemo(
     () =>
-      moods?.reduce((dates, cur) => {
+      list?.reduce((dates, cur) => {
         const date = format(cur.createdAt, 'iiii dd MMMM', {
           locale: fr,
         })
@@ -21,25 +22,30 @@ export const ProfilMoods = React.memo(() => {
         dates[date].push({
           id: cur.id,
           mood: cur.mood,
+          title: cur.title,
           createdAt: cur.createdAt,
         })
         return dates
       }, {}),
-    [moods]
+    [list]
   )
 
   return (
     <Wrapper>
       <Content animate={{ y: [10, 0], opacity: [0, 1] }}>
-        {Object.entries(moodsByDate).map(
+        {Object.entries(listByDate).map(
           (
-            [date, moods]: [
+            [date, lists]: [
               string,
               [{ id: string; mood: string; createdAt: Date }]
             ],
             i
           ) => {
-            return <ProfilMoodsContainer key={i} date={date} moods={moods} />
+            return (
+              <React.Fragment key={i}>
+                <ProfilMoodsContainer index={i} date={date} lists={lists} />
+              </React.Fragment>
+            )
           }
         )}
       </Content>
@@ -55,10 +61,6 @@ const Wrapper = styled.div`
   min-height: 100%;
   display: flex;
   justify-content: center;
-
-  @media (max-width: 1500px) {
-    padding: 10em 9rem;
-  }
 `
 
 const Content = styled(motion.div)`

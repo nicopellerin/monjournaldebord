@@ -12,9 +12,9 @@ import { FaPlusCircle, FaCalendarDay, FaTimesCircle } from 'react-icons/fa'
 import { ProfilMoodsItem } from './ProfilMoodsItem'
 
 interface Props {
-  moods: any
+  lists: any
   date: string
-  key: number
+  index: number
 }
 
 interface StylesProps {
@@ -23,9 +23,9 @@ interface StylesProps {
 }
 
 export const ProfilMoodsContainer: React.FC<Props> = ({
-  moods,
+  lists,
   date,
-  key: i,
+  index,
 }) => {
   const [showLess, setShowLess] = useState(true)
 
@@ -39,26 +39,26 @@ export const ProfilMoodsContainer: React.FC<Props> = ({
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
         exit={{ opacity: 0 }}
-        key={i}
+        key={index}
       >
         <Title>
           <FaCalendarDay style={{ marginRight: 10 }} />
           {date}
         </Title>
         <List
-          animate={{ height: showLess ? '29rem' : 'auto' }}
+          animate={{ height: showLess ? '29.5rem' : 'auto' }}
           exit={{ opacity: 0 }}
           transition={{ damping: 300 }}
           showLess={showLess ? true : false}
-          lessThanFour={moods?.length < 5}
+          lessThanFour={lists?.length < 5}
         >
-          {moods.map(moodItem => (
-            <AnimatePresence initial={false}>
-              <ProfilMoodsItem key={moodItem.id} {...moodItem} />
+          {lists.map(listsItem => (
+            <AnimatePresence initial={false} key={listsItem.id}>
+              <ProfilMoodsItem key={listsItem.id} {...listsItem} />
             </AnimatePresence>
           ))}
         </List>
-        {moods.length > 4 && (
+        {lists.length > 4 && (
           <ButtonWrapper onClick={() => setShowLess(!showLess)}>
             {showLess ? (
               <>
@@ -67,7 +67,7 @@ export const ProfilMoodsContainer: React.FC<Props> = ({
                   color="#9D00E0"
                   style={{ cursor: 'pointer', marginRight: 5 }}
                 />
-                Voir liste complète ({moods?.length})
+                Voir liste complète ({lists?.length})
               </>
             ) : (
               <>
@@ -88,7 +88,8 @@ export const ProfilMoodsContainer: React.FC<Props> = ({
 
 // Styles
 const Title = styled.h3`
-  font-size: 2rem;
+  font-size: 1.8rem;
+  font-weight: 500;
   background: ghostwhite;
   padding: 2rem 3rem;
   border-top-left-radius: 5px;
@@ -123,8 +124,9 @@ const List = styled(motion.ul)`
   &:after {
     content: '';
     background: linear-gradient(
-      rgba(255, 255, 255, 0.6),
-      rgba(255, 255, 255, 1)
+      rgba(248, 248, 255, 0.1),
+      rgba(248, 248, 255, 0.8),
+      rgba(248, 248, 255, 1)
     );
     position: absolute;
     left: 0;

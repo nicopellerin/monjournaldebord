@@ -35,8 +35,9 @@ export const NavbarSearch: React.FC = () => {
         <Input
           name="title"
           value={titleInput}
-          placeholder="Recherche par titre..."
+          placeholder="Recherche publication par titre..."
           onChange={e => setTitleInput(e.target.value)}
+          autoComplete="off"
         />
         {search && (
           <AnimatePresence>

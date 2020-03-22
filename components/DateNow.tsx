@@ -1,5 +1,6 @@
 import * as React from 'react'
 import format from 'date-fns/format'
+import { fr } from 'date-fns/locale'
 import styled from 'styled-components'
 
 type Props = {
@@ -8,13 +9,13 @@ type Props = {
 
 export const DateNow: React.FC<Props> = ({ dateInfo }) => {
   if (dateInfo) {
-    const now = format(dateInfo, 'dd/MM/yyyy')
+    const now = format(dateInfo, 'iiii dd MMMM yyyy', { locale: fr })
 
     return <DateStyled>{now}</DateStyled>
   }
 
   const todayDate = Date.now()
-  const now = format(todayDate, 'dd/MM/yyyy')
+  const now = format(todayDate, 'iiii dd MMMM', { locale: fr })
 
   return <DateStyled>{now}</DateStyled>
 }
