@@ -315,6 +315,7 @@ const ButtonWrapper = styled.div`
 
 const Button = styled(motion.button)`
   border: none;
+  border-bottom: 3px solid #440061;
   padding: 1em 2em;
   background: var(--primaryColor);
   color: white;
@@ -330,6 +331,7 @@ const Button = styled(motion.button)`
 const ButtonCancel = styled(motion.button)`
   border: none;
   padding: 1em 1.5em;
+  border-bottom: 3px solid crimson;
   background: whitesmoke;
   color: crimson;
   text-transform: uppercase;

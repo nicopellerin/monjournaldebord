@@ -216,7 +216,7 @@ const ButtonWrapper = styled.div`
 const ButtonPDF = styled(motion.button)`
   border: 1px solid #ddd;
   padding: 1em 1.5em;
-  background: none;
+  background: ghostwhite;
   color: #440061;
   text-transform: uppercase;
   border-radius: 5px;
@@ -225,7 +225,6 @@ const ButtonPDF = styled(motion.button)`
   justify-content: center;
   cursor: pointer;
   font-size: 1.4rem;
-  margin-right: 2rem;
   margin-inline-end: auto;
 `
 

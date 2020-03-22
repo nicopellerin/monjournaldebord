@@ -67,6 +67,7 @@ const Wrapper = styled.aside`
 
 const Button = styled(motion.button)`
   border: none;
+  border-bottom: 3px solid #440061;
   padding: 1em 2em;
   background: var(--primaryColor);
   color: white;

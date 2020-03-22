@@ -11,6 +11,7 @@ import { useClickOutside } from '../hooks/useClickOutside'
 
 import { UserContext } from '../context/UserProvider'
 import { maxLength } from '../utils/maxLength'
+import Link from 'next/link'
 
 interface Props {
   username: string
@@ -25,7 +26,9 @@ export const User: React.FC<Props> = ({ username, avatar }) => {
   return (
     <Wrapper ref={node}>
       <UserInfoWrapper>
-        <UsernameText>{username}</UsernameText>
+        <Link href="/profil/info">
+          <UsernameText>{username}</UsernameText>
+        </Link>
         <div style={{ position: 'relative' }}>
           <UserImage
             src={avatar ? avatar : '/default-profile.png'}
@@ -123,7 +126,7 @@ const UsernameText = styled.span`
   color: #440061;
   font-size: 1.6rem;
   margin-right: 2rem;
-  cursor: initial;
+  cursor: pointer;
 `
 
 const UserEmail = styled.span`
