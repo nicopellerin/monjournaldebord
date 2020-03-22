@@ -11,7 +11,7 @@ interface Props {
   list: any
 }
 
-export const ProfilMoods: React.FC<Props> = React.memo(({ list }) => {
+export const ProfilMoods: React.FC<Props> = ({ list }) => {
   const listByDate = useMemo(
     () =>
       list?.reduce((dates, cur) => {
@@ -51,7 +51,7 @@ export const ProfilMoods: React.FC<Props> = React.memo(({ list }) => {
       </Content>
     </Wrapper>
   )
-})
+}
 
 // Styles
 const Wrapper = styled.div`

@@ -15,7 +15,7 @@ type Journal = {
   id: number
   title: string
   text: string
-  createdAt: string
+  createdAt: Date
   image: string
   mood: string
 }

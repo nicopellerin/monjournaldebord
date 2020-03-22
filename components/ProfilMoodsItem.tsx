@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { useState, useContext, useEffect } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { FaTimesCircle } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
 import format from 'date-fns/format'
+import Link from 'next/link'
 
 import { MoodsContext } from '../context/MoodsProvider'
-import Link from 'next/link'
 
 import { maxLength } from '../utils/maxLength'
 

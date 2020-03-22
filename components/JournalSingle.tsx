@@ -108,6 +108,7 @@ const JournalSingle: React.FC = () => {
                 .replace('\n\n', '<br/><br/>'),
             }}
           />
+          <Dots>&#8411;</Dots>
           <ButtonWrapper>
             <Link
               href={`/journal/edit/[id]`}
@@ -236,4 +237,10 @@ const ButtonDelete = styled(motion.button)`
 const CalendarIcon = styled(FaCalendarAlt)`
   color: ${props => props.theme.colors.textColor};
   margin-right: 5px;
+`
+
+const Dots = styled.span`
+  display: block;
+  font-size: 5rem;
+  text-align: center;
 `

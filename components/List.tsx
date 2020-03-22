@@ -57,12 +57,12 @@ export const List: React.FC = () => {
       </Link>
       <NavStyled>
         <ListStyled>
-          {journals?.slice(0, 5).map(item => (
+          {journals?.slice(0, 6).map(item => (
             <ListItem key={item.id} {...item} />
           ))}
         </ListStyled>
       </NavStyled>
-      {journals?.length > 8 && (
+      {journals?.length > 6 && (
         <Link href="/journal/liste">
           <AllJournals whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <FaCaretRight />

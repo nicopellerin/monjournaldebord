@@ -16,7 +16,7 @@ type Props = {
   title: string
   text: string
   image: string
-  createdAt: string
+  createdAt: Date
   mood: string
 }
 
@@ -47,7 +47,7 @@ export const Card: React.FC<Props> = ({
           <Heading>
             <DateWrapper>
               <CalendarIcon />
-              <DateNow dateInfo={Date.parse(createdAt)} />
+              <DateNow dateInfo={createdAt} />
             </DateWrapper>
             <Mood src={mood} alt="Mood" />
           </Heading>

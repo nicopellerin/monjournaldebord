@@ -4,20 +4,16 @@ import { fr } from 'date-fns/locale'
 import styled from 'styled-components'
 
 type Props = {
-  dateInfo?: any
+  dateInfo?: Date
 }
 
 export const DateNow: React.FC<Props> = ({ dateInfo }) => {
-  if (dateInfo) {
-    const now = format(dateInfo, 'iiii dd MMMM yyyy', { locale: fr })
-
-    return <DateStyled>{now}</DateStyled>
-  }
-
-  const todayDate = Date.now()
-  const now = format(todayDate, 'iiii dd MMMM', { locale: fr })
+  console.log('DATE', dateInfo)
+  const now = format(dateInfo, 'iiii dd MMMM yyyy', { locale: fr })
 
   return <DateStyled>{now}</DateStyled>
+
+  // return null
 }
 
 // Styles

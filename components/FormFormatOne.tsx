@@ -38,7 +38,6 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
     selectedJournal,
     editSelectedJournal,
     addNewJournal,
-    selectJournal,
     newState,
     undoNewJournal,
     journals,
@@ -108,7 +107,6 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
     if (errors.length) return
 
     const id = selectedJournal?.id
-    const createdAt = selectedJournal?.createdAt
 
     let res
 
@@ -116,14 +114,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
       res = await addNewJournal(title, text, imageUploaded, mood)
     } else {
       try {
-        res = await editSelectedJournal(
-          id,
-          title,
-          text,
-          imageUploaded,
-          createdAt,
-          mood
-        )
+        res = await editSelectedJournal(id, title, text, imageUploaded, mood)
       } catch (err) {
         console.error(err.message)
       }
@@ -186,7 +177,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
     <Wrapper>
       <DateWrapper>
         <FaCalendarAlt style={{ marginRight: 5, fontSize: 12 }} />
-        <DateNow />
+        <DateNow dateInfo={selectedJournal?.createdAt} />
       </DateWrapper>
       <FormWrapper onSubmit={handleSubmit}>
         <InputWrapper>

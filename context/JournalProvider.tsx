@@ -1,11 +1,5 @@
 import * as React from 'react'
-import {
-  createContext,
-  useReducer,
-  useMemo,
-  useCallback,
-  useState,
-} from 'react'
+import { createContext, useReducer, useMemo, useCallback } from 'react'
 import {
   useQuery,
   useMutation,
@@ -19,7 +13,7 @@ type Journal = {
   id: string
   title: string
   text: string
-  createdAt: string
+  createdAt: Date
   image: string
   mood: string
 }
@@ -43,7 +37,6 @@ interface ContextValue {
     title: string,
     text: string,
     image: string,
-    createdAt: string,
     mood: string
   ) => void
   addNewJournal: (
@@ -420,7 +413,7 @@ export const JournalProvider = ({ children }) => {
           text: editJournal.text,
           id: editJournal.id,
           image: editJournal.image,
-          createdAt: editJournal.createtAt,
+          createdAt: editJournal.createdAt,
           mood: editJournal.mood,
         },
       })
@@ -436,16 +429,9 @@ export const JournalProvider = ({ children }) => {
     })
   }
 
-  const editSelectedJournal = async (
-    id,
-    title,
-    text,
-    image,
-    createdAt,
-    mood
-  ) => {
+  const editSelectedJournal = async (id, title, text, image, mood) => {
     const res = await editJournal({
-      variables: { id, title, text, image, createdAt, mood },
+      variables: { id, title, text, image, mood },
     })
     return res?.data?.editJournal?.id
   }
