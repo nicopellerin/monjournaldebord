@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { FaCalendarAlt, FaEdit, FaTimes } from 'react-icons/fa'
+import { FaCalendarAlt, FaEdit, FaTimes, FaFilePdf } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import Router from 'next/router'
 import Link from 'next/link'
@@ -110,6 +110,14 @@ const JournalSingle: React.FC = () => {
           />
           <Dots>&#8411;</Dots>
           <ButtonWrapper>
+            <ButtonPDF
+              onClick={() => toggleEditing(selectedJournal?.image)}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <FaFilePdf style={{ marginRight: 5 }} />
+              Exporter en PDF
+            </ButtonPDF>
             <Link
               href={`/journal/edit/[id]`}
               as={`/journal/edit/${selectedJournal?.id}`}
@@ -172,7 +180,7 @@ const Image = styled.img`
 const Title = styled.h2`
   font-size: 6rem;
   word-break: break-all;
-  margin-bottom: 1rem;
+  margin-bottom: 2.5rem;
   color: ${props => props.theme.colors.titleColor};
 `
 
@@ -202,6 +210,23 @@ const Mood = styled.img`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
+  margin-top: 1rem;
+`
+
+const ButtonPDF = styled(motion.button)`
+  border: 1px solid #ddd;
+  padding: 1em 1.5em;
+  background: none;
+  color: var(--primaryColor);
+  text-transform: uppercase;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.4rem;
+  margin-right: 2rem;
+  margin-inline-end: auto;
 `
 
 const ButtonEdit = styled(motion.button)`

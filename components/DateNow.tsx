@@ -8,12 +8,11 @@ type Props = {
 }
 
 export const DateNow: React.FC<Props> = ({ dateInfo }) => {
-  console.log('DATE', dateInfo)
-  const now = format(dateInfo, 'iiii dd MMMM yyyy', { locale: fr })
+  const now = dateInfo
+    ? format(dateInfo, 'iiii dd MMMM yyyy', { locale: fr })
+    : 0
 
   return <DateStyled>{now}</DateStyled>
-
-  // return null
 }
 
 // Styles
@@ -21,5 +20,5 @@ const DateStyled = styled.h3`
   font-size: 1.4rem;
   font-weight: 600;
   margin-bottom: 0;
-  color: ${props => props.theme.colors.textColor};
+  color: #440061;
 `

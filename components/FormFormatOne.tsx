@@ -292,6 +292,7 @@ const TextAreaField = styled.textarea`
   padding: 1rem;
   font-size: 1.6rem;
   font-family: inherit;
+  line-height: 1.4em;
   border: 1px solid #ddd;
   border-radius: 5px;
   resize: none;

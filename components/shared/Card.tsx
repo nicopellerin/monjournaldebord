@@ -71,6 +71,7 @@ const Wrapper = styled(motion.div)`
 
 const Title = styled.h2`
   font-size: 3rem;
+  margin-bottom: 2rem;
   color: ${props => props.theme.colors.titleColor};
 `
 
@@ -99,7 +100,7 @@ const Heading = styled.div`
 
 const CalendarIcon = styled(FaCalendar)`
   margin-right: 5px;
-  color: ${props => props.theme.colors.textColor};
+  color: #440061;
 `
 
 const ImageIcon = styled(FaRegImage)`

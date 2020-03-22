@@ -88,7 +88,7 @@ const Title = styled.h3`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${props => props.theme.colors.sideBarItemColor};
+  color: #440061;
   width: 100%;
   background: ${props => props.theme.colors.sideBarItemBackground};
   transition: color background 100ms ease-in-out;

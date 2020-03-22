@@ -94,9 +94,13 @@ export const MoodToday = () => {
         {moods?.length > 0 && (
           <MoodWrapper>
             <Mood>
-              {'« '}
+              <span style={{ color: '#440061', fontWeight: 'bold' }}>
+                {'« '}
+              </span>
               {moods[0]?.mood}
-              {' »'}
+              <span style={{ color: '#440061', fontWeight: 'bold' }}>
+                {' »'}
+              </span>
             </Mood>
             <MoodDate>
               <FaClock style={{ marginRight: 5 }} />
@@ -213,8 +217,10 @@ const MoodWrapper = styled.div`
 
 const MoodDate = styled.span`
   background: ghostwhite;
+  color: #440061;
   padding: 0.5rem 1rem;
   border-radius: 5px;
+  font-size: 1.2rem;
   font-weight: 600;
   display: flex;
   align-items: center;

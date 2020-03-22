@@ -23,6 +23,9 @@ const Wrapper = styled.div`
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   padding: 2rem 3rem;
   border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 const TotalWrapper = styled.div`
@@ -36,8 +39,9 @@ const TotalWrapper = styled.div`
 
 const Title = styled.h3`
   font-size: 1.6rem;
+  margin-bottom: 1.5rem;
   font-weight: 400;
-  color: ${props => props.theme.colors.titleColor};
+  color: #440061;
   border-bottom: 1px dashed #333;
 `
 

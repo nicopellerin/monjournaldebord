@@ -16,6 +16,8 @@ html {
   box-sizing: border-box;
   scroll-behavior: auto;
 
+
+
   @media (max-width: 1500px) {
     font-size: 57.5%;
   }
@@ -29,7 +31,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   color: #555;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

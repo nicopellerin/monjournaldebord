@@ -120,6 +120,7 @@ const UserInfoWrapper = styled.div`
 
 const UsernameText = styled.span`
   display: block;
+  color: #440061;
   font-size: 1.6rem;
   margin-right: 2rem;
   cursor: initial;

@@ -50,7 +50,7 @@ export default class MyDocument extends Document {
           <meta name="og:image" content="/og-image-5.png" />
           <link rel="shortcut icon" href="/favicon.png" />
           <link
-            href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap"
+            href="https://fonts.googleapis.com/css?family=Ubuntu:400,500,700&display=swap"
             rel="stylesheet"
           />
         </Head>

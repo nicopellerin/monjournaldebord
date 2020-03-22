@@ -84,8 +84,9 @@ const TotalWrapper = styled.div`
 
 const Title = styled.h3`
   font-size: 1.6rem;
+  margin-bottom: 1.5rem;
   font-weight: 400;
-  color: ${props => props.theme.colors.titleColor};
+  color: #440061;
   border-bottom: 1px dashed #333;
 `
 
