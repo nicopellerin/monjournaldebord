@@ -5,11 +5,14 @@ import { FaCalendarAlt, FaEdit, FaTimes, FaFilePdf } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import Router from 'next/router'
 import Link from 'next/link'
+import axios from 'axios'
+import saveAs from 'file-saver'
 
 import { DateNow } from './DateNow'
 import { ToggleDeleteModal } from './ToggleDeleteModal'
 
 import { JournalContext } from '../context/JournalProvider'
+import format from 'date-fns/format'
 
 const JournalSingle: React.FC = () => {
   const {
@@ -62,6 +65,31 @@ const JournalSingle: React.FC = () => {
     }
   }, [selectedJournal])
 
+  async function exportToPDF() {
+    const data = {
+      title: selectedJournal?.title,
+      text: selectedJournal?.text,
+      image: selectedJournal?.image,
+      mood: selectedJournal?.mood,
+      createdAt: selectedJournal?.createdAt,
+    }
+
+    const res = await axios.post(
+      '/api/save-pdf',
+      { data },
+      {
+        responseType: 'arraybuffer',
+      }
+    )
+
+    const datePDF = format(new Date(), 'yyyy-MM-dd')
+    const filename = `monjournaldebord-${datePDF}.pdf`
+
+    const pdfBlob = new Blob([res.data], { type: 'application/pdf' })
+
+    saveAs(pdfBlob, filename)
+  }
+
   return (
     <Wrapper>
       <motion.div
@@ -111,7 +139,7 @@ const JournalSingle: React.FC = () => {
           <Dots>&#8411;</Dots>
           <ButtonWrapper>
             <ButtonPDF
-              onClick={() => toggleEditing(selectedJournal?.image)}
+              onClick={exportToPDF}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >

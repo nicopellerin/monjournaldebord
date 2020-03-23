@@ -227,5 +227,6 @@ const MoodDate = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
+  border-top: 1px solid #eef;
   border-bottom: 2px solid #eee;
 `
