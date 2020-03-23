@@ -49,7 +49,7 @@ const FormWrapper = styled.div`
   border-radius: 23px;
   display: flex;
   justify-content: center;
-  padding: 4rem;
+  padding: 5rem 4rem;
   position: relative;
   z-index: 3;
   border-top: 5px solid #eef;

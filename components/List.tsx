@@ -49,10 +49,10 @@ export const List: React.FC = () => {
       <Link href="/journal/liste">
         <Title
           style={{ marginBottom: '1rem', cursor: 'pointer' }}
-          // active={pathname.includes('/journal') ? true : false}
+          active={pathname.includes('/journal') ? true : false}
         >
           <FaNewspaper style={{ marginRight: 7 }} />
-          Publications récentes
+          Publications
         </Title>
       </Link>
       <NavStyled>

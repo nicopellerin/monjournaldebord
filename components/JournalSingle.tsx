@@ -49,7 +49,7 @@ const JournalSingle: React.FC = () => {
     document.addEventListener('keydown', prevPublication)
 
     const nextPublication = e => {
-      if (currentIdx + 1 < 5 && e.keyCode === 39) {
+      if (currentIdx + 1 < 6 && e.keyCode === 39) {
         Router.push(`/journal/[id]`, `/journal/${nextIdx.id}`, {
           shallow: true,
         })
@@ -144,7 +144,7 @@ const JournalSingle: React.FC = () => {
               whileTap={{ scale: 0.98 }}
             >
               <FaFilePdf style={{ marginRight: 5 }} />
-              Exporter en PDF
+              Exporter format PDF
             </ButtonPDF>
             <Link
               href={`/journal/edit/[id]`}

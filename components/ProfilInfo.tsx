@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { UserContext } from '../context/UserProvider'
-import { FaUserSecret, FaRegEnvelope } from 'react-icons/fa'
+import { FaUserLock, FaRegEnvelope, FaEnvelope } from 'react-icons/fa'
 
 export const ProfilInfo = () => {
   const { username, avatar, email } = useContext(UserContext)
@@ -21,9 +21,13 @@ export const ProfilInfo = () => {
           {email}
         </Email>
         <Dots>&#8411;</Dots>
+        <ButtonEmail whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+          <FaEnvelope style={{ marginRight: 5 }} />
+          Modifier courriel
+        </ButtonEmail>
         <ButtonPassword whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-          <FaUserSecret style={{ marginRight: 5 }} />
-          Changer mot de passe
+          <FaUserLock style={{ marginRight: 5 }} />
+          Nouveau mot de passe
         </ButtonPassword>
       </Wrapper>
       <motion.div
@@ -79,7 +83,7 @@ const ButtonPassword = styled(motion.button)`
   border: none;
   border: 1px solid #440061;
   border-bottom: 3px solid #440061;
-  padding: 1em 1.5em;
+  padding: 0.9em 1.5em;
   color: #440061;
   border-radius: 5px;
   display: flex;
@@ -87,6 +91,21 @@ const ButtonPassword = styled(motion.button)`
   justify-content: center;
   cursor: pointer;
   font-size: 1.4rem;
+`
+
+const ButtonEmail = styled(motion.button)`
+  border: none;
+  border: 1px solid #440061;
+  border-bottom: 3px solid #440061;
+  padding: 0.9em 1.5em;
+  color: #440061;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
 `
 
 const ButtonDeleteAccount = styled(motion.button)`
@@ -108,4 +127,5 @@ const Dots = styled.span`
   display: block;
   font-size: 5rem;
   text-align: center;
+  margin-left: 13px;
 `

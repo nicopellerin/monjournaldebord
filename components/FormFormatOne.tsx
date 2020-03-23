@@ -175,10 +175,12 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
 
   return (
     <Wrapper>
-      <DateWrapper>
-        <FaCalendarAlt style={{ marginRight: 5, fontSize: 12 }} />
-        <DateNow dateInfo={selectedJournal?.createdAt} />
-      </DateWrapper>
+      {selectedJournal?.createdAt && (
+        <DateWrapper>
+          <FaCalendarAlt style={{ marginRight: 5, fontSize: 12 }} />
+          <DateNow dateInfo={selectedJournal?.createdAt} />
+        </DateWrapper>
+      )}
       <FormWrapper onSubmit={handleSubmit}>
         <InputWrapper>
           <Label>Titre</Label>
