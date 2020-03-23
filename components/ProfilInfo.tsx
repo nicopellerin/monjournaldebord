@@ -52,14 +52,14 @@ const Wrapper = styled(motion.div)`
   align-items: center;
   border-top: 15px solid #eee;
   border-bottom: 3px solid #ddd;
-  padding: 7rem 9rem;
+  padding: 5rem 9rem;
   border-radius: 23px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
 `
 
 const UserImage = styled.img`
-  width: 20rem;
-  height: 20rem;
+  width: 15rem;
+  height: 15rem;
   border-radius: 50%;
   border: 1px solid #ddd;
   padding: 2px;
@@ -67,7 +67,7 @@ const UserImage = styled.img`
 `
 
 const Username = styled.h2`
-  font-size: 4.2rem;
+  font-size: 3.6rem;
   margin-bottom: 1.8rem;
 `
 

@@ -120,11 +120,11 @@ const JournalSingle: React.FC = () => {
         >
           <Title>{selectedJournal?.title}</Title>
           <Heading>
+            <Mood src={selectedJournal?.mood} alt="Mood" />
             <DateWrapper>
               <CalendarIcon size={14} />
               <DateNow dateInfo={selectedJournal?.createdAt} />
             </DateWrapper>
-            <Mood src={selectedJournal?.mood} alt="Mood" />
           </Heading>
           {selectedJournal?.image && (
             <Image src={selectedJournal?.image} alt="" />
@@ -229,8 +229,8 @@ const DateWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-right: 1.5rem;
-  margin-left: 0.5rem;
-  padding-left: 0.5rem;
+  margin-left: 1rem;
+  padding-left: 1rem;
   border-left: 1px solid #ddd;
 `
 
