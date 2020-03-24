@@ -131,6 +131,10 @@ const Wrapper = styled.div`
   justify-items: center;
   align-items: center;
   z-index: 1000;
+
+  @media (min-width: 500px) {
+    display: none;
+  }
 `
 
 const Dropdown = styled(motion.div)`

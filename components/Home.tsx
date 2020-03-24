@@ -54,6 +54,7 @@ const Wrapper = styled.div`
 
 const RecentWrapper = styled.div`
   margin-bottom: 3rem;
+  padding-bottom: 2rem;
 `
 
 const Title = styled.h2`

@@ -84,6 +84,7 @@ const Text = styled.p`
   color: ${props => props.theme.colors.textColor};
   word-wrap: break-word;
   line-height: 1.4em;
+  margin-bottom: 0;
 `
 
 const DateWrapper = styled.div`
