@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { FaCalendarAlt, FaEdit, FaTimes, FaFilePdf } from 'react-icons/fa'
 import { motion } from 'framer-motion'
@@ -30,6 +30,14 @@ const JournalSingle: React.FC = () => {
       Router.push('/profil', '/profil', { shallow: true })
     }
   }, [journals])
+
+  const wrapperRef = useRef(null)
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    console.log(wrapperRef.current.offsetTop)
+    console.log('yo')
+  }, [Router.router.pathname])
 
   useEffect(() => {
     const currentIdx = journals?.findIndex(
@@ -91,7 +99,7 @@ const JournalSingle: React.FC = () => {
   }
 
   return (
-    <Wrapper>
+    <Wrapper ref={wrapperRef}>
       <motion.div
         initial={{
           scale: 0.96,

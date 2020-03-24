@@ -121,7 +121,7 @@ const List = styled(motion.ul)`
   display: flex;
   flex-direction: column;
   width: 50rem;
-  overflow: hidden;
+  /* overflow: hidden; */
   position: relative;
   background: none;
   margin-bottom: 2rem;

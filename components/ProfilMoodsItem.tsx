@@ -16,6 +16,7 @@ interface Props {
   title: string
   mood: string
   createdAt: Date
+  image: string
 }
 
 export const ProfilMoodsItem: React.FC<Props> = ({
@@ -23,8 +24,10 @@ export const ProfilMoodsItem: React.FC<Props> = ({
   mood,
   title,
   createdAt,
+  image,
 }) => {
   const [selected, setSelected] = useState(false)
+  const [showImage, setShowImage] = useState(false)
 
   const { deleteSingleMoodAction } = useContext(MoodsContext)
 
@@ -51,19 +54,30 @@ export const ProfilMoodsItem: React.FC<Props> = ({
 
   if (title) {
     return (
-      <Link href={`/journal/[id]`} as={`/journal/${id}`}>
-        <ListItem
-          positionTransition={spring}
-          exit={{}}
-          key={id}
-          style={{ cursor: 'pointer' }}
-          whileHover={{ scale: 1.01, fontWeight: 'bold' }}
-        >
-          <Hour>{format(createdAt, 'H:mm')}</Hour>{' '}
-          {maxLength(title, isMobile ? 30 : 38)}
-          <Mood src={mood} alt="mood" />
-        </ListItem>
-      </Link>
+      <div style={{ position: 'relative' }}>
+        <Link href={`/journal/[id]`} as={`/journal/${id}`}>
+          <ListItem
+            positionTransition={spring}
+            exit={{}}
+            key={id}
+            style={{ cursor: 'pointer' }}
+            whileHover={{
+              scale: 1.01,
+              // fontWeight: 'bold',
+              // transition: { type: 'spring', damping: 10 },
+            }}
+            onMouseEnter={() => setShowImage(true)}
+            onMouseLeave={() => setShowImage(false)}
+          >
+            <Hour>{format(createdAt, 'H:mm')}</Hour>{' '}
+            {maxLength(title, isMobile ? 30 : 38)}
+            <Mood src={mood} alt="mood" />
+          </ListItem>
+        </Link>
+        <AnimatePresence>
+          {showImage && image && <ImageComp image={image} />}
+        </AnimatePresence>
+      </div>
     )
   }
 
@@ -100,6 +114,17 @@ export const ProfilMoodsItem: React.FC<Props> = ({
   )
 }
 
+const ImageComp = ({ image }) => (
+  <ListItemImageWrapper
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{}}
+    transition={{ type: 'spring', damping: 10 }}
+  >
+    <ListItemImage src={image} alt="" />
+  </ListItemImageWrapper>
+)
+
 // Styles
 const ListItem = styled(motion.li)`
   font-size: 1.5rem;
@@ -129,6 +154,37 @@ const ListItemDeleteIconWrapper = styled(motion.div)`
 const ListItemDeleteIcon = styled(FaTimesCircle)`
   color: red;
   cursor: pointer;
+`
+
+const ListItemImageWrapper = styled(motion.div)`
+  position: absolute;
+  right: -250px;
+  top: 50%;
+  transform: translate3d(0, -50%, 0);
+  z-index: 20;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  background: white;
+  padding: 0.5rem;
+  border-radius: 5px;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -1rem;
+    transform: translateY(-50%) rotate(90deg);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #fff;
+    z-index: 19;
+  }
+`
+
+const ListItemImage = styled.img`
+  width: 175px;
+  border-radius: 5px;
 `
 
 const Hour = styled.span`

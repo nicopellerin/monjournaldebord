@@ -1,5 +1,6 @@
 import App from 'next/app'
 import React from 'react'
+import Router from 'next/router'
 
 import { Layout } from '../components/shared/Layout'
 import { ProfilLayout } from '../components/shared/ProfilLayout'
@@ -15,6 +16,10 @@ import GlobalStyles from '../styles/GlobalStyles'
 class MyApp extends App {
   render() {
     const { Component, pageProps, router } = this.props
+
+    Router.onRouteChangeComplete = url => {
+      window.scrollTo(0, 0)
+    }
 
     if (
       router.pathname.startsWith('/profil') ||

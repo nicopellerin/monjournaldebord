@@ -24,6 +24,7 @@ export const ProfilMoods: React.FC<Props> = ({ list }) => {
           mood: cur.mood,
           title: cur.title,
           createdAt: cur.createdAt,
+          image: cur.image,
         })
         return dates
       }, {}),
@@ -37,7 +38,7 @@ export const ProfilMoods: React.FC<Props> = ({ list }) => {
           (
             [date, lists]: [
               string,
-              [{ id: string; mood: string; createdAt: Date }]
+              [{ id: string; mood: string; createdAt: Date; image: string }]
             ],
             i
           ) => {
