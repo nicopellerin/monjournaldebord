@@ -116,8 +116,8 @@ export const ProfilMoodsItem: React.FC<Props> = ({
 
 const ImageComp = ({ image }) => (
   <ListItemImageWrapper
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
+    initial={{ opacity: 0, x: -10, y: '-50%' }}
+    animate={{ opacity: 1, x: 0 }}
     exit={{}}
     transition={{ type: 'spring', damping: 10 }}
   >
@@ -158,7 +158,7 @@ const ListItemDeleteIcon = styled(FaTimesCircle)`
 
 const ListItemImageWrapper = styled(motion.div)`
   position: absolute;
-  right: -250px;
+  right: -230px;
   top: 50%;
   transform: translate3d(0, -50%, 0);
   z-index: 20;
