@@ -221,6 +221,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
     case 'NEW_PAGE':
       return {
         ...state,
+        selectedJournal: null,
         editing: true,
         newState: true,
         imageUploaded: '',

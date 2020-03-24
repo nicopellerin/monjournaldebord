@@ -2,6 +2,7 @@ import * as React from 'react'
 import { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useMedia } from 'react-use-media'
 
 import { FormFormatOne } from './FormFormatOne'
 import { ImageContainer } from './ImageContainer'
@@ -13,6 +14,12 @@ export const Book: React.FC = () => {
 
   const { toggleImageContainer } = useContext(JournalContext)
 
+  const isMobile = useMedia({
+    maxWidth: 500,
+  })
+
+  const bgImg = isMobile ? '/paper.jpg' : '/paper.webp'
+
   return (
     <AnimatePresence>
       <Wrapper
@@ -20,7 +27,7 @@ export const Book: React.FC = () => {
         animate={{ y: 0, transition: { damping: 300 } }}
         exit={{ y: 50 }}
       >
-        <FormWrapper>
+        <FormWrapper bgImg={bgImg}>
           <FormFormatOne loader={loader} setLoader={setLoader} />
         </FormWrapper>
         <AnimatePresence>
@@ -37,11 +44,13 @@ const Wrapper = styled(motion.div)`
 `
 
 const FormWrapper = styled.div`
-  background: linear-gradient(
+  background: ${(props: { bgImg: string }) =>
+    props.bgImg &&
+    `linear-gradient(
       rgba(255, 255, 255, 0.6),
       rgba(255, 255, 255, 0.8)
     ),
-    url('/paper.jpg');
+    url('${props.bgImg}')`};
   background-size: cover;
   width: 60rem;
   min-height: 70vh;

@@ -12,8 +12,10 @@ export const Hero = () => {
     maxWidth: 500,
   })
 
+  const bgImg = isMobile ? '/bg.jpg' : '/bg.webp'
+
   return (
-    <Wrapper>
+    <Wrapper bgImg={bgImg}>
       <Container>
         <motion.div
           initial={{ opacity: 0 }}
@@ -67,12 +69,14 @@ export const Hero = () => {
 
 // Styles
 const Wrapper = styled.div`
-  background: linear-gradient(
+  background: ${(props: { bgImg: string }) =>
+    props.bgImg &&
+    `linear-gradient(
       45deg,
       rgba(255, 255, 255, 0.9),
       rgba(255, 255, 255, 0.99)
     ),
-    url('/bg.jpg');
+    url('${props.bgImg}')`};
   background-size: cover;
 
   height: calc(100vh - 4rem);
