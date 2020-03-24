@@ -258,7 +258,7 @@ const ButtonSave = styled(motion.button)`
 `
 
 const ButtonSaveMobile = styled(motion.button)`
-  padding: 0.8rem;
+  padding: 1.2rem;
   background: green;
   color: ghostwhite;
   font-size: 1.6rem;
