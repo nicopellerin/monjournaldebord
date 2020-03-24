@@ -16,7 +16,8 @@ export const ProfilLayout: React.FC = ({ children }) => {
 
   return (
     <ThemeProvider>
-      {isDesktop ? <Navbar /> : <NavbarMobile />}
+      {isDesktop && <Navbar />}
+      {!isDesktop && <NavbarMobile />}
       <Wrapper>
         {isDesktop && <Sidebar />}
         <MainWrapper>

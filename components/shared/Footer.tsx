@@ -1,15 +1,20 @@
 import * as React from 'react'
+import { useContext } from 'react'
 import styled from 'styled-components'
 import { FaHeart } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import { useMedia } from 'react-use-media'
 import { useRouter } from 'next/router'
 
+import { JournalContext } from '../../context/JournalProvider'
+
 interface Props {
   profil?: boolean
 }
 
 export const Footer: React.FC<Props> = ({ profil }) => {
+  const { journalsLoading } = useContext(JournalContext)
+
   const dateYear = new Date()
 
   const isMobile = useMedia({
@@ -17,6 +22,10 @@ export const Footer: React.FC<Props> = ({ profil }) => {
   })
 
   const { pathname } = useRouter()
+
+  if (journalsLoading) {
+    return null
+  }
 
   if (profil && isMobile) {
     return (

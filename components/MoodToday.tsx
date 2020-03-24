@@ -228,6 +228,10 @@ const Mood = styled.p`
   text-align: center;
   line-height: 1.5em;
   margin-top: 0;
+
+  @media (max-width: 500px) {
+    font-size: 1.8rem;
+  }
 `
 
 const MoodWrapper = styled.div`
