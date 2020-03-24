@@ -216,11 +216,16 @@ const Button = styled(motion.button)`
 const Astyled = styled.a`
   font-size: 1.2rem;
   color: #555;
+  text-align: center;
   text-decoration: none;
   cursor: pointer;
 
   &:hover {
     text-decoration: underline;
+  }
+
+  @media (max-width: 500px) {
+    max-width: 28ch;
   }
 `
 

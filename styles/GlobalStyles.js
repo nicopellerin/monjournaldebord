@@ -15,6 +15,7 @@ html {
   font-size: 62.5%;
   box-sizing: border-box;
   scroll-behavior: auto;
+  height: 100%;
 
 
 
@@ -25,6 +26,13 @@ html {
 
 #__next {
   height: calc(100vh - 7.5rem);
+  width: 100%;
+
+
+  @media (max-width: 500px) {
+    height: 100vh;
+    width: 100%;
+  }
 }
 
 body {

@@ -27,9 +27,18 @@ const Wrapper = styled.div`
   @media (max-width: 1500px) {
     grid-template-columns: 275px 1fr;
   }
+
+  @media (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+  }
 `
 
 const MainWrapper = styled.main`
   min-height: 100%;
   overflow: auto;
+
+  @media (max-width: 500px) {
+    overflow: visible;
+  }
 `

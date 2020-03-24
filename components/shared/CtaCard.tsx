@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Logo } from '../Logo'
+import { useMedia } from 'react-use-media'
 
 type Props = {
   title: string
@@ -9,6 +10,10 @@ type Props = {
 }
 
 export const CtaCard: React.FC<Props> = ({ title, render }) => {
+  const isMobile = useMedia({
+    maxWidth: 500,
+  })
+
   return (
     <AnimatePresence>
       <Wrapper
@@ -17,7 +22,7 @@ export const CtaCard: React.FC<Props> = ({ title, render }) => {
         exit={{ y: 20 }}
         transition={{ damping: 500 }}
       >
-        <Logo width={30} />
+        <Logo width={isMobile ? 27 : 30} />
         <Title>{title}</Title>
         {render}
       </Wrapper>
@@ -38,6 +43,11 @@ const Wrapper = styled(motion.div)`
   align-items: center;
   justify-content: center;
   background: #fff;
+
+  @media (max-width: 500px) {
+    padding: 5rem 3rem;
+    width: 85%;
+  }
 `
 
 const Title = styled.h2`
@@ -46,4 +56,8 @@ const Title = styled.h2`
   margin-top: 2rem;
   margin-bottom: 3rem;
   color: #666;
+
+  @media (max-width: 500px) {
+    font-size: 2.2rem;
+  }
 `

@@ -265,10 +265,15 @@ const Astyled = styled.a`
   font-size: 1.2rem;
   color: #555;
   text-decoration: none;
+  text-align: center;
   cursor: pointer;
 
   &:hover {
     text-decoration: underline;
+  }
+
+  @media (max-width: 500px) {
+    max-width: 28ch;
   }
 `
 

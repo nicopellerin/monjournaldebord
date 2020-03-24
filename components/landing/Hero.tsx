@@ -3,9 +3,15 @@ import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { FaUserAlt, FaSignInAlt } from 'react-icons/fa'
 import Link from 'next/link'
+import { useMedia } from 'react-use-media'
+
 import { Logo } from '../Logo'
 
 export const Hero = () => {
+  const isMobile = useMedia({
+    maxWidth: 500,
+  })
+
   return (
     <Wrapper>
       <Container>
@@ -17,7 +23,7 @@ export const Hero = () => {
             transition: { delay: 0.1 },
           }}
         >
-          <Logo width={70} />
+          <Logo width={isMobile ? 34 : 70} />
         </motion.div>
         <Tagline
           initial={{ opacity: 0 }}
@@ -74,6 +80,12 @@ const Wrapper = styled.div`
   background-size: cover;
   background-position: 50%;
   margin: 2rem;
+
+  @media (max-width: 500px) {
+    height: 100vh;
+    padding: 2rem;
+    margin: 0;
+  }
 `
 
 const Container = styled(motion.div)`
@@ -89,10 +101,22 @@ const Tagline = styled(motion.span)`
   font-size: 2rem;
   margin-top: 3rem;
   margin-bottom: 5rem;
+  text-align: center;
+
+  @media (max-width: 500px) {
+    font-size: 1.6rem;
+    line-height: 1.4em;
+    max-width: 90%;
+  }
 `
 
 const ButtonGroup = styled(motion.div)`
   display: flex;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `
 
 const Button = styled(motion.button)`
@@ -108,6 +132,10 @@ const Button = styled(motion.button)`
   cursor: pointer;
   font-size: 1.6rem;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 500px) {
+    font-size: 1.4rem;
+  }
 `
 
 const ButtonLogin = styled(motion.button)`
@@ -124,4 +152,10 @@ const ButtonLogin = styled(motion.button)`
   font-size: 1.6rem;
   margin-right: 3rem;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 500px) {
+    margin-right: 0;
+    margin-bottom: 2rem;
+    font-size: 1.4rem;
+  }
 `
