@@ -7,12 +7,18 @@ import format from 'date-fns/format'
 import { fr } from 'date-fns/locale'
 
 import { MoodsContext } from '../context/MoodsProvider'
+import { useMedia } from 'react-use-media'
 
 export const MoodToday = () => {
   const { updateDailyMoodAction, moods } = useContext(MoodsContext)
 
   const [mood, setMood] = useState('')
   const [saved, setSaved] = useState(false)
+  const [showSaveIcon, setShowSaveIcon] = useState(false)
+
+  const isDesktop = useMedia({
+    minWidth: 500,
+  })
 
   const inputRef = useRef(null)
 
@@ -23,6 +29,7 @@ export const MoodToday = () => {
 
     try {
       await updateDailyMoodAction(mood)
+      setShowSaveIcon(false)
       setSaved(true)
       inputRef.current.blur()
       setMood('')
@@ -64,9 +71,45 @@ export const MoodToday = () => {
             placeholder="Aujourd'hui, je me sens..."
             name="mood"
             value={mood}
-            onChange={e => setMood(e.target.value)}
+            onChange={e => {
+              setMood(e.target.value)
+              e.target.value.length > 0
+                ? setShowSaveIcon(true)
+                : setShowSaveIcon(false)
+            }}
           />
         </Form>
+        <AnimatePresence>
+          {showSaveIcon && isDesktop && (
+            <ButtonWrapper
+              whileHover={{ scale: 1.02, x: 3 }}
+              whileTap={{ scale: 0.98 }}
+              initial={{ y: '-50%', x: -60 }}
+              animate={{ x: -2 }}
+              exit={{ x: -60 }}
+              transition={{ type: 'spring', damping: 14 }}
+            >
+              <ButtonSave onClick={handleSubmit}>
+                <FaCheckCircle color="green" size={26} />
+              </ButtonSave>
+            </ButtonWrapper>
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {showSaveIcon && !isDesktop && (
+            <ButtonSaveMobile
+              onClick={handleSubmit}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              initial={{ y: '-50%', position: 'absolute' }}
+              animate={{ y: '99%' }}
+              exit={{ y: '-50%' }}
+              transition={{ type: 'spring', damping: 14 }}
+            >
+              <FaCheckCircle color="whitesmoke" size={24} />
+            </ButtonSaveMobile>
+          )}
+        </AnimatePresence>
         <AnimatePresence>
           {saved && (
             <SavedText
@@ -174,7 +217,8 @@ const Input = styled.input`
   width: 100%;
   font-size: 1.6rem;
   color: ${props => props.theme.colors.textColor};
-  font-weight: 500;
+  font-weight: 400;
+  font-family: inherit;
 
   &::placeholder {
     color: #aaa;
@@ -187,6 +231,42 @@ const Input = styled.input`
   @media (max-width: 500px) {
     padding: 1.6rem 1rem;
   }
+`
+
+const ButtonWrapper = styled(motion.div)`
+  position: absolute;
+  right: -56px;
+  top: 75.5%;
+  border-left: 0;
+  border-radius: 5px;
+`
+
+const ButtonSave = styled(motion.button)`
+  border: none;
+  background: #eee;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding: 15px 15px 15px 30px;
+  font-size: 1.4rem;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+`
+
+const ButtonSaveMobile = styled(motion.button)`
+  padding: 0.8rem;
+  background: green;
+  color: ghostwhite;
+  font-size: 1.6rem;
+  width: 100%;
+  bottom: 0px;
+  border: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 `
 
 const Heading = styled.div`

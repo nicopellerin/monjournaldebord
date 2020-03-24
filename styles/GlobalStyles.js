@@ -50,6 +50,10 @@ h1, h2, h3, h4, h5 {
   margin-top: 0;
   color: #333;
 }
+
+input {
+  font-family: inherit;
+}
 `
 
 export default GlobalStyles
