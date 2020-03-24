@@ -29,12 +29,13 @@ export const Stats = () => {
 const Wrapper = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(3, minmax(300px, 1fr));
-  grid-gap: 3rem;
+  grid-gap: 5rem;
   padding: 3rem;
 
   @media (max-width: 500px) {
     grid-template-columns: 1fr;
     padding: 3rem 0;
+    grid-gap: 4rem;
   }
 `
 
