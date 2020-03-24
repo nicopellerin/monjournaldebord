@@ -78,14 +78,7 @@ export const Footer: React.FC<Props> = ({ profil }) => {
   }
 
   if (isMobile) {
-    return (
-      <Wrapper>
-        <Text>
-          &copy; {dateYear.getFullYear()} monjournaldebord. Fait par Nico
-          Pellerin. Tous droits réservés.
-        </Text>
-      </Wrapper>
-    )
+    return null
   }
 
   return (
@@ -115,7 +108,7 @@ const WrapperProfil = styled.footer`
   padding-top: 4rem;
   padding-bottom: 6rem;
   background: ghostwhite;
-  ${(props: { noBackground: boolean }) =>
+  ${(props: { noBackground?: boolean }) =>
     props.noBackground && 'background: white'};
 `
 

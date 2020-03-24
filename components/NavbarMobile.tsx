@@ -142,7 +142,7 @@ const Dropdown = styled(motion.div)`
   background: ghostwhite;
   top: 68px;
   width: 100%;
-  padding: 5rem 2rem 5rem 2rem;
+  padding: 4.5rem 2rem 4.5rem 2rem;
   z-index: 999;
   min-height: 100%;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
@@ -162,8 +162,8 @@ const DropdownListItem = styled.li`
   align-items: center;
   color: #440061;
   border-bottom: 1px solid #eee;
-  margin-bottom: 3rem;
-  padding-bottom: 3rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
 `
 
 const Overlay = styled(motion.div)`

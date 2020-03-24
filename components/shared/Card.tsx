@@ -34,7 +34,7 @@ export const Card: React.FC<Props> = ({
     maxWidth: 1500,
   })
 
-  const titleLength = isLaptop ? 15 : 30
+  const titleLength = isLaptop ? 15 : 29
   const textLength = isLaptop ? 140 : 200
 
   return (
@@ -45,11 +45,11 @@ export const Card: React.FC<Props> = ({
 
           <Title>{maxLength(title, titleLength)}</Title>
           <Heading>
+            <Mood src={mood} alt="Mood" />
             <DateWrapper>
               <CalendarIcon />
               <DateNow dateInfo={createdAt} />
             </DateWrapper>
-            <Mood src={mood} alt="Mood" />
           </Heading>
           <Text>{maxLength(text, textLength)}</Text>
         </Wrapper>
@@ -90,7 +90,10 @@ const Text = styled.p`
 const DateWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 1rem;
+  margin-right: 1.5rem;
+  margin-left: 1rem;
+  padding-left: 1rem;
+  border-left: 1px solid #ddd;
 `
 
 const AStyled = styled.a`
