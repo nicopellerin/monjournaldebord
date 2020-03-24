@@ -78,7 +78,7 @@ export const ListItem: React.FC<Props> = React.memo(({ title, id }) => {
         >
           <Item selected={selected}>
             {/* <Mood src={mood} alt="Mood" /> */}
-            <Text>{maxLength(title, 23)}</Text>
+            <Text>{maxLength(title, 28)}</Text>
           </Item>
         </Wrapper>
         <AnimatePresence>
