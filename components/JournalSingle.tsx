@@ -190,6 +190,11 @@ const Wrapper = styled.div`
   height: 100%;
   padding: 9rem 0 12rem 0;
   position: relative;
+
+  @media (max-width: 500px) {
+    min-width: unset;
+    padding: 6rem 0 9rem 0;
+  }
 `
 
 const Content = styled(motion.div)`
@@ -203,6 +208,12 @@ const Image = styled.img`
   object-fit: cover;
   object-position: center;
   border-radius: 5px;
+
+  @media (max-width: 500px) {
+    height: 28rem;
+    border-radius: 0;
+    margin: 1.2rem 0 1rem;
+  }
 `
 
 const Title = styled.h2`
@@ -210,6 +221,12 @@ const Title = styled.h2`
   word-break: break-all;
   margin-bottom: 2.5rem;
   color: ${props => props.theme.colors.titleColor};
+
+  @media (max-width: 500px) {
+    padding: 0 2rem;
+    line-height: 1.1em;
+    font-size: 4.8rem;
+  }
 `
 
 const Text = styled.p`
@@ -217,12 +234,21 @@ const Text = styled.p`
   line-height: 1.5em;
   margin-bottom: 3rem;
   color: ${props => props.theme.colors.textColor};
+
+  @media (max-width: 500px) {
+    padding: 0 2rem;
+  }
 `
 
 const Heading = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
+
+  @media (max-width: 500px) {
+    padding: 0 2rem;
+    /* line-height: 1em; */
+  }
 `
 
 const DateWrapper = styled.div`
@@ -236,12 +262,21 @@ const DateWrapper = styled.div`
 
 const Mood = styled.img`
   width: 32px;
+
+  @media (max-width: 500px) {
+    width: 24px;
+  }
 `
 
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 2rem;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    padding: 0 2rem;
+  }
 `
 
 const ButtonPDF = styled(motion.button)`
@@ -258,6 +293,11 @@ const ButtonPDF = styled(motion.button)`
   cursor: pointer;
   font-size: 1.4rem;
   margin-inline-end: auto;
+
+  @media (max-width: 500px) {
+    margin: 0;
+    margin-bottom: 2rem;
+  }
 `
 
 const ButtonEdit = styled(motion.button)`
@@ -274,6 +314,11 @@ const ButtonEdit = styled(motion.button)`
   cursor: pointer;
   font-size: 1.4rem;
   margin-right: 2rem;
+
+  @media (max-width: 500px) {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
 `
 
 const ButtonDelete = styled(motion.button)`
@@ -290,6 +335,10 @@ const ButtonDelete = styled(motion.button)`
   cursor: pointer;
   font-size: 1.4rem;
   margin-right: 2rem;
+
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `
 
 const CalendarIcon = styled(FaCalendarAlt)`
@@ -301,4 +350,5 @@ const Dots = styled.span`
   display: block;
   font-size: 5rem;
   text-align: center;
+  margin-left: 20px;
 `

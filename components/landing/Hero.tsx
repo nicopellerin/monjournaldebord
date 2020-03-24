@@ -23,7 +23,7 @@ export const Hero = () => {
             transition: { delay: 0.1 },
           }}
         >
-          <Logo width={isMobile ? 34 : 70} />
+          <Logo width={isMobile ? 36.5 : 80} />
         </motion.div>
         <Tagline
           initial={{ opacity: 0 }}
@@ -99,14 +99,16 @@ const Container = styled(motion.div)`
 const Tagline = styled(motion.span)`
   display: block;
   font-size: 2rem;
-  margin-top: 3rem;
-  margin-bottom: 5rem;
+  margin-top: 4rem;
+  margin-bottom: 6rem;
   text-align: center;
 
   @media (max-width: 500px) {
     font-size: 1.6rem;
-    line-height: 1.4em;
+    line-height: 1.6em;
     max-width: 90%;
+    margin-top: 3rem;
+    margin-bottom: 5rem;
   }
 `
 
@@ -123,6 +125,7 @@ const Button = styled(motion.button)`
   border: none;
   padding: 1.2em 2.2em;
   background: var(--primaryColor);
+  border-bottom: 3px solid #440061;
   color: white;
   text-transform: uppercase;
   border-radius: 5px;
@@ -142,6 +145,7 @@ const ButtonLogin = styled(motion.button)`
   border: none;
   padding: 1.2em 2.2em;
   background: ghostwhite;
+  border-bottom: 3px solid #ddd;
   color: #333;
   text-transform: uppercase;
   border-radius: 5px;

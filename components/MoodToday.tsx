@@ -123,6 +123,11 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 6rem;
+
+  @media (max-width: 500px) {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
 `
 
 const Content = styled(motion.div)`

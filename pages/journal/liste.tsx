@@ -31,6 +31,10 @@ const Wrapper = styled.div`
   background: ${props => props.theme.colors.background};
   transition: background 100ms ease-in-out;
   min-height: 100%;
+
+  @media (max-width: 500px) {
+    padding: 8rem 2rem;
+  }
 `
 
 const Title = styled.h2`
@@ -38,4 +42,8 @@ const Title = styled.h2`
   font-weight: 700;
   text-align: center;
   margin-bottom: 0;
+
+  @media (max-width: 500px) {
+    font-size: 3.8rem;
+  }
 `

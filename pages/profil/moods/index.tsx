@@ -32,4 +32,8 @@ const Title = styled.h2`
   text-align: center;
   margin-bottom: 0;
   padding-top: 8rem;
+
+  @media (max-width: 500px) {
+    font-size: 3.8rem;
+  }
 `

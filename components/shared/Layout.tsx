@@ -9,7 +9,7 @@ export const Layout: React.FC = ({ children }) => {
   return (
     <ThemeProvider>
       <Wrapper>{children}</Wrapper>
-      {/* <Footer /> */}
+      <Footer />
     </ThemeProvider>
   )
 }

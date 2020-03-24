@@ -46,6 +46,10 @@ const Wrapper = styled.div`
   @media (max-width: 1500px) {
     padding: 10em 9rem;
   }
+
+  @media (max-width: 500px) {
+    padding: 8rem 2rem;
+  }
 `
 
 const RecentWrapper = styled.div`

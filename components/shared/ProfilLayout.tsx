@@ -1,17 +1,23 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import { useMedia } from 'react-use-media'
 
 import { Navbar } from '../Navbar'
 import { Sidebar } from '../Sidebar'
+import { NavbarMobile } from '../NavbarMobile'
 
 import { ThemeProvider } from '../../context/ThemeProvider'
 
 export const ProfilLayout: React.FC = ({ children }) => {
+  const isDesktop = useMedia({
+    minWidth: 1200,
+  })
+
   return (
     <ThemeProvider>
-      <Navbar />
+      {isDesktop ? <Navbar /> : <NavbarMobile />}
       <Wrapper>
-        <Sidebar />
+        {isDesktop && <Sidebar />}
         <MainWrapper>{children}</MainWrapper>
       </Wrapper>
     </ThemeProvider>

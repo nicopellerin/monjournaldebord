@@ -29,4 +29,9 @@ const Wrapper = styled.div`
   height: 100%;
   width: 60rem;
   margin: 0 auto;
+
+  @media (max-width: 500px) {
+    padding: 1.5rem;
+    width: 100%;
+  }
 `

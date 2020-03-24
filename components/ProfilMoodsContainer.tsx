@@ -99,6 +99,10 @@ const Title = styled.h3`
   align-items: center;
   color: #440061;
   border-top: 5px solid #eef;
+
+  @media (max-width: 500px) {
+    padding: 2rem;
+  }
 `
 
 const Wrapper = styled(motion.div)`
@@ -137,6 +141,10 @@ const List = styled(motion.ul)`
     height: 40px;
     ${(props: StylesProps) => !props.showLess && 'visibility: hidden'}
     ${(props: StylesProps) => props.lessThanFour && 'visibility: hidden'}
+  }
+
+  @media (max-width: 500px) {
+    width: 35rem;
   }
 `
 

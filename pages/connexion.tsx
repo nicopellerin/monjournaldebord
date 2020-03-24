@@ -203,6 +203,7 @@ const Button = styled(motion.button)`
   border: none;
   padding: 1em 2em;
   background: var(--primaryColor);
+  border-bottom: 3px solid #440061;
   color: white;
   text-transform: uppercase;
   border-radius: 5px;
@@ -226,6 +227,7 @@ const Astyled = styled.a`
 
   @media (max-width: 500px) {
     max-width: 28ch;
+    line-height: 1.4em;
   }
 `
 

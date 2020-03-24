@@ -55,6 +55,10 @@ const Wrapper = styled(motion.div)`
   padding: 5rem 9rem;
   border-radius: 23px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 500px) {
+    padding: 5rem 6rem;
+  }
 `
 
 const UserImage = styled.img`
@@ -85,6 +89,7 @@ const ButtonPassword = styled(motion.button)`
   border-bottom: 3px solid #440061;
   padding: 0.9em 1.5em;
   color: #440061;
+  background: none;
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -99,6 +104,7 @@ const ButtonEmail = styled(motion.button)`
   border-bottom: 3px solid #440061;
   padding: 0.9em 1.5em;
   color: #440061;
+  background: none;
   border-radius: 5px;
   display: flex;
   align-items: center;

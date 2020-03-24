@@ -77,4 +77,8 @@ const ListWrapper = styled(motion.div)`
       grid-template-columns: repeat(2, 1fr);
     `}
   grid-gap: 3rem;
+
+  @media (max-width: 500px) {
+    grid-template-columns: 1fr;
+  }
 `

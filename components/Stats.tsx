@@ -31,6 +31,10 @@ const Wrapper = styled(motion.div)`
   grid-template-columns: repeat(3, minmax(300px, 1fr));
   grid-gap: 3rem;
   padding: 3rem;
+
+  @media (max-width: 500px) {
+    grid-template-columns: 1fr;
+  }
 `
 
 const Title = styled.h2`

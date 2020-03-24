@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { MoodsContext } from '../context/MoodsProvider'
 
 import { maxLength } from '../utils/maxLength'
+import { useMedia } from 'react-use-media'
 
 interface Props {
   id: string
@@ -26,6 +27,10 @@ export const ProfilMoodsItem: React.FC<Props> = ({
   const [selected, setSelected] = useState(false)
 
   const { deleteSingleMoodAction } = useContext(MoodsContext)
+
+  const isMobile = useMedia({
+    maxWidth: 500,
+  })
 
   const spring = {
     type: 'spring',
@@ -54,7 +59,8 @@ export const ProfilMoodsItem: React.FC<Props> = ({
           style={{ cursor: 'pointer' }}
           whileHover={{ scale: 1.01, fontWeight: 'bold' }}
         >
-          <Hour>{format(createdAt, 'H:mm')}</Hour> {maxLength(title, 38)}
+          <Hour>{format(createdAt, 'H:mm')}</Hour>{' '}
+          {maxLength(title, isMobile ? 30 : 38)}
           <Mood src={mood} alt="mood" />
         </ListItem>
       </Link>
@@ -107,6 +113,10 @@ const ListItem = styled(motion.li)`
   &:not(:last-of-type) {
     border-bottom: 1px solid #eee;
   }
+
+  @media (max-width: 500px) {
+    padding: 2rem;
+  }
 `
 
 const ListItemDeleteIconWrapper = styled(motion.div)`
@@ -132,6 +142,10 @@ const Hour = styled.span`
   color: var(--primaryColor);
   min-width: 40px;
   text-align: center;
+
+  @media (max-width: 500px) {
+    margin-right: 5px;
+  }
 `
 
 const Mood = styled.img`

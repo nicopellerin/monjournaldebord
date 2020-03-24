@@ -131,6 +131,10 @@ const UsernameText = styled.span`
   &:hover {
     text-decoration: underline;
   }
+
+  @media (max-width: 500px) {
+    display: none;
+  }
 `
 
 const UserEmail = styled.span`
@@ -145,4 +149,9 @@ const UserImage = styled.img`
   cursor: pointer;
   border: 1px solid #ddd;
   padding: 2px;
+
+  @media (max-width: 500px) {
+    width: 36px;
+    height: 36px;
+  }
 `

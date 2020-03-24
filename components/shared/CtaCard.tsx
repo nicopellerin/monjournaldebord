@@ -22,7 +22,7 @@ export const CtaCard: React.FC<Props> = ({ title, render }) => {
         exit={{ y: 20 }}
         transition={{ damping: 500 }}
       >
-        <Logo width={isMobile ? 27 : 30} />
+        <Logo width={isMobile ? 30 : 35} />
         <Title>{title}</Title>
         {render}
       </Wrapper>
@@ -51,13 +51,13 @@ const Wrapper = styled(motion.div)`
 `
 
 const Title = styled.h2`
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   font-weight: 400;
   margin-top: 2rem;
   margin-bottom: 3rem;
   color: #666;
 
-  @media (max-width: 500px) {
+  /* @media (max-width: 500px) {
     font-size: 2.2rem;
-  }
+  } */
 `
