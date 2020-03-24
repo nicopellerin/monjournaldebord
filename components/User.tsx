@@ -6,12 +6,13 @@ import { FaSignOutAlt } from 'react-icons/fa'
 import cookies from 'js-cookie'
 import Router from 'next/router'
 import { useApolloClient } from '@apollo/react-hooks'
+import Link from 'next/link'
 
 import { useClickOutside } from '../hooks/useClickOutside'
 
 import { UserContext } from '../context/UserProvider'
 import { maxLength } from '../utils/maxLength'
-import Link from 'next/link'
+import { useMedia } from 'react-use-media'
 
 interface Props {
   username: string
@@ -20,6 +21,10 @@ interface Props {
 
 export const User: React.FC<Props> = ({ username, avatar }) => {
   const [toggle, setToggle] = useState(false)
+
+  const isDesktop = useMedia({
+    minWidth: 500,
+  })
 
   const node = useClickOutside(setToggle)
 
@@ -33,7 +38,9 @@ export const User: React.FC<Props> = ({ username, avatar }) => {
           <UserImage
             src={avatar ? avatar : '/default-profile.png'}
             alt="profile"
-            onClick={() => setToggle(prevState => !prevState)}
+            onClick={() =>
+              isDesktop ? setToggle(prevState => !prevState) : null
+            }
           />
           {toggle && <UserDropdown />}
         </div>

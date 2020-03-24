@@ -7,6 +7,7 @@ import { Sidebar } from '../Sidebar'
 import { NavbarMobile } from '../NavbarMobile'
 
 import { ThemeProvider } from '../../context/ThemeProvider'
+import { Footer } from './Footer'
 
 export const ProfilLayout: React.FC = ({ children }) => {
   const isDesktop = useMedia({
@@ -18,7 +19,10 @@ export const ProfilLayout: React.FC = ({ children }) => {
       {isDesktop ? <Navbar /> : <NavbarMobile />}
       <Wrapper>
         {isDesktop && <Sidebar />}
-        <MainWrapper>{children}</MainWrapper>
+        <MainWrapper>
+          {children}
+          <Footer profil />
+        </MainWrapper>
       </Wrapper>
     </ThemeProvider>
   )

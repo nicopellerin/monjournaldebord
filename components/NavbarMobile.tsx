@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import {
@@ -10,12 +10,18 @@ import {
   FaPlusCircle,
 } from 'react-icons/fa'
 import { AnimatePresence, motion } from 'framer-motion'
+import Router from 'next/router'
 
 import { Logo } from './Logo'
 import { User } from './User'
 
+import { UserContext } from '../context/UserProvider'
+import { JournalContext } from '../context/JournalProvider'
+
 export const NavbarMobile = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false)
+
+  const { username, avatar, userLoading } = useContext(UserContext)
 
   return (
     <div style={{ position: 'relative' }}>
@@ -25,7 +31,7 @@ export const NavbarMobile = () => {
         </div>
         <Logo width={21} />
         <div>
-          <User username="nick" />
+          <User username={username} avatar={avatar} />
         </div>
       </Wrapper>
       <AnimatePresence>
@@ -54,6 +60,17 @@ export const NavbarMobile = () => {
 }
 
 const NavbarMobileDropdown = ({ setToggleDropdown }) => {
+  const { newPage, journals, journalsLoading } = useContext(JournalContext)
+
+  function addNewPub() {
+    if (Router.router.pathname.includes('nouveau')) {
+      return
+    }
+    setToggleDropdown(false)
+    const id = newPage()
+    Router.push(`/journal/nouveau/[id]`, `/journal/nouveau/${id}`)
+  }
+
   return (
     <Dropdown
       initial={{ y: '-100%' }}
@@ -89,7 +106,7 @@ const NavbarMobileDropdown = ({ setToggleDropdown }) => {
           </Link>
           <ButtonWrapper>
             <Button
-              onClick={() => {}}
+              onClick={addNewPub}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -108,7 +125,7 @@ const Wrapper = styled.div`
   background: white;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   position: relative;
-  padding: 2rem 2rem;
+  padding: 1.8rem 2rem;
   display: grid;
   grid-template-columns: 45px 1fr 45px;
   justify-items: center;

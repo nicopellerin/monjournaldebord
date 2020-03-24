@@ -66,6 +66,13 @@ export const CardList: React.FC<Props> = ({ list, expand }) => {
 // Styles
 const Wrapper = styled.div`
   padding: 3rem;
+
+  @media (max-width: 500px) {
+    padding: 3rem 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 6rem;
+    margin-bottom: 6rem;
+  }
 `
 
 const ListWrapper = styled(motion.div)`

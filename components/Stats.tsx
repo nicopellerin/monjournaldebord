@@ -34,6 +34,7 @@ const Wrapper = styled(motion.div)`
 
   @media (max-width: 500px) {
     grid-template-columns: 1fr;
+    padding: 3rem 0;
   }
 `
 

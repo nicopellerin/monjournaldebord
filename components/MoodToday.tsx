@@ -126,7 +126,9 @@ const Wrapper = styled.div`
 
   @media (max-width: 500px) {
     grid-template-columns: 1fr;
-    padding: 1rem;
+    padding: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 6rem;
   }
 `
 
@@ -156,6 +158,10 @@ const Form = styled.form`
   border-bottom-left-radius: 5px;
   position: relative;
   z-index: 10;
+
+  @media (max-width: 500px) {
+    padding: 1.5rem 1rem 1.5rem 1rem;
+  }
 `
 
 const Input = styled.input`
@@ -176,6 +182,10 @@ const Input = styled.input`
   &:focus {
     outline: none;
   }
+
+  @media (max-width: 500px) {
+    padding: 1.6rem 1rem;
+  }
 `
 
 const Heading = styled.div`
@@ -186,6 +196,10 @@ const Heading = styled.div`
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   margin-bottom: 1rem;
+
+  @media (max-width: 500px) {
+    padding: 2.2rem 1.8rem;
+  }
 `
 
 const SavedText = styled(motion.span)`

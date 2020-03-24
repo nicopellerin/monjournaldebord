@@ -212,7 +212,7 @@ const Image = styled.img`
   @media (max-width: 500px) {
     height: 28rem;
     border-radius: 0;
-    margin: 1.2rem 0 1rem;
+    margin: 2rem 0 0rem;
   }
 `
 
@@ -237,6 +237,7 @@ const Text = styled.p`
 
   @media (max-width: 500px) {
     padding: 0 2rem;
+    margin-top: 3rem;
   }
 `
 
@@ -261,7 +262,7 @@ const DateWrapper = styled.div`
 `
 
 const Mood = styled.img`
-  width: 32px;
+  width: 28px;
 
   @media (max-width: 500px) {
     width: 24px;

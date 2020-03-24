@@ -71,5 +71,9 @@ const Emoticon = styled.img`
     css`
       background: #eee;
       border: 1px solid #ddd;
-    `}
+    `};
+
+  @media (max-width: 500px) {
+    width: 36px;
+  }
 `

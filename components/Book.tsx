@@ -54,4 +54,10 @@ const FormWrapper = styled.div`
   z-index: 3;
   border-top: 5px solid #eef;
   border-bottom: 3px solid #ddd;
+
+  @media (max-width: 500px) {
+    width: 90vw;
+    padding: 4rem 2rem;
+    margin: 0 auto;
+  }
 `
