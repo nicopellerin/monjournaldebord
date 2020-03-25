@@ -107,7 +107,7 @@ export const ProfilMoodsContainer: React.FC<Props> = ({
 
 // Styles
 const Wrapper = styled(motion.div)`
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
   background: ghostwhite;
   border-bottom: 3px solid #ddd;
 
@@ -123,7 +123,7 @@ const Title = styled.h3`
   padding: 2rem 3rem;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
   display: flex;
   align-items: center;
   color: #440061;
@@ -175,7 +175,7 @@ const ButtonWrapper = styled.div`
   background: ghostwhite;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
   font-size: 1.2rem;
   font-weight: 600;
   color: var(--primaryColor);

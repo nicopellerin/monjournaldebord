@@ -92,7 +92,7 @@ const ModalWrapper = styled(motion.div)`
   background: whitesmoke;
   padding: 5rem;
   border-radius: 5px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
   min-width: 40rem;
   display: flex;
   flex-direction: column;

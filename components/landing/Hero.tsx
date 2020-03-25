@@ -138,8 +138,7 @@ const Button = styled(motion.button)`
   align-items: center;
   cursor: pointer;
   font-size: 1.6rem;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
   @media (max-width: 500px) {
     font-size: 1.4rem;
   }
@@ -159,8 +158,7 @@ const ButtonLogin = styled(motion.button)`
   cursor: pointer;
   font-size: 1.6rem;
   margin-right: 3rem;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
   @media (max-width: 500px) {
     margin-right: 0;
     margin-bottom: 2rem;

@@ -192,7 +192,7 @@ const RightMenuWrapper = styled(motion.div)`
   background: red;
   padding: 1.5rem 2rem;
   width: 20rem;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
   border-radius: 5px;
   background: ghostwhite;
 `

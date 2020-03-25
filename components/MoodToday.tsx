@@ -179,7 +179,7 @@ const Wrapper = styled.div`
 const Content = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
   border-radius: 5px;
   position: relative;
   border-top: 5px solid #eef;
@@ -249,7 +249,7 @@ const ButtonSave = styled(motion.button)`
   align-items: center;
   padding: 15px 15px 15px 30px;
   font-size: 1.4rem;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
   cursor: pointer;
 
   &:focus {

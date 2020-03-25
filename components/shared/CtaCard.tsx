@@ -35,7 +35,7 @@ const Wrapper = styled(motion.div)`
   padding: 6rem 5rem;
   /* border: 1px solid #ddd; */
   border-radius: 5px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
   width: 80ch;
   min-height: 40vh;
   display: flex;

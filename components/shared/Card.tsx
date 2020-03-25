@@ -62,7 +62,9 @@ export const Card: React.FC<Props> = ({
 const Wrapper = styled(motion.div)`
   padding: 3rem;
   border-radius: 5px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  /* box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px; */
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
+
   cursor: pointer;
   height: 100%;
   background: ${props => props.theme.colors.cardBackground};

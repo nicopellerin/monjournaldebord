@@ -160,7 +160,7 @@ const ListItemImageWrapper = styled(motion.div)`
   top: 50%;
   transform: translate3d(0, -50%, 0);
   z-index: 20;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
   background: white;
   padding: 0.5rem;
   border-radius: 5px;
