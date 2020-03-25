@@ -35,9 +35,9 @@ export const ProfilMoodsContainer: React.FC<Props> = ({
   return (
     <AnimatePresence>
       <Wrapper
-        style={{ x, opacity }}
-        drag="x"
-        dragConstraints={{ left: 0, right: 0 }}
+        // style={{ x, opacity }}
+        // drag="x"
+        // dragConstraints={{ left: 0, right: 0 }}
         exit={{ opacity: 0 }}
         key={index}
       >
