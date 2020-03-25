@@ -196,6 +196,8 @@ const journalReducer = (state: StateType, action: ActionType) => {
     case 'UNDO_NEW_JOURNAL':
       return {
         ...state,
+        selectedJournal: null,
+        newState: false,
       }
     case 'UPLOADED_IMAGE':
       return {

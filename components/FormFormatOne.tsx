@@ -128,8 +128,8 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
       return Router.push(`/profil`)
     }
     if (Router.pathname.includes('nouveau')) {
+      Router.push(`/profil`, `/profil`)
       undoNewJournal(journals[0]?.id)
-      Router.push(`/journal/[id]`, `/journal/${journals[0].id}`)
       return
     }
     Router.push(`/journal/[id]`, `/journal/${id}`)

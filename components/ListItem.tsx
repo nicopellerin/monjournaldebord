@@ -72,12 +72,11 @@ export const ListItem: React.FC<Props> = React.memo(({ title, id }) => {
           ref={itemRef}
           selected={selected}
           onClick={() => {
-            setRightMenuVisible(false)
             selectJournal(id)
+            setRightMenuVisible(false)
           }}
         >
           <Item selected={selected}>
-            {/* <Mood src={mood} alt="Mood" /> */}
             <Text>{maxLength(title, 28)}</Text>
           </Item>
         </Wrapper>
