@@ -63,8 +63,6 @@ export const ProfilMoodsItem: React.FC<Props> = ({
             style={{ cursor: 'pointer' }}
             whileHover={{
               scale: 1.01,
-              // fontWeight: 'bold',
-              // transition: { type: 'spring', damping: 10 },
             }}
             onMouseEnter={() => setShowImage(true)}
             onMouseLeave={() => setShowImage(false)}

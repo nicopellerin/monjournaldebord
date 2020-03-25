@@ -8,6 +8,7 @@ import {
   useTransform,
 } from 'framer-motion'
 import { FaPlusCircle, FaCalendarDay, FaTimesCircle } from 'react-icons/fa'
+import { useRouter } from 'next/router'
 
 import { ProfilMoodsItem } from './ProfilMoodsItem'
 
@@ -18,8 +19,9 @@ interface Props {
 }
 
 interface StylesProps {
-  showLess: boolean
-  lessThanFour: boolean
+  showLess?: boolean
+  lessThanFour?: boolean
+  journal?: boolean
 }
 
 export const ProfilMoodsContainer: React.FC<Props> = ({
@@ -29,23 +31,40 @@ export const ProfilMoodsContainer: React.FC<Props> = ({
 }) => {
   const [showLess, setShowLess] = useState(true)
 
-  const x = useMotionValue(0)
-  const opacity = useTransform(x, [-200, 0, 200], [0, 1, 0])
+  const { pathname } = useRouter()
+
+  // const x = useMotionValue(0)
+  // const opacity = useTransform(x, [-200, 0, 200], [0, 1, 0])
+
+  if (pathname === '/journal/liste') {
+    return (
+      <AnimatePresence>
+        <Wrapper exit={{ opacity: 0 }} key={index}>
+          <Title>
+            <FaCalendarDay style={{ marginRight: 10 }} />
+            {date}
+          </Title>
+          <List journal>
+            {lists.map(listsItem => (
+              <AnimatePresence initial={false} key={listsItem.id}>
+                <ProfilMoodsItem key={listsItem.id} {...listsItem} />
+              </AnimatePresence>
+            ))}
+          </List>
+        </Wrapper>
+      </AnimatePresence>
+    )
+  }
 
   return (
-    <AnimatePresence>
-      <Wrapper
-        // style={{ x, opacity }}
-        // drag="x"
-        // dragConstraints={{ left: 0, right: 0 }}
-        exit={{ opacity: 0 }}
-        key={index}
-      >
+    <AnimatePresence initial={false}>
+      <Wrapper exit={{ opacity: 0 }} key={index}>
         <Title>
           <FaCalendarDay style={{ marginRight: 10 }} />
           {date}
         </Title>
         <List
+          initial={{ height: '29.5rem' }}
           animate={{ height: showLess ? '29.5rem' : 'auto' }}
           exit={{ opacity: 0 }}
           transition={{ damping: 300 }}
@@ -87,6 +106,16 @@ export const ProfilMoodsContainer: React.FC<Props> = ({
 }
 
 // Styles
+const Wrapper = styled(motion.div)`
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  background: ghostwhite;
+  border-bottom: 3px solid #ddd;
+
+  &:not(:last-of-type) {
+    margin-bottom: 6rem;
+  }
+`
+
 const Title = styled.h3`
   font-size: 1.8rem;
   font-weight: 500;
@@ -105,25 +134,15 @@ const Title = styled.h3`
   }
 `
 
-const Wrapper = styled(motion.div)`
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-  background: ghostwhite;
-  border-bottom: 3px solid #ddd;
-
-  &:not(:last-of-type) {
-    margin-bottom: 6rem;
-  }
-`
-
 const List = styled(motion.ul)`
   list-style: none;
   padding: 0;
   display: flex;
   flex-direction: column;
   width: 50rem;
-  /* overflow: hidden; */
   position: relative;
   background: none;
+  overflow: ${(props: StylesProps) => (props.journal ? 'visible' : 'hidden')};
   margin-bottom: 2rem;
   ${(props: StylesProps) => props.lessThanFour && 'height: auto'}!important;
 
