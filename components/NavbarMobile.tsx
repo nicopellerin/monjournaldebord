@@ -153,7 +153,7 @@ const Dropdown = styled(motion.div)`
   background: ghostwhite;
   top: 68px;
   width: 100%;
-  padding: 4.5rem 2rem 4.5rem 2rem;
+  padding: 4rem 2rem 4.5rem 2rem;
   z-index: 999;
   min-height: 100%;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
@@ -173,8 +173,11 @@ const DropdownListItem = styled.li`
   align-items: center;
   color: #440061;
   border-bottom: 1px solid #eee;
-  margin-bottom: 2.5rem;
-  padding-bottom: 2.5rem;
+  box-shadow: 0 14px 16px -20px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+  width: 30rem;
+  margin: 2.5rem auto;
+  border-top: 1px solid #eee;
 `
 
 const Overlay = styled(motion.div)`
@@ -188,7 +191,7 @@ const Overlay = styled(motion.div)`
 `
 
 const ButtonWrapper = styled.div`
-  margin-top: 4rem;
+  margin-top: 5rem;
   display: flex;
   justify-content: center;
 `

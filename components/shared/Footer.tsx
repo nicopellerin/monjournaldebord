@@ -33,6 +33,7 @@ export const Footer: React.FC<Props> = ({ profil }) => {
         noBackground={
           pathname === '/profil' ||
           pathname === '/profil/moods' ||
+          pathname === '/profil/info' ||
           pathname === '/journal/liste' ||
           pathname === '/journal/recherche'
             ? true
@@ -53,6 +54,7 @@ export const Footer: React.FC<Props> = ({ profil }) => {
         noBackground={
           pathname === '/profil' ||
           pathname === '/profil/moods' ||
+          pathname === '/profil/info' ||
           pathname === '/journal/liste' ||
           pathname === '/journal/recherche'
             ? true

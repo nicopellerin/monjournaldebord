@@ -21,7 +21,7 @@ export default ProfilInfoPage
 
 // Styles
 const Wrapper = styled.div`
-  padding: 6rem;
+  padding: 10rem 9rem;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -35,4 +35,6 @@ const Wrapper = styled.div`
   align-items: center;
   background: ${props => props.theme.colors.contentBackground};
   min-height: 100%;
+
+  padding: 10em 9rem;
 `

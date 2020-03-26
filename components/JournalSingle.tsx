@@ -216,12 +216,12 @@ const Wrapper = styled.div`
   min-width: 60rem;
   max-width: 80rem;
   height: 100%;
-  padding: 9rem 0 12rem 0;
+  /* padding: 9rem 0 12rem 0; */
   position: relative;
 
   @media (max-width: 500px) {
     min-width: unset;
-    padding: 6rem 0 9rem 0;
+    /* padding: 6rem 0 9rem 0; */
   }
 `
 
