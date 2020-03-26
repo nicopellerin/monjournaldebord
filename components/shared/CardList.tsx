@@ -67,11 +67,10 @@ export const CardList: React.FC<Props> = ({ list, expand }) => {
 const Wrapper = styled.div`
   padding: 3rem;
 
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     padding: 3rem 0;
     border-bottom: 1px solid #eee;
     padding-bottom: 6rem;
-    margin-bottom: 6rem;
   }
 `
 
@@ -85,7 +84,7 @@ const ListWrapper = styled(motion.div)`
     `}
   grid-gap: 5rem;
 
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-gap: 4rem;
   }

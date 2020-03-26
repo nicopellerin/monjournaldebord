@@ -34,7 +34,7 @@ interface RightMenuStyledProps {
   yVal: number
 }
 
-export const ListItem: React.FC<Props> = React.memo(({ title, id }) => {
+export const ListItem: React.FC<Props> = ({ title, id }) => {
   const { selectJournal } = useContext(JournalContext)
 
   const [rightMenuVisible, setRightMenuVisible] = useState(false)
@@ -72,8 +72,8 @@ export const ListItem: React.FC<Props> = React.memo(({ title, id }) => {
           ref={itemRef}
           selected={selected}
           onClick={() => {
-            selectJournal(id)
             setRightMenuVisible(false)
+            selectJournal(id)
           }}
         >
           <Item selected={selected}>
@@ -93,7 +93,7 @@ export const ListItem: React.FC<Props> = React.memo(({ title, id }) => {
       </Outer>
     </Link>
   )
-})
+}
 
 const RightMenu: React.FC<RightMenuProps> = ({
   id,

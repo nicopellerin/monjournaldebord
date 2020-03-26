@@ -17,7 +17,7 @@ export const MoodToday = () => {
   const [showSaveIcon, setShowSaveIcon] = useState(false)
 
   const isDesktop = useMedia({
-    minWidth: 500,
+    minWidth: 769,
   })
 
   const inputRef = useRef(null)
@@ -168,7 +168,7 @@ const Wrapper = styled.div`
   grid-gap: 6rem;
   padding-bottom: 2rem;
 
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     grid-template-columns: 1fr;
     padding: 0;
     border-bottom: 1px solid #eee;
@@ -203,7 +203,7 @@ const Form = styled.form`
   position: relative;
   z-index: 10;
 
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     padding: 1.5rem 1rem 1.5rem 1rem;
   }
 `

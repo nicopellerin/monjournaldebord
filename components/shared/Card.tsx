@@ -1,8 +1,9 @@
-import React, { useContext } from 'react'
+import * as React from 'react'
+import { useContext, useState } from 'react'
 import styled from 'styled-components'
-import { FaCalendar, FaRegImage } from 'react-icons/fa'
+import { FaCalendar, FaRegImage, FaUserLock } from 'react-icons/fa'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useMedia } from 'react-use-media'
 
 import { DateNow } from '../DateNow'
@@ -28,35 +29,64 @@ export const Card: React.FC<Props> = ({
   createdAt,
   mood,
 }) => {
+  const [showImage, setShowImage] = useState(false)
+
   const { selectJournal } = useContext(JournalContext)
 
   const isLaptop = useMedia({
     maxWidth: 1500,
   })
 
-  const titleLength = isLaptop ? 15 : 29
+  const titleLength = isLaptop ? 15 : 20
   const textLength = isLaptop ? 140 : 200
 
   return (
     <Link href={`/journal/[id]`} as={`/journal/${id}`}>
       <AStyled>
-        <Wrapper whileHover={{ scale: 1.02 }} onClick={() => selectJournal(id)}>
-          {image && <ImageIcon />}
-
-          <Title>{maxLength(title, titleLength)}</Title>
-          <Heading>
-            <Mood src={mood} alt="Mood" />
-            <DateWrapper>
-              <CalendarIcon />
-              <DateNow dateInfo={createdAt} />
-            </DateWrapper>
-          </Heading>
-          <Text>{maxLength(text, textLength)}</Text>
-        </Wrapper>
+        <div style={{ position: 'relative' }}>
+          <Wrapper
+            whileHover={{ scale: 1.02 }}
+            onClick={() => selectJournal(id)}
+          >
+            {image && (
+              <ImageIcon
+                onMouseEnter={() => setShowImage(true)}
+                onMouseLeave={() => setShowImage(false)}
+              />
+            )}
+            <Title>{maxLength(title, titleLength)}</Title>
+            <Heading>
+              <Mood src={mood} alt="Mood" />
+              <DateWrapper>
+                <CalendarIcon />
+                <DateNow dateInfo={createdAt} />
+              </DateWrapper>
+              <Status>
+                <FaUserLock style={{ marginRight: 2 }} />
+                <StatusText>privé</StatusText>
+              </Status>
+            </Heading>
+            <Text>{maxLength(text, textLength)}</Text>
+          </Wrapper>
+          <AnimatePresence>
+            {showImage && <ImageComp image={image} />}
+          </AnimatePresence>
+        </div>
       </AStyled>
     </Link>
   )
 }
+
+const ImageComp = ({ image }) => (
+  <ImageCompWrapper
+    initial={{ y: 100 }}
+    animate={{ y: -85 }}
+    exit={{ y: 100 }}
+    transition={{ type: 'spring', damping: 70 }}
+  >
+    <ImageCompImage src={image} alt="" />
+  </ImageCompWrapper>
+)
 
 // Styles
 const Wrapper = styled(motion.div)`
@@ -64,14 +94,14 @@ const Wrapper = styled(motion.div)`
   border-radius: 5px;
   /* box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px; */
   box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
-
   cursor: pointer;
   height: 100%;
   background: ${props => props.theme.colors.cardBackground};
   position: relative;
   border-top: 5px solid #eef;
-
   border-bottom: 3px solid #ddd;
+  z-index: 20;
+  will-change: transform;
 `
 
 const Title = styled.h2`
@@ -123,4 +153,41 @@ const ImageIcon = styled(FaRegImage)`
 
 const Mood = styled.img`
   width: 20px;
+`
+
+const Status = styled(motion.div)`
+  /* position: absolute; */
+  top: 1rem;
+  right: 1rem;
+  background: var(--primaryColor);
+  padding: 3px 6px;
+  border-radius: 5px;
+  color: ghostwhite;
+  font-weight: 600;
+  /* border-bottom: 2px solid #440061; */
+  display: flex;
+  align-items: center;
+  height: 18px;
+`
+
+const StatusText = styled.span`
+  line-height: 1;
+`
+
+const ImageCompWrapper = styled(motion.div)`
+  position: absolute;
+  right: 0px;
+  top: -7rem;
+  width: 100%;
+  z-index: 19;
+  background: none;
+  padding: 0.5rem;
+  border-radius: 5px;
+`
+
+const ImageCompImage = styled.img`
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
 `

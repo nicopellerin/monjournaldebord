@@ -1,4 +1,17 @@
 import mongoose, { Schema } from 'mongoose'
+import Cryptr from 'cryptr'
+
+const cryptr = new Cryptr(process.env.ACCESS_TOKEN_SECRET)
+
+function encrypt(text) {
+  const encrytedText = cryptr.encrypt(text)
+  return encrytedText
+}
+
+function decrypt(text) {
+  const decryptedText = cryptr.decrypt(text)
+  return decryptedText
+}
 
 const JournalSchema = new Schema({
   author: {
@@ -12,6 +25,8 @@ const JournalSchema = new Schema({
   text: {
     type: String,
     required: true,
+    get: decrypt,
+    set: encrypt,
   },
   image: {
     type: String,
@@ -19,6 +34,10 @@ const JournalSchema = new Schema({
   mood: {
     type: String,
     required: true,
+  },
+  status: {
+    type: String,
+    default: 'private',
   },
   createdAt: {
     type: Date,

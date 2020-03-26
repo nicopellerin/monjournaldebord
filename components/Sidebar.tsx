@@ -2,21 +2,22 @@ import * as React from 'react'
 import { useContext } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
-import { FaPlusCircle } from 'react-icons/fa'
+import { FaPlusCircle, FaUsers } from 'react-icons/fa'
 import Router from 'next/router'
+import Link from 'next/link'
 
 import { List } from './List'
 
-import { JournalContext } from '../context/JournalProvider'
 import { SidebarNoJournals } from './SidebarNoJournals'
+
+import { JournalContext } from '../context/JournalProvider'
+import { UserContext } from '../context/UserProvider'
 
 export const Sidebar: React.FC = () => {
   const { newPage, journals, journalsLoading } = useContext(JournalContext)
+  const { username } = useContext(UserContext)
 
   function addNewPub() {
-    if (Router.router.pathname.includes('nouveau')) {
-      return
-    }
     const id = newPage()
     Router.push(`/journal/nouveau/[id]`, `/journal/nouveau/${id}`)
   }
@@ -34,14 +35,25 @@ export const Sidebar: React.FC = () => {
       {!journalsLoading && (
         <Wrapper noJournals={!journals.length && !journalsLoading}>
           <List />
-          <Button
-            onClick={addNewPub}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <FaPlusCircle style={{ marginRight: 7 }} />
-            Nouvelle publication
-          </Button>
+          <ButtonGroup>
+            <Link href="/[username]" as={`/${username}`}>
+              <ButtonChat
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <FaUsers style={{ marginRight: 7 }} />
+                Mon profil public
+              </ButtonChat>
+            </Link>
+            <ButtonNewJournal
+              onClick={addNewPub}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <FaPlusCircle style={{ marginRight: 7 }} />
+              Nouvelle publication
+            </ButtonNewJournal>
+          </ButtonGroup>
         </Wrapper>
       )}
     </>
@@ -65,13 +77,36 @@ const Wrapper = styled.aside`
   padding: 5rem 0;
 `
 
-const Button = styled(motion.button)`
+const ButtonGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const ButtonChat = styled(motion.button)`
+  /* border: 2px solid #333; */
+  border-bottom: 3px solid #ddd;
+  padding: 1em 2em;
+  background: ghostwhite;
+  /* text-transform: uppercase; */
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
+  color: #440061;
+  width: 100%;
+`
+
+const ButtonNewJournal = styled(motion.button)`
   border: none;
   border-bottom: 3px solid #440061;
   padding: 1em 2em;
   background: var(--primaryColor);
   color: white;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   border-radius: 5px;
   display: flex;
   justify-content: center;

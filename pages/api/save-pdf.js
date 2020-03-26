@@ -1,7 +1,5 @@
-const PDFDocument = require('pdfkit')
-const format = require('date-fns/format')
-const fr = require('date-fns/locale').fr
-const fetch = require('node-fetch')
+import PDFDocument from 'pdfkit'
+import fetch from 'node-fetch'
 
 export default async (req, res) => {
   const doc = new PDFDocument()
@@ -29,7 +27,6 @@ export default async (req, res) => {
 
   doc.pipe(res)
 
-  // Embed a font, set the font size, and render some text
   doc
     .fontSize(42)
     .font('Helvetica-Bold')
@@ -62,6 +59,5 @@ export default async (req, res) => {
     .translate(0, 20)
     .text(text, { lineGap: 1.6 })
 
-  // Finalize PDF file
   doc.end()
 }

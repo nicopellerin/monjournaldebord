@@ -16,6 +16,7 @@ type Journal = {
   createdAt: Date
   image: string
   mood: string
+  status: string
 }
 
 interface ContextValue {
@@ -37,13 +38,15 @@ interface ContextValue {
     title: string,
     text: string,
     image: string,
-    mood: string
+    mood: string,
+    status: string
   ) => void
   addNewJournal: (
     title: string,
     text: string,
     image: string,
-    mood: string
+    mood: string,
+    status: string
   ) => void
   deleteSelectedJournal: (id: string) => void
   toggleEditing: (image: string) => void
@@ -143,6 +146,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
           image: action.payload.image,
           createdAt: action.payload.createdAt,
           mood: action.payload.mood,
+          status: action.payload.status,
         },
         length: state.journals?.length,
         editing: false,
@@ -157,6 +161,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
           image: action.payload.image,
           createdAt: action.payload.createdAt,
           mood: action.payload.mood,
+          status: action.payload.status,
         },
       }
     case 'EDIT_SELECTED_JOURNAL':
@@ -169,6 +174,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
           image: action.payload.image,
           createdAt: action.payload.createdAt,
           mood: action.payload.mood,
+          status: action.payload.status,
         },
         editing: false,
         newState: false,
@@ -196,7 +202,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
     case 'UNDO_NEW_JOURNAL':
       return {
         ...state,
-        selectedJournal: null,
+        // selectedJournal: null,
         newState: false,
       }
     case 'UPLOADED_IMAGE':
@@ -223,7 +229,6 @@ const journalReducer = (state: StateType, action: ActionType) => {
     case 'NEW_PAGE':
       return {
         ...state,
-        selectedJournal: null,
         editing: true,
         newState: true,
         imageUploaded: '',
@@ -248,19 +253,33 @@ const ALL_JOURNALS = gql`
       image
       createdAt
       mood
+      status
     }
   }
 `
 
 const ADD_JOURNAL = gql`
-  mutation($title: String!, $text: String!, $image: String, $mood: String!) {
-    addJournal(title: $title, text: $text, image: $image, mood: $mood) {
+  mutation(
+    $title: String!
+    $text: String!
+    $image: String
+    $mood: String!
+    $status: String!
+  ) {
+    addJournal(
+      title: $title
+      text: $text
+      image: $image
+      mood: $mood
+      status: $status
+    ) {
       id
       title
       text
       image
       createdAt
       mood
+      status
     }
   }
 `
@@ -272,6 +291,7 @@ const EDIT_JOURNAL = gql`
     $text: String!
     $image: String
     $mood: String!
+    $status: String!
   ) {
     editJournal(
       id: $id
@@ -279,6 +299,7 @@ const EDIT_JOURNAL = gql`
       text: $text
       image: $image
       mood: $mood
+      status: $status
     ) {
       id
       title
@@ -286,6 +307,7 @@ const EDIT_JOURNAL = gql`
       image
       createdAt
       mood
+      status
     }
   }
 `
@@ -299,6 +321,7 @@ const GET_JOURNAL = gql`
       image
       createdAt
       mood
+      status
     }
   }
 `
@@ -346,6 +369,7 @@ export const JournalProvider = ({ children }) => {
           image: journal.image,
           createdAt: journal.createdAt,
           mood: journal.mood,
+          status: journal.status,
         },
       })
     },
@@ -370,6 +394,7 @@ export const JournalProvider = ({ children }) => {
   // Add journal
   const [addJournal] = useMutation(ADD_JOURNAL, {
     onCompleted: ({ addJournal }) => {
+      console.log('ADDDD', addJournal)
       const { journals } = client.readQuery({
         query: ALL_JOURNALS,
       })
@@ -386,6 +411,7 @@ export const JournalProvider = ({ children }) => {
               image: addJournal.image,
               createdAt: addJournal.createdAt,
               mood: addJournal.mood,
+              status: addJournal.status,
             },
             ...journals,
           ],
@@ -401,6 +427,7 @@ export const JournalProvider = ({ children }) => {
           image: addJournal.image,
           createdAt: addJournal.createdAt,
           mood: addJournal.mood,
+          status: addJournal.status,
         },
       })
     },
@@ -418,6 +445,7 @@ export const JournalProvider = ({ children }) => {
           image: editJournal.image,
           createdAt: editJournal.createdAt,
           mood: editJournal.mood,
+          status: editJournal.status,
         },
       })
     },
@@ -432,9 +460,9 @@ export const JournalProvider = ({ children }) => {
     })
   }
 
-  const editSelectedJournal = async (id, title, text, image, mood) => {
+  const editSelectedJournal = async (id, title, text, image, mood, status) => {
     const res = await editJournal({
-      variables: { id, title, text, image, mood },
+      variables: { id, title, text, image, mood, status },
     })
     return res?.data?.editJournal?.id
   }
@@ -450,13 +478,14 @@ export const JournalProvider = ({ children }) => {
     }
   }
 
-  const addNewJournal = async (title, text, image, mood) => {
+  const addNewJournal = async (title, text, image, mood, status) => {
     const res = await addJournal({
       variables: {
         title,
         text,
         image,
         mood,
+        status,
       },
     })
     return res?.data?.addJournal?.id
@@ -470,7 +499,7 @@ export const JournalProvider = ({ children }) => {
 
   const searchJournals = (input, router) => {
     dispatch({ type: 'SEARCH_JOURNALS', payload: input })
-    router.push('/recherche', '/recherche')
+    router.push('/journal/recherche', '/journal/recherche')
   }
 
   const undoNewJournal = id => {

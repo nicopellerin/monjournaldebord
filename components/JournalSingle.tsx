@@ -1,7 +1,14 @@
 import * as React from 'react'
 import { useContext, useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { FaCalendarAlt, FaEdit, FaTimes, FaFilePdf } from 'react-icons/fa'
+import {
+  FaCalendarAlt,
+  FaEdit,
+  FaTimes,
+  FaFilePdf,
+  FaUserLock,
+  FaUsers,
+} from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import Router from 'next/router'
 import Link from 'next/link'
@@ -27,7 +34,7 @@ const JournalSingle: React.FC = () => {
 
   useEffect(() => {
     if (!journals.length && !journalsLoading) {
-      Router.push('/profil', '/profil', { shallow: true })
+      Router.push('/profil', '/profil')
     }
   }, [journals])
 
@@ -133,6 +140,19 @@ const JournalSingle: React.FC = () => {
               <CalendarIcon size={14} />
               <DateNow dateInfo={selectedJournal?.createdAt} />
             </DateWrapper>
+            <Status>
+              {selectedJournal?.status === 'private' ? (
+                <>
+                  <FaUserLock style={{ marginRight: 2 }} />
+                  privé
+                </>
+              ) : (
+                <>
+                  <FaUsers style={{ marginRight: 2 }} />
+                  public
+                </>
+              )}
+            </Status>
           </Heading>
           {selectedJournal?.image && (
             <Image src={selectedJournal?.image} alt="" />
@@ -289,12 +309,12 @@ const ButtonWrapper = styled.div`
 `
 
 const ButtonPDF = styled(motion.button)`
-  border: 1px solid #ddd;
-  border-bottom: 3px solid #ddd;
+  border: none;
+  border-bottom: 3px solid #440061;
   padding: 1em 1.5em;
-  background: ghostwhite;
+  background: whitesmoke;
   color: #440061;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -311,11 +331,11 @@ const ButtonPDF = styled(motion.button)`
 
 const ButtonEdit = styled(motion.button)`
   border: none;
-  border-bottom: 3px solid #ddd;
+  border-bottom: 3px solid #333;
   padding: 1em 1.5em;
   background: whitesmoke;
   color: #333;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -332,11 +352,11 @@ const ButtonEdit = styled(motion.button)`
 
 const ButtonDelete = styled(motion.button)`
   border: none;
-  border-bottom: 3px solid #ddd;
+  border-bottom: 3px solid red;
   padding: 1em 1.5em;
   background: whitesmoke;
-  color: crimson;
-  text-transform: uppercase;
+  color: red;
+  /* text-transform: uppercase; */
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -360,4 +380,16 @@ const Dots = styled.span`
   font-size: 5rem;
   text-align: center;
   margin-left: 20px;
+`
+
+const Status = styled.span`
+  background: var(--primaryColor);
+  padding: 4px 6px;
+  border-radius: 5px;
+  color: ghostwhite;
+  font-weight: 600;
+  border-bottom: 2px solid #440061;
+  display: flex;
+  align-items: center;
+  line-height: 1;
 `

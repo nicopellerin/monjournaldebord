@@ -39,7 +39,7 @@ const Wrapper = styled.div`
     grid-template-columns: 275px 1fr;
   }
 
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
   }

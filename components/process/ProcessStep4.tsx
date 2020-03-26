@@ -11,15 +11,21 @@ import { JournalContext } from '../../context/JournalProvider'
 
 interface Props {
   setJournal: React.Dispatch<React.SetStateAction<object>>
-  journal: { title: string; text: string; mood: string; image: string }
+  journal: {
+    title: string
+    text: string
+    mood: string
+    image: string
+    status: string
+  }
   paginate: any
 }
 
 export const ProcessStep4 = ({ journal, setJournal, paginate }) => {
   const {
     handleImageUpload,
-    imageName,
-    imageError,
+    // imageName,
+    // imageError,
     imageURL,
     loader,
   } = useImageUpload(false)
@@ -37,10 +43,12 @@ export const ProcessStep4 = ({ journal, setJournal, paginate }) => {
   async function handleSubmit(e) {
     e.preventDefault()
 
-    const { title, text, image, mood } = journal
+    const { title, text, image, mood, status } = journal
+
+    console.log(status)
 
     try {
-      const res = await addNewJournal(title, text, image, mood)
+      await addNewJournal(title, text, image, mood, status)
       Router.push(`/profil`, `/profil`)
     } catch (err) {
       console.error(err)

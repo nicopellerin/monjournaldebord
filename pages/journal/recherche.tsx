@@ -4,9 +4,9 @@ import { NextPage } from 'next'
 import Head from 'next/head'
 import styled from 'styled-components'
 
-import { CardList } from '../components/shared/CardList'
+import { CardList } from '../../components/shared/CardList'
 
-import { JournalContext } from '../context/JournalProvider'
+import { JournalContext } from '../../context/JournalProvider'
 
 const SearchPage: NextPage = () => {
   const [expand, setExpand] = useState(false)

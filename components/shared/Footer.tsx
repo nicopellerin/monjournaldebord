@@ -23,7 +23,7 @@ export const Footer: React.FC<Props> = ({ profil }) => {
 
   const { pathname } = useRouter()
 
-  if (journalsLoading) {
+  if (journalsLoading || pathname === '/chat') {
     return null
   }
 
@@ -33,7 +33,8 @@ export const Footer: React.FC<Props> = ({ profil }) => {
         noBackground={
           pathname === '/profil' ||
           pathname === '/profil/moods' ||
-          pathname === '/journal/liste'
+          pathname === '/journal/liste' ||
+          pathname === '/journal/recherche'
             ? true
             : false
         }
@@ -52,7 +53,8 @@ export const Footer: React.FC<Props> = ({ profil }) => {
         noBackground={
           pathname === '/profil' ||
           pathname === '/profil/moods' ||
-          pathname === '/journal/liste'
+          pathname === '/journal/liste' ||
+          pathname === '/journal/recherche'
             ? true
             : false
         }

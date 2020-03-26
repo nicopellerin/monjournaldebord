@@ -35,6 +35,7 @@ export const NoJournalsProfil = () => {
     text: '',
     mood: '',
     image: '',
+    status: 'private',
   })
 
   const [[page, direction], setPage] = useState([0, 0])

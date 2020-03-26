@@ -40,7 +40,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
     addNewJournal,
     newState,
     undoNewJournal,
-    journals,
+    selectJournal,
     uploadImage,
     imageUploaded,
   } = useContext(JournalContext)
@@ -52,6 +52,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [mood, setMood] = useState('')
+  const [status, setStatus] = useState('private')
   const [imageName, setImageName] = useState('')
   const [imageError, setImageError] = useState('')
   const [formErrors, setFormErrors] = useState([])
@@ -60,17 +61,20 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
 
   const titleValue = newState ? '' : selectedJournal?.title
   const moodValue = newState ? '' : selectedJournal?.mood
+  const statusValue = newState ? 'private' : selectedJournal?.status
 
   useEffect(() => {
     if (newState) {
       setTitle('')
       setText('')
       setMood('')
+      setStatus('private')
       return
     }
     setTitle(titleValue)
     setText(selectedJournal?.text)
     setMood(moodValue)
+    setStatus(statusValue)
   }, [selectedJournal])
 
   useEffect(() => {
@@ -111,10 +115,17 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
     let res
 
     if (newState) {
-      res = await addNewJournal(title, text, imageUploaded, mood)
+      res = await addNewJournal(title, text, imageUploaded, mood, status)
     } else {
       try {
-        res = await editSelectedJournal(id, title, text, imageUploaded, mood)
+        res = await editSelectedJournal(
+          id,
+          title,
+          text,
+          imageUploaded,
+          mood,
+          status
+        )
       } catch (err) {
         console.error(err.message)
       }
@@ -124,15 +135,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
   }
 
   function handleCancel() {
-    if (!journals.length) {
-      return Router.push(`/profil`)
-    }
-    if (Router.pathname.includes('nouveau')) {
-      Router.push(`/profil`, `/profil`)
-      undoNewJournal(journals[0]?.id)
-      return
-    }
-    Router.push(`/journal/[id]`, `/journal/${id}`)
+    return Router.push(`/profil`, '/profil')
   }
 
   async function handleImageUpload(e) {
@@ -175,7 +178,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
 
   return (
     <Wrapper>
-      {selectedJournal?.createdAt && (
+      {!newState && (
         <DateWrapper>
           <FaCalendarAlt style={{ marginRight: 5, fontSize: 12 }} />
           <DateNow dateInfo={selectedJournal?.createdAt} />
@@ -321,7 +324,7 @@ const Button = styled(motion.button)`
   padding: 1em 2em;
   background: var(--primaryColor);
   color: white;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -336,7 +339,7 @@ const ButtonCancel = styled(motion.button)`
   border-bottom: 3px solid crimson;
   background: whitesmoke;
   color: crimson;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   border-radius: 5px;
   display: flex;
   align-items: center;

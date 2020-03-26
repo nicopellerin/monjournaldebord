@@ -53,7 +53,6 @@ const FormWrapper = styled.div`
     url('${props.bgImg}')`};
   background-size: cover;
   width: 60rem;
-  min-height: 70vh;
   box-shadow: 0 7px 20px rgba(0, 0, 0, 0.1);
   border-radius: 23px;
   display: flex;

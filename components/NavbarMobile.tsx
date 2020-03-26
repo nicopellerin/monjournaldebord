@@ -26,9 +26,9 @@ export const NavbarMobile = () => {
   return (
     <div style={{ position: 'relative' }}>
       <Wrapper>
-        <div onClick={() => setToggleDropdown(prevState => !prevState)}>
+        <MenuBar onClick={() => setToggleDropdown(prevState => !prevState)}>
           <FaBars size={20} color="#333" />
-        </div>
+        </MenuBar>
         <Logo width={21} />
         <div>
           <User username={username} avatar={avatar} />
@@ -47,8 +47,8 @@ export const NavbarMobile = () => {
             animate={{ opacity: 1 }}
             transition={{
               type: 'spring',
-              damping: 16,
-              stiffness: 100,
+              damping: 30,
+              stiffness: 200,
               delay: 0.2,
             }}
             exit={{ opacity: 0 }}
@@ -74,9 +74,9 @@ const NavbarMobileDropdown = ({ setToggleDropdown }) => {
   return (
     <Dropdown
       initial={{ y: '-100%' }}
-      animate={{ y: -4 }}
+      animate={{ y: 0 }}
       exit={{ y: '-100%' }}
-      transition={{ type: 'spring', damping: 16, stiffness: 100 }}
+      transition={{ type: 'spring', damping: 30, stiffness: 200 }}
     >
       <nav>
         <DropdownList>
@@ -132,8 +132,19 @@ const Wrapper = styled.div`
   align-items: center;
   z-index: 1000;
 
-  @media (min-width: 500px) {
+  @media (min-width: 501px) {
+    grid-template-columns: 145px 1fr 145px;
+  }
+
+  @media (min-width: 769px) {
     display: none;
+  }
+`
+
+const MenuBar = styled.div`
+  @media (min-width: 501px) {
+    justify-self: start;
+    padding-left: 1rem;
   }
 `
 
@@ -188,7 +199,7 @@ const Button = styled(motion.button)`
   padding: 1em 2em;
   background: var(--primaryColor);
   color: white;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   border-radius: 5px;
   display: flex;
   justify-content: center;
