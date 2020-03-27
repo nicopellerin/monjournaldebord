@@ -12,6 +12,19 @@ export const Hero = () => {
     maxWidth: 500,
   })
 
+  const isTablet = useMedia({
+    maxWidth: 768,
+  })
+
+  let logoWidth
+  if (isMobile) {
+    logoWidth = 36.5
+  } else if (isTablet) {
+    logoWidth = 70
+  } else {
+    logoWidth = 80
+  }
+
   const bgImg = isMobile ? '/bg.jpg' : '/bg.webp'
 
   return (
@@ -25,7 +38,7 @@ export const Hero = () => {
             transition: { delay: 0.1 },
           }}
         >
-          <Logo width={isMobile ? 36.5 : 80} />
+          <Logo width={logoWidth} />
         </motion.div>
         <Tagline
           initial={{ opacity: 0 }}
@@ -85,7 +98,7 @@ const Wrapper = styled.div`
   background-position: 50%;
   margin: 2rem;
 
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     height: 100vh;
     padding: 2rem;
     margin: 0;

@@ -14,6 +14,7 @@ import Router from 'next/router'
 import Link from 'next/link'
 import axios from 'axios'
 import saveAs from 'file-saver'
+import dompurify from 'dompurify'
 
 import { DateNow } from './DateNow'
 import { ToggleDeleteModal } from './ToggleDeleteModal'
@@ -31,6 +32,8 @@ const JournalSingle: React.FC = () => {
     toggleDelete,
     toggleDeleteAction,
   } = useContext(JournalContext)
+
+  const sanitizer = dompurify.sanitize
 
   useEffect(() => {
     if (!journals.length && !journalsLoading) {
@@ -113,7 +116,7 @@ const JournalSingle: React.FC = () => {
     )
   }
 
-  const convertedText = convertLinkToHTML(selectedJournal?.text)
+  const convertedText = convertLinkToHTML(sanitizer(selectedJournal?.text))
 
   return (
     <Wrapper ref={wrapperRef}>
@@ -242,7 +245,7 @@ const Content = styled(motion.div)`
 const Image = styled.img`
   width: 100%;
   height: 42rem;
-  margin: 2.2rem 0 2rem;
+  margin: 2.2rem 0 0rem;
   object-fit: cover;
   object-position: center;
   border-radius: 5px;
@@ -271,6 +274,7 @@ const Text = styled.p`
   font-size: 1.6rem;
   line-height: 1.5em;
   margin-bottom: 3rem;
+  margin-top: 3rem;
   color: ${props => props.theme.colors.textColor};
 
   @media (max-width: 500px) {

@@ -1,16 +1,27 @@
 import mongoose, { Schema } from 'mongoose'
-import Cryptr from 'cryptr'
-
-const cryptr = new Cryptr(process.env.ACCESS_TOKEN_SECRET)
+import crypto from 'crypto'
 
 function encrypt(text) {
-  const encrytedText = cryptr.encrypt(text)
-  return encrytedText
+  let cipher = crypto.createCipher(
+    'aes-256-cbc',
+    process.env.ACCESS_TOKEN_SECRET
+  )
+  let crypted = cipher.update(text, 'utf8', 'hex')
+  crypted += cipher.final('hex')
+  return crypted
 }
 
 function decrypt(text) {
-  const decryptedText = cryptr.decrypt(text)
-  return decryptedText
+  if (text === null || typeof text === 'undefined') {
+    return text
+  }
+  let decipher = crypto.createDecipher(
+    'aes-256-cbc',
+    process.env.ACCESS_TOKEN_SECRET
+  )
+  let dec = decipher.update(text, 'hex', 'utf8')
+  dec += decipher.final('utf8')
+  return dec
 }
 
 const MoodSchema = new Schema({
@@ -20,8 +31,8 @@ const MoodSchema = new Schema({
   },
   mood: {
     type: String,
-    get: decrypt,
     set: encrypt,
+    get: decrypt,
   },
   createdAt: {
     type: Date,

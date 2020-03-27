@@ -52,7 +52,7 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Ubuntu:400,500,700&display=swap"
             rel="stylesheet"
           />
-          <link href="/manifest.json" rel="manifest" />
+          {/* <link href="/manifest.json" rel="manifest" /> */}
           <link
             rel="apple-touch-icon"
             sizes="180x180"
@@ -70,7 +70,6 @@ export default class MyDocument extends Document {
             sizes="16x16"
             href="/icons/favicon-16x16.png"
           />
-          <link rel="manifest" href="/icons/site.webmanifest" />
           <link
             rel="mask-icon"
             href="/icons/safari-pinned-tab.svg"
