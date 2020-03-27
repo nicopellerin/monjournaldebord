@@ -252,7 +252,7 @@ const ButtonSave = styled(motion.button)`
   padding: 1.2rem;
   background: var(--primaryColor);
   color: white;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   bottom: 0px;
   border: none;
   border-bottom: 3px solid #440061;
