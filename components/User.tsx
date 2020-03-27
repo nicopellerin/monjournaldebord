@@ -23,7 +23,7 @@ export const User: React.FC<Props> = ({ username, avatar }) => {
   const [toggle, setToggle] = useState(false)
 
   const isDesktop = useMedia({
-    minWidth: 500,
+    minWidth: 769,
   })
 
   const node = useClickOutside(setToggle)

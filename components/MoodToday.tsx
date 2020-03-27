@@ -2,7 +2,12 @@ import * as React from 'react'
 import { useState, useContext, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaRegSmile, FaCheckCircle, FaRegClock } from 'react-icons/fa'
+import {
+  FaRegSmile,
+  FaCheckCircle,
+  FaRegClock,
+  FaPaperPlane,
+} from 'react-icons/fa'
 import format from 'date-fns/format'
 import { fr } from 'date-fns/locale'
 
@@ -51,79 +56,70 @@ export const MoodToday = () => {
 
   return (
     <Wrapper>
-      <Content
-        initial={{ opacity: 0 }}
-        animate={{
-          opacity: [0, 1],
-          y: [10, 0],
-        }}
-      >
-        <Heading>
-          <Title>
-            <FaRegSmile style={{ marginRight: 7 }} />
-            Mood de la journée
-          </Title>
-        </Heading>
-        <Form onSubmit={handleSubmit} autoComplete="off">
-          <Input
-            ref={inputRef}
-            maxLength={80}
-            placeholder="Aujourd'hui, je me sens..."
-            name="mood"
-            value={mood}
-            onChange={e => {
-              setMood(e.target.value)
-              e.target.value.length > 0
-                ? setShowSaveIcon(true)
-                : setShowSaveIcon(false)
-            }}
-          />
-        </Form>
+      <div style={{ position: 'relative' }}>
+        <Content
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: [0, 1],
+            y: [10, 0],
+          }}
+        >
+          <Heading>
+            <Title>
+              <FaRegSmile style={{ marginRight: 7 }} />
+              Mood de la journée
+            </Title>
+          </Heading>
+          <Form onSubmit={handleSubmit} autoComplete="off">
+            <Input
+              ref={inputRef}
+              maxLength={80}
+              placeholder="Aujourd'hui, je me sens..."
+              name="mood"
+              value={mood}
+              onChange={e => {
+                setMood(e.target.value)
+                e.target.value.length > 0
+                  ? setShowSaveIcon(true)
+                  : setShowSaveIcon(false)
+              }}
+            />
+          </Form>
+
+          <AnimatePresence>
+            {saved && (
+              <SavedText
+                initial={{ x: '-50%', y: 0 }}
+                animate={{ y: 35 }}
+                exit={{ y: 0 }}
+                transition={{ damping: 200, delay: 0.5 }}
+              >
+                <FaCheckCircle style={{ marginRight: 5 }} />
+                Sauvegardé
+              </SavedText>
+            )}
+          </AnimatePresence>
+        </Content>
         <AnimatePresence>
-          {showSaveIcon && isDesktop && (
+          {showSaveIcon && (
             <ButtonWrapper
-              whileHover={{ scale: 1.02, x: 3 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ y: '-50%', x: -60 }}
-              animate={{ x: -2 }}
-              exit={{ x: -60 }}
-              transition={{ type: 'spring', damping: 14 }}
+              initial={{ y: '-20%', x: '-50%', position: 'absolute' }}
+              animate={{ y: '98%' }}
+              exit={{ y: '-20%' }}
+              transition={{ type: 'spring', damping: 17 }}
             >
-              <ButtonSave onClick={handleSubmit}>
-                <FaCheckCircle color="green" size={26} />
+              <ButtonSave
+                onClick={handleSubmit}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Publier
+                <FaPaperPlane style={{ marginLeft: 5 }} />
               </ButtonSave>
             </ButtonWrapper>
           )}
         </AnimatePresence>
-        <AnimatePresence>
-          {showSaveIcon && !isDesktop && (
-            <ButtonSaveMobile
-              onClick={handleSubmit}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ y: '-50%', position: 'absolute' }}
-              animate={{ y: '99%' }}
-              exit={{ y: '-50%' }}
-              transition={{ type: 'spring', damping: 14 }}
-            >
-              <FaCheckCircle color="whitesmoke" size={24} />
-            </ButtonSaveMobile>
-          )}
-        </AnimatePresence>
-        <AnimatePresence>
-          {saved && (
-            <SavedText
-              initial={{ x: '-50%', y: 0 }}
-              animate={{ y: 35 }}
-              exit={{ y: 0 }}
-              transition={{ damping: 200 }}
-            >
-              <FaCheckCircle style={{ marginRight: 5 }} />
-              Sauvegardé
-            </SavedText>
-          )}
-        </AnimatePresence>
-      </Content>
+      </div>
       <LastMood
         initial={{ opacity: 0 }}
         animate={{
@@ -161,7 +157,7 @@ export const MoodToday = () => {
 // Styles
 const Wrapper = styled.div`
   width: 100%;
-  margin-bottom: 6rem;
+  margin-bottom: 8rem;
   border-radius: 5px;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -169,6 +165,7 @@ const Wrapper = styled.div`
   padding-bottom: 2rem;
 
   @media (max-width: 768px) {
+    margin-bottom: 6rem;
     grid-template-columns: 1fr;
     padding: 0;
     border-bottom: 1px solid #eee;
@@ -184,6 +181,7 @@ const Content = styled(motion.div)`
   position: relative;
   border-top: 5px solid #eef;
   border-bottom: 3px solid #ddd;
+  z-index: 2;
 `
 
 const Title = styled.h2`
@@ -235,38 +233,35 @@ const Input = styled.input`
 
 const ButtonWrapper = styled(motion.div)`
   position: absolute;
-  right: -56px;
-  top: 75.5%;
-  border-left: 0;
-  border-radius: 5px;
+  bottom: 0px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom: 3px solid #ddd;
+  width: 100%;
+  left: 0;
+  background: ghostwhite;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
+  width: 25rem;
+  left: 50%;
 `
 
 const ButtonSave = styled(motion.button)`
+  padding: 1.2rem;
+  background: var(--primaryColor);
+  color: white;
+  font-size: 1.4rem;
+  bottom: 0px;
   border: none;
-  background: #eee;
+  border-bottom: 3px solid #440061;
   border-radius: 5px;
   display: flex;
   align-items: center;
-  padding: 15px 15px 15px 30px;
-  font-size: 1.4rem;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
+  justify-content: center;
+  width: 95%;
   cursor: pointer;
-
-  &:focus {
-    outline: none;
-  }
-`
-
-const ButtonSaveMobile = styled(motion.button)`
-  padding: 1.2rem;
-  background: green;
-  color: ghostwhite;
-  font-size: 1.6rem;
-  width: 100%;
-  bottom: 0px;
-  border: none;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
 `
 
 const Heading = styled.div`

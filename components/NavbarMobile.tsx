@@ -29,7 +29,7 @@ export const NavbarMobile = () => {
         <MenuBar onClick={() => setToggleDropdown(prevState => !prevState)}>
           <FaBars size={20} color="#333" />
         </MenuBar>
-        <Logo width={21} />
+        <Logo toggle={setToggleDropdown} width={21} />
         <div>
           <User username={username} avatar={avatar} />
         </div>
@@ -172,12 +172,12 @@ const DropdownListItem = styled.li`
   justify-content: center;
   align-items: center;
   color: #440061;
+  /* border-top: 1px solid #eee; */
   border-bottom: 1px solid #eee;
-  box-shadow: 0 14px 16px -20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 14px 20px -20px rgba(0, 0, 0, 0.1);
   padding: 2.5rem;
   width: 30rem;
-  margin: 2.5rem auto;
-  border-top: 1px solid #eee;
+  margin: 2rem auto;
 `
 
 const Overlay = styled(motion.div)`

@@ -66,6 +66,7 @@ export const CardList: React.FC<Props> = ({ list, expand }) => {
 // Styles
 const Wrapper = styled.div`
   padding: 3rem;
+  height: 100%;
 
   @media (max-width: 768px) {
     padding: 3rem 0;

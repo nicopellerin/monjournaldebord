@@ -2,6 +2,7 @@ const { parsed: localEnv } = require('dotenv').config()
 const path = require('path')
 const webpack = require('webpack')
 const Dotenv = require('dotenv-webpack')
+const withOffline = require('next-offline')
 
 const nextConfig = {
   webpack: config => {
@@ -22,4 +23,4 @@ const nextConfig = {
   target: 'serverless',
 }
 
-module.exports = nextConfig
+module.exports = withOffline(nextConfig)

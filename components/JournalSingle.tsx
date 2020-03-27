@@ -105,6 +105,16 @@ const JournalSingle: React.FC = () => {
     saveAs(pdfBlob, filename)
   }
 
+  function convertLinkToHTML(text) {
+    const reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g
+    return text.replace(
+      reg,
+      "<a href='$1$2' target='_blank' rel='nofollower'>$1$2</a>"
+    )
+  }
+
+  const convertedText = convertLinkToHTML(selectedJournal?.text)
+
   return (
     <Wrapper ref={wrapperRef}>
       <motion.div
@@ -159,7 +169,7 @@ const JournalSingle: React.FC = () => {
           )}
           <Text
             dangerouslySetInnerHTML={{
-              __html: selectedJournal?.text
+              __html: convertedText
                 .replace('\n', '<br/><br/>')
                 .replace('\n\n', '<br/><br/>'),
             }}

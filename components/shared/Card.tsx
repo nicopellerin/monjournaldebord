@@ -90,6 +90,8 @@ const ImageComp = ({ image }) => (
 
 // Styles
 const Wrapper = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
   padding: 3rem;
   border-radius: 5px;
   /* box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px; */
@@ -101,7 +103,6 @@ const Wrapper = styled(motion.div)`
   border-top: 5px solid #eef;
   border-bottom: 3px solid #ddd;
   z-index: 20;
-  will-change: transform;
 `
 
 const Title = styled.h2`
