@@ -2,16 +2,19 @@ import * as React from 'react'
 import { useContext, useState, useEffect } from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
-import nextCookies from 'next-cookies'
 import styled from 'styled-components'
 import { ThreeBounce } from 'better-react-spinkit'
+import Router, { useRouter } from 'next/router'
+import nextCookie from 'next-cookies'
 
 import { Content } from '../../components/Content'
 
 import { JournalContext } from '../../context/JournalProvider'
 import { NoJournalsProfil } from '../../components/NoJournalsProfil'
+import { withApollo } from '../../lib/apollo'
+import gql from 'graphql-tag'
 
-const ProfilPage: NextPage = () => {
+const ProfilPage = () => {
   const [show, setShow] = useState(false)
 
   const { journals, journalsLoading } = useContext(JournalContext)
@@ -42,18 +45,19 @@ const ProfilPage: NextPage = () => {
 }
 
 ProfilPage.getInitialProps = async ctx => {
-  const { token_login } = nextCookies(ctx)
+  const { token_login: token } = nextCookie(ctx)
 
-  if (ctx.res && !token_login) {
-    ctx.res.writeHead(302, { Location: '/connexion' })
-    ctx.res.end()
-    return {}
+  if (!token) {
+    if (typeof window === 'undefined') {
+      ctx.res.writeHead(302, { Location: '/connexion' })
+      ctx.res.end()
+    }
   }
 
-  return { token_login }
+  return token || {}
 }
 
-export default ProfilPage
+export default withApollo(ProfilPage)
 
 // Styles
 const LoadingWrapper = styled.div`

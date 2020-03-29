@@ -7,6 +7,8 @@ import {
   FaCalendarAlt,
   FaUpload,
   FaExclamationCircle,
+  FaUserLock,
+  FaUsers,
 } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import axios from 'axios'
@@ -135,6 +137,11 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
   }
 
   function handleCancel() {
+    if (!newState) {
+      Router.push(`/journal/[id]`, `/journal/${id}`)
+      return
+    }
+
     return Router.push(`/profil`, '/profil')
   }
 
@@ -208,26 +215,51 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
             onChange={e => setText(e.target.value)}
           />
         </InputWrapper>
-        <InputWrapper>
-          <Label>Image (optionel)</Label>
-          <input
-            type="file"
-            ref={imageInputRef}
-            onChange={handleImageUpload}
-            accept="image/png, image/jpeg"
-            hidden
-          />
-          <ButtonUpload
-            type="button"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => imageInputRef.current.click()}
-          >
-            <FaUpload style={{ marginRight: 7 }} />
-            {!loader ? 'Choisir image...' : loader}
-          </ButtonUpload>
-        </InputWrapper>
-
+        <TwoCols>
+          <InputWrapper>
+            <Label>Status</Label>
+            <ToggleSwitch
+              onClick={() =>
+                setStatus(prevState =>
+                  prevState === 'private' ? 'public' : 'private'
+                )
+              }
+            >
+              <ToggleSwitchCheckbox type="checkbox" name="status" id="status" />
+              <ToggleSwitchLabel>
+                <ToggleSwitchInner
+                  isPrivate={status === 'private' ? true : false}
+                />
+                <ToggleSwitchSwitch
+                  isPrivate={status === 'private' ? true : false}
+                >
+                  {status === 'private' ? (
+                    <FaUserLock color="white" />
+                  ) : (
+                    <FaUsers color="white" />
+                  )}
+                </ToggleSwitchSwitch>
+              </ToggleSwitchLabel>
+            </ToggleSwitch>
+          </InputWrapper>
+          <InputWrapper>
+            <Label>Image (optionel)</Label>
+            <input
+              type="file"
+              ref={imageInputRef}
+              onChange={handleImageUpload}
+              accept="image/png, image/jpeg"
+              hidden
+            />
+            <ButtonUpload
+              type="button"
+              onClick={() => imageInputRef.current.click()}
+            >
+              <FaUpload style={{ marginRight: 7 }} />
+              {!loader ? 'Choisir image...' : loader}
+            </ButtonUpload>
+          </InputWrapper>
+        </TwoCols>
         {imageError && <p>{imageError}</p>}
         {formErrors &&
           formErrors.map(error => (
@@ -240,14 +272,14 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
         <ButtonWrapper>
           <ButtonCancel
             type="button"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ y: -1 }}
+            whileTap={{ y: 1 }}
             onClick={handleCancel}
           >
             <FaTimes style={{ marginRight: 7 }} />
             Annuler
           </ButtonCancel>
-          <Button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+          <Button whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
             <FaCheckCircle style={{ marginRight: 7 }} />
             Sauvegarder
           </Button>
@@ -311,6 +343,13 @@ const Label = styled.label`
   letter-spacing: 0.1em;
 `
 
+const TwoCols = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 3rem;
+  margin-top: 2rem;
+`
+
 const ButtonWrapper = styled.div`
   width: 100%;
   display: flex;
@@ -324,13 +363,13 @@ const Button = styled(motion.button)`
   padding: 1em 2em;
   background: var(--primaryColor);
   color: white;
-  /* text-transform: uppercase; */
   border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   font-size: 1.4rem;
+  font-weight: bold;
 `
 
 const ButtonCancel = styled(motion.button)`
@@ -339,7 +378,6 @@ const ButtonCancel = styled(motion.button)`
   border-bottom: 3px solid crimson;
   background: whitesmoke;
   color: crimson;
-  /* text-transform: uppercase; */
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -347,6 +385,7 @@ const ButtonCancel = styled(motion.button)`
   cursor: pointer;
   font-size: 1.4rem;
   margin-right: 2rem;
+  font-weight: bold;
 `
 
 const ButtonUpload = styled(motion.button)`
@@ -354,7 +393,6 @@ const ButtonUpload = styled(motion.button)`
   padding: 0.7em 1.5em;
   color: #666;
   background: white;
-  text-transform: uppercase;
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -363,6 +401,7 @@ const ButtonUpload = styled(motion.button)`
   font-size: 1.4rem;
   min-width: 18rem;
   margin-top: 0.7rem;
+  font-weight: bold;
 `
 
 const ErrorMsg = styled(motion.span)`
@@ -372,4 +411,87 @@ const ErrorMsg = styled(motion.span)`
   font-size: 1.4rem;
   color: red;
   margin-bottom: 1.5rem;
+`
+
+const ToggleSwitch = styled.div`
+  position: relative;
+  width: 90px;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  text-align: left;
+  margin-top: 0.9rem;
+`
+
+const ToggleSwitchCheckbox = styled.input`
+  display: none;
+`
+
+const ToggleSwitchLabel = styled.label`
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  margin: 0;
+  box-shadow: inset rgba(0, 0, 0, 0.1) 0px 7px 15px;
+`
+
+const ToggleSwitchInner = styled.span`
+  display: block;
+  width: 200%;
+  margin-left: ${(props: { isPrivate: boolean }) =>
+    props.isPrivate ? 0 : '-100%'};
+  transition: margin 0.3s ease-in 0s;
+
+  &:before,
+  :after {
+    display: block;
+    float: left;
+    width: 50%;
+    height: 34px;
+    padding: 0;
+    line-height: 34px;
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    box-sizing: border-box;
+  }
+
+  &:before {
+    content: 'Privé';
+    padding-left: 15px;
+    background-color: #eee;
+    color: #440061;
+  }
+
+  &:after {
+    content: 'Public';
+    padding-right: 12px;
+    background-color: #eee;
+    color: green;
+    text-align: right;
+  }
+`
+
+const ToggleSwitchSwitch = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  margin: 7px;
+  background: ${(props: { isPrivate: boolean }) =>
+    props.isPrivate ? '#440061' : 'green'};
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: ${(props: { isPrivate: boolean }) =>
+    props.isPrivate ? '4px' : '54px'};
+  border: 0 solid #ccc;
+  border-radius: 20px;
+  transition: all 0.3s ease-in 0s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
 `

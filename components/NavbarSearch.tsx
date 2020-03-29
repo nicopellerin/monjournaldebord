@@ -35,6 +35,8 @@ export const NavbarSearch: React.FC = () => {
       />
       <InputWrapper>
         <Input
+          aria-label="title"
+          id="title"
           name="title"
           value={titleInput}
           placeholder="Recherche publication par titre..."

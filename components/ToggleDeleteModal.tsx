@@ -124,6 +124,7 @@ const ButtonDelete = styled(motion.button)`
   cursor: pointer;
   font-size: 1.4rem;
   margin-right: 2rem;
+  font-weight: bold;
 `
 
 const ButtonCancel = styled(motion.button)`
@@ -138,4 +139,5 @@ const ButtonCancel = styled(motion.button)`
   justify-content: center;
   cursor: pointer;
   font-size: 1.4rem;
+  font-weight: bold;
 `

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useContext } from 'react'
 import styled from 'styled-components'
-import { NextPage } from 'next'
+import nextCookie from 'next-cookies'
 import Head from 'next/head'
 
 import { ProfilMoods } from '../../../components/ProfilMoods'
@@ -9,7 +9,7 @@ import { NoMoods } from '../../../components/NoMoods'
 
 import { MoodsContext } from '../../../context/MoodsProvider'
 
-const MoodsPage: NextPage = () => {
+const MoodsPage = () => {
   const { moods, loadingMoods } = useContext(MoodsContext)
   return (
     <>
@@ -21,6 +21,19 @@ const MoodsPage: NextPage = () => {
       {!loadingMoods && moods?.length >= 1 && <ProfilMoods list={moods} />}
     </>
   )
+}
+
+MoodsPage.getInitialProps = async ctx => {
+  const { token_login: token } = nextCookie(ctx)
+
+  if (!token) {
+    if (typeof window === 'undefined') {
+      ctx.res.writeHead(302, { Location: '/connexion' })
+      ctx.res.end()
+    }
+  }
+
+  return token || {}
 }
 
 export default MoodsPage

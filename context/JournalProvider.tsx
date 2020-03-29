@@ -245,7 +245,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
 }
 
 const ALL_JOURNALS = gql`
-  query allJournals {
+  {
     journals {
       id
       title
@@ -335,45 +335,46 @@ const DELETE_JOURNAL = gql`
 `
 
 export const JournalProvider = ({ children }) => {
+  // const queryLS =
+  //   typeof window !== 'undefined' &&
+  //   JSON.parse(localStorage.getItem('apollo-cache-persist'))
+
+  // const journalsLS =
+  //   queryLS &&
+  //   Object.keys(queryLS)
+  //     ?.filter(i => i.includes('Journal'))
+  //     ?.map(keys => queryLS[keys])
+  //     .sort((a, b) => b['createdAt'] - a['createdAt'])
+
+  // console.log(!!journalsLS.length)
+
   const client = useApolloClient()
 
   const [state, dispatch] = useReducer(journalReducer, initialState)
-
-  const thunkDispatch = useCallback(
-    action => {
-      console.log(action)
-      if (typeof action === 'function') {
-        action(dispatch)
-      } else {
-        dispatch(action)
-      }
-    },
-    [dispatch]
-  )
 
   // Load all journals data
   const { loading: journalsLoading, data: allJournals } = useQuery(ALL_JOURNALS)
 
   // Load single journal
-  const [
-    loadJournal,
-    { data: singleJournalData, loading: singleJournalLoading },
-  ] = useLazyQuery(GET_JOURNAL, {
-    onCompleted: ({ journal }) => {
-      dispatch({
-        type: 'SELECTED_JOURNAL',
-        payload: {
-          id: journal.id,
-          title: journal.title,
-          text: journal.text,
-          image: journal.image,
-          createdAt: journal.createdAt,
-          mood: journal.mood,
-          status: journal.status,
-        },
-      })
-    },
-  })
+  const [loadJournal, { loading: singleJournalLoading }] = useLazyQuery(
+    GET_JOURNAL,
+    {
+      onCompleted: ({ journal }) => {
+        dispatch({
+          type: 'SELECTED_JOURNAL',
+          payload: {
+            id: journal.id,
+            title: journal.title,
+            text: journal.text,
+            image: journal.image,
+            createdAt: journal.createdAt,
+            mood: journal.mood,
+            status: journal.status,
+          },
+        })
+      },
+    }
+  )
 
   // Delete journal
   const [deleteJournal] = useMutation(DELETE_JOURNAL, {

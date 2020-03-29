@@ -1,12 +1,19 @@
 import * as React from 'react'
-import { createContext, useReducer, useMemo } from 'react'
+import { createContext, useReducer, useMemo, useEffect } from 'react'
 import gql from 'graphql-tag'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { useRouter } from 'next/router'
 
+type User = {
+  username: string
+  email: string
+  createdAt: string
+  avatar: string
+}
+
 interface UserContextValue {
-  login: (email, password) => void
-  logout: () => void
+  login: (email, password) => Promise<User>
+  logout: () => Promise<boolean>
   signup: (username, email, password, avatar) => void
   username: string
   email: string
@@ -16,8 +23,8 @@ interface UserContextValue {
 }
 
 const UserValue: UserContextValue = {
-  login: () => {},
-  logout: () => {},
+  login: async () => ({ username: '', email: '', createdAt: '', avatar: '' }),
+  logout: async () => false,
   signup: () => {},
   username: '',
   email: '',
@@ -44,7 +51,9 @@ type StateType = {
 const LOGIN = gql`
   mutation($email: String!, $password: String!) {
     signinUser(email: $email, password: $password) {
-      token
+      username
+      avatar
+      email
     }
   }
 `
@@ -62,8 +71,16 @@ const SIGNUP = gql`
       password: $password
       avatar: $avatar
     ) {
-      token
+      username
+      avatar
+      email
     }
+  }
+`
+
+const SIGNOUT = gql`
+  mutation {
+    signoutUser
   }
 `
 
@@ -104,23 +121,25 @@ const initialState = {
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const router = useRouter()
-
-  let skipQuery =
-    !router.pathname.includes('profil') && !router.pathname.includes('journal')
+  const { pathname, push } = useRouter()
 
   const [signinUser] = useMutation(LOGIN)
   const [signupUser] = useMutation(SIGNUP)
+  const [signoutUser] = useMutation(SIGNOUT)
 
   const { loading: userLoading } = useQuery(USER_INFO, {
-    skip: skipQuery,
+    skip: pathname === '/connexion',
+    ssr: true,
+    onError: () => {
+      push('/connexion')
+    },
     onCompleted: ({ me }) => {
       dispatch({
         type: 'USER_INFO',
         payload: {
           username: me.username,
-          email: me.email,
           avatar: me.avatar,
+          email: me.email,
         },
       })
     },
@@ -128,18 +147,30 @@ export const UserProvider = ({ children }) => {
 
   // Actions
   const login = async (email, password) => {
-    const res = await signinUser({
+    const { data } = await signinUser({
       variables: {
         email,
         password,
       },
     })
 
-    return res?.data?.signinUser?.token
+    dispatch({
+      type: 'USER_INFO',
+      payload: {
+        username: data.signinUser.username,
+        avatar: data.signinUser.avatar,
+        email: data.signinUser.email,
+      },
+    })
+
+    return data.signinUser
   }
 
-  const logout = () => {
+  const logout = async () => {
+    await signoutUser()
     dispatch({ type: 'LOGOUT' })
+
+    return true
   }
 
   const signup = async (
@@ -148,7 +179,7 @@ export const UserProvider = ({ children }) => {
     password: string,
     avatar: string
   ) => {
-    const res = await signupUser({
+    signupUser({
       variables: {
         username,
         email,
@@ -156,8 +187,6 @@ export const UserProvider = ({ children }) => {
         avatar,
       },
     })
-
-    return res?.data?.signupUser?.token
   }
 
   const value = useMemo(

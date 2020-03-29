@@ -60,11 +60,9 @@ const InscriptionForm: React.FC = () => {
     setIsSubmiting(true)
 
     try {
-      const token = await signup(username, email, password, avatar)
-      cookies.set('token_login', token)
+      await signup(username, email, password, avatar)
       Router.push('/profil')
     } catch (err) {
-      console.error(err.message)
       setFormErrors(err.message.replace('GraphQL error:', ''))
     } finally {
       setIsSubmiting(false)
@@ -163,16 +161,14 @@ const InscriptionForm: React.FC = () => {
         <Label htmlFor="avatar">Avatar (optionel)</Label>
         <ButtonUpload
           type="button"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
           onClick={() => imageInputRef.current.click()}
         >
           <FaUpload style={{ marginRight: 7 }} />
           {!loader ? 'Choisir image...' : maxLength(loader, 30)}
         </ButtonUpload>
         <Button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ y: -1 }}
+          whileTap={{ y: 1 }}
           disabled={isSubmiting}
         >
           {isSubmiting ? (

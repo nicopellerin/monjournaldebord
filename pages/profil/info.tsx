@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import Head from 'next/head'
+import nextCookie from 'next-cookies'
 
 import { ProfilInfo } from '../../components/ProfilInfo'
 
@@ -8,13 +9,26 @@ const ProfilInfoPage = () => {
   return (
     <>
       <Head>
-        <title>Info profil | monjournaldebortd</title>
+        <title>Info profil | monjournaldebord</title>
       </Head>
       <Wrapper>
         <ProfilInfo />
       </Wrapper>
     </>
   )
+}
+
+ProfilInfoPage.getInitialProps = async ctx => {
+  const { token_login: token } = nextCookie(ctx)
+
+  if (!token) {
+    if (typeof window === 'undefined') {
+      ctx.res.writeHead(302, { Location: '/connexion' })
+      ctx.res.end()
+    }
+  }
+
+  return token || {}
 }
 
 export default ProfilInfoPage

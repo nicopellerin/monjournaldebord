@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import cookies from 'js-cookie'
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 import { FaSignInAlt, FaExclamationCircle } from 'react-icons/fa'
 import { Circle } from 'better-react-spinkit'
 import Lottie from 'react-lottie'
@@ -17,6 +17,7 @@ import successAnimation from '../lotties/success.json'
 
 import { UserContext } from '../context/UserProvider'
 import { withApollo } from '../lib/apollo'
+import { useApolloClient } from '@apollo/react-hooks'
 
 const connexionOptions = {
   loop: false,
@@ -79,6 +80,9 @@ const ConnexionForm: React.FC<FormProps> = ({
   setIsSubmiting,
   isSubmiting,
 }) => {
+  const client = useApolloClient()
+  const router = useRouter()
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loginError, setLoginError] = useState('')
@@ -91,11 +95,13 @@ const ConnexionForm: React.FC<FormProps> = ({
     setIsSubmiting(true)
 
     try {
-      const token = await login(email, password)
-      // const in15Minutes = new Date(new Date().getTime() + 15 * 60 * 1000)
-      cookies.set('token_login', token, { expires: 7 })
-      setSuccess(true)
-      setTimeout(() => Router.push('/profil'), 1000)
+      await client.resetStore()
+      const { username } = await login(email, password)
+
+      if (username) {
+        setSuccess(true)
+        setTimeout(() => router.push('/profil'), 1000)
+      }
     } catch (err) {
       console.error(err.message)
       setLoginError(err.message.replace('GraphQL error:', ''))
@@ -136,8 +142,8 @@ const ConnexionForm: React.FC<FormProps> = ({
           />
           <Button
             type="submit"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ y: -1 }}
+            whileTap={{ y: 1 }}
             disabled={isSubmiting}
           >
             {isSubmiting ? (

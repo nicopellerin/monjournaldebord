@@ -17,10 +17,6 @@ class MyApp extends App {
   render() {
     const { Component, pageProps, router } = this.props
 
-    Router.onRouteChangeComplete = url => {
-      window.scrollTo(0, 0)
-    }
-
     if (
       router.pathname.startsWith('/profil') ||
       router.pathname.startsWith('/journal') ||
@@ -39,6 +35,15 @@ class MyApp extends App {
             </JournalProvider>
           </MoodsProvider>
         </UserProvider>
+      )
+    }
+
+    if (router.pathname === '/') {
+      return (
+        <Layout>
+          <Component {...pageProps} key={router.query.id} />
+          <GlobalStyles />
+        </Layout>
       )
     }
 

@@ -72,6 +72,8 @@ export const MoodToday = () => {
           </Heading>
           <Form onSubmit={handleSubmit} autoComplete="off">
             <Input
+              aria-label="mood"
+              id="mood"
               ref={inputRef}
               maxLength={80}
               placeholder="Aujourd'hui, je me sens..."
@@ -106,7 +108,7 @@ export const MoodToday = () => {
               initial={{ y: '-20%', x: '-50%', position: 'absolute' }}
               animate={{ y: '98%' }}
               exit={{ y: '-20%' }}
-              transition={{ type: 'spring', damping: 17 }}
+              transition={{ type: 'spring', damping: 30, stiffness: 200 }}
             >
               <ButtonSave
                 onClick={handleSubmit}
@@ -253,6 +255,7 @@ const ButtonSave = styled(motion.button)`
   background: var(--primaryColor);
   color: white;
   font-size: 1.6rem;
+  font-weight: bold;
   bottom: 0px;
   border: none;
   border-bottom: 3px solid #440061;

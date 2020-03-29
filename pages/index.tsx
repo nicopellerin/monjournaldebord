@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useEffect } from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
-import nextCookies from 'next-cookies'
+import nextCookie from 'next-cookies'
 import cookies from 'js-cookie'
 import Router from 'next/router'
 
@@ -11,12 +11,6 @@ import { Hero } from '../components/landing/Hero'
 import { withApollo } from '../lib/apollo'
 
 const IndexPage: NextPage = () => {
-  const cookie = cookies.get('token_login')
-  useEffect(() => {
-    if (cookie) {
-      Router.push('/profil')
-    }
-  }, [])
   return (
     <>
       <Head>
@@ -28,16 +22,15 @@ const IndexPage: NextPage = () => {
 }
 
 IndexPage.getInitialProps = async ctx => {
-  const { token_login } = nextCookies(ctx)
+  const { token_login: token } = nextCookie(ctx)
 
-  if (ctx.res && token_login) {
-    ctx.res.writeHead(302, { Location: '/profil' })
-    ctx.res.end()
-
-    return { token_login }
+  if (token) {
+    if (typeof window === 'undefined') {
+      ctx.res.writeHead(302, { Location: '/profil' })
+      ctx.res.end()
+    }
   }
 
-  return {}
+  return token
 }
-
 export default withApollo(IndexPage)

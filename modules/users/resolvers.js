@@ -1,28 +1,31 @@
-import { AuthenticationError } from 'apollo-server-micro'
+import { AuthenticationError, UserInputError } from 'apollo-server-micro'
 import bcrypt from 'bcryptjs'
+import cookie from 'cookie'
 
 import User from './User'
 import Mood from './Mood'
 
+import getUserFromToken from '../../lib/getUserFromToken'
 import { createAccessToken } from '../../lib/auth'
 
 // Resolver
 export const usersResolvers = {
   Query: {
-    me(parent, args, { user }, info) {
-      if (!user) {
-        throw new AuthenticationError('No USER.')
+    async me(parent, args, { user }, info) {
+      if (user) {
+        return user
       }
-      return user
+      return null
     },
     async getAllMoods(parent, args, { user }) {
-      if (!user) {
-        throw new AuthenticationError('Pas authorizé.')
+      if (user) {
+        try {
+          const moods = await Mood.find({ author: user._id }).sort({ _id: -1 })
+          return moods
+        } catch (error) {
+          throw new AuthenticationError('Pas authorizé.')
+        }
       }
-
-      const moods = await Mood.find({ author: user._id }).sort({ _id: -1 })
-
-      return moods
     },
   },
   Mutation: {
@@ -53,10 +56,23 @@ export const usersResolvers = {
         avatar,
       }).save()
 
-      return { token: createAccessToken(newUser) }
+      const token = createAccessToken(newUser)
+
+      ctx.res.setHeader(
+        'Set-Cookie',
+        cookie.serialize('token_login', token, {
+          httpOnly: true,
+          maxAge: 6 * 60 * 60,
+          path: '/',
+          sameSite: 'lax',
+          secure: process.env.NODE_ENV === 'production',
+        })
+      )
+
+      return newUser
     },
 
-    async signinUser(parent, { email, password }, ctx, info) {
+    async signinUser(parent, { email, password }, { res }, info) {
       if (!email || !password) {
         throw new AuthenticationError(
           'Veuillez entre un courriel et mot de passe'
@@ -68,12 +84,41 @@ export const usersResolvers = {
       if (!user) {
         throw new AuthenticationError('Mauvais courriel ou mot de passe')
       }
+
       const passwordsMatch = await bcrypt.compare(password, user.password)
       if (passwordsMatch) {
-        return { token: createAccessToken(user) }
+        const token = createAccessToken(user)
+
+        res.setHeader(
+          'Set-Cookie',
+          cookie.serialize('token_login', token, {
+            httpOnly: true,
+            maxAge: 6 * 6 * 60,
+            path: '/',
+            sameSite: 'lax',
+            secure: process.env.NODE_ENV === 'production',
+          })
+        )
+
+        return user
       }
 
       throw new AuthenticationError('Mauvais courriel ou mot de passe')
+    },
+
+    async signoutUser(parent, args, ctx, info) {
+      ctx.res.setHeader(
+        'Set-Cookie',
+        cookie.serialize('token_login', '', {
+          httpOnly: true,
+          maxAge: -1,
+          path: '/',
+          sameSite: 'lax',
+          secure: process.env.NODE_ENV === 'production',
+        })
+      )
+
+      return true
     },
 
     async updateDailyMood(parent, { mood }, { user }) {
@@ -81,28 +126,30 @@ export const usersResolvers = {
         throw new AuthenticationError('Invalid')
       }
 
-      // const res = await Mood.findOneAndUpdate(
-      //   { _id: user.id },
-      //   { $set: { mood, author: user.id } },
-      //   { new: true }
-      // )
       const res = await Mood.create({ author: user, mood })
 
       return res
     },
 
-    async deleteSingleMood(parent, { id }, { user }) {
-      if (!user) {
-        throw new AuthenticationError('Invalid')
+    async deleteSingleMood(parent, { id }, ctx) {
+      const { token_login: token } = cookie.parse(ctx.req.headers.cookie ?? '')
+
+      if (token) {
+        try {
+          const res = await Mood.findByIdAndDelete(id)
+
+          return res
+        } catch (error) {
+          throw new AuthenticationError('Invalid')
+        }
       }
-
-      const res = await Mood.findByIdAndDelete(id)
-
-      return res
     },
   },
   Mood: {
-    author: (parent, args, { user }) => {
+    author: async (parent, args, ctx) => {
+      const token = ctx.req.cookies['token_login']
+      const user = await getUserFromToken(token)
+
       if (!user) {
         throw new AuthenticationError('Pas authorizé.')
       }

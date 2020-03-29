@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { FaUserAlt, FaMoon, FaSun } from 'react-icons/fa'
-import cookies from 'js-cookie'
+import cookie from 'cookie'
 
 import { Logo } from './Logo'
 import { User } from './User'
@@ -19,8 +19,6 @@ export const Navbar: React.FC = () => {
   const { username, avatar, userLoading } = useContext(UserContext)
   const { journals } = useContext(JournalContext)
 
-  const token = cookies.get('token_login')
-
   if (userLoading) {
     return null
   }
@@ -31,7 +29,7 @@ export const Navbar: React.FC = () => {
         <Logo />
       </LogoWrapper>
       <RightWrapper>
-        {token ? (
+        {username ? (
           <>
             {journals.length > 0 && (
               <NavbarSearchWrapper>

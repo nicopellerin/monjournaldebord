@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useContext, useState } from 'react'
 import styled from 'styled-components'
-import { FaCalendar, FaRegImage, FaUserLock } from 'react-icons/fa'
+import { FaCalendar, FaRegImage, FaUserLock, FaUsers } from 'react-icons/fa'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useMedia } from 'react-use-media'
@@ -19,6 +19,7 @@ type Props = {
   image: string
   createdAt: Date
   mood: string
+  status: string
 }
 
 export const Card: React.FC<Props> = ({
@@ -28,6 +29,7 @@ export const Card: React.FC<Props> = ({
   image,
   createdAt,
   mood,
+  status,
 }) => {
   const [showImage, setShowImage] = useState(false)
 
@@ -45,7 +47,8 @@ export const Card: React.FC<Props> = ({
       <AStyled>
         <div style={{ position: 'relative' }}>
           <Wrapper
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ y: -1 }}
+            whileTap={{ y: 1 }}
             onClick={() => selectJournal(id)}
           >
             {image && (
@@ -61,9 +64,8 @@ export const Card: React.FC<Props> = ({
                 <CalendarIcon />
                 <DateNow dateInfo={createdAt} />
               </DateWrapper>
-              <Status>
-                <FaUserLock style={{ marginRight: 2 }} />
-                <StatusText>privé</StatusText>
+              <Status isPrivate={status === 'private' ? true : false}>
+                {status === 'private' ? <FaUserLock /> : <FaUsers />}
               </Status>
             </Heading>
             <Text>{maxLength(text, textLength)}</Text>
@@ -79,9 +81,9 @@ export const Card: React.FC<Props> = ({
 
 const ImageComp = ({ image }) => (
   <ImageCompWrapper
-    initial={{ y: 100 }}
+    initial={{ y: 85 }}
     animate={{ y: -85 }}
-    exit={{ y: 100 }}
+    exit={{ y: 85 }}
     transition={{ type: 'spring', damping: 70 }}
   >
     <ImageCompImage src={image} alt="" />
@@ -160,12 +162,12 @@ const Status = styled(motion.div)`
   /* position: absolute; */
   top: 1rem;
   right: 1rem;
-  background: var(--primaryColor);
+  background: ${(props: { isPrivate: boolean }) =>
+    props.isPrivate ? 'var(--primaryColor)' : 'green'};
   padding: 3px 6px;
   border-radius: 5px;
   color: ghostwhite;
   font-weight: 600;
-  /* border-bottom: 2px solid #440061; */
   display: flex;
   align-items: center;
   height: 18px;

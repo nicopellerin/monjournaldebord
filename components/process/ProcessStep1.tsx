@@ -20,7 +20,6 @@ export const ProcessStep1: React.FC<Props> = ({
       animate={{
         y: [-20, 5, 0],
         opacity: [0, 1],
-        // transition: { delay: 0.1 },
       }}
     >
       <Title
@@ -61,8 +60,8 @@ export const ProcessStep1: React.FC<Props> = ({
       >
         <ButtonNext
           onClick={() => (journal.title ? paginate(1) : null)}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ y: -1 }}
+          whileTap={{ y: 1 }}
         >
           Suivant <FaArrowRight style={{ marginLeft: 5 }} />
         </ButtonNext>
@@ -133,5 +132,5 @@ const ButtonNext = styled(motion.button)`
   justify-content: center;
   cursor: pointer;
   font-size: 1.6rem;
-  font-weight: 500;
+  font-weight: bold;
 `

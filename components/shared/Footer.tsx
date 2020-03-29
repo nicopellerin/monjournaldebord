@@ -133,7 +133,7 @@ const Text = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #999;
+  color: #666;
 
   @media (max-width: 500px) {
     max-width: 35ch;

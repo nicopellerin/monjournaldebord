@@ -1,5 +1,6 @@
-import { ApolloServer, AuthenticationError } from 'apollo-server-micro'
+import { ApolloServer } from 'apollo-server-micro'
 import { mergeTypeDefs, mergeResolvers } from '@graphql-toolkit/schema-merging'
+import cookie from 'cookie'
 
 import connectDB from '../../lib/mongoose'
 
@@ -8,6 +9,7 @@ import UsersSchema from '../../modules/users/schema.graphql'
 
 import { journalsResolvers } from '../../modules/journals/resolvers'
 import { usersResolvers } from '../../modules/users/resolvers'
+
 import getUserFromToken from '../../lib/getUserFromToken'
 
 const typeDefs = mergeTypeDefs([JournalsSchema, UsersSchema])
@@ -16,19 +18,19 @@ const resolvers = mergeResolvers([journalsResolvers, usersResolvers])
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({ req }) => {
-    const token = req.headers.authorization
-    if (!token) return
+  formatError: err => {
+    console.log(err.message)
+    return err
+  },
+  context: async ctx => {
+    const { token_login: token } = cookie.parse(ctx.req.headers.cookie ?? '')
+    if (!token) return ctx
 
     try {
       const user = await getUserFromToken(token)
-
-      return {
-        user,
-        token,
-      }
+      return { ...ctx, user }
     } catch (err) {
-      throw new AuthenticationError('Veuillez vous connecter!')
+      return ctx
     }
   },
 })

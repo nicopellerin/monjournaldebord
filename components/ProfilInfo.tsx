@@ -21,11 +21,11 @@ export const ProfilInfo = () => {
           {email}
         </Email>
         <Dots>&#8411;</Dots>
-        <ButtonEmail whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+        <ButtonEmail whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
           <FaEnvelope style={{ marginRight: 5 }} />
           Modifier courriel
         </ButtonEmail>
-        <ButtonPassword whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+        <ButtonPassword whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
           <FaUserLock style={{ marginRight: 5 }} />
           Nouveau mot de passe
         </ButtonPassword>
@@ -95,6 +95,7 @@ const ButtonPassword = styled(motion.button)`
   justify-content: center;
   cursor: pointer;
   font-size: 1.4rem;
+  font-weight: bold;
 `
 
 const ButtonEmail = styled(motion.button)`
@@ -111,6 +112,7 @@ const ButtonEmail = styled(motion.button)`
   cursor: pointer;
   font-size: 1.4rem;
   margin-bottom: 2rem;
+  font-weight: bold;
 `
 
 const ButtonDeleteAccount = styled(motion.button)`

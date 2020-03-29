@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaSignOutAlt } from 'react-icons/fa'
 import cookies from 'js-cookie'
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 import { useApolloClient } from '@apollo/react-hooks'
 import Link from 'next/link'
 
@@ -51,8 +51,15 @@ export const User: React.FC<Props> = ({ username, avatar }) => {
 
 const UserDropdown: React.FC = () => {
   const client = useApolloClient()
+  const router = useRouter()
 
   const { logout, email } = useContext(UserContext)
+
+  async function signoutUser() {
+    await client.resetStore()
+    await logout()
+    await router.push('/connexion')
+  }
 
   return (
     <AnimatePresence>
@@ -64,15 +71,7 @@ const UserDropdown: React.FC = () => {
         <DropdownItem>
           <UserEmail>{maxLength(email, 16)}</UserEmail>
         </DropdownItem>
-        <DropdownItem
-          style={{ cursor: 'pointer' }}
-          onClick={() => {
-            cookies.remove('token_login')
-            client.resetStore()
-            logout()
-            Router.push('/connexion')
-          }}
-        >
+        <DropdownItem style={{ cursor: 'pointer' }} onClick={signoutUser}>
           <FaSignOutAlt style={{ marginRight: 5 }} />
           Se déconnecter
         </DropdownItem>

@@ -131,6 +131,7 @@ const Wrapper = styled.div`
   justify-items: center;
   align-items: center;
   z-index: 1000;
+  border-top: 3px solid var(--primaryColor);
 
   @media (min-width: 501px) {
     grid-template-columns: 145px 1fr 145px;

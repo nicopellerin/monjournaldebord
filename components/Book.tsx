@@ -14,12 +14,6 @@ export const Book: React.FC = () => {
 
   const { toggleImageContainer } = useContext(JournalContext)
 
-  const isMobile = useMedia({
-    maxWidth: 500,
-  })
-
-  const bgImg = isMobile ? '/paper.jpg' : '/paper.webp'
-
   return (
     <AnimatePresence>
       <Wrapper
@@ -27,7 +21,7 @@ export const Book: React.FC = () => {
         animate={{ y: 0, transition: { damping: 300 } }}
         exit={{ y: 50 }}
       >
-        <FormWrapper bgImg={bgImg}>
+        <FormWrapper>
           <FormFormatOne loader={loader} setLoader={setLoader} />
         </FormWrapper>
         <AnimatePresence>
@@ -44,13 +38,7 @@ const Wrapper = styled(motion.div)`
 `
 
 const FormWrapper = styled.div`
-  background: ${(props: { bgImg: string }) =>
-    props.bgImg &&
-    `linear-gradient(
-      rgba(255, 255, 255, 0.6),
-      rgba(255, 255, 255, 0.8)
-    ),
-    url('${props.bgImg}')`};
+  background: whitesmoke;
   background-size: cover;
   width: 60rem;
   box-shadow: 0 7px 20px rgba(0, 0, 0, 0.1);

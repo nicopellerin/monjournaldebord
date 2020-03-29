@@ -44,12 +44,6 @@ const JournalSingle: React.FC = () => {
   const wrapperRef = useRef(null)
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-    console.log(wrapperRef.current.offsetTop)
-    console.log('yo')
-  }, [Router.router.pathname])
-
-  useEffect(() => {
     const currentIdx = journals?.findIndex(
       journal => journal.id === selectedJournal?.id
     )
@@ -110,13 +104,13 @@ const JournalSingle: React.FC = () => {
 
   function convertLinkToHTML(text) {
     const reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g
-    return text.replace(
+    return text?.replace(
       reg,
       "<a href='$1$2' target='_blank' rel='nofollower'>$1$2</a>"
     )
   }
 
-  const convertedText = convertLinkToHTML(sanitizer(selectedJournal?.text))
+  const convertedText = convertLinkToHTML(selectedJournal?.text)
 
   return (
     <Wrapper ref={wrapperRef}>
@@ -153,7 +147,9 @@ const JournalSingle: React.FC = () => {
               <CalendarIcon size={14} />
               <DateNow dateInfo={selectedJournal?.createdAt} />
             </DateWrapper>
-            <Status>
+            <Status
+              isPrivate={selectedJournal?.status === 'private' ? true : false}
+            >
               {selectedJournal?.status === 'private' ? (
                 <>
                   <FaUserLock style={{ marginRight: 2 }} />
@@ -173,16 +169,16 @@ const JournalSingle: React.FC = () => {
           <Text
             dangerouslySetInnerHTML={{
               __html: convertedText
-                .replace('\n', '<br/><br/>')
-                .replace('\n\n', '<br/><br/>'),
+                ?.replace('\n', '<br/><br/>')
+                ?.replace('\n\n', '<br/><br/>'),
             }}
           />
           <Dots>&#8411;</Dots>
           <ButtonWrapper>
             <ButtonPDF
               onClick={exportToPDF}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ y: -1 }}
+              whileTap={{ y: 1 }}
             >
               <FaFilePdf style={{ marginRight: 5 }} />
               Exporter format PDF
@@ -193,8 +189,8 @@ const JournalSingle: React.FC = () => {
             >
               <ButtonEdit
                 onClick={() => toggleEditing(selectedJournal?.image)}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ y: -1 }}
+                whileTap={{ y: 1 }}
               >
                 <FaEdit style={{ marginRight: 5 }} />
                 Éditer
@@ -202,8 +198,8 @@ const JournalSingle: React.FC = () => {
             </Link>
             <ButtonDelete
               onClick={toggleDeleteAction}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ y: -1 }}
+              whileTap={{ y: 1 }}
             >
               <FaTimes style={{ marginRight: 5 }} />
               Supprimer
@@ -229,12 +225,10 @@ const Wrapper = styled.div`
   min-width: 60rem;
   max-width: 80rem;
   height: 100%;
-  /* padding: 9rem 0 12rem 0; */
   position: relative;
 
   @media (max-width: 500px) {
     min-width: unset;
-    /* padding: 6rem 0 9rem 0; */
   }
 `
 
@@ -290,7 +284,6 @@ const Heading = styled.div`
 
   @media (max-width: 500px) {
     padding: 0 2rem;
-    /* line-height: 1em; */
   }
 `
 
@@ -328,7 +321,6 @@ const ButtonPDF = styled(motion.button)`
   padding: 1em 1.5em;
   background: whitesmoke;
   color: #440061;
-  /* text-transform: uppercase; */
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -336,6 +328,7 @@ const ButtonPDF = styled(motion.button)`
   cursor: pointer;
   font-size: 1.4rem;
   margin-inline-end: auto;
+  font-weight: bold;
 
   @media (max-width: 500px) {
     margin: 0;
@@ -349,7 +342,6 @@ const ButtonEdit = styled(motion.button)`
   padding: 1em 1.5em;
   background: whitesmoke;
   color: #333;
-  /* text-transform: uppercase; */
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -357,6 +349,7 @@ const ButtonEdit = styled(motion.button)`
   cursor: pointer;
   font-size: 1.4rem;
   margin-right: 2rem;
+  font-weight: bold;
 
   @media (max-width: 500px) {
     width: 100%;
@@ -370,7 +363,6 @@ const ButtonDelete = styled(motion.button)`
   padding: 1em 1.5em;
   background: whitesmoke;
   color: red;
-  /* text-transform: uppercase; */
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -378,6 +370,7 @@ const ButtonDelete = styled(motion.button)`
   cursor: pointer;
   font-size: 1.4rem;
   margin-right: 2rem;
+  font-weight: bold;
 
   @media (max-width: 500px) {
     width: 100%;
@@ -397,7 +390,8 @@ const Dots = styled.span`
 `
 
 const Status = styled.span`
-  background: var(--primaryColor);
+  background: ${(props: { isPrivate: boolean }) =>
+    props.isPrivate ? 'var(--primaryColor)' : 'green'};
   padding: 4px 6px;
   border-radius: 5px;
   color: ghostwhite;

@@ -1,14 +1,16 @@
 import * as React from 'react'
 import { useContext, useEffect } from 'react'
-import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
+import nextCookie from 'next-cookies'
 
 import { Content } from '../../components/Content'
 
 import { JournalContext } from '../../context/JournalProvider'
+import { withApollo } from '../../lib/apollo'
+import gql from 'graphql-tag'
 
-const SinglePage: NextPage = () => {
+const SinglePage = () => {
   const { selectJournal, selectedJournal } = useContext(JournalContext)
 
   const {
@@ -29,6 +31,19 @@ const SinglePage: NextPage = () => {
       <Content />
     </>
   )
+}
+
+SinglePage.getInitialProps = async ctx => {
+  const { token_login: token } = nextCookie(ctx)
+
+  if (!token) {
+    if (typeof window === 'undefined') {
+      ctx.res.writeHead(302, { Location: '/connexion' })
+      ctx.res.end()
+    }
+  }
+
+  return token || {}
 }
 
 export default SinglePage

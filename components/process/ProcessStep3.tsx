@@ -45,16 +45,16 @@ export const ProcessStep3: React.FC<Props> = ({
       <ButtonWrapper>
         <ButtonPrev
           onClick={() => paginate(-1)}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ y: -1 }}
+          whileTap={{ y: 1 }}
         >
           <FaArrowLeft style={{ marginRight: 5 }} />
           Précedent
         </ButtonPrev>
         <ButtonNext
           onClick={() => (journal.mood ? paginate(1) : null)}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ y: -1 }}
+          whileTap={{ y: 1 }}
         >
           Suivant <FaArrowRight style={{ marginLeft: 5 }} />
         </ButtonNext>
@@ -95,6 +95,7 @@ const ButtonNext = styled(motion.button)`
   justify-content: center;
   cursor: pointer;
   font-size: 1.6rem;
+  font-weight: bold;
 `
 
 const ButtonPrev = styled(motion.button)`
@@ -110,5 +111,5 @@ const ButtonPrev = styled(motion.button)`
   cursor: pointer;
   font-size: 1.6rem;
   margin-right: 2rem;
-  font-weight: 500;
+  font-weight: bold;
 `

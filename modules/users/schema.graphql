@@ -19,7 +19,7 @@ type Token {
 }
 
 type Query {
-  me: User!
+  me: User
   getAllMoods: [Mood]
 }
 
@@ -29,8 +29,9 @@ type Mutation {
     email: String!
     password: String!
     avatar: String
-  ): Token!
-  signinUser(email: String!, password: String!): Token!
+  ): User!
+  signinUser(email: String!, password: String!): User!
+  signoutUser: Boolean
   updateDailyMood(mood: String!): Mood
   deleteSingleMood(id: ID!): Mood
 }

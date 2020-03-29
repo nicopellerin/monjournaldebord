@@ -52,7 +52,7 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Ubuntu:400,500,700&display=swap"
             rel="stylesheet"
           />
-          {/* <link href="/manifest.json" rel="manifest" /> */}
+          <link href="/manifest.json" rel="manifest" />
           <link
             rel="apple-touch-icon"
             sizes="180x180"

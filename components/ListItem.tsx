@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaEdit, FaTimes } from 'react-icons/fa'
+import { RightMenu } from './RightMenu'
 
 import { JournalContext } from '../context/JournalProvider'
 
@@ -22,26 +22,8 @@ interface ItemProps {
   selected: boolean
 }
 
-interface RightMenuProps {
-  id: string | string[]
-  xVal: number
-  yVal: number
-  setRightMenuVisible: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-interface RightMenuStyledProps {
-  xVal: number
-  yVal: number
-}
-
 export const ListItem: React.FC<Props> = ({ title, id }) => {
   const { selectJournal } = useContext(JournalContext)
-
-  const [rightMenuVisible, setRightMenuVisible] = useState(false)
-  const [xVal, setXVal] = useState(0)
-  const [yVal, setYVal] = useState(0)
-
-  const ref = useClickOutside(setRightMenuVisible)
 
   const {
     query: { id: queryId },
@@ -49,12 +31,18 @@ export const ListItem: React.FC<Props> = ({ title, id }) => {
 
   const selected = queryId === id
 
+  const [rightMenuVisible, setRightMenuVisible] = useState(false)
+  const [xVal, setXVal] = useState(0)
+  const [yVal, setYVal] = useState(0)
+
+  const ref = useClickOutside(setRightMenuVisible)
+
   const itemRef = useRef(null)
 
   function handleRightClick(e) {
     e.preventDefault()
     setRightMenuVisible(true)
-    setXVal(e.clientX)
+    setXVal(e.clientX - itemRef?.current.getBoundingClientRect().left)
     setYVal(e.clientY - itemRef.current.getBoundingClientRect().top)
   }
 
@@ -95,58 +83,12 @@ export const ListItem: React.FC<Props> = ({ title, id }) => {
   )
 }
 
-const RightMenu: React.FC<RightMenuProps> = ({
-  id,
-  xVal,
-  yVal,
-  setRightMenuVisible,
-}) => {
-  const { selectJournal, toggleDeleteAction } = useContext(JournalContext)
-
-  return (
-    <RightMenuWrapper
-      xVal={xVal}
-      yVal={yVal}
-      initial={{ opacity: 0, y: 5 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 5 }}
-      transition={{ duration: 0.1 }}
-    >
-      <RightMenuList>
-        <Link href={`/journal/edit/[id]`} as={`/journal/edit/${id}`}>
-          <RightMenuListItem
-            onClick={() => {
-              selectJournal(id)
-              setRightMenuVisible(false)
-            }}
-          >
-            <EditIcon />
-            Éditer
-          </RightMenuListItem>
-        </Link>
-        <Link href={`/journal/[id]`} as={`/journal/${id}`}>
-          <RightMenuListItem
-            onClick={() => {
-              setRightMenuVisible(false)
-              toggleDeleteAction()
-            }}
-          >
-            <DeleteIcon />
-            Supprimer
-          </RightMenuListItem>
-        </Link>
-      </RightMenuList>
-    </RightMenuWrapper>
-  )
-}
-
 // Styles
-const Outer = styled.div`
+const Outer = styled.li`
   position: relative;
-  /* box-shadow: inset -2px 0px 10px rgba(0, 0, 0, 0.01); */
 `
 
-const Wrapper = styled(motion.li)`
+const Wrapper = styled(motion.div)`
   color: ${props => props.theme.colors.textColor};
   width: 100%;
   padding: 1.5rem 3rem;
@@ -182,49 +124,4 @@ const Mood = styled.img`
 const Text = styled.span`
   margin-top: 2px;
   user-select: none;
-`
-
-const RightMenuWrapper = styled(motion.div)`
-  position: absolute;
-  left: ${(props: RightMenuStyledProps) => props.xVal && props.xVal + 'px'};
-  top: ${(props: RightMenuStyledProps) => props.yVal && props.yVal + 'px'};
-  z-index: 10;
-  background: red;
-  padding: 1.5rem 2rem;
-  width: 20rem;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
-  border-radius: 5px;
-  background: ghostwhite;
-`
-
-const RightMenuList = styled.ul`
-  list-style: none;
-  margin: 0;
-  padding: 0;
-
-  & > :not(:last-child) {
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #eee;
-  }
-`
-
-const RightMenuListItem = styled.li`
-  font-size: 1.6rem;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-
-  &:hover {
-    font-weight: 600;
-  }
-`
-
-const EditIcon = styled(FaEdit)`
-  margin-right: 5px;
-`
-
-const DeleteIcon = styled(FaTimes)`
-  margin-right: 5px;
-  color: red;
 `

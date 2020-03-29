@@ -1,15 +1,18 @@
 import * as React from 'react'
-import { useState, useContext, useEffect } from 'react'
+import { useState, useContext, useEffect, useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { FaTimesCircle } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
 import format from 'date-fns/format'
 import Link from 'next/link'
+import { useMedia } from 'react-use-media'
+
+import { RightMenu } from './RightMenu'
 
 import { MoodsContext } from '../context/MoodsProvider'
+import { useClickOutside } from '../hooks/useClickOutside'
 
 import { maxLength } from '../utils/maxLength'
-import { useMedia } from 'react-use-media'
 
 interface Props {
   id: string
@@ -52,11 +55,35 @@ export const ProfilMoodsItem: React.FC<Props> = ({
     return () => clearTimeout(timeout)
   }, [timeout])
 
+  // Right click
+  const [rightMenuVisible, setRightMenuVisible] = useState(false)
+  const [xVal, setXVal] = useState(0)
+  const [yVal, setYVal] = useState(0)
+
+  const ref = useClickOutside(setRightMenuVisible)
+
+  const itemRef = useRef<HTMLLIElement>()
+
+  function handleRightClick(e) {
+    e.preventDefault()
+    setRightMenuVisible(true)
+    setXVal(e.clientX - itemRef?.current.getBoundingClientRect().left)
+    setYVal(e.clientY - itemRef?.current.getBoundingClientRect().top)
+  }
+
+  useEffect(() => {
+    itemRef?.current?.addEventListener('contextmenu', handleRightClick)
+
+    return () =>
+      itemRef?.current?.removeEventListener('contextmenu', handleRightClick)
+  }, [itemRef])
+
   if (title) {
     return (
-      <div style={{ position: 'relative' }}>
+      <div ref={ref} style={{ position: 'relative' }}>
         <Link href={`/journal/[id]`} as={`/journal/${id}`}>
           <ListItem
+            ref={itemRef}
             positionTransition={spring}
             exit={{}}
             key={id}
@@ -70,6 +97,16 @@ export const ProfilMoodsItem: React.FC<Props> = ({
             <Hour>{format(createdAt, 'H:mm')}</Hour>{' '}
             {maxLength(title, isMobile ? 30 : 38)}
             <Mood src={mood} alt="mood" />
+            <AnimatePresence>
+              {rightMenuVisible && (
+                <RightMenu
+                  id={id}
+                  xVal={xVal}
+                  yVal={yVal}
+                  setRightMenuVisible={setRightMenuVisible}
+                />
+              )}
+            </AnimatePresence>
           </ListItem>
         </Link>
         <AnimatePresence>

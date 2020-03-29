@@ -6,27 +6,34 @@ import Journal from './Journal'
 export const journalsResolvers = {
   Query: {
     async journals(parent, args, { user }, info) {
-      if (!user) {
-        throw new AuthenticationError('Pas authorizé.')
+      if (user) {
+        try {
+          const allJournals = await Journal.find({ author: user._id }).sort({
+            _id: -1,
+          })
+          return allJournals
+        } catch (error) {
+          throw new AuthenticationError('Pas authorizé.')
+        }
       }
-
-      const allJournals = await Journal.find({ author: user._id })
-        // .populate({ path: 'users', model: 'users' })
-        .sort({ _id: -1 })
-
-      return allJournals
     },
-    journal(parent, { id }, { user }, info) {
-      if (!user) {
-        throw new AuthenticationError('Pas authorizé.')
-      }
+    async journal(parent, { id }, { user }, info) {
+      // if (!user) {
+      //   throw new AuthenticationError('Pas authorizé.')
+      // }
 
-      const journalFound = Journal.findById(id)
-      if (!journalFound) {
-        throw new Error('Journal not found')
-      }
+      if (user) {
+        try {
+          const journalFound = Journal.findById(id)
+          if (!journalFound) {
+            throw new Error('Journal not found')
+          }
 
-      return journalFound
+          return journalFound
+        } catch (error) {
+          throw new AuthenticationError('Pas authorizé.')
+        }
+      }
     },
   },
   Mutation: {
@@ -66,27 +73,28 @@ export const journalsResolvers = {
       if (!user) {
         throw new AuthenticationError('Pas authorizé.')
       }
-
       try {
         const deletedJournal = await Journal.findByIdAndDelete(id)
         return deletedJournal
-      } catch (err) {
-        console.error(err)
+      } catch (error) {
+        throw new AuthenticationError('Pas authorizé.')
       }
     },
   },
 
   Journal: {
-    author: (parent, args, { user }, info) => {
-      if (!user) {
-        throw new AuthenticationError('Pas authorizé.')
-      }
-
-      return {
-        username: user.username,
-        email: user.email,
-        password: user.password,
-        createdAt: user.createdAt,
+    author: async (parent, args, { user }, info) => {
+      if (user) {
+        try {
+          return {
+            username: user.username,
+            email: user.email,
+            password: user.password,
+            createdAt: user.createdAt,
+          }
+        } catch (error) {
+          throw new AuthenticationError('Pas authorizé.')
+        }
       }
     },
   },

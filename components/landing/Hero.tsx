@@ -60,16 +60,13 @@ export const Hero = () => {
           }}
         >
           <Link href="/connexion">
-            <ButtonLogin
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
+            <ButtonLogin whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
               <FaSignInAlt style={{ marginRight: 7 }} />
               Se connecter
             </ButtonLogin>
           </Link>
           <Link href="/inscription">
-            <Button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <Button whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
               <FaUserAlt style={{ marginRight: 7 }} />
               Inscrivez-vous
             </Button>

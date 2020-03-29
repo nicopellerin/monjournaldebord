@@ -1,21 +1,21 @@
 import { useEffect, useRef } from 'react'
 
 export const useClickOutside = setToggle => {
-    const node = useRef(null)
+  const node = useRef(null)
 
-    function handleClick(e: MouseEvent) {
-        if (!node.current.contains(e.target)) {
-            setToggle(false)
-        }
+  function handleClick(e: MouseEvent) {
+    if (!node?.current?.contains(e.target)) {
+      setToggle(false)
     }
+  }
 
-    useEffect(() => {
-        document.addEventListener('click', handleClick)
+  useEffect(() => {
+    document.addEventListener('click', handleClick)
 
-        return () => {
-            document.removeEventListener('click', handleClick)
-        }
-    }, [])
+    return () => {
+      document.removeEventListener('click', handleClick)
+    }
+  }, [])
 
-    return node
+  return node
 }

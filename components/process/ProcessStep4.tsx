@@ -106,16 +106,16 @@ export const ProcessStep4 = ({ journal, setJournal, paginate }) => {
       <ButtonWrapper>
         <ButtonPrev
           onClick={() => paginate(-1)}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ y: -1 }}
+          whileTap={{ y: 1 }}
         >
           <FaArrowLeft style={{ marginRight: 5 }} />
           Précedent
         </ButtonPrev>
         <ButtonNext
           onClick={handleSubmit}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ y: -1 }}
+          whileTap={{ y: 1 }}
         >
           <FaPaperPlane style={{ marginRight: 8 }} />
           Publier
@@ -166,7 +166,7 @@ const ButtonNext = styled(motion.button)`
   justify-content: center;
   cursor: pointer;
   font-size: 1.6rem;
-  font-weight: 500;
+  font-weight: bold;
 `
 
 const ButtonPrev = styled(motion.button)`
@@ -182,6 +182,7 @@ const ButtonPrev = styled(motion.button)`
   cursor: pointer;
   font-size: 1.6rem;
   margin-right: 2rem;
+  font-weight: bold;
 `
 
 const ButtonUpload = styled(motion.button)`
@@ -198,6 +199,7 @@ const ButtonUpload = styled(motion.button)`
   font-size: 1.4rem;
   width: 27rem;
   margin-top: 0.7rem;
+  font-weight: bold;
 `
 
 const Image = styled(motion.img)`

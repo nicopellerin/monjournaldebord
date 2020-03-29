@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { useContext, useState } from 'react'
-import { NextPage } from 'next'
 import Head from 'next/head'
 import styled from 'styled-components'
+import nextCookie from 'next-cookies'
 
 import { CardList } from '../../components/shared/CardList'
 
 import { JournalContext } from '../../context/JournalProvider'
 
-const SearchPage: NextPage = () => {
+const SearchPage = () => {
   const [expand, setExpand] = useState(false)
 
   const { journals, search } = useContext(JournalContext)
@@ -46,6 +46,19 @@ const SearchPage: NextPage = () => {
       </Wrapper>
     </>
   )
+}
+
+SearchPage.getInitialProps = async ctx => {
+  const { token_login: token } = nextCookie(ctx)
+
+  if (!token) {
+    if (typeof window === 'undefined') {
+      ctx.res.writeHead(302, { Location: '/connexion' })
+      ctx.res.end()
+    }
+  }
+
+  return token || {}
 }
 
 export default SearchPage
