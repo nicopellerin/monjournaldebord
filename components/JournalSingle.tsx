@@ -110,7 +110,7 @@ const JournalSingle: React.FC = () => {
     )
   }
 
-  const convertedText = convertLinkToHTML(selectedJournal?.text)
+  const convertedText = convertLinkToHTML(sanitizer(selectedJournal?.text))
 
   return (
     <Wrapper ref={wrapperRef}>
