@@ -17,10 +17,12 @@ export const CtaCard: React.FC<Props> = ({ title, render }) => {
   return (
     <AnimatePresence>
       <Wrapper
-        initial={{ y: -20 }}
-        animate={{ y: 0 }}
-        exit={{ y: 20 }}
-        transition={{ damping: 500 }}
+        initial={{ opacity: 0, y: 200 }}
+        animate={{
+          y: [100, 0],
+          opacity: [0, 1],
+        }}
+        exit={{}}
       >
         <Logo width={isMobile ? 30 : 35} />
         <Title>{title}</Title>

@@ -7,12 +7,14 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { FaUpload, FaUserAlt, FaExclamationCircle } from 'react-icons/fa'
 import axios from 'axios'
-import cookies from 'js-cookie'
+import { useApolloClient } from '@apollo/react-hooks'
 import Router from 'next/router'
 import { Circle } from 'better-react-spinkit'
 
 import { CtaCard } from '../components/shared/CtaCard'
+
 import { UserContext } from '../context/UserProvider'
+
 import { maxLength } from '../utils/maxLength'
 
 const Inscription: NextPage = () => {
@@ -24,11 +26,23 @@ const Inscription: NextPage = () => {
       <Wrapper>
         <CtaCard title="Inscription" render={<InscriptionForm />} />
       </Wrapper>
+      <Wave
+        src="/wave-bg.svg"
+        alt=""
+        initial={{ opacity: 0, y: 500 }}
+        animate={{
+          y: [100, 20],
+          opacity: [0, 1],
+          transition: { delay: 0.4 },
+        }}
+      />
     </>
   )
 }
 
 const InscriptionForm: React.FC = () => {
+  const client = useApolloClient()
+
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -38,11 +52,13 @@ const InscriptionForm: React.FC = () => {
   const [imageError, setImageError] = useState('')
   const [formErrors, setFormErrors] = useState('')
   const [isSubmiting, setIsSubmiting] = useState(false)
-  // const [password2, setPassword2] = useState('')
 
   const { signup } = useContext(UserContext)
 
   const imageInputRef = useRef(null)
+
+  const usernameRegEx = new RegExp('^[A-Za-z0-9]+$')
+  const validUsername = usernameRegEx.test(username)
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -57,9 +73,16 @@ const InscriptionForm: React.FC = () => {
       )
     }
 
+    if (!validUsername && username) {
+      return setFormErrors(
+        "Votre nom d'utilisateur peut seulement contenir des lettres et chiffres"
+      )
+    }
+
     setIsSubmiting(true)
 
     try {
+      await client.resetStore()
       await signup(username, email, password, avatar)
       Router.push('/profil')
     } catch (err) {
@@ -109,12 +132,22 @@ const InscriptionForm: React.FC = () => {
   }, [loader])
 
   useEffect(() => {
+    let id
     if (formErrors) {
-      setTimeout(() => {
+      id = setTimeout(() => {
         setFormErrors('')
       }, 3000)
     }
+    ;() => clearTimeout(id)
   }, [formErrors])
+
+  useEffect(() => {
+    if (!validUsername && username) {
+      setFormErrors(
+        "Votre nom d'utilisateur peut seulement contenir des lettres et chiffres"
+      )
+    }
+  }, [username])
 
   return (
     <>
@@ -124,8 +157,11 @@ const InscriptionForm: React.FC = () => {
           id="username"
           name="username"
           type="text"
+          maxLength={20}
           value={username}
-          onChange={e => setUsername(e.target.value)}
+          onChange={e => {
+            setUsername(e.target.value)
+          }}
         />
         <Label htmlFor="email">Courriel</Label>
         <InputField
@@ -143,13 +179,6 @@ const InscriptionForm: React.FC = () => {
           value={password}
           onChange={e => setPassword(e.target.value)}
         />
-        {/* <InputField
-          name="password2"
-          type="password"
-          value={password2}
-          onChange={e => setPassword2(e.target.value)}
-          placeholder="Confirmer mot de passe"
-        /> */}
         <input
           id="avatar"
           name="avatar"
@@ -222,7 +251,9 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 90vh;
+  position: relative;
+  z-index: 2;
 `
 
 const Form = styled.form`
@@ -305,4 +336,15 @@ const ErrorMsg = styled(motion.span)`
   font-size: 1.4rem;
   color: red;
   margin-bottom: 3rem;
+`
+
+const Wave = styled(motion.img)`
+  position: fixed;
+  left: 0;
+  bottom: -50px;
+  right: 0;
+
+  @media (max-width: 500px) {
+    display: none;
+  }
 `

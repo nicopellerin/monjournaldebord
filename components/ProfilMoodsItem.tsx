@@ -55,58 +55,23 @@ export const ProfilMoodsItem: React.FC<Props> = ({
     return () => clearTimeout(timeout)
   }, [timeout])
 
-  // Right click
-  const [rightMenuVisible, setRightMenuVisible] = useState(false)
-  const [xVal, setXVal] = useState(0)
-  const [yVal, setYVal] = useState(0)
-
-  const ref = useClickOutside(setRightMenuVisible)
-
-  const itemRef = useRef<HTMLLIElement>()
-
-  function handleRightClick(e) {
-    e.preventDefault()
-    setRightMenuVisible(true)
-    setXVal(e.clientX - itemRef?.current.getBoundingClientRect().left)
-    setYVal(e.clientY - itemRef?.current.getBoundingClientRect().top)
-  }
-
-  useEffect(() => {
-    itemRef?.current?.addEventListener('contextmenu', handleRightClick)
-
-    return () =>
-      itemRef?.current?.removeEventListener('contextmenu', handleRightClick)
-  }, [itemRef])
-
   if (title) {
     return (
-      <div ref={ref} style={{ position: 'relative' }}>
+      <div style={{ position: 'relative' }}>
         <Link href={`/journal/[id]`} as={`/journal/${id}`}>
           <ListItem
-            ref={itemRef}
             positionTransition={spring}
             exit={{}}
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
             key={id}
             style={{ cursor: 'pointer' }}
-            whileHover={{
-              scale: 1.01,
-            }}
             onMouseEnter={() => setShowImage(true)}
             onMouseLeave={() => setShowImage(false)}
           >
             <Hour>{format(createdAt, 'H:mm')}</Hour>{' '}
             {maxLength(title, isMobile ? 30 : 38)}
             <Mood src={mood} alt="mood" />
-            <AnimatePresence>
-              {rightMenuVisible && (
-                <RightMenu
-                  id={id}
-                  xVal={xVal}
-                  yVal={yVal}
-                  setRightMenuVisible={setRightMenuVisible}
-                />
-              )}
-            </AnimatePresence>
           </ListItem>
         </Link>
         <AnimatePresence>
@@ -169,6 +134,7 @@ const ListItem = styled(motion.li)`
   background: white;
   line-height: 1.4em;
   position: relative;
+  user-select: none;
 
   &:not(:last-of-type) {
     border-bottom: 1px solid #eee;

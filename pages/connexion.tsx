@@ -5,19 +5,17 @@ import { NextPage } from 'next'
 import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { FaSignInAlt, FaExclamationCircle } from 'react-icons/fa'
 import { Circle } from 'better-react-spinkit'
 import Lottie from 'react-lottie'
+import { useApolloClient } from '@apollo/react-hooks'
 
 import { CtaCard } from '../components/shared/CtaCard'
 
 import successAnimation from '../lotties/success.json'
 
 import { UserContext } from '../context/UserProvider'
-import { withApollo } from '../lib/apollo'
-import { useApolloClient } from '@apollo/react-hooks'
 
 const connexionOptions = {
   loop: false,
@@ -65,6 +63,16 @@ const Connexion: NextPage = () => {
           />
         )}
       </Wrapper>
+      <Wave
+        src="/wave-bg.svg"
+        alt=""
+        initial={{ opacity: 0, y: 500 }}
+        animate={{
+          y: [100, 20],
+          opacity: [0, 1],
+          transition: { delay: 0.4 },
+        }}
+      />
     </>
   )
 }
@@ -177,14 +185,16 @@ const ConnexionForm: React.FC<FormProps> = ({
   )
 }
 
-export default withApollo(Connexion)
+export default Connexion
 
 // Styles
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 95vh;
+  position: relative;
+  z-index: 2;
 `
 
 const Form = styled(motion.form)`
@@ -258,4 +268,15 @@ const Connected = styled.h2`
   font-size: 2.4rem;
   font-weight: 400;
   margin-top: 3rem;
+`
+
+const Wave = styled(motion.img)`
+  position: fixed;
+  left: 0;
+  bottom: -50px;
+  right: 0;
+
+  @media (max-width: 500px) {
+    display: none;
+  }
 `

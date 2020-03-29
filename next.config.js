@@ -5,10 +5,10 @@ const Dotenv = require('dotenv-webpack')
 // const withPWA = require('next-pwa')
 
 const nextConfig = {
-  experimental: {
-    modern: true,
-    polyfillsOptimization: true,
-  },
+  // experimental: {
+  //   modern: true,
+  //   polyfillsOptimization: true,
+  // },
 
   webpack: config => {
     config.plugins = config.plugins || []

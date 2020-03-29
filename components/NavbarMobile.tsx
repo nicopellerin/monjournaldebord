@@ -8,15 +8,17 @@ import {
   FaRegSmile,
   FaNewspaper,
   FaPlusCircle,
+  FaSignOutAlt,
 } from 'react-icons/fa'
 import { AnimatePresence, motion } from 'framer-motion'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 
 import { Logo } from './Logo'
 import { User } from './User'
 
 import { UserContext } from '../context/UserProvider'
 import { JournalContext } from '../context/JournalProvider'
+import { useApolloClient } from '@apollo/react-hooks'
 
 export const NavbarMobile = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false)
@@ -61,6 +63,11 @@ export const NavbarMobile = () => {
 
 const NavbarMobileDropdown = ({ setToggleDropdown }) => {
   const { newPage, journals, journalsLoading } = useContext(JournalContext)
+  const client = useApolloClient()
+
+  const { logout } = useContext(UserContext)
+
+  const router = useRouter()
 
   function addNewPub() {
     if (Router.router.pathname.includes('nouveau')) {
@@ -69,6 +76,12 @@ const NavbarMobileDropdown = ({ setToggleDropdown }) => {
     setToggleDropdown(false)
     const id = newPage()
     Router.push(`/journal/nouveau/[id]`, `/journal/nouveau/${id}`)
+  }
+
+  async function signout() {
+    await client.resetStore()
+    await logout()
+    await router.push('/connexion')
   }
 
   return (
@@ -113,6 +126,14 @@ const NavbarMobileDropdown = ({ setToggleDropdown }) => {
               <FaPlusCircle style={{ marginRight: 7 }} />
               Nouvelle publication
             </Button>
+            <ButtonLogout
+              onClick={signout}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <FaSignOutAlt style={{ marginRight: 7 }} />
+              Déconnexion
+            </ButtonLogout>
           </ButtonWrapper>
         </DropdownList>
       </nav>
@@ -194,6 +215,8 @@ const Overlay = styled(motion.div)`
 const ButtonWrapper = styled.div`
   margin-top: 5rem;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 `
 
@@ -210,4 +233,20 @@ const Button = styled(motion.button)`
   align-items: center;
   cursor: pointer;
   font-size: 1.6rem;
+`
+
+const ButtonLogout = styled(motion.button)`
+  border: none;
+  border-bottom: 3px solid #ddd;
+  padding: 1em 2em;
+  background: #eee;
+  color: #440061;
+  /* text-transform: uppercase; */
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.6rem;
+  margin-top: 3rem;
 `

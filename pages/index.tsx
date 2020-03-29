@@ -21,16 +21,16 @@ const IndexPage: NextPage = () => {
   )
 }
 
-IndexPage.getInitialProps = async ctx => {
-  const { token_login: token } = nextCookie(ctx)
+// IndexPage.getInitialProps = async ctx => {
+//   const { token_login: token } = nextCookie(ctx)
 
-  if (token) {
-    if (typeof window === 'undefined') {
-      ctx.res.writeHead(302, { Location: '/profil' })
-      ctx.res.end()
-    }
-  }
+//   if (token) {
+//     if (typeof window === 'undefined') {
+//       ctx.res.writeHead(302, { Location: '/profil' })
+//       ctx.res.end()
+//     }
+//   }
 
-  return token
-}
-export default withApollo(IndexPage)
+//   return token
+// }
+export default IndexPage

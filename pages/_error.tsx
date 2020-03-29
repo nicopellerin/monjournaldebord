@@ -3,13 +3,13 @@ import Link from 'next/link'
 import styled from 'styled-components'
 
 class Error extends React.Component {
-  static async getInitialProps(ctx) {
-    if (ctx.req) {
-      ctx.res.writeHead(302, { Location: '/' })
-      ctx.res.end()
-      return {}
-    }
-  }
+  // static async getInitialProps(ctx) {
+  //   if (ctx.req) {
+  //     ctx.res.writeHead(302, { Location: '/' })
+  //     ctx.res.end()
+  //     return {}
+  //   }
+  // }
   render() {
     return <ErrorWrapper>Erreur 404</ErrorWrapper>
   }

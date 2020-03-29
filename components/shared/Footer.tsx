@@ -10,9 +10,10 @@ import { JournalContext } from '../../context/JournalProvider'
 
 interface Props {
   profil?: boolean
+  white?: boolean
 }
 
-export const Footer: React.FC<Props> = ({ profil }) => {
+export const Footer: React.FC<Props> = ({ profil, white }) => {
   const { journalsLoading } = useContext(JournalContext)
 
   const dateYear = new Date()
@@ -87,7 +88,7 @@ export const Footer: React.FC<Props> = ({ profil }) => {
 
   return (
     <Wrapper>
-      <Text>
+      <Text white={white}>
         &copy; {dateYear.getFullYear()} monjournaldebord. Fait avec{' '}
         <motion.div
           initial={{ y: 3 }}
@@ -118,7 +119,7 @@ const WrapperProfil = styled.footer`
 
 const Wrapper = styled.footer`
   position: fixed;
-  bottom: 8rem;
+  bottom: 4rem;
   left: 50%;
   transform: translate(-50%);
   width: 100%;
@@ -134,6 +135,7 @@ const Text = styled.span`
   align-items: center;
   justify-content: center;
   color: #666;
+  ${(props: { white?: boolean }) => props.white && `color: white`};
 
   @media (max-width: 500px) {
     max-width: 35ch;

@@ -3,6 +3,7 @@ import { createContext, useReducer, useMemo, useEffect } from 'react'
 import gql from 'graphql-tag'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { useRouter } from 'next/router'
+import { withApollo } from '../lib/apollo'
 
 type User = {
   username: string
@@ -118,7 +119,7 @@ const initialState = {
   avatar: '',
 }
 
-export const UserProvider = ({ children }) => {
+const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const { pathname, push } = useRouter()
@@ -128,7 +129,7 @@ export const UserProvider = ({ children }) => {
   const [signoutUser] = useMutation(SIGNOUT)
 
   const { loading: userLoading } = useQuery(USER_INFO, {
-    skip: pathname === '/connexion',
+    skip: pathname === '/connexion' || pathname === '/inscription',
     ssr: true,
     onError: () => {
       push('/connexion')
@@ -205,3 +206,5 @@ export const UserProvider = ({ children }) => {
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }
+
+export default withApollo(UserProvider)
