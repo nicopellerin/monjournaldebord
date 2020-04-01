@@ -18,23 +18,18 @@ export const Navbar: React.FC = () => {
   const { username, avatar, userLoading } = useContext(UserContext)
   const { journals } = useContext(JournalContext)
 
-  if (userLoading) {
-    return null
-  }
-
   return (
     <Wrapper>
       <LogoWrapper>
         <Logo />
       </LogoWrapper>
       <RightWrapper>
-        {username ? (
+        {userLoading ? null : username ? (
           <>
-            {journals.length > 0 && (
-              <NavbarSearchWrapper>
-                <NavbarSearch />
-              </NavbarSearchWrapper>
-            )}
+            <NavbarSearchWrapper>
+              <NavbarSearch />
+            </NavbarSearchWrapper>
+
             <UserWrapper>
               <User username={username} avatar={avatar} />
             </UserWrapper>

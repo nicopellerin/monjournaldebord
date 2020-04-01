@@ -30,7 +30,7 @@ export const CardList: React.FC<Props> = ({ list, expand }) => {
   const parentVariants = {
     load: {
       x: [-10, 0],
-      opacity: [0, 1],
+      // opacity: [0, 1],
     },
   }
 
@@ -68,7 +68,7 @@ const Wrapper = styled.div`
   padding: 3rem;
   height: 100%;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1367px) {
     padding: 3rem 0;
     border-bottom: 1px solid #eee;
     padding-bottom: 6rem;
@@ -84,6 +84,11 @@ const ListWrapper = styled(motion.div)`
       grid-template-columns: repeat(2, 1fr);
     `}
   grid-gap: 5rem;
+
+  @media (max-width: 1365px) {
+    grid-template-columns: repeat(3, 260px);
+    grid-gap: 4rem;
+  }
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;

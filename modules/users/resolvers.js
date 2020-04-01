@@ -8,23 +8,37 @@ import Mood from './Mood'
 import getUserFromToken from '../../lib/getUserFromToken'
 import { createAccessToken } from '../../lib/auth'
 
+const cache = {
+  lastFetch: 0,
+  moods: [],
+}
+
 // Resolver
 export const usersResolvers = {
   Query: {
-    async me(parent, args, { user }, info) {
+    async me(_, __, { user }) {
       if (user) {
         return user
       }
       return null
     },
-    async getAllMoods(parent, args, { user }) {
-      if (user) {
-        try {
-          const moods = await Mood.find({ author: user._id }).sort({ _id: -1 })
-          return moods
-        } catch (error) {
-          throw new AuthenticationError('Pas authorizé.')
-        }
+    async getAllMoods(_, __, { user }) {
+      if (!user) throw new AuthenticationError('Pas authorizé.')
+
+      // const timeSinceLastFetch = Date.now()
+
+      // if (timeSinceLastFetch <= 1800000) {
+      //   console.log(cache)
+      //   return cache.moods
+      // }
+
+      try {
+        const moods = await Mood.find({ author: user._id }).sort({ _id: -1 })
+        // cache.lastFetch = Date.now()
+        // cache.moods = moods
+        return moods
+      } catch (error) {
+        throw new AuthenticationError('Pas authorizé.')
       }
     },
   },
@@ -131,7 +145,7 @@ export const usersResolvers = {
       return res
     },
 
-    async deleteSingleMood(parent, { id }, ctx) {
+    async deleteSingleMood(_, { id }, ctx) {
       const { token_login: token } = cookie.parse(ctx.req.headers.cookie || '')
 
       if (token) {

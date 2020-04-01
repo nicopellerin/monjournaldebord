@@ -21,4 +21,8 @@ const DateStyled = styled.h3`
   font-weight: 600;
   margin-bottom: 0;
   color: #440061;
+
+  @media (max-width: 1024px) {
+    font-size: 1.3rem;
+  }
 `

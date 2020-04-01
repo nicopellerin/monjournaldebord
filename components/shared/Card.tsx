@@ -36,11 +36,11 @@ export const Card: React.FC<Props> = ({
   const { selectJournal } = useContext(JournalContext)
 
   const isLaptop = useMedia({
-    maxWidth: 1500,
+    minWidth: 1500,
   })
 
-  const titleLength = isLaptop ? 15 : 20
-  const textLength = isLaptop ? 140 : 200
+  const titleLength = isLaptop ? 24 : 15
+  const textLength = isLaptop ? 200 : 140
 
   return (
     <Link href={`/journal/[id]`} as={`/journal/${id}`}>
@@ -96,7 +96,6 @@ const Wrapper = styled(motion.div)`
   flex-direction: column;
   padding: 3rem;
   border-radius: 5px;
-  /* box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px; */
   box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
   cursor: pointer;
   height: 100%;
@@ -111,7 +110,7 @@ const Title = styled.h2`
   font-size: 2.6rem;
   margin-bottom: 2rem;
   color: ${props => props.theme.colors.titleColor};
-  font-weight: 400;
+  /* font-weight: 400; */
 `
 
 const Text = styled.p`

@@ -6,6 +6,7 @@ import { fr } from 'date-fns/locale'
 import { motion } from 'framer-motion'
 
 import { ProfilMoodsContainer } from './ProfilMoodsContainer'
+import { dots } from '../utils/imagesBase64'
 
 interface Props {
   list: any
@@ -33,7 +34,7 @@ export const ProfilMoods: React.FC<Props> = ({ list }) => {
 
   return (
     <Wrapper>
-      <Content animate={{ y: [10, 0], opacity: [0, 1] }}>
+      <Content animate={{ y: [10, 0] }}>
         {Object.entries(listByDate).map(
           (
             [date, lists]: [
@@ -49,6 +50,9 @@ export const ProfilMoods: React.FC<Props> = ({ list }) => {
             )
           }
         )}
+        <DotsWrapper>
+          <Dots src={dots} alt="dots" />
+        </DotsWrapper>
       </Content>
     </Wrapper>
   )
@@ -74,4 +78,14 @@ const Content = styled(motion.div)`
   flex-direction: column;
   align-items: center;
   width: 50rem;
+`
+
+const DotsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
+const Dots = styled.img`
+  margin: 2rem 0 2rem;
+  text-align: center;
 `

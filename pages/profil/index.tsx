@@ -1,10 +1,8 @@
 import * as React from 'react'
 import { useContext, useState, useEffect } from 'react'
-import { NextPage } from 'next'
 import Head from 'next/head'
 import styled from 'styled-components'
 import { ThreeBounce } from 'better-react-spinkit'
-import Router, { useRouter } from 'next/router'
 import nextCookie from 'next-cookies'
 
 import { Content } from '../../components/Content'
@@ -12,7 +10,6 @@ import { Content } from '../../components/Content'
 import { JournalContext } from '../../context/JournalProvider'
 import { NoJournalsProfil } from '../../components/NoJournalsProfil'
 import { withApollo } from '../../lib/apollo'
-import gql from 'graphql-tag'
 
 const ProfilPage = () => {
   const [show, setShow] = useState(false)
@@ -34,7 +31,7 @@ const ProfilPage = () => {
         <LoadingWrapper>
           <LoadingContent>
             <Spinner size={30} color="#9D00E0" />
-            <h1>En chargement...</h1>
+            <Title>En chargement...</Title>
           </LoadingContent>
         </LoadingWrapper>
       )}
@@ -75,6 +72,10 @@ const LoadingContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`
+
+const Title = styled.h1`
+  font-weight: 400;
 `
 
 const Spinner = styled(ThreeBounce)`

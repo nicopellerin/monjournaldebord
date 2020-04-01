@@ -29,8 +29,8 @@ export const Book: React.FC = () => {
   return (
     <AnimatePresence>
       <Wrapper
-        initial={{ y: -50 }}
-        animate={{ y: 0, transition: { damping: 300 } }}
+        // initial={{ y: -50 }}
+        animate={{ y: [-10, 0] }}
         exit={{ y: 50 }}
       >
         <FormWrapper>

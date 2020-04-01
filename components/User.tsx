@@ -3,16 +3,16 @@ import { useState, useContext } from 'react'
 import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaSignOutAlt } from 'react-icons/fa'
-import cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { useApolloClient } from '@apollo/react-hooks'
 import Link from 'next/link'
+import { useMedia } from 'react-use-media'
 
 import { useClickOutside } from '../hooks/useClickOutside'
 
 import { UserContext } from '../context/UserProvider'
 import { maxLength } from '../utils/maxLength'
-import { useMedia } from 'react-use-media'
+import { defaultProfile } from '../utils/imagesBase64'
 
 interface Props {
   username: string
@@ -23,7 +23,7 @@ export const User: React.FC<Props> = ({ username, avatar }) => {
   const [toggle, setToggle] = useState(false)
 
   const isDesktop = useMedia({
-    minWidth: 769,
+    minWidth: 1367,
   })
 
   const node = useClickOutside(setToggle)
@@ -36,7 +36,7 @@ export const User: React.FC<Props> = ({ username, avatar }) => {
         </Link>
         <div style={{ position: 'relative' }}>
           <UserImage
-            src={avatar ? avatar : '/default-profile.png'}
+            src={avatar ? avatar : defaultProfile}
             alt="profile"
             onClick={() =>
               isDesktop ? setToggle(prevState => !prevState) : null

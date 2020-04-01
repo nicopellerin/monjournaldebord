@@ -29,7 +29,16 @@ export const NavbarMobile = () => {
     <div style={{ position: 'relative' }}>
       <Wrapper>
         <MenuBar onClick={() => setToggleDropdown(prevState => !prevState)}>
-          <Menu src="/menu.svg" alt="menu" />
+          <Menu
+            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h
+0PSIyMCI+PHBhdGggZD0iTTEgMmExIDEgMCAwMTEtMWgyMGExIDEgMCAwMTEgMXYxYTEgMSAwID
+AxLTEgMUgyYTEgMSAwIDAxLTEtMXpNMSA3YTEgMSAwIDAxMS0xaDE1YTEgMSAwIDAxMSAxdjFhM
+SAxIDAgMDEtMSAxSDJhMSAxIDAgMDEtMS0xek0xIDEyYTEgMSAwIDAxMS0xaDE4YTEgMSAwIDAx
+MSAxdjFhMSAxIDAgMDEtMSAxSDJhMSAxIDAgMDEtMS0xek0xIDE3YTEgMSAwIDAxMS0xaDExYTE
+gMSAwIDAxMSAxdjFhMSAxIDAgMDEtMSAxSDJhMSAxIDAgMDEtMS0xeiIgZmlsbD0iIzMzMyIvPj
+wvc3ZnPg== "
+            alt="menu"
+          />
         </MenuBar>
         <Logo toggle={setToggleDropdown} width={21} />
         <div>
@@ -62,7 +71,7 @@ export const NavbarMobile = () => {
 }
 
 const NavbarMobileDropdown = ({ setToggleDropdown }) => {
-  const { newPage, journals, journalsLoading } = useContext(JournalContext)
+  const { newPage } = useContext(JournalContext)
   const client = useApolloClient()
 
   const { logout } = useContext(UserContext)
@@ -165,7 +174,7 @@ const Wrapper = styled.div`
     grid-template-columns: 145px 1fr 145px;
   }
 
-  @media (min-width: 769px) {
+  @media (min-width: 1367px) {
     display: none;
   }
 `
@@ -250,7 +259,7 @@ const ButtonLogout = styled(motion.button)`
   border: none;
   border-bottom: 3px solid #ddd;
   padding: 1em 2em;
-  background: #eee;
+  background: none;
   color: #440061;
   /* text-transform: uppercase; */
   border-radius: 5px;

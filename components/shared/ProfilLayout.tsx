@@ -11,7 +11,7 @@ import { Footer } from './Footer'
 
 export const ProfilLayout: React.FC = ({ children }) => {
   const isDesktop = useMedia({
-    minWidth: 1200,
+    minWidth: 1367,
   })
 
   return (
@@ -39,7 +39,7 @@ const Wrapper = styled.div`
     grid-template-columns: 275px 1fr;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1366px) {
     display: flex;
     flex-direction: column;
   }

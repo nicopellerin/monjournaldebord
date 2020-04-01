@@ -31,7 +31,7 @@ type StateType = {
 }
 
 const GET_ALL_MOODS = gql`
-  query allMoods {
+  {
     getAllMoods {
       id
       mood

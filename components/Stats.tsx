@@ -11,9 +11,9 @@ export const Stats = () => {
     <>
       <Title>Stats &mdash;</Title>
       <Wrapper
-        initial={{ opacity: 0 }}
+        // initial={{ opacity: 0 }}
         animate={{
-          opacity: [0, 1],
+          // opacity: [0, 1],
           y: [10, 0],
         }}
       >
@@ -32,7 +32,7 @@ const Wrapper = styled(motion.div)`
   grid-gap: 5rem;
   padding: 3rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1365px) {
     grid-template-columns: 1fr;
     padding: 3rem 0;
     grid-gap: 4rem;

@@ -19,16 +19,26 @@ import { DateNow } from './DateNow'
 import { JournalContext } from '../context/JournalProvider'
 import { FormEmoticons } from './FormEmoticons'
 import { maxLength } from '../utils/maxLength'
+import {
+  angry,
+  sleepy,
+  sick,
+  sad,
+  angel,
+  love,
+  crazy,
+  happy,
+} from '../utils/emoticonsBase64'
 
 export const emoticons = [
-  { id: 1, type: 'Joyeux(se)', path: '/emotions/happy.png' },
-  { id: 2, type: 'Fou/folle', path: '/emotions/crazy.png' },
-  { id: 3, type: 'En amour', path: '/emotions/love.png' },
-  { id: 4, type: 'Aux anges', path: '/emotions/angel.png' },
-  { id: 5, type: 'Triste', path: '/emotions/sad.png' },
-  { id: 6, type: 'Malade', path: '/emotions/sick.png' },
-  { id: 7, type: 'Fatigué(e)', path: '/emotions/sleepy.png' },
-  { id: 8, type: 'Fâché(e)', path: '/emotions/angry.png' },
+  { id: 1, type: 'Joyeux(se)', path: happy },
+  { id: 2, type: 'Fou/folle', path: crazy },
+  { id: 3, type: 'En amour', path: love },
+  { id: 4, type: 'Aux anges', path: angel },
+  { id: 5, type: 'Triste', path: sad },
+  { id: 6, type: 'Malade', path: sick },
+  { id: 7, type: 'Fatigué(e)', path: sleepy },
+  { id: 8, type: 'Fâché(e)', path: angry },
 ]
 
 type Props = {
@@ -42,8 +52,6 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
     editSelectedJournal,
     addNewJournal,
     newState,
-    undoNewJournal,
-    selectJournal,
     uploadImage,
     imageUploaded,
   } = useContext(JournalContext)
@@ -374,11 +382,11 @@ const Button = styled(motion.button)`
 `
 
 const ButtonCancel = styled(motion.button)`
-  border: none;
+  border: 1px solid red;
   padding: 1em 1.5em;
-  border-bottom: 3px solid crimson;
+  border-bottom: 3px solid red;
   background: whitesmoke;
-  color: crimson;
+  color: red;
   border-radius: 5px;
   display: flex;
   align-items: center;

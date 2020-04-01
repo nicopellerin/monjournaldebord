@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useMedia } from 'react-use-media'
 
 import { Logo } from '../Logo'
+import { dots, wave } from '../../utils/imagesBase64'
 
 export const Hero = () => {
   const isMobile = useMedia({
@@ -74,7 +75,7 @@ export const Hero = () => {
           </Link>
         </ButtonGroup>
         <Dots
-          src="/dots.svg"
+          src={dots}
           alt=""
           initial={{ opacity: 0 }}
           animate={{
@@ -96,7 +97,7 @@ export const Hero = () => {
         }}
       />
       <Wave
-        src="/wave-bg.svg"
+        src={wave}
         alt=""
         initial={{ opacity: 0, y: 500 }}
         animate={{
@@ -222,6 +223,10 @@ const BrowserWindow = styled(motion.img)`
   right: 0;
   width: 70vw;
   opacity: 0;
+
+  @media (max-width: 1366px) {
+    bottom: -20px;
+  }
 
   @media (max-width: 500px) {
     display: none;

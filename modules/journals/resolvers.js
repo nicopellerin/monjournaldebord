@@ -4,6 +4,11 @@ import { GraphQLScalarType, Kind } from 'graphql'
 import Journal from './Journal'
 import User from '../users/User'
 
+const cache = {
+  lastFetch: 0,
+  journals: [],
+}
+
 export const journalsResolvers = {
   Query: {
     async journals(_, { filter, username }, { user }) {
@@ -22,10 +27,19 @@ export const journalsResolvers = {
 
       if (!user) throw new AuthenticationError('Pas authorizé.')
 
+      // const timeSinceLastFetch = Date.now() - cache.lastFetch
+
+      // if (timeSinceLastFetch <= 1800000) {
+      //   return cache.journals
+      // }
+
       try {
         const allJournals = await Journal.find({ author: user._id }).sort({
           _id: -1,
         })
+        // cache.lastFetch = Date.now()
+        // cache.journals = allJournals
+
         return allJournals
       } catch (error) {
         throw new AuthenticationError('Pas authorizé.')

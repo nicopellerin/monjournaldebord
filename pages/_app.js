@@ -22,7 +22,7 @@ const MyApp = ({ Component, pageProps, router }) => {
         <MoodsProvider>
           <JournalProvider>
             <ProfilLayout>
-              <Component {...pageProps} key={router.query.id} />
+              <Component {...pageProps} />
               <GlobalStyles />
             </ProfilLayout>
             <div id="portal" />

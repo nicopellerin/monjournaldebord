@@ -349,6 +349,7 @@ const Wave = styled(motion.img)`
   left: 0;
   bottom: -50px;
   right: 0;
+  z-index: 300;
 
   @media (max-width: 500px) {
     display: none;

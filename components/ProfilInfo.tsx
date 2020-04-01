@@ -4,13 +4,14 @@ import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { UserContext } from '../context/UserProvider'
 import { FaUserLock, FaRegEnvelope, FaEnvelope } from 'react-icons/fa'
+import { dots } from '../utils/imagesBase64'
 
 export const ProfilInfo = () => {
   const { username, avatar, email } = useContext(UserContext)
 
   return (
     <>
-      <Wrapper animate={{ y: [10, 0], opacity: [0, 1] }}>
+      <Wrapper animate={{ y: [10, 0] }}>
         <UserImage
           src={avatar ? avatar : '/default-profile.png'}
           alt="Profil"
@@ -21,7 +22,7 @@ export const ProfilInfo = () => {
           {email}
         </Email>
         <DotsWrapper>
-          <Dots src="/dots.svg" alt="" />
+          <Dots src={dots} alt="dots" />
         </DotsWrapper>
         <ButtonEmail whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
           <FaEnvelope style={{ marginRight: 5 }} />

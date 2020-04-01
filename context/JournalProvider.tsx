@@ -335,19 +335,6 @@ const DELETE_JOURNAL = gql`
 `
 
 export const JournalProvider = ({ children }) => {
-  // const queryLS =
-  //   typeof window !== 'undefined' &&
-  //   JSON.parse(localStorage.getItem('apollo-cache-persist'))
-
-  // const journalsLS =
-  //   queryLS &&
-  //   Object.keys(queryLS)
-  //     ?.filter(i => i.includes('Journal'))
-  //     ?.map(keys => queryLS[keys])
-  //     .sort((a, b) => b['createdAt'] - a['createdAt'])
-
-  // console.log(!!journalsLS.length)
-
   const client = useApolloClient()
 
   const [state, dispatch] = useReducer(journalReducer, initialState)

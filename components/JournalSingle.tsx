@@ -10,7 +10,7 @@ import {
   FaUsers,
 } from 'react-icons/fa'
 import { motion } from 'framer-motion'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 import Link from 'next/link'
 import axios from 'axios'
 import saveAs from 'file-saver'
@@ -22,6 +22,7 @@ import { DateNow } from './DateNow'
 import { ToggleDeleteModal } from './ToggleDeleteModal'
 
 import { JournalContext } from '../context/JournalProvider'
+import { dots } from '../utils/imagesBase64'
 
 const JournalSingle: React.FC = () => {
   const [exporting, setExporting] = useState(false)
@@ -37,6 +38,17 @@ const JournalSingle: React.FC = () => {
   } = useContext(JournalContext)
 
   const sanitizer = dompurify.sanitize
+
+  const {
+    query: { id },
+  } = useRouter()
+
+  // useEffect(() => {
+  //   if (!selectedJournal) {
+  //     console.log('yo')
+  //     selectJournal(id)
+  //   }
+  // }, [id])
 
   useEffect(() => {
     if (!journals.length && !journalsLoading) {
@@ -121,23 +133,14 @@ const JournalSingle: React.FC = () => {
   return (
     <Wrapper ref={wrapperRef}>
       <motion.div
-        initial={{
-          scale: 0.96,
-          y: 10,
-          opacity: 0,
-        }}
         animate={{
-          scale: 1,
-          y: 0,
-          opacity: 1,
-          transition: { duration: 0.5, ease: [0.48, 0.15, 0.25, 0.96] },
+          y: [10, 0],
         }}
-        exit={{
-          scale: 0.6,
-          y: 100,
-          opacity: 0,
-          transition: { duration: 0.2, ease: [0.48, 0.15, 0.25, 0.96] },
-        }}
+        exit={
+          {
+            // y: -100,
+          }
+        }
       >
         <Content
           animate={{
@@ -180,7 +183,7 @@ const JournalSingle: React.FC = () => {
             }}
           />
           <DotsWrapper>
-            <Dots src="/dots.svg" alt="" />
+            <Dots src={dots} alt="" />
           </DotsWrapper>
           <ButtonWrapper>
             <ButtonPDF
