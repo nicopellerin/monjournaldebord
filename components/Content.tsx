@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import styled from 'styled-components'
-import { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router'
 
 import { Book } from './Book'
 import JournalSingle from './JournalSingle'
@@ -14,6 +14,10 @@ interface StyledProps {
 }
 
 export const Content: React.FC = () => {
+  const {
+    query: { id },
+  } = useRouter()
+
   const { pathname } = useRouter()
 
   const { selectedJournal } = useContext(JournalContext)

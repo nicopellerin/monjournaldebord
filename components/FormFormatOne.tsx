@@ -18,6 +18,7 @@ import { DateNow } from './DateNow'
 
 import { JournalContext } from '../context/JournalProvider'
 import { FormEmoticons } from './FormEmoticons'
+import { maxLength } from '../utils/maxLength'
 
 export const emoticons = [
   { id: 1, type: 'Joyeux(se)', path: '/emotions/happy.png' },
@@ -160,7 +161,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
 
     try {
       const res = await axios.post(
-        `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/image/upload`,
+        `https://api.cloudinary.com/v1_1/${process.env.cloudinary_name}/image/upload`,
         data,
         {
           onUploadProgress: progressEvent => {
@@ -256,7 +257,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
               onClick={() => imageInputRef.current.click()}
             >
               <FaUpload style={{ marginRight: 7 }} />
-              {!loader ? 'Choisir image...' : loader}
+              {!loader ? 'Choisir image...' : maxLength(loader, 30)}
             </ButtonUpload>
           </InputWrapper>
         </TwoCols>

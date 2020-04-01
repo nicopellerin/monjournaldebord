@@ -4,9 +4,7 @@ import fetch from 'node-fetch'
 export default async (req, res) => {
   const doc = new PDFDocument()
 
-  const {
-    data: { title, text, mood, image, createdAt },
-  } = req.body
+  const { title, text, mood, image, createdAt } = req.body
 
   async function readStream() {
     const resp = await fetch(image)

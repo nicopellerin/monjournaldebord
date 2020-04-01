@@ -15,7 +15,7 @@ type User = {
 interface UserContextValue {
   login: (email, password) => Promise<User>
   logout: () => Promise<boolean>
-  signup: (username, email, password, avatar) => void
+  signup: (username, email, password, avatar) => Promise<User>
   username: string
   email: string
   createdAt: string
@@ -26,7 +26,7 @@ interface UserContextValue {
 const UserValue: UserContextValue = {
   login: async () => ({ username: '', email: '', createdAt: '', avatar: '' }),
   logout: async () => false,
-  signup: () => {},
+  signup: async () => ({ username: '', email: '', createdAt: '', avatar: '' }),
   username: '',
   email: '',
   createdAt: '',
@@ -129,7 +129,10 @@ const UserProvider = ({ children }) => {
   const [signoutUser] = useMutation(SIGNOUT)
 
   const { loading: userLoading } = useQuery(USER_INFO, {
-    skip: pathname === '/connexion' || pathname === '/inscription',
+    skip:
+      pathname === '/connexion' ||
+      pathname === '/inscription' ||
+      pathname.includes('public'),
     ssr: true,
     onError: () => {
       push('/connexion')
@@ -180,7 +183,7 @@ const UserProvider = ({ children }) => {
     password: string,
     avatar: string
   ) => {
-    signupUser({
+    const { data } = await signupUser({
       variables: {
         username,
         email,
@@ -188,6 +191,8 @@ const UserProvider = ({ children }) => {
         avatar,
       },
     })
+
+    return data?.signupUser
   }
 
   const value = useMemo(

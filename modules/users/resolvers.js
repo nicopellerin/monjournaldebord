@@ -132,7 +132,7 @@ export const usersResolvers = {
     },
 
     async deleteSingleMood(parent, { id }, ctx) {
-      const { token_login: token } = cookie.parse(ctx.req.headers.cookie ?? '')
+      const { token_login: token } = cookie.parse(ctx.req.headers.cookie || '')
 
       if (token) {
         try {

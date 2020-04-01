@@ -29,7 +29,7 @@ export const NavbarMobile = () => {
     <div style={{ position: 'relative' }}>
       <Wrapper>
         <MenuBar onClick={() => setToggleDropdown(prevState => !prevState)}>
-          <FaBars size={20} color="#333" />
+          <Menu src="/menu.svg" alt="menu" />
         </MenuBar>
         <Logo toggle={setToggleDropdown} width={21} />
         <div>
@@ -89,53 +89,60 @@ const NavbarMobileDropdown = ({ setToggleDropdown }) => {
       initial={{ y: '-100%' }}
       animate={{ y: 0 }}
       exit={{ y: '-100%' }}
-      transition={{ type: 'spring', damping: 30, stiffness: 200 }}
+      transition={{ type: 'spring', damping: 50, stiffness: 200 }}
     >
       <nav>
-        <DropdownList>
-          <Link href="/profil">
-            <DropdownListItem
-              onClick={() => setToggleDropdown(prevState => !prevState)}
-            >
-              <FaHome style={{ marginRight: 7 }} />
-              Accueil
-            </DropdownListItem>
-          </Link>
-          <Link href="/profil/moods">
-            <DropdownListItem
-              onClick={() => setToggleDropdown(prevState => !prevState)}
-            >
-              <FaRegSmile style={{ marginRight: 7 }} />
-              Moods
-            </DropdownListItem>
-          </Link>
-          <Link href="/journal/liste">
-            <DropdownListItem
-              onClick={() => setToggleDropdown(prevState => !prevState)}
-            >
-              <FaNewspaper style={{ marginRight: 7 }} />
-              Publications
-            </DropdownListItem>
-          </Link>
-          <ButtonWrapper>
-            <Button
-              onClick={addNewPub}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <FaPlusCircle style={{ marginRight: 7 }} />
-              Nouvelle publication
-            </Button>
-            <ButtonLogout
-              onClick={signout}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <FaSignOutAlt style={{ marginRight: 7 }} />
-              Déconnexion
-            </ButtonLogout>
-          </ButtonWrapper>
-        </DropdownList>
+        <AnimatePresence>
+          <DropdownList
+            initial={{ y: -500 }}
+            animate={{ y: 0 }}
+            exit={{ y: '-100%' }}
+            transition={{ type: 'spring', damping: 30, stiffness: 200 }}
+          >
+            <Link href="/profil">
+              <DropdownListItem
+                onClick={() => setToggleDropdown(prevState => !prevState)}
+              >
+                <FaHome style={{ marginRight: 7 }} />
+                Accueil
+              </DropdownListItem>
+            </Link>
+            <Link href="/profil/moods">
+              <DropdownListItem
+                onClick={() => setToggleDropdown(prevState => !prevState)}
+              >
+                <FaRegSmile style={{ marginRight: 7 }} />
+                Moods
+              </DropdownListItem>
+            </Link>
+            <Link href="/journal/liste">
+              <DropdownListItem
+                onClick={() => setToggleDropdown(prevState => !prevState)}
+              >
+                <FaNewspaper style={{ marginRight: 7 }} />
+                Publications
+              </DropdownListItem>
+            </Link>
+            <ButtonWrapper>
+              <Button
+                onClick={addNewPub}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <FaPlusCircle style={{ marginRight: 7 }} />
+                Nouvelle publication
+              </Button>
+              <ButtonLogout
+                onClick={signout}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <FaSignOutAlt style={{ marginRight: 7 }} />
+                Déconnexion
+              </ButtonLogout>
+            </ButtonWrapper>
+          </DropdownList>
+        </AnimatePresence>
       </nav>
     </Dropdown>
   )
@@ -170,25 +177,29 @@ const MenuBar = styled.div`
   }
 `
 
+const Menu = styled.img`
+  cursor: pointer;
+`
+
 const Dropdown = styled(motion.div)`
   position: absolute;
   background: ghostwhite;
   top: 68px;
   width: 100%;
-  padding: 4rem 2rem 4.5rem 2rem;
+  padding: 3rem 2rem 4.5rem 2rem;
   z-index: 999;
   min-height: 100%;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-  border-bottom: 5px solid #eee;
+  border-bottom: 5px solid rgba(187, 102, 204, 0.3);
 `
 
-const DropdownList = styled.ul`
+const DropdownList = styled(motion.ul)`
   margin: 0;
   padding: 0;
   list-style: none;
 `
 
-const DropdownListItem = styled.li`
+const DropdownListItem = styled(motion.li)`
   font-size: 1.6rem;
   display: flex;
   justify-content: center;
@@ -208,7 +219,7 @@ const Overlay = styled(motion.div)`
   top: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.57);
   z-index: 998;
 `
 

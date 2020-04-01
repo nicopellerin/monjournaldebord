@@ -83,8 +83,11 @@ const InscriptionForm: React.FC = () => {
 
     try {
       await client.resetStore()
-      await signup(username, email, password, avatar)
-      Router.push('/profil')
+      const data = await signup(username, email, password, avatar)
+
+      if (data?.username) {
+        Router.push('/profil')
+      }
     } catch (err) {
       setFormErrors(err.message.replace('GraphQL error:', ''))
     } finally {
@@ -101,13 +104,13 @@ const InscriptionForm: React.FC = () => {
 
     const data = new FormData()
     data.append('file', file)
-    data.append('upload_preset', 'monjournaldebord')
+    data.append('upload_preset', 'monjournaldebord_profilepic')
 
     setAvatarName(file.name)
 
     try {
       const res = await axios.post(
-        `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/image/upload`,
+        `https://api.cloudinary.com/v1_1/${process.env.cloudinary_name}/image/upload`,
         data,
         {
           onUploadProgress: progressEvent => {
@@ -251,9 +254,12 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
+  height: 100vh;
   position: relative;
   z-index: 2;
+  background: url('/dots.png');
+  padding-bottom: 10rem;
+  border-top: 5px solid rgba(187, 102, 204, 1);
 `
 
 const Form = styled.form`

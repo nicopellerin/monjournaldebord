@@ -1,6 +1,5 @@
 import App from 'next/app'
 import React from 'react'
-import Router from 'next/router'
 
 import { Layout } from '../components/shared/Layout'
 import { ProfilLayout } from '../components/shared/ProfilLayout'
@@ -8,8 +7,6 @@ import { ProfilLayout } from '../components/shared/ProfilLayout'
 import { JournalProvider } from '../context/JournalProvider'
 import UserProvider from '../context/UserProvider'
 import { MoodsProvider } from '../context/MoodsProvider'
-
-import { withApollo } from '../lib/apollo'
 
 import GlobalStyles from '../styles/GlobalStyles'
 
@@ -32,6 +29,15 @@ const MyApp = ({ Component, pageProps, router }) => {
           </JournalProvider>
         </MoodsProvider>
       </UserProvider>
+    )
+  }
+
+  if (router.pathname.includes('public')) {
+    return (
+      <Layout>
+        <Component {...pageProps} key={router.query.id} />
+        <GlobalStyles />
+      </Layout>
     )
   }
 

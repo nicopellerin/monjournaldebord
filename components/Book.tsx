@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { useContext, useState } from 'react'
+import { useContext, useState, useLayoutEffect } from 'react'
 import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useMedia } from 'react-use-media'
+import Router, { useRouter } from 'next/router'
 
 import { FormFormatOne } from './FormFormatOne'
 import { ImageContainer } from './ImageContainer'
@@ -12,7 +12,19 @@ import { JournalContext } from '../context/JournalProvider'
 export const Book: React.FC = () => {
   const [loader, setLoader] = useState('')
 
-  const { toggleImageContainer } = useContext(JournalContext)
+  const { toggleImageContainer, selectedJournal, newState } = useContext(
+    JournalContext
+  )
+
+  const {
+    query: { id },
+  } = useRouter()
+
+  useLayoutEffect(() => {
+    if (!selectedJournal && !newState) {
+      Router.push(`/journal/[id]`, `/journal/${id}`)
+    }
+  }, [])
 
   return (
     <AnimatePresence>

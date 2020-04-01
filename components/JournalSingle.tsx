@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import {
   FaCalendarAlt,
@@ -15,14 +15,17 @@ import Link from 'next/link'
 import axios from 'axios'
 import saveAs from 'file-saver'
 import dompurify from 'dompurify'
+import format from 'date-fns/format'
+import { Circle } from 'better-react-spinkit'
 
 import { DateNow } from './DateNow'
 import { ToggleDeleteModal } from './ToggleDeleteModal'
 
 import { JournalContext } from '../context/JournalProvider'
-import format from 'date-fns/format'
 
 const JournalSingle: React.FC = () => {
+  const [exporting, setExporting] = useState(false)
+
   const {
     selectJournal,
     selectedJournal,
@@ -78,28 +81,31 @@ const JournalSingle: React.FC = () => {
   }, [selectedJournal])
 
   async function exportToPDF() {
-    const data = {
+    const body = {
       title: selectedJournal?.title,
       text: selectedJournal?.text,
       image: selectedJournal?.image,
-      mood: selectedJournal?.mood,
       createdAt: selectedJournal?.createdAt,
     }
 
-    const res = await axios.post(
-      '/api/save-pdf',
-      { data },
-      {
+    setExporting(true)
+
+    try {
+      const res = await axios.post('/api/save-pdf', body, {
         responseType: 'arraybuffer',
-      }
-    )
+      })
 
-    const datePDF = format(new Date(), 'yyyy-MM-dd')
-    const filename = `monjournaldebord-${datePDF}.pdf`
+      const datePDF = format(new Date(), 'yyyy-MM-dd')
+      const filename = `monjournaldebord-${datePDF}.pdf`
 
-    const pdfBlob = new Blob([res.data], { type: 'application/pdf' })
+      const pdfBlob = new Blob([res.data], { type: 'application/pdf' })
 
-    saveAs(pdfBlob, filename)
+      saveAs(pdfBlob, filename)
+    } catch (err) {
+      console.log(err)
+    } finally {
+      setExporting(false)
+    }
   }
 
   function convertLinkToHTML(text) {
@@ -173,15 +179,24 @@ const JournalSingle: React.FC = () => {
                 ?.replace('\n\n', '<br/><br/>'),
             }}
           />
-          <Dots>&#8411;</Dots>
+          <DotsWrapper>
+            <Dots src="/dots.svg" alt="" />
+          </DotsWrapper>
           <ButtonWrapper>
             <ButtonPDF
+              disabled={exporting}
               onClick={exportToPDF}
               whileHover={{ y: -1 }}
               whileTap={{ y: 1 }}
             >
-              <FaFilePdf style={{ marginRight: 5 }} />
-              Exporter format PDF
+              {exporting ? (
+                <Circle />
+              ) : (
+                <>
+                  <FaFilePdf style={{ marginRight: 5 }} />
+                  Exporter format PDF
+                </>
+              )}
             </ButtonPDF>
             <Link
               href={`/journal/edit/[id]`}
@@ -327,12 +342,18 @@ const ButtonPDF = styled(motion.button)`
   justify-content: center;
   cursor: pointer;
   font-size: 1.4rem;
+  width: 200px;
   margin-inline-end: auto;
   font-weight: bold;
+
+  @media (max-width: 767px) {
+    width: 200px;
+  }
 
   @media (max-width: 500px) {
     margin: 0;
     margin-bottom: 2rem;
+    width: 100%;
   }
 `
 
@@ -382,11 +403,14 @@ const CalendarIcon = styled(FaCalendarAlt)`
   margin-right: 5px;
 `
 
-const Dots = styled.span`
-  display: block;
-  font-size: 5rem;
+const DotsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
+const Dots = styled.img`
+  margin: 3rem 0 5rem;
   text-align: center;
-  margin-left: 20px;
 `
 
 const Status = styled.span`

@@ -39,6 +39,8 @@ export const Home: React.FC = () => {
 const Wrapper = styled.div`
   padding: 8rem;
   background: ${props => props.theme.colors.background};
+  background: url('/dots.webp');
+
   transition: background 100ms ease-in-out;
   min-height: 100%;
   width: 100%;

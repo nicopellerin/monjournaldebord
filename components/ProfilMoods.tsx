@@ -58,8 +58,9 @@ export const ProfilMoods: React.FC<Props> = ({ list }) => {
 const Wrapper = styled.div`
   padding: 8rem;
   background: ${props => props.theme.colors.background};
+  background: url('/dots.webp');
   transition: background 100ms ease-in-out;
-  min-height: 100%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
 

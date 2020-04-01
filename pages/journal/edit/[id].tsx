@@ -6,8 +6,6 @@ import nextCookie from 'next-cookies'
 import { Content } from '../../../components/Content'
 
 import { JournalContext } from '../../../context/JournalProvider'
-import gql from 'graphql-tag'
-import { withApollo } from '../../../lib/apollo'
 
 const EditJournal = () => {
   const { selectedJournal } = useContext(JournalContext)

@@ -48,10 +48,6 @@ export default class MyDocument extends Document {
             100% gratuit."
           />
           <meta name="og:image" content="/og-image-5.png" />
-          <link
-            href="https://fonts.googleapis.com/css?family=Ubuntu:400,500,700&display=swap"
-            rel="stylesheet"
-          />
           <link href="/manifest.json" rel="manifest" />
           <link
             rel="apple-touch-icon"

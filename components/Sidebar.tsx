@@ -36,15 +36,12 @@ export const Sidebar: React.FC = () => {
         <Wrapper noJournals={!journals.length && !journalsLoading}>
           <List />
           <ButtonGroup>
-            {/* <Link href="/[username]" as={`/${username}`}>
-              <ButtonChat
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
+            <Link href="/public/[username]" as={`/public/${username}`}>
+              <ButtonProfilPublic whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
                 <FaUsers style={{ marginRight: 7 }} />
                 Mon profil public
-              </ButtonChat>
-            </Link> */}
+              </ButtonProfilPublic>
+            </Link>
             <ButtonNewJournal
               onClick={addNewPub}
               whileHover={{ y: -1 }}
@@ -83,8 +80,9 @@ const ButtonGroup = styled.div`
   align-items: center;
 `
 
-const ButtonChat = styled(motion.button)`
-  border-bottom: 3px solid #ddd;
+const ButtonProfilPublic = styled(motion.button)`
+  border: 1px solid rgba(187, 102, 204, 1);
+  border-bottom: 3px solid rgba(187, 102, 204, 1);
   padding: 1em 2em;
   background: ghostwhite;
   border-radius: 5px;
@@ -94,8 +92,9 @@ const ButtonChat = styled(motion.button)`
   cursor: pointer;
   font-size: 1.4rem;
   margin-bottom: 2rem;
-  color: #440061;
+  color: rgba(187, 102, 204, 1);
   width: 100%;
+  font-weight: bold;
 `
 
 const ButtonNewJournal = styled(motion.button)`

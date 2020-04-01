@@ -1,18 +1,13 @@
 import React from 'react'
-import Link from 'next/link'
+import { useEffect } from 'react'
 import styled from 'styled-components'
+import Router from 'next/router'
 
-class Error extends React.Component {
-  // static async getInitialProps(ctx) {
-  //   if (ctx.req) {
-  //     ctx.res.writeHead(302, { Location: '/' })
-  //     ctx.res.end()
-  //     return {}
-  //   }
-  // }
-  render() {
-    return <ErrorWrapper>Erreur 404</ErrorWrapper>
-  }
+const Error = () => {
+  useEffect(() => {
+    Router.push('/')
+  }, [])
+  return <ErrorWrapper>Erreur</ErrorWrapper>
 }
 
 export default Error
@@ -26,14 +21,4 @@ const ErrorWrapper = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-`
-
-const Title = styled.h1`
-  margin-bottom: 5rem;
-`
-
-const Subtitle = styled.h6`
-  font-weight: 500;
-  margin-bottom: 2rem;
-  color: var(--tertiaryColor);
 `

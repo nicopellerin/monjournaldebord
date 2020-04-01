@@ -2,49 +2,55 @@ import { AuthenticationError } from 'apollo-server-micro'
 import { GraphQLScalarType, Kind } from 'graphql'
 
 import Journal from './Journal'
+import User from '../users/User'
 
 export const journalsResolvers = {
   Query: {
-    async journals(parent, args, { user }, info) {
-      if (user) {
-        try {
-          const allJournals = await Journal.find({ author: user._id }).sort({
-            _id: -1,
-          })
-          return allJournals
-        } catch (error) {
-          throw new AuthenticationError('Pas authorizé.')
-        }
+    async journals(_, { filter, username }, { user }) {
+      if (filter) {
+        const id = await User.findOne({ username }, '_id')
+
+        const publicJournals = await Journal.find({
+          author: id,
+          status: 'public',
+        }).sort({
+          _id: -1,
+        })
+
+        return publicJournals
+      }
+
+      if (!user) throw new AuthenticationError('Pas authorizé.')
+
+      try {
+        const allJournals = await Journal.find({ author: user._id }).sort({
+          _id: -1,
+        })
+        return allJournals
+      } catch (error) {
+        throw new AuthenticationError('Pas authorizé.')
       }
     },
-    async journal(parent, { id }, { user }, info) {
-      // if (!user) {
-      //   throw new AuthenticationError('Pas authorizé.')
-      // }
+    async journal(_, { id }, { user }) {
+      if (!user) throw new AuthenticationError('Pas authorizé.')
 
-      if (user) {
-        try {
-          const journalFound = Journal.findById(id)
-          if (!journalFound) {
-            throw new Error('Journal not found')
-          }
-
-          return journalFound
-        } catch (error) {
-          throw new AuthenticationError('Pas authorizé.')
+      try {
+        const journalFound = Journal.findById(id)
+        if (!journalFound) {
+          throw new Error('Journal not found')
         }
+
+        return journalFound
+      } catch (error) {
+        throw new AuthenticationError('Pas authorizé.')
       }
     },
   },
   Mutation: {
-    async addJournal(parent, args, { user }, info) {
-      if (!user) {
-        throw new AuthenticationError('Pas authorizé.')
-      }
+    async addJournal(_, args, { user }) {
+      if (!user) throw new AuthenticationError('Pas authorizé.')
 
       const newJournal = { ...args, author: user }
-
-      console.log(args)
 
       try {
         const res = await Journal.create(newJournal)
@@ -53,10 +59,8 @@ export const journalsResolvers = {
         console.error(err)
       }
     },
-    async editJournal(parent, args, { user }, info) {
-      if (!user) {
-        throw new AuthenticationError('Pas authorizé.')
-      }
+    async editJournal(_, args, { user }) {
+      if (!user) throw new AuthenticationError('Pas authorizé.')
 
       const editedJournal = { ...args }
       try {
@@ -69,10 +73,9 @@ export const journalsResolvers = {
         console.error(err)
       }
     },
-    async deleteJournal(parent, { id }, { user }, info) {
-      if (!user) {
-        throw new AuthenticationError('Pas authorizé.')
-      }
+    async deleteJournal(_, { id }, { user }) {
+      if (!user) throw new AuthenticationError('Pas authorizé.')
+
       try {
         const deletedJournal = await Journal.findByIdAndDelete(id)
         return deletedJournal
@@ -83,18 +86,18 @@ export const journalsResolvers = {
   },
 
   Journal: {
-    author: async (parent, args, { user }, info) => {
-      if (user) {
-        try {
-          return {
-            username: user.username,
-            email: user.email,
-            password: user.password,
-            createdAt: user.createdAt,
-          }
-        } catch (error) {
-          throw new AuthenticationError('Pas authorizé.')
+    author: async (_, __, { user }) => {
+      if (!user) throw new AuthenticationError('Pas authorizé.')
+
+      try {
+        return {
+          username: user.username,
+          email: user.email,
+          password: user.password,
+          createdAt: user.createdAt,
         }
+      } catch (error) {
+        throw new AuthenticationError('Pas authorizé.')
       }
     },
   },

@@ -20,16 +20,17 @@ export const Hero = () => {
   if (isMobile) {
     logoWidth = 36.5
   } else if (isTablet) {
-    logoWidth = 70
+    logoWidth = 65
   } else {
-    logoWidth = 80
+    logoWidth = 60
   }
 
-  const bgImg = isMobile ? '/bg.jpg' : '/bg.webp'
+  const windowImg = isMobile ? '/window2.jpg' : '/window2.webp'
+  const dotsBgImg = isMobile ? '/dots.png' : '/dots.webp'
 
   return (
-    <Wrapper bgImg={bgImg}>
-      <Container>
+    <Wrapper dotsBgImg={dotsBgImg}>
+      <Container isTablet={isTablet}>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{
@@ -72,28 +73,48 @@ export const Hero = () => {
             </Button>
           </Link>
         </ButtonGroup>
+        <Dots
+          src="/dots.svg"
+          alt=""
+          initial={{ opacity: 0 }}
+          animate={{
+            y: [-20, 5, 0],
+            opacity: [0, 1],
+            transition: { delay: 0.6 },
+          }}
+        />
       </Container>
+      <BrowserWindow
+        src={windowImg}
+        alt=""
+        initial={{ x: '-50%' }}
+        animate={{
+          y: isTablet ? [15, -160] : [125, 50],
+          x: '-50%',
+          opacity: [0, 1],
+          transition: { delay: 0.9 },
+        }}
+      />
+      <Wave
+        src="/wave-bg.svg"
+        alt=""
+        initial={{ opacity: 0, y: 500 }}
+        animate={{
+          y: [100, 20],
+          opacity: [0, 1],
+          transition: { delay: 0.7 },
+        }}
+      />
     </Wrapper>
   )
 }
 
 // Styles
 const Wrapper = styled.div`
-  background: ${(props: { bgImg: string }) =>
-    props.bgImg &&
-    `linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.9),
-      rgba(255, 255, 255, 0.99)
-    ),
-    url('${props.bgImg}')`};
-  background-size: cover;
-
-  height: calc(100vh - 4rem);
+  border-top: 5px solid rgba(187, 102, 204, 1);
+  height: 100vh;
   padding: 8rem;
-  background-size: cover;
-  background-position: 50%;
-  margin: 2rem;
+  background: ${(props: { dotsBgImg: string }) => `url('${props.dotsBgImg}')`};
 
   @media (max-width: 768px) {
     height: 100vh;
@@ -107,7 +128,14 @@ const Container = styled(motion.div)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: ${(props: { isTablet: boolean }) =>
+    props.isTablet ? '90vh' : '50vh'};
+  position: relative;
+  z-index: 200;
+
+  @media (min-width: 1600px) {
+    height: 40vh;
+  }
 `
 
 const Tagline = styled(motion.span)`
@@ -128,6 +156,7 @@ const Tagline = styled(motion.span)`
 
 const ButtonGroup = styled(motion.div)`
   display: flex;
+  margin-bottom: 5rem;
 
   @media (max-width: 500px) {
     flex-direction: column;
@@ -141,7 +170,6 @@ const Button = styled(motion.button)`
   background: var(--primaryColor);
   border-bottom: 3px solid #440061;
   color: white;
-  text-transform: uppercase;
   border-radius: 5px;
   display: flex;
   justify-content: center;
@@ -160,7 +188,6 @@ const ButtonLogin = styled(motion.button)`
   background: ghostwhite;
   border-bottom: 3px solid #ddd;
   color: #333;
-  text-transform: uppercase;
   border-radius: 5px;
   display: flex;
   justify-content: center;
@@ -169,9 +196,36 @@ const ButtonLogin = styled(motion.button)`
   font-size: 1.6rem;
   margin-right: 3rem;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
+
   @media (max-width: 500px) {
     margin-right: 0;
     margin-bottom: 2rem;
     font-size: 1.4rem;
   }
 `
+
+const Wave = styled(motion.img)`
+  position: fixed;
+  left: 0;
+  bottom: -50px;
+  right: 0;
+
+  @media (max-width: 500px) {
+    display: none;
+  }
+`
+
+const BrowserWindow = styled(motion.img)`
+  position: fixed;
+  left: 50%;
+  bottom: -150px;
+  right: 0;
+  width: 70vw;
+  opacity: 0;
+
+  @media (max-width: 500px) {
+    display: none;
+  }
+`
+
+const Dots = styled(motion.img)``

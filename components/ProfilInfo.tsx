@@ -20,7 +20,9 @@ export const ProfilInfo = () => {
           <FaRegEnvelope style={{ marginRight: 5 }} />
           {email}
         </Email>
-        <Dots>&#8411;</Dots>
+        <DotsWrapper>
+          <Dots src="/dots.svg" alt="" />
+        </DotsWrapper>
         <ButtonEmail whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
           <FaEnvelope style={{ marginRight: 5 }} />
           Modifier courriel
@@ -130,9 +132,12 @@ const ButtonDeleteAccount = styled(motion.button)`
   margin-top: 4rem;
 `
 
-const Dots = styled.span`
-  display: block;
-  font-size: 5rem;
+const DotsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
+const Dots = styled.img`
+  margin: 2rem 0 4rem;
   text-align: center;
-  margin-left: 13px;
 `

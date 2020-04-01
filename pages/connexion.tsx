@@ -100,6 +100,10 @@ const ConnexionForm: React.FC<FormProps> = ({
   async function handleSubmit(e) {
     e.preventDefault()
 
+    if (!email || !password) {
+      return setLoginError('Veuillez remplir tous les champs requis')
+    }
+
     setIsSubmiting(true)
 
     try {
@@ -192,9 +196,12 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 95vh;
+  height: 100vh;
   position: relative;
   z-index: 2;
+  background: url('/dots.png');
+  padding-bottom: 10rem;
+  border-top: 5px solid rgba(187, 102, 204, 1);
 `
 
 const Form = styled(motion.form)`

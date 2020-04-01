@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { FaUserAlt, FaMoon, FaSun } from 'react-icons/fa'
-import cookie from 'cookie'
 
 import { Logo } from './Logo'
 import { User } from './User'
