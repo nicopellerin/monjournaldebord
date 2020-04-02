@@ -18,7 +18,6 @@ const ProfilPage = () => {
 
   useEffect(() => {
     const id = setTimeout(() => setShow(true), 1000)
-
     return () => clearTimeout(id)
   }, [])
 
@@ -65,7 +64,11 @@ const LoadingWrapper = styled.div`
   align-items: center;
   position: fixed;
   top: 75px;
-  z-index: 40;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4000;
+  background: white;
 `
 
 const LoadingContent = styled.div`

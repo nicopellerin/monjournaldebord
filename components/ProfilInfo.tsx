@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useContext } from 'react'
+import { useContext, useState, useLayoutEffect } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { UserContext } from '../context/UserProvider'
@@ -7,7 +7,26 @@ import { FaUserLock, FaRegEnvelope, FaEnvelope } from 'react-icons/fa'
 import { dots } from '../utils/imagesBase64'
 
 export const ProfilInfo = () => {
-  const { username, avatar, email } = useContext(UserContext)
+  const { username, avatar, email, city, updateCityAction } = useContext(
+    UserContext
+  )
+  const [cityField, setCityField] = useState('')
+
+  useLayoutEffect(() => {
+    if (city) {
+      setCityField(city)
+    }
+  }, [city])
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+
+    try {
+      await updateCityAction(username, cityField)
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <>
@@ -24,6 +43,16 @@ export const ProfilInfo = () => {
         <DotsWrapper>
           <Dots src={dots} alt="dots" />
         </DotsWrapper>
+        <Form onSubmit={handleSubmit}>
+          <InputWrapper>
+            <Label>Ville</Label>
+            <InputField
+              name="text"
+              value={cityField}
+              onChange={e => setCityField(e.target.value)}
+            />
+          </InputWrapper>
+        </Form>
         <ButtonEmail whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
           <FaEnvelope style={{ marginRight: 5 }} />
           Modifier courriel
@@ -116,6 +145,7 @@ const ButtonEmail = styled(motion.button)`
   font-size: 1.4rem;
   margin-bottom: 2rem;
   font-weight: bold;
+  width: 100%;
 `
 
 const ButtonDeleteAccount = styled(motion.button)`
@@ -131,6 +161,7 @@ const ButtonDeleteAccount = styled(motion.button)`
   cursor: pointer;
   font-size: 1.2rem;
   margin-top: 4rem;
+  width: 100%;
 `
 
 const DotsWrapper = styled.div`
@@ -141,4 +172,33 @@ const DotsWrapper = styled.div`
 const Dots = styled.img`
   margin: 2rem 0 4rem;
   text-align: center;
+`
+
+const Label = styled.label`
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+  letter-spacing: 0.1em;
+`
+
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4.5rem;
+  width: 100%;
+`
+
+const InputField = styled.input`
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.6rem;
+  font-family: inherit;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  color: #555;
+`
+
+const Form = styled.form`
+  width: 100%;
 `

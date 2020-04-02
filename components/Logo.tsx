@@ -13,13 +13,21 @@ interface Props {
 }
 
 export const Logo: React.FC<Props> = ({ width, white, toggle }) => {
-  const { pathname } = useRouter()
+  const { pathname, query } = useRouter()
   const { dark } = useContext(ThemeContext)
 
   const loggedIn = pathname.includes('/profil') || pathname.includes('/journal')
 
   return (
-    <Link href={loggedIn ? '/profil' : '/'}>
+    <Link
+      href={
+        loggedIn
+          ? '/profil'
+          : pathname.includes('/public')
+          ? `/public/${query?.username}`
+          : '/'
+      }
+    >
       <AStyled>
         <svg
           onClick={toggle ? () => toggle(false) : null}

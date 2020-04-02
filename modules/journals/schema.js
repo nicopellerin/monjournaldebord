@@ -14,9 +14,17 @@ export const journals = gql`
     author: User!
   }
 
+  type PrivateJournals {
+    journals: [Journal]
+    avatar: String
+    city: String
+  }
+
   type Query {
-    journals(filter: String, username: String): [Journal]
+    journals: [Journal]
     journal(id: ID): Journal
+    publicJournals(username: String): PrivateJournals
+    publicJournal(id: ID): Journal
   }
 
   type Mutation {

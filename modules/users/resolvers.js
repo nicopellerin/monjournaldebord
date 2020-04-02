@@ -135,7 +135,17 @@ export const usersResolvers = {
       return true
     },
 
-    async updateDailyMood(parent, { mood }, { user }) {
+    async updateCity(_, { city, username }, { user }) {
+      if (!user) {
+        throw new AuthenticationError('Invalid')
+      }
+
+      const res = await User.findOneAndUpdate({ username }, { city })
+
+      return res
+    },
+
+    async updateDailyMood(_, { mood }, { user }) {
       if (!user) {
         throw new AuthenticationError('Invalid')
       }

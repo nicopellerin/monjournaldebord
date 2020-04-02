@@ -33,33 +33,33 @@ export const Hero = () => {
     <Wrapper dotsBgImg={dotsBgImg}>
       <Container isTablet={isTablet}>
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{
-            y: [-20, 5, 0],
-            opacity: [0, 1],
-            transition: { delay: 0.1 },
-          }}
+        // initial={{ opacity: 0 }}
+        // animate={{
+        //   y: [-20, 5, 0],
+        //   opacity: [0, 1],
+        //   transition: { delay: 0.1 },
+        // }}
         >
           <Logo width={logoWidth} />
         </motion.div>
         <Tagline
-          initial={{ opacity: 0 }}
-          animate={{
-            y: [-20, 5, 0],
-            opacity: [0, 1],
-            transition: { delay: 0.3 },
-          }}
+        // initial={{ opacity: 0 }}
+        // animate={{
+        //   y: [-20, 5, 0],
+        //   opacity: [0, 1],
+        //   transition: { delay: 0.3 },
+        // }}
         >
           Créer ton propre journal de bord en ligne. Facile d'utilisation, privé
           et 100% gratuit.
         </Tagline>
         <ButtonGroup
-          initial={{ opacity: 0 }}
-          animate={{
-            y: [-20, 5, 0],
-            opacity: [0, 1],
-            transition: { delay: 0.5 },
-          }}
+        // initial={{ opacity: 0 }}
+        // animate={{
+        //   y: [-20, 5, 0],
+        //   opacity: [0, 1],
+        //   transition: { delay: 0.5 },
+        // }}
         >
           <Link href="/connexion">
             <ButtonLogin whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
@@ -77,33 +77,35 @@ export const Hero = () => {
         <Dots
           src={dots}
           alt=""
-          initial={{ opacity: 0 }}
-          animate={{
-            y: [-20, 5, 0],
-            opacity: [0, 1],
-            transition: { delay: 0.6 },
-          }}
+          // initial={{ opacity: 0 }}
+          // animate={{
+          //   y: [-20, 2, 0],
+          //   opacity: [0, 1],
+          // }}
         />
       </Container>
       <BrowserWindow
         src={windowImg}
         alt=""
-        initial={{ x: '-50%' }}
+        initial={{ x: '-50%', opacity: 0 }}
         animate={{
-          y: isTablet ? [15, -160] : [125, 50],
+          y: isTablet ? [15, -160] : [320, 50],
           x: '-50%',
           opacity: [0, 1],
-          transition: { delay: 0.9 },
+          transition: { delay: 0.2 },
+        }}
+        transition={{
+          type: 'spring',
+          damping: 30,
+          stiffness: 100,
+          // delay: 0.2,
         }}
       />
       <Wave
         src={wave}
         alt=""
-        initial={{ opacity: 0, y: 500 }}
         animate={{
-          y: [100, 20],
-          opacity: [0, 1],
-          transition: { delay: 0.7 },
+          y: [300, 20],
         }}
       />
     </Wrapper>
@@ -222,7 +224,6 @@ const BrowserWindow = styled(motion.img)`
   bottom: -150px;
   right: 0;
   width: 70vw;
-  opacity: 0;
 
   @media (max-width: 1366px) {
     bottom: -20px;

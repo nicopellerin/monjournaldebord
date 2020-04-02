@@ -8,6 +8,7 @@ export const users = gql`
     createdAt: Date
     token: String
     avatar: String
+    city: String
   }
 
   type Mood {
@@ -35,6 +36,7 @@ export const users = gql`
     ): User!
     signinUser(email: String!, password: String!): User!
     signoutUser: Boolean
+    updateCity(username: String!, city: String!): User
     updateDailyMood(mood: String!): Mood
     deleteSingleMood(id: ID!): Mood
   }

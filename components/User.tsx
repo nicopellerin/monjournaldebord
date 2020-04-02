@@ -11,6 +11,8 @@ import { useMedia } from 'react-use-media'
 import { useClickOutside } from '../hooks/useClickOutside'
 
 import { UserContext } from '../context/UserProvider'
+import { JournalContext } from '../context/JournalProvider'
+
 import { maxLength } from '../utils/maxLength'
 import { defaultProfile } from '../utils/imagesBase64'
 
@@ -22,16 +24,20 @@ interface Props {
 export const User: React.FC<Props> = ({ username, avatar }) => {
   const [toggle, setToggle] = useState(false)
 
+  const { journals } = useContext(JournalContext)
+
   const isDesktop = useMedia({
     minWidth: 1367,
   })
 
   const node = useClickOutside(setToggle)
 
+  const hasJournals = journals.length > 0
+
   return (
     <Wrapper ref={node}>
       <UserInfoWrapper>
-        <Link href="/profil/info">
+        <Link href={hasJournals ? '/profil/info' : '/profil'}>
           <UsernameText>{username}</UsernameText>
         </Link>
         <div style={{ position: 'relative' }}>

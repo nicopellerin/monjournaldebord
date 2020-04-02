@@ -11,20 +11,7 @@ const cache = {
 
 export const journalsResolvers = {
   Query: {
-    async journals(_, { filter, username }, { user }) {
-      if (filter) {
-        const id = await User.findOne({ username }, '_id')
-
-        const publicJournals = await Journal.find({
-          author: id,
-          status: 'public',
-        }).sort({
-          _id: -1,
-        })
-
-        return publicJournals
-      }
-
+    async journals(_, __, { user }) {
       if (!user) throw new AuthenticationError('Pas authorizé.')
 
       // const timeSinceLastFetch = Date.now() - cache.lastFetch
@@ -49,14 +36,44 @@ export const journalsResolvers = {
       if (!user) throw new AuthenticationError('Pas authorizé.')
 
       try {
-        const journalFound = Journal.findById(id)
+        const journalFound = await Journal.findById(id)
         if (!journalFound) {
           throw new Error('Journal not found')
         }
-
         return journalFound
       } catch (error) {
         throw new AuthenticationError('Pas authorizé.')
+      }
+    },
+
+    async publicJournals(_, { username }) {
+      const { _id: id, avatar, city } = await User.findOne(
+        { username },
+        '_id avatar city'
+      )
+
+      const publicJournals = await Journal.find({
+        author: id,
+        status: 'public',
+      }).sort({
+        _id: -1,
+      })
+
+      return { journals: publicJournals, avatar, city }
+    },
+
+    async publicJournal(_, { id }) {
+      try {
+        const journalFound = await Journal.findOne({
+          _id: id,
+          status: 'public',
+        })
+        if (!journalFound) {
+          throw new Error('Journal not found')
+        }
+        return journalFound
+      } catch (error) {
+        throw new Error('Not found')
       }
     },
   },

@@ -17,10 +17,9 @@ export const CtaCard: React.FC<Props> = ({ title, render }) => {
   return (
     <AnimatePresence>
       <Wrapper
-        initial={{ opacity: 0, y: 200 }}
+        initial={{ y: 100 }}
         animate={{
           y: [100, 0],
-          opacity: [0, 1],
         }}
         exit={{}}
       >

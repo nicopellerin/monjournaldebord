@@ -1,34 +1,18 @@
 import * as React from 'react'
-import { useContext } from 'react'
 import styled from 'styled-components'
 
 import { CardList } from './shared/CardList'
 import { Stats } from './Stats'
-import { NoJournals } from './shared/NoJournals'
+
 import { MoodToday } from './MoodToday'
 
-import { JournalContext } from '../context/JournalProvider'
-
 export const Home: React.FC = () => {
-  const { journals, journalsLoading } = useContext(JournalContext)
-
-  if (journalsLoading) {
-    return (
-      <Wrapper>
-        <RecentWrapper>
-          <Title>Publications récentes &mdash;</Title>
-          <CardList />
-        </RecentWrapper>
-      </Wrapper>
-    )
-  }
-
   return (
     <Wrapper>
       <MoodToday />
       <RecentWrapper>
         <Title>Publications récentes &mdash;</Title>
-        {journals.length ? <CardList /> : <NoJournals />}
+        <CardList />
       </RecentWrapper>
       <Stats />
     </Wrapper>

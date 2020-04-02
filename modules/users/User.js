@@ -23,6 +23,9 @@ const UserSchema = new mongoose.Schema({
   avatar: {
     type: String,
   },
+  city: {
+    type: String,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

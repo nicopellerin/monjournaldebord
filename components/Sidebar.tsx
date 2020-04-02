@@ -24,12 +24,18 @@ export const Sidebar: React.FC = () => {
     <Wrapper>
       <List />
       <ButtonGroup>
-        <Link href="/public/[username]" as={`/public/${username}`}>
+        <a
+          style={{ textDecoration: 'none' }}
+          href={`/public/${username}`}
+          target="_blank"
+          rel="nofollowers"
+        >
           <ButtonProfilPublic whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
             <FaUsers style={{ marginRight: 7 }} />
             Mon profil public
           </ButtonProfilPublic>
-        </Link>
+        </a>
+
         <ButtonNewJournal
           onClick={addNewPub}
           whileHover={{ y: -1 }}
@@ -61,7 +67,7 @@ const Wrapper = styled.aside`
 const ButtonGroup = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
 `
 
 const ButtonProfilPublic = styled(motion.button)`

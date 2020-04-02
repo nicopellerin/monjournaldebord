@@ -26,10 +26,11 @@ export const Navbar: React.FC = () => {
       <RightWrapper>
         {userLoading ? null : username ? (
           <>
-            <NavbarSearchWrapper>
-              <NavbarSearch />
-            </NavbarSearchWrapper>
-
+            {journals.length > 0 && (
+              <NavbarSearchWrapper>
+                <NavbarSearch />
+              </NavbarSearchWrapper>
+            )}
             <UserWrapper>
               <User username={username} avatar={avatar} />
             </UserWrapper>
@@ -86,7 +87,7 @@ const Wrapper = styled.div`
 `
 
 const LogoWrapper = styled.div`
-  width: 300px;
+  width: 282px;
   text-align: center;
 `
 

@@ -12,10 +12,10 @@ const nextConfig = {
 
   env: {
     mongo_uri:
-      'mongodb+srv://nico:r0XZQSvk8MUwcGcK@cluster0-dwm5u.mongodb.net/monjournaldebord?retryWrites=true&w=majority',
+      'mongodb+srv://nico:YAsyCpgdoAkOBD02@cluster0-dwm5u.mongodb.net/monjournaldebord?retryWrites=true&w=majority',
     cloudinary_name: 'dl9mctxsb',
-    access_token_secret: 'sdfgjfgjkdfkjg343434',
-    refresh_token_secret: '4sdfsdf45454sfsdfsd',
+    access_token_secret: 'dfdfdf3434344xxcxccx2232',
+    refresh_token_secret: 'sfdgfd3454545453435',
   },
 
   webpack: (config, { isServer }) => {

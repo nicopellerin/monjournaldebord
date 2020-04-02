@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useContext } from 'react'
 import styled from 'styled-components'
 import { useMedia } from 'react-use-media'
 
@@ -6,20 +7,26 @@ import { Navbar } from '../Navbar'
 import { Sidebar } from '../Sidebar'
 import { NavbarMobile } from '../NavbarMobile'
 
-import { ThemeProvider } from '../../context/ThemeProvider'
 import { Footer } from './Footer'
+
+import { ThemeProvider } from '../../context/ThemeProvider'
+import { JournalContext } from '../../context/JournalProvider'
 
 export const ProfilLayout: React.FC = ({ children }) => {
   const isDesktop = useMedia({
     minWidth: 1367,
   })
 
+  const { journals } = useContext(JournalContext)
+
+  const hasJournals = journals.length > 0
+
   return (
     <ThemeProvider>
       {isDesktop && <Navbar />}
       {!isDesktop && <NavbarMobile />}
       <Wrapper>
-        {isDesktop && <Sidebar />}
+        {isDesktop && hasJournals && <Sidebar />}
         <MainWrapper>
           {children}
           <Footer profil />
@@ -32,7 +39,7 @@ export const ProfilLayout: React.FC = ({ children }) => {
 // Styles
 const Wrapper = styled.div`
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 280px 1fr;
   height: 100%;
 
   @media (max-width: 1500px) {

@@ -10,34 +10,57 @@ type User = {
   email: string
   createdAt: string
   avatar: string
+  city: string
 }
 
 interface UserContextValue {
   login: (email, password) => Promise<User>
   logout: () => Promise<boolean>
   signup: (username, email, password, avatar) => Promise<User>
+  updateCityAction: (username, city) => void
   username: string
   email: string
   createdAt: string
   avatar: string
+  city: string
   userLoading: boolean
 }
 
 const UserValue: UserContextValue = {
-  login: async () => ({ username: '', email: '', createdAt: '', avatar: '' }),
+  login: async () => ({
+    username: '',
+    email: '',
+    createdAt: '',
+    avatar: '',
+    city: '',
+  }),
   logout: async () => false,
-  signup: async () => ({ username: '', email: '', createdAt: '', avatar: '' }),
+  signup: async () => ({
+    username: '',
+    email: '',
+    createdAt: '',
+    avatar: '',
+    city: '',
+  }),
+  updateCityAction: async () => ({
+    username: '',
+    email: '',
+    createdAt: '',
+    avatar: '',
+    city: '',
+  }),
   username: '',
   email: '',
   createdAt: '',
   avatar: '',
+  city: '',
   userLoading: false,
 }
 
 export const UserContext = createContext(UserValue)
 
 type ActionType = {
-  type: 'USER_INFO' | 'LOGOUT' | 'UPDATE_DAILY_MOOD'
+  type: 'USER_INFO' | 'LOGOUT' | 'UPDATE_DAILY_MOOD' | 'UPDATE_CITY'
   payload?: any
 }
 
@@ -47,6 +70,7 @@ type StateType = {
   password: string
   createdAt: string
   avatar: string
+  city: string
 }
 
 const LOGIN = gql`
@@ -91,6 +115,18 @@ const USER_INFO = gql`
       username
       email
       avatar
+      city
+    }
+  }
+`
+
+const UPDATE_CITY = gql`
+  mutation updateCity($username: String!, $city: String!) {
+    updateCity(username: $username, city: $city) {
+      username
+      avatar
+      email
+      city
     }
   }
 `
@@ -105,8 +141,13 @@ const reducer = (state: StateType, action: ActionType) => {
         username: action.payload.username,
         email: action.payload.email,
         avatar: action.payload.avatar,
+        city: action.payload.city,
       }
-
+    case 'UPDATE_CITY':
+      return {
+        ...state,
+        city: action.payload.city,
+      }
     default:
       return state
   }
@@ -117,6 +158,7 @@ const initialState = {
   email: '',
   createdAt: '',
   avatar: '',
+  city: '',
 }
 
 const UserProvider = ({ children }) => {
@@ -127,6 +169,7 @@ const UserProvider = ({ children }) => {
   const [signinUser] = useMutation(LOGIN)
   const [signupUser] = useMutation(SIGNUP)
   const [signoutUser] = useMutation(SIGNOUT)
+  const [updateCity] = useMutation(UPDATE_CITY)
 
   const { loading: userLoading } = useQuery(USER_INFO, {
     skip:
@@ -144,6 +187,7 @@ const UserProvider = ({ children }) => {
           username: me.username,
           avatar: me.avatar,
           email: me.email,
+          city: me.city,
         },
       })
     },
@@ -164,6 +208,7 @@ const UserProvider = ({ children }) => {
         username: data.signinUser.username,
         avatar: data.signinUser.avatar,
         email: data.signinUser.email,
+        city: data.signinUser.city,
       },
     })
 
@@ -195,18 +240,36 @@ const UserProvider = ({ children }) => {
     return data?.signupUser
   }
 
+  const updateCityAction = async (username, city) => {
+    const { data } = await updateCity({
+      variables: {
+        username,
+        city,
+      },
+    })
+
+    dispatch({
+      type: 'UPDATE_CITY',
+      payload: {
+        city: data?.updateCity?.city,
+      },
+    })
+  }
+
   const value = useMemo(
     () => ({
       username: state.username,
       email: state.email,
       createdAt: state.createdAt,
       avatar: state.avatar,
+      city: state.city,
       userLoading,
       login,
       logout,
       signup,
+      updateCityAction,
     }),
-    [state.username, state.email, state.createdAt, state.avatar]
+    [state.username, state.email, state.createdAt, state.avatar, state.city]
   )
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>

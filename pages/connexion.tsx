@@ -66,11 +66,11 @@ const Connexion: NextPage = () => {
       <Wave
         src="/wave-bg.svg"
         alt=""
-        initial={{ opacity: 0, y: 500 }}
+        // initial={{ opacity: 0, y: 500 }}
         animate={{
-          y: [100, 20],
-          opacity: [0, 1],
-          transition: { delay: 0.4 },
+          y: [300, 20],
+          // opacity: [0, 1],
+          // transition: { delay: 0.1 },
         }}
       />
     </>

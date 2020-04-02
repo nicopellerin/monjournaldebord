@@ -65,7 +65,7 @@ export const ListItem: React.FC<Props> = ({ title, id }) => {
           }}
         >
           <Item selected={selected}>
-            <Text>{maxLength(title, 28)}</Text>
+            <Text>{maxLength(title, 24)}</Text>
           </Item>
         </Wrapper>
         <AnimatePresence>
@@ -107,10 +107,11 @@ const Wrapper = styled(motion.div)`
 
 const Item = styled(motion.span)`
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   font-size: 1.6rem;
   font-weight: ${(props: ItemProps) => (props.selected ? '600' : '400')};
   width: 100%;
+  padding-left: 2rem;
 `
 
 const Mood = styled.img`
