@@ -68,9 +68,11 @@ export const journalsResolvers = {
           _id: id,
           status: 'public',
         })
+
         if (!journalFound) {
           throw new Error('Journal not found')
         }
+
         return journalFound
       } catch (error) {
         throw new Error('Not found')

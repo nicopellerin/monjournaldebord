@@ -26,7 +26,7 @@ export const ProfilLayout: React.FC = ({ children }) => {
       {isDesktop && <Navbar />}
       {!isDesktop && <NavbarMobile />}
       <Wrapper>
-        {isDesktop && hasJournals && <Sidebar />}
+        {isDesktop && <Sidebar />}
         <MainWrapper>
           {children}
           <Footer profil />

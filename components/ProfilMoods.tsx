@@ -60,17 +60,9 @@ export const ProfilMoods: React.FC<Props> = ({ list }) => {
 
 // Styles
 const Wrapper = styled.div`
-  padding: 8rem;
-  background: ${props => props.theme.colors.background};
-  background: url('/dots.webp');
-  transition: background 100ms ease-in-out;
-  min-height: 100vh;
+  min-height: 100%;
   display: flex;
   justify-content: center;
-
-  @media (max-width: 500px) {
-    padding: 8rem 2rem;
-  }
 `
 
 const Content = styled(motion.div)`

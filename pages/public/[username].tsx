@@ -4,13 +4,12 @@ import gql from 'graphql-tag'
 import styled from 'styled-components'
 import Head from 'next/head'
 import { withApollo } from '../../lib/apollo'
-import { useQuery } from '@apollo/react-hooks'
+import { FaMapMarkerAlt } from 'react-icons/fa'
 
 import { Logo } from '../../components/Logo'
+import { PublicCard } from '../../components/shared/PublicCard'
 
 import { dots } from '../../utils/imagesBase64'
-import { PublicCard } from '../../components/shared/PublicCard'
-import { FaMapMarker, FaMapMarkerAlt } from 'react-icons/fa'
 
 const PUBLIC_JOURNALS = gql`
   query publicJournals($username: String) {

@@ -103,8 +103,8 @@ const JournalSingle: React.FC = () => {
     setExporting(true)
 
     try {
-      const res = await axios.post('/api/save-pdf', body, {
-        responseType: 'arraybuffer',
+      const res = await axios.post('/api/generate-pdf', body, {
+        responseType: 'blob',
       })
 
       const datePDF = format(new Date(), 'yyyy-MM-dd')
@@ -124,7 +124,7 @@ const JournalSingle: React.FC = () => {
     const reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g
     return text?.replace(
       reg,
-      "<a href='$1$2' target='_blank' rel='nofollower'>$1$2</a>"
+      `<a href='$1$2' target='_blank' rel='nofollower'>$1$2</a>`
     )
   }
 

@@ -21,21 +21,31 @@ const ProfilPage = () => {
     return () => clearTimeout(id)
   }, [])
 
+  if (journalsLoading && !show) {
+    return <LoadingWrapper></LoadingWrapper>
+  }
+
+  if (journalsLoading && show) {
+    return (
+      <LoadingWrapper>
+        <LoadingContent>
+          <Spinner size={30} color="#9D00E0" />
+          <Title>En chargement...</Title>
+        </LoadingContent>
+      </LoadingWrapper>
+    )
+  }
+
   return (
     <>
       <Head>
         <title>Profil | monjournaldebord</title>
       </Head>
-      {journalsLoading && show && (
-        <LoadingWrapper>
-          <LoadingContent>
-            <Spinner size={30} color="#9D00E0" />
-            <Title>En chargement...</Title>
-          </LoadingContent>
-        </LoadingWrapper>
+      {journals?.length === 0 && !journalsLoading ? (
+        <NoJournalsProfil />
+      ) : (
+        <Content />
       )}
-      {!journalsLoading && journals?.length > 0 && <Content />}
-      {!journalsLoading && journals?.length === 0 && <NoJournalsProfil />}
     </>
   )
 }
@@ -67,7 +77,7 @@ const LoadingWrapper = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 4000;
+  z-index: 40;
   background: white;
 `
 

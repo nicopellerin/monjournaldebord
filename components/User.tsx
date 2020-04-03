@@ -64,7 +64,7 @@ const UserDropdown: React.FC = () => {
   async function signoutUser() {
     await client.resetStore()
     await logout()
-    await router.push('/connexion')
+    router.push('/connexion')
   }
 
   return (

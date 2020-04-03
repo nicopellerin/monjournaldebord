@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { FaCalendarAlt, FaFilePdf, FaChevronLeft } from 'react-icons/fa'
 import { motion } from 'framer-motion'
@@ -68,16 +68,14 @@ export const PublicSingleJournal: React.FC<Props> = ({
     setExporting(true)
 
     try {
-      const res = await axios.post('/api/save-pdf', body, {
-        responseType: 'arraybuffer',
+      const res = await axios.post('/api/generate-pdf', body, {
+        responseType: 'blob',
       })
 
       const datePDF = format(new Date(), 'yyyy-MM-dd')
       const filename = `monjournaldebord-${datePDF}.pdf`
 
-      const pdfBlob = new Blob([res.data], { type: 'application/pdf' })
-
-      saveAs(pdfBlob, filename)
+      saveAs(res.data, filename)
     } catch (err) {
       console.log(err)
     } finally {

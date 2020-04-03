@@ -7,9 +7,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/jung-kurt/gofpdf/contrib/httpimg"
-
 	"github.com/jung-kurt/gofpdf"
+	"github.com/jung-kurt/gofpdf/contrib/httpimg"
 )
 
 type singlePdf struct {
@@ -18,8 +17,6 @@ type singlePdf struct {
 	Image string `json:"image"`
 }
 
-type allPdf []singlePdf
-
 // Handler - zeit now serverless
 func Handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/pdf")
@@ -27,43 +24,52 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type")
 
-	var content singlePdf
+	var singlePdf singlePdf
 
-	err := json.NewDecoder(r.Body).Decode(&content)
+	err := json.NewDecoder(r.Body).Decode(&singlePdf)
 	if err != nil {
 		log.Println(err)
 	}
 
-	pdf := gofpdf.New("P", "mm", "A4", "")
+	pdf := gofpdf.New("P", "point", "Letter", "")
+
+	width, _ := pdf.GetPageSize()
+
 	pdf.AddPage()
-	pdf.SetMargins(10, 10, 10)
-	// pdf.SetAutoPageBreak(false, 0)
+
+	pdf.SetMargins(70, 50, 70)
+
+	// Translate
+	tr := pdf.UnicodeTranslatorFromDescriptor("")
 
 	// Title
+	pdf.MoveTo(70, 70)
 	pdf.SetFont("Arial", "B", 42)
-	// lines := pdf.SplitText(content.Title, 100)
-	pdf.Write(14, content.Title)
-	// pdf.SetXY(40, 40)
-	pdf.Ln(20)
+	_, lineHt := pdf.GetFontSize()
+	pdf.MultiCell(0, lineHt*1.2, tr(singlePdf.Title), "", "L", false)
+
 	// Image
-	if content.Image != "" {
-		httpimg.Register(pdf, content.Image, "")
-		pdf.Image(content.Image, 15, 205, 267, 0, false, "", 0, "")
+	if singlePdf.Image != "" {
+		pdf.Ln(20)
+		httpimg.Register(pdf, singlePdf.Image, "")
+		pdf.Image(singlePdf.Image, 70, 0, (width - 140), 0, true, "", 0, "")
 	}
+	pdf.Ln(30)
 
 	// Text
 	pdf.SetFont("Arial", "", 12)
-	pdf.WriteAligned(0, 6, content.Text, "L")
+	_, lineHt = pdf.GetFontSize()
+	pdf.MultiCell(0, lineHt*1.4, tr(singlePdf.Text), "", "", false)
 
 	stream := new(bytes.Buffer)
 
 	error := pdf.Output(stream)
 	if error != nil {
-		fmt.Println(err)
+		fmt.Println(error)
 	}
 
 	_, err2 := stream.WriteTo(w)
 	if err2 != nil {
-		log.Println(err)
+		log.Println(err2)
 	}
 }
