@@ -183,7 +183,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
       return {
         ...state,
         journals: state.journals.filter(
-          journal => journal.id !== action.payload
+          (journal) => journal.id !== action.payload
         ),
       }
     case 'TOGGLE_EDITING':
@@ -373,7 +373,9 @@ export const JournalProvider = ({ children }) => {
       client.writeQuery({
         query: ALL_JOURNALS,
         data: {
-          journals: journals.filter(journal => journal.id !== deleteJournal.id),
+          journals: journals.filter(
+            (journal) => journal.id !== deleteJournal.id
+          ),
         },
       })
     },
@@ -440,7 +442,7 @@ export const JournalProvider = ({ children }) => {
   })
 
   // Actions
-  const selectJournal = id => {
+  const selectJournal = (id) => {
     loadJournal({
       variables: {
         id,
@@ -455,11 +457,11 @@ export const JournalProvider = ({ children }) => {
     return res?.data?.editJournal?.id
   }
 
-  const deleteSelectedJournal = async id => {
+  const deleteSelectedJournal = async (id) => {
     await deleteJournal({ variables: { id } })
   }
 
-  const toggleEditing = image => {
+  const toggleEditing = (image) => {
     dispatch({ type: 'TOGGLE_EDITING', payload: image })
     if (image) {
       dispatch({ type: 'UPLOADED_IMAGE', payload: image })
@@ -490,7 +492,7 @@ export const JournalProvider = ({ children }) => {
     router.push('/journal/recherche', '/journal/recherche')
   }
 
-  const undoNewJournal = id => {
+  const undoNewJournal = (id) => {
     dispatch({ type: 'UNDO_NEW_JOURNAL' })
     loadJournal({
       variables: {
@@ -499,7 +501,7 @@ export const JournalProvider = ({ children }) => {
     })
   }
 
-  const uploadImage = image => {
+  const uploadImage = (image) => {
     dispatch({ type: 'UPLOADED_IMAGE', payload: image })
   }
 

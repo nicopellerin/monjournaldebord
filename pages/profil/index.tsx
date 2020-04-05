@@ -50,7 +50,7 @@ const ProfilPage = () => {
   )
 }
 
-ProfilPage.getInitialProps = async ctx => {
+ProfilPage.getInitialProps = async (ctx) => {
   const { token_login: token } = nextCookie(ctx)
 
   if (!token) {

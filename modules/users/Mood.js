@@ -31,8 +31,6 @@ const MoodSchema = new Schema({
   },
   mood: {
     type: String,
-    set: encrypt,
-    get: decrypt,
   },
   createdAt: {
     type: Date,

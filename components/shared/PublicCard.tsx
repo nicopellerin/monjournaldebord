@@ -32,15 +32,17 @@ export const PublicCard: React.FC<Props> = ({
     minWidth: 1200,
   })
 
-  const titleLength = isLaptop ? 50 : 15
-  const textLength = isLaptop ? 500 : 140
+  const titleLength = isLaptop ? 50 : 35
+  const textLength = isLaptop ? 500 : 180
+
+  const time = new Date(createdAt)
 
   const journal = { id, title, text, image, createdAt, mood, username } as any
 
   return (
     <Link
-      href={{ pathname: `/public/[username]/[id]`, query: journal }}
-      as={`/public/${username}/${id}`}
+      href={{ pathname: `/publications/[username]/[id]`, query: journal }}
+      as={`/publications/${username}/${id}`}
     >
       <AStyled>
         <motion.div style={{ position: 'relative' }}>
@@ -54,7 +56,7 @@ export const PublicCard: React.FC<Props> = ({
               <Mood src={mood} alt="Mood" />
               <DateWrapper>
                 <CalendarIcon />
-                <DateNow dateInfo={createdAt} />
+                <DateNow dateInfo={time} />
               </DateWrapper>
             </Heading>
             {image && <ImageStyled src={image} alt="" />}
@@ -79,28 +81,29 @@ const Wrapper = styled(motion.div)`
   cursor: pointer;
   height: 100%;
   width: 60rem;
-  background: ${props => props.theme.colors.cardBackground};
+  background: ${(props) => props.theme.colors.cardBackground};
   position: relative;
   border-top: 5px solid #eef;
   border-bottom: 3px solid #ddd;
   z-index: 20;
   margin-bottom: 8rem;
 
-  &:not(:last-of-type) {
+  @media (max-width: 500px) {
+    width: 90vw;
   }
 `
 
 const Title = styled.h2`
   font-size: 3.6rem;
   margin-bottom: 2rem;
-  color: ${props => props.theme.colors.titleColor};
+  color: ${(props) => props.theme.colors.titleColor};
   /* font-weight: 400; */
   word-wrap: break-word;
 `
 
 const Text = styled(motion.p)`
   font-size: 1.6rem;
-  color: ${props => props.theme.colors.textColor};
+  color: ${(props) => props.theme.colors.textColor};
   word-wrap: break-word;
   line-height: 1.4em;
   margin-bottom: 0;

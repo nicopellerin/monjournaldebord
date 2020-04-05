@@ -79,7 +79,7 @@ export const MoodToday = () => {
               placeholder="Aujourd'hui, je me sens..."
               name="mood"
               value={mood}
-              onChange={e => {
+              onChange={(e) => {
                 setMood(e.target.value)
                 e.target.value.length > 0
                   ? setShowSaveIcon(true)
@@ -145,7 +145,7 @@ export const MoodToday = () => {
             </Mood>
             <MoodDate>
               <FaRegClock style={{ marginRight: 5 }} />
-              {format(moods[0]?.createdAt, 'iiii dd MMMM - HH:mm', {
+              {format(moods[0]?.createdAt, 'iiii d MMMM - HH:mm', {
                 locale: fr,
               })}
             </MoodDate>
@@ -188,7 +188,7 @@ const Content = styled(motion.div)`
 
 const Title = styled.h2`
   font-size: 1.8rem;
-  color: ${props => props.theme.colors.textColor};
+  color: ${(props) => props.theme.colors.textColor};
   margin: 0;
   display: flex;
   align-items: center;
@@ -216,7 +216,7 @@ const Input = styled.input`
   background: rgba(255, 255, 255, 0.4);
   width: 100%;
   font-size: 1.6rem;
-  color: ${props => props.theme.colors.textColor};
+  color: ${(props) => props.theme.colors.textColor};
   font-weight: 400;
   font-family: inherit;
 
@@ -269,7 +269,7 @@ const ButtonSave = styled(motion.button)`
 
 const Heading = styled.div`
   width: 100%;
-  background: ${props => props.theme.colors.inputField};
+  background: ${(props) => props.theme.colors.inputField};
   border-bottom: 1px solid #eee;
   padding: 2.5rem 1.8rem;
   border-top-left-radius: 5px;

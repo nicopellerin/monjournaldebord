@@ -1,38 +1,41 @@
 import * as React from 'react'
-import { useRouter } from 'next/router'
-import gql from 'graphql-tag'
 import styled from 'styled-components'
 import Head from 'next/head'
-import { withApollo } from '../../lib/apollo'
 import { FaMapMarkerAlt } from 'react-icons/fa'
+import { request } from 'graphql-request'
+import useSWR from 'swr'
 
 import { Logo } from '../../components/Logo'
 import { PublicCard } from '../../components/shared/PublicCard'
 
 import { dots } from '../../utils/imagesBase64'
 
-const PUBLIC_JOURNALS = gql`
-  query publicJournals($username: String) {
-    publicJournals(username: $username) {
-      journals {
-        id
-        title
-        text
-        image
-        createdAt
-        mood
-        status
-      }
-      avatar
-      city
-    }
-  }
-`
+const API = 'https://api.monjournaldebord.ca/query'
+const fetcher = (query, variables) => request(API, query, variables)
 
-const PublicProfilPage = ({ avatar, journals, city }) => {
-  const {
-    query: { username },
-  } = useRouter()
+const PublicProfilPage = ({ data: initialData, username }) => {
+  const { data, error } = useSWR(
+    [
+      `query publicJournals($username: String) {
+        publicJournals(username: $username) {
+          journals {
+            id
+            title
+            text
+            image
+            createdAt
+            mood
+            status
+          }
+          avatar
+          city
+        }
+      }`,
+      username,
+    ],
+    (url, username) => fetcher(url, { username }),
+    { initialData: initialData }
+  )
 
   return (
     <>
@@ -52,49 +55,67 @@ const PublicProfilPage = ({ avatar, journals, city }) => {
         </Heading>
         <Container>
           <UserImage
-            src={avatar ? avatar : '/default-profile.png'}
+            src={
+              data?.publicJournals?.avatar
+                ? data?.publicJournals?.avatar
+                : '/default-profile.png'
+            }
             alt="Profil"
           />
           <Username>@{username}</Username>
-          {city && (
+          {data?.publicJournals?.city && (
             <City>
               <FaMapMarkerAlt style={{ marginRight: 3 }} />
-              {city}
+              {data?.publicJournals?.city}
             </City>
           )}
           <DotsWrapper>
             <Dots src={dots} alt="" />
           </DotsWrapper>
-          {journals?.map(journal => (
-            <PublicCard
-              key={journal.id}
-              title={journal.title}
-              id={journal.id}
-              text={journal.text}
-              image={journal.image}
-              createdAt={journal.createdAt}
-              mood={journal.mood}
-              username={username}
-            />
-          ))}
+          {data?.publicJournals?.journals
+            ?.sort((a, b) => b.createdAt - a.createdAt)
+            .map((journal) => (
+              <PublicCard
+                key={journal.id}
+                title={journal.title}
+                id={journal.id}
+                text={journal.text}
+                image={journal.image}
+                createdAt={journal.createdAt}
+                mood={journal.mood}
+                username={username}
+              />
+            ))}
         </Container>
       </Wrapper>
     </>
   )
 }
 
-PublicProfilPage.getInitialProps = async ({ query, apolloClient }) => {
-  const {
-    data: { publicJournals },
-  } = await apolloClient.query({
-    query: PUBLIC_JOURNALS,
-    variables: { username: query.username },
-  })
+PublicProfilPage.getInitialProps = async ({ query }) => {
+  const data = await fetcher(
+    `query publicJournals($username: String) {
+      publicJournals(username: $username) {
+        journals {
+          id
+          title
+          text
+          image
+          createdAt
+          mood
+          status
+        }
+        avatar
+        city
+      }
+    }`,
+    { username: query.username }
+  )
 
-  return publicJournals
+  return { data, username: query.username }
 }
 
-export default withApollo(PublicProfilPage)
+export default PublicProfilPage
 
 // Styles
 const Wrapper = styled.div`

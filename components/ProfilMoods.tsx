@@ -16,7 +16,7 @@ export const ProfilMoods: React.FC<Props> = ({ list }) => {
   const listByDate = useMemo(
     () =>
       list?.reduce((dates, cur) => {
-        const date = format(cur.createdAt, 'iiii dd MMMM', {
+        const date = format(cur.createdAt, 'iiii d MMMM', {
           locale: fr,
         })
         dates[date] = dates[date] || []

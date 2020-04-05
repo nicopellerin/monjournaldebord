@@ -57,12 +57,14 @@ export const PublicSingleJournal: React.FC<Props> = ({
 
   const wrapperRef = useRef(null)
 
+  const time = new Date(createdAt)
+
   async function exportToPDF() {
     const body = {
       title,
       text,
       image,
-      createdAt,
+      time,
     }
 
     setExporting(true)
@@ -101,7 +103,7 @@ export const PublicSingleJournal: React.FC<Props> = ({
           <Mood src={mood} alt="Mood" />
           <DateWrapper>
             <CalendarIcon size={14} />
-            <DateNow dateInfo={createdAt} />
+            <DateNow dateInfo={time} />
           </DateWrapper>
         </Heading>
         {image && <Image variants={imageVariants} src={image} alt="" />}
@@ -180,7 +182,7 @@ const Title = styled.h2`
   font-size: 6rem;
   word-break: break-all;
   margin-bottom: 2.5rem;
-  color: ${props => props.theme.colors.titleColor};
+  color: ${(props) => props.theme.colors.titleColor};
 
   @media (max-width: 500px) {
     padding: 0 2rem;
@@ -194,7 +196,7 @@ const Text = styled(motion.p)`
   line-height: 1.5em;
   margin-bottom: 3rem;
   margin-top: 3rem;
-  color: ${props => props.theme.colors.textColor};
+  color: ${(props) => props.theme.colors.textColor};
   background: rgba(255, 255, 255, 0.7);
 
   @media (max-width: 500px) {
@@ -259,8 +261,11 @@ const ButtonBack = styled(motion.button)`
 
   @media (max-width: 500px) {
     margin: 0;
-    margin-bottom: 2rem;
+    margin-bottom: 6rem;
     width: 100%;
+    padding: 1em 1.5em;
+    border: 1px solid #440061;
+    border-bottom: 3px solid #440061;
   }
 `
 

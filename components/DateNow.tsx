@@ -9,7 +9,7 @@ type Props = {
 
 export const DateNow: React.FC<Props> = ({ dateInfo }) => {
   const now = dateInfo
-    ? format(dateInfo, 'iiii dd MMMM yyyy', { locale: fr })
+    ? format(dateInfo, 'iiii d MMMM yyyy', { locale: fr })
     : 0
 
   return <DateStyled>{now}</DateStyled>

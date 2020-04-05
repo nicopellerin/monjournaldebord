@@ -36,8 +36,6 @@ const JournalSchema = new Schema({
   text: {
     type: String,
     required: true,
-    get: decrypt,
-    set: encrypt,
   },
   image: {
     type: String,

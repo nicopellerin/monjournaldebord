@@ -26,7 +26,7 @@ export const Sidebar: React.FC = () => {
       <ButtonGroup>
         <a
           style={{ textDecoration: 'none' }}
-          href={`/public/${username}`}
+          href={`/publications/${username}`}
           target="_blank"
           rel="nofollowers"
         >
@@ -51,12 +51,12 @@ export const Sidebar: React.FC = () => {
 
 // Styles
 const Wrapper = styled.aside`
-  background: ${props => props.theme.colors.sideBarBackground};
+  background: ${(props) => props.theme.colors.sideBarBackground};
   transition: background 100ms ease-in-out;
   width: 100%;
   box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.1);
   position: relative;
-  z-index: 99;
+  /* z-index: 99; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
