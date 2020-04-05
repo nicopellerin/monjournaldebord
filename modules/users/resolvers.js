@@ -107,7 +107,7 @@ export const usersResolvers = {
           'Set-Cookie',
           cookie.serialize('token_login', token, {
             httpOnly: true,
-            maxAge: 6 * 6 * 60,
+            maxAge: 60 * 60 * 24 * 7,
             path: '/',
             sameSite: 'lax',
             secure: process.env.NODE_ENV === 'production',
