@@ -175,7 +175,7 @@ const UserProvider = ({ children }) => {
     skip:
       pathname === '/connexion' ||
       pathname === '/inscription' ||
-      pathname.includes('public'),
+      pathname.includes('blogue'),
     ssr: true,
     onError: () => {
       push('/connexion')

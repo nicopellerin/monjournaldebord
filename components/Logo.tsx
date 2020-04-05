@@ -23,8 +23,8 @@ export const Logo: React.FC<Props> = ({ width, white, toggle }) => {
       href={
         loggedIn
           ? '/profil'
-          : pathname.includes('/public')
-          ? `/public/${query?.username}`
+          : pathname.includes('/blogue')
+          ? `/blogue/${query?.username}`
           : '/'
       }
     >

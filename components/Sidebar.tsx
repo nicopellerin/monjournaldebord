@@ -26,7 +26,7 @@ export const Sidebar: React.FC = () => {
       <ButtonGroup>
         <a
           style={{ textDecoration: 'none' }}
-          href={`/publications/${username}`}
+          href={`/blogue/${username}`}
           target="_blank"
           rel="nofollowers"
         >

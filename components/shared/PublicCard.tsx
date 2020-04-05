@@ -41,8 +41,8 @@ export const PublicCard: React.FC<Props> = ({
 
   return (
     <Link
-      href={{ pathname: `/publications/[username]/[id]`, query: journal }}
-      as={`/publications/${username}/${id}`}
+      href={{ pathname: `/blogue/[username]/[id]`, query: journal }}
+      as={`/blogue/${username}/${id}`}
     >
       <AStyled>
         <motion.div style={{ position: 'relative' }}>
