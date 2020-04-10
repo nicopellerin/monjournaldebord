@@ -58,7 +58,7 @@ export const MoodToday = () => {
     <Wrapper>
       <div style={{ position: 'relative' }}>
         <Content
-          // initial={{ opacity: 0 }}
+          initial={{ y: 10 }}
           animate={{
             // opacity: [0, 1],
             y: [10, 0],
@@ -123,7 +123,7 @@ export const MoodToday = () => {
         </AnimatePresence>
       </div>
       <LastMood
-        // initial={{ opacity: 0 }}
+        initial={{ y: 10 }}
         animate={{
           // opacity: [0, 1],
           y: [10, 0],

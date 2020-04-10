@@ -60,7 +60,6 @@ export const ProfilMoodsItem: React.FC<Props> = ({
       <div style={{ position: 'relative' }}>
         <Link href={`/journal/[id]`} as={`/journal/${id}`}>
           <ListItem
-            positionTransition={spring}
             exit={{}}
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
@@ -83,7 +82,6 @@ export const ProfilMoodsItem: React.FC<Props> = ({
 
   return (
     <ListItem
-      positionTransition={spring}
       exit={{}}
       key={id}
       onHoverStart={() => handleHoverEffect()}

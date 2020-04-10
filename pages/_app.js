@@ -13,8 +13,7 @@ const MyApp = ({ Component, pageProps, router }) => {
   if (
     router.pathname.startsWith('/profil') ||
     router.pathname.startsWith('/journal') ||
-    router.pathname.startsWith('/journal/recherche') ||
-    router.pathname.startsWith('/chat')
+    router.pathname.startsWith('/journal/recherche')
   ) {
     return (
       <UserProvider>
@@ -28,15 +27,6 @@ const MyApp = ({ Component, pageProps, router }) => {
           </JournalProvider>
         </MoodsProvider>
       </UserProvider>
-    )
-  }
-
-  if (router.pathname.includes('public')) {
-    return (
-      <Layout>
-        <Component {...pageProps} key={router.query.id} />
-        <GlobalStyles />
-      </Layout>
     )
   }
 

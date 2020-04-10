@@ -29,6 +29,7 @@ const Inscription: NextPage = () => {
       <Wave
         src="/wave-bg.svg"
         alt=""
+        initial={{ y: 300 }}
         animate={{
           y: [300, 20],
         }}
@@ -110,7 +111,7 @@ const InscriptionForm: React.FC = () => {
         `https://api.cloudinary.com/v1_1/${process.env.cloudinary_name}/image/upload`,
         data,
         {
-          onUploadProgress: progressEvent => {
+          onUploadProgress: (progressEvent) => {
             setLoader(
               Math.round((progressEvent.loaded / progressEvent.total) * 100) +
                 '%'
@@ -159,7 +160,7 @@ const InscriptionForm: React.FC = () => {
           type="text"
           maxLength={20}
           value={username}
-          onChange={e => {
+          onChange={(e) => {
             setUsername(e.target.value)
           }}
         />
@@ -169,7 +170,7 @@ const InscriptionForm: React.FC = () => {
           name="email"
           type="email"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <Label htmlFor="password">Mot de passe</Label>
         <InputField
@@ -177,7 +178,7 @@ const InscriptionForm: React.FC = () => {
           name="password"
           type="password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <input
           id="avatar"

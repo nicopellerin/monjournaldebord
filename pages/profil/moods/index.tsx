@@ -25,7 +25,11 @@ const MoodsPage = () => {
   )
 }
 
-MoodsPage.getInitialProps = async ctx => {
+MoodsPage.getInitialProps = async (ctx) => {
+  if (ctx.res) {
+    ctx.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+  }
+
   const { token_login: token } = nextCookie(ctx)
 
   if (!token) {

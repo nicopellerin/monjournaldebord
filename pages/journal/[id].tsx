@@ -3,10 +3,15 @@ import { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import nextCookie from 'next-cookies'
+import styled from 'styled-components'
 
-import { Content } from '../../components/Content'
+import JournalSingle from '../../components/JournalSingle'
 
 import { JournalContext } from '../../context/JournalProvider'
+
+interface StyledProps {
+  isJournal?: boolean
+}
 
 const SinglePage = () => {
   const { selectJournal, selectedJournal } = useContext(JournalContext)
@@ -26,12 +31,12 @@ const SinglePage = () => {
       <Head>
         <title>{selectedJournal?.title} | monjournaldebord</title>
       </Head>
-      <Content />
+      <Wrapper>{selectedJournal && <JournalSingle />}</Wrapper>
     </>
   )
 }
 
-SinglePage.getInitialProps = async ctx => {
+SinglePage.getInitialProps = async (ctx) => {
   const { token_login: token } = nextCookie(ctx)
 
   if (!token) {
@@ -45,3 +50,14 @@ SinglePage.getInitialProps = async ctx => {
 }
 
 export default SinglePage
+
+// Styles
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  background: ${(props) => props.theme.colors.contentBackground};
+  min-height: 100%;
+  align-items: ${(props: StyledProps) =>
+    props.isJournal ? 'center' : 'flex-start'};
+  padding: 10em 9rem;
+`

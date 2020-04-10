@@ -56,7 +56,7 @@ export const Navbar: React.FC = () => {
             </Link>
           </ButtonGroup>
         )}
-        <IconGroup>
+        {/* <IconGroup>
           {username && (
             <>
               {dark ? (
@@ -66,7 +66,7 @@ export const Navbar: React.FC = () => {
               )}
             </>
           )}
-        </IconGroup>
+        </IconGroup> */}
       </RightWrapper>
     </Wrapper>
   )
@@ -75,7 +75,7 @@ export const Navbar: React.FC = () => {
 // Styles
 const Wrapper = styled.div`
   width: 100%;
-  background: ${props => props.theme.colors.navBarBackground};
+  background: ${(props) => props.theme.colors.navBarBackground};
   transition: background 100ms ease-in-out;
   height: 7.5rem;
   display: flex;
@@ -87,7 +87,7 @@ const Wrapper = styled.div`
 `
 
 const LogoWrapper = styled.div`
-  width: 282px;
+  width: 300px;
   text-align: center;
 `
 
@@ -101,7 +101,7 @@ const NavbarSearchWrapper = styled.div`
 `
 
 const UserWrapper = styled.div`
-  margin-right: 5rem;
+  margin-right: 8rem;
 `
 
 const ButtonGroup = styled.div`

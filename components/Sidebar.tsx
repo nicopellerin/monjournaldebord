@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { FaPlusCircle, FaUsers } from 'react-icons/fa'
 import Router from 'next/router'
-import Link from 'next/link'
 
 import { List } from './List'
 
@@ -12,7 +11,7 @@ import { JournalContext } from '../context/JournalProvider'
 import { UserContext } from '../context/UserProvider'
 
 export const Sidebar: React.FC = () => {
-  const { newPage, journals, journalsLoading } = useContext(JournalContext)
+  const { newPage } = useContext(JournalContext)
   const { username } = useContext(UserContext)
 
   function addNewPub() {
@@ -26,13 +25,13 @@ export const Sidebar: React.FC = () => {
       <ButtonGroup>
         <a
           style={{ textDecoration: 'none' }}
-          href={`/blogue/${username}`}
+          href={`https://blogue.monjournaldebord.ca/${username}`}
           target="_blank"
           rel="nofollowers"
         >
           <ButtonProfilPublic whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
             <FaUsers style={{ marginRight: 7 }} />
-            Mon profil public
+            Mon blogue
           </ButtonProfilPublic>
         </a>
 

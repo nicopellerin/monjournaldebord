@@ -43,13 +43,6 @@ const JournalSingle: React.FC = () => {
     query: { id },
   } = useRouter()
 
-  // useEffect(() => {
-  //   if (!selectedJournal) {
-  //     console.log('yo')
-  //     selectJournal(id)
-  //   }
-  // }, [id])
-
   useEffect(() => {
     if (!journals.length && !journalsLoading) {
       Router.push('/profil', '/profil')
@@ -60,12 +53,12 @@ const JournalSingle: React.FC = () => {
 
   useEffect(() => {
     const currentIdx = journals?.findIndex(
-      journal => journal.id === selectedJournal?.id
+      (journal) => journal.id === selectedJournal?.id
     )
     const prevIdx = journals[currentIdx - 1]
     const nextIdx = journals[currentIdx + 1]
 
-    const prevPublication = e => {
+    const prevPublication = (e) => {
       if (prevIdx && e.keyCode === 37) {
         Router.push(`/journal/[id]`, `/journal/${prevIdx.id}`, {
           shallow: true,
@@ -75,7 +68,7 @@ const JournalSingle: React.FC = () => {
     }
     document.addEventListener('keydown', prevPublication)
 
-    const nextPublication = e => {
+    const nextPublication = (e) => {
       if (currentIdx + 1 < 6 && e.keyCode === 39) {
         Router.push(`/journal/[id]`, `/journal/${nextIdx.id}`, {
           shallow: true,
@@ -133,6 +126,7 @@ const JournalSingle: React.FC = () => {
   return (
     <Wrapper ref={wrapperRef}>
       <motion.div
+        initial={{ y: 10 }}
         animate={{
           y: [10, 0],
         }}
@@ -167,7 +161,7 @@ const JournalSingle: React.FC = () => {
               ) : (
                 <>
                   <FaUsers style={{ marginRight: 2 }} />
-                  public
+                  blogue
                 </>
               )}
             </Status>
@@ -273,7 +267,7 @@ const Title = styled.h2`
   font-size: 6rem;
   word-break: break-all;
   margin-bottom: 2.5rem;
-  color: ${props => props.theme.colors.titleColor};
+  color: ${(props) => props.theme.colors.titleColor};
 
   @media (max-width: 500px) {
     padding: 0 2rem;
@@ -287,7 +281,7 @@ const Text = styled.p`
   line-height: 1.5em;
   margin-bottom: 3rem;
   margin-top: 3rem;
-  color: ${props => props.theme.colors.textColor};
+  color: ${(props) => props.theme.colors.textColor};
 
   @media (max-width: 500px) {
     padding: 0 2rem;

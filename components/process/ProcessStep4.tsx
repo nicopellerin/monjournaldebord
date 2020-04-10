@@ -36,7 +36,7 @@ export const ProcessStep4 = ({ journal, setJournal, paginate }) => {
 
   useEffect(() => {
     if (imageURL) {
-      setJournal(prevState => ({ ...prevState, image: imageURL }))
+      setJournal((prevState) => ({ ...prevState, image: imageURL }))
     }
   }, [imageURL])
 
@@ -80,7 +80,7 @@ export const ProcessStep4 = ({ journal, setJournal, paginate }) => {
         ) : (
           <>
             <Title exit={{ opacity: 0 }}>
-              {'Pas oubligé, mais tu peux ajouter une image :)'}
+              {'Optionnel, mais tu peux aussi ajouter une image :)'}
             </Title>
           </>
         )}

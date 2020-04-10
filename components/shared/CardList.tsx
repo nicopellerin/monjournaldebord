@@ -28,6 +28,9 @@ export const CardList: React.FC<Props> = ({ list, expand }) => {
   const { journals } = useContext(JournalContext)
 
   const parentVariants = {
+    initial: {
+      x: -10,
+    },
     load: {
       x: [-10, 0],
       // opacity: [0, 1],
@@ -37,9 +40,14 @@ export const CardList: React.FC<Props> = ({ list, expand }) => {
   if (list) {
     return (
       <Wrapper>
-        <ListWrapper variants={parentVariants} animate={'load'} expand={expand}>
-          {list.map(journal => (
-            <motion.div style={{ scaleX, scaleY }} layoutTransition>
+        <ListWrapper
+          variants={parentVariants}
+          initial={'initial'}
+          animate={'load'}
+          expand={expand}
+        >
+          {list.map((journal) => (
+            <motion.div style={{ scaleX, scaleY }}>
               <motion.div
                 style={{ ...inverted, transformOrigin: 'top', height: '100%' }}
               >
@@ -54,8 +62,12 @@ export const CardList: React.FC<Props> = ({ list, expand }) => {
 
   return (
     <Wrapper>
-      <ListWrapper variants={parentVariants} animate={'load'}>
-        {journals?.slice(0, 3).map(journal => (
+      <ListWrapper
+        variants={parentVariants}
+        initial={'initial'}
+        animate={'load'}
+      >
+        {journals?.slice(0, 3).map((journal) => (
           <Card key={journal.id} {...journal} />
         ))}
       </ListWrapper>

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useContext } from 'react'
+import { useContext, useLayoutEffect } from 'react'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
 
@@ -29,19 +29,13 @@ export const Content: React.FC = () => {
       </Wrapper>
     )
   }
-
-  return (
-    <Wrapper isJournal={pathname.includes('journal')}>
-      {selectedJournal && <JournalSingle />}
-    </Wrapper>
-  )
 }
 
 // Styles
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-  background: ${props => props.theme.colors.contentBackground};
+  background: ${(props) => props.theme.colors.contentBackground};
   min-height: 100%;
   align-items: ${(props: StyledProps) =>
     props.isJournal ? 'center' : 'flex-start'};

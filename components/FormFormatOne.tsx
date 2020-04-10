@@ -172,7 +172,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
         `https://api.cloudinary.com/v1_1/${process.env.cloudinary_name}/image/upload`,
         data,
         {
-          onUploadProgress: progressEvent => {
+          onUploadProgress: (progressEvent) => {
             setLoader(
               Math.round((progressEvent.loaded / progressEvent.total) * 100) +
                 '%'
@@ -206,7 +206,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
           <InputField
             name="title"
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
             autoFocus={newState ? true : false}
           />
         </InputWrapper>
@@ -221,15 +221,15 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
           <TextAreaField
             name="text"
             value={text}
-            onChange={e => setText(e.target.value)}
+            onChange={(e) => setText(e.target.value)}
           />
         </InputWrapper>
         <TwoCols>
           <InputWrapper>
-            <Label>Status</Label>
+            <Label>Type de publication</Label>
             <ToggleSwitch
               onClick={() =>
-                setStatus(prevState =>
+                setStatus((prevState) =>
                   prevState === 'private' ? 'public' : 'private'
                 )
               }
@@ -271,7 +271,7 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
         </TwoCols>
         {imageError && <p>{imageError}</p>}
         {formErrors &&
-          formErrors.map(error => (
+          formErrors.map((error) => (
             <ErrorMsg key={error}>
               <FaExclamationCircle style={{ marginRight: 5 }} />
               {error}
@@ -424,7 +424,7 @@ const ErrorMsg = styled(motion.span)`
 
 const ToggleSwitch = styled.div`
   position: relative;
-  width: 90px;
+  width: 95px;
   display: inline-block;
   vertical-align: middle;
   -webkit-user-select: none;
@@ -460,9 +460,9 @@ const ToggleSwitchInner = styled.span`
     display: block;
     float: left;
     width: 50%;
-    height: 34px;
+    height: 25px;
     padding: 0;
-    line-height: 34px;
+    line-height: 25px;
     font-size: 14px;
     color: white;
     font-weight: bold;
@@ -472,14 +472,14 @@ const ToggleSwitchInner = styled.span`
   &:before {
     content: 'Privé';
     padding-left: 15px;
-    background-color: #eee;
+    background-color: #fff;
     color: #440061;
   }
 
   &:after {
-    content: 'Public';
-    padding-right: 12px;
-    background-color: #eee;
+    content: 'Blogue';
+    padding-right: 11px;
+    background-color: #fff;
     color: green;
     text-align: right;
   }
@@ -489,18 +489,18 @@ const ToggleSwitchSwitch = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 20px;
-  height: 20px;
-  margin: 7px;
+  width: 31px;
+  height: 31px;
+  margin: 0px;
   background: ${(props: { isPrivate: boolean }) =>
     props.isPrivate ? '#440061' : 'green'};
   position: absolute;
-  top: 0;
+  top: -2px;
   bottom: 0;
   right: ${(props: { isPrivate: boolean }) =>
-    props.isPrivate ? '4px' : '54px'};
-  border: 0 solid #ccc;
-  border-radius: 20px;
+    props.isPrivate ? '0px' : '65px'};
+  border: 1px solid #ccc;
+  border-radius: 50%;
   transition: all 0.3s ease-in 0s;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 7px 15px;
 `

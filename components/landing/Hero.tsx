@@ -26,41 +26,27 @@ export const Hero = () => {
     logoWidth = 60
   }
 
-  const windowImg = isMobile ? '/window2.jpg' : '/window2.webp'
+  const windowImg = isMobile ? '/window@2x.png' : '/window@2x.webp'
   const dotsBgImg = isMobile ? '/dots.png' : '/dots.webp'
 
   return (
     <Wrapper dotsBgImg={dotsBgImg}>
-      <Container isTablet={isTablet}>
-        <motion.div
-        // initial={{ opacity: 0 }}
-        // animate={{
-        //   y: [-20, 5, 0],
-        //   opacity: [0, 1],
-        //   transition: { delay: 0.1 },
-        // }}
-        >
+      <Container
+        isTablet={isTablet}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{
+          y: [-20, 0],
+          opacity: [0, 1],
+        }}
+      >
+        <motion.div>
           <Logo width={logoWidth} />
         </motion.div>
-        <Tagline
-        // initial={{ opacity: 0 }}
-        // animate={{
-        //   y: [-20, 5, 0],
-        //   opacity: [0, 1],
-        //   transition: { delay: 0.3 },
-        // }}
-        >
+        <Tagline>
           Créer ton propre journal de bord en ligne. Facile d'utilisation, privé
           et 100% gratuit.
         </Tagline>
-        <ButtonGroup
-        // initial={{ opacity: 0 }}
-        // animate={{
-        //   y: [-20, 5, 0],
-        //   opacity: [0, 1],
-        //   transition: { delay: 0.5 },
-        // }}
-        >
+        <ButtonGroup>
           <Link href="/connexion">
             <ButtonLogin whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
               <FaSignInAlt style={{ marginRight: 7 }} />
@@ -74,15 +60,7 @@ export const Hero = () => {
             </Button>
           </Link>
         </ButtonGroup>
-        <Dots
-          src={dots}
-          alt=""
-          // initial={{ opacity: 0 }}
-          // animate={{
-          //   y: [-20, 2, 0],
-          //   opacity: [0, 1],
-          // }}
-        />
+        <Dots src={dots} alt="" />
       </Container>
       <BrowserWindow
         src={windowImg}
@@ -92,18 +70,19 @@ export const Hero = () => {
           y: isTablet ? [15, -160] : [320, 50],
           x: '-50%',
           opacity: [0, 1],
-          transition: { delay: 0.2 },
+          transition: { delay: 0.4 },
         }}
         transition={{
           type: 'spring',
           damping: 30,
           stiffness: 100,
-          // delay: 0.2,
+          delay: 0.2,
         }}
       />
       <Wave
         src={wave}
         alt=""
+        initial={{ y: 300 }}
         animate={{
           y: [300, 20],
         }}
@@ -212,9 +191,8 @@ const Wave = styled(motion.img)`
   left: 0;
   bottom: -50px;
   right: 0;
-
   @media (max-width: 500px) {
-    display: none;
+    bottom: -75px;
   }
 `
 
@@ -230,7 +208,8 @@ const BrowserWindow = styled(motion.img)`
   }
 
   @media (max-width: 500px) {
-    display: none;
+    bottom: -170px;
+    width: 100%;
   }
 `
 

@@ -34,7 +34,7 @@ export const ProfilMoods: React.FC<Props> = ({ list }) => {
 
   return (
     <Wrapper>
-      <Content animate={{ y: [10, 0] }}>
+      <Content initial={{ y: 10 }} animate={{ y: [10, 0] }}>
         {Object.entries(listByDate).map(
           (
             [date, lists]: [

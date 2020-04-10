@@ -65,7 +65,7 @@ export const ListItem: React.FC<Props> = ({ title, id }) => {
           }}
         >
           <Item selected={selected}>
-            <Text>{maxLength(title, 24)}</Text>
+            <Text>{maxLength(title, 23)}</Text>
           </Item>
         </Wrapper>
         <AnimatePresence>
@@ -89,7 +89,7 @@ const Outer = styled.li`
 `
 
 const Wrapper = styled(motion.div)`
-  color: ${props => props.theme.colors.textColor};
+  color: ${(props) => props.theme.colors.textColor};
   width: 100%;
   padding: 1.5rem 3rem;
   list-style: none;

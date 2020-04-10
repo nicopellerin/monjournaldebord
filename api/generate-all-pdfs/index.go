@@ -66,14 +66,14 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 		stream := new(bytes.Buffer)
 
-		error := pdf.Output(stream)
-		if error != nil {
-			fmt.Println(error)
+		err := pdf.Output(stream)
+		if err != nil {
+			fmt.Println(err)
 		}
 
-		_, err2 := stream.WriteTo(w)
-		if err2 != nil {
-			log.Println(err2)
+		_, err = stream.WriteTo(w)
+		if err != nil {
+			log.Println(err)
 		}
 	}
 

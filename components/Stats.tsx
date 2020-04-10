@@ -11,7 +11,7 @@ export const Stats = () => {
     <>
       <Title>Stats &mdash;</Title>
       <Wrapper
-        // initial={{ opacity: 0 }}
+        initial={{ y: 10 }}
         animate={{
           // opacity: [0, 1],
           y: [10, 0],
@@ -41,5 +41,5 @@ const Wrapper = styled(motion.div)`
 
 const Title = styled.h2`
   font-size: 2.4rem;
-  color: ${props => props.theme.colors.titleColor};
+  color: ${(props) => props.theme.colors.titleColor};
 `
