@@ -1,11 +1,10 @@
 import * as React from 'react'
-import { useContext, useState, useEffect } from 'react'
+import { useContext } from 'react'
 import styled, { css } from 'styled-components'
-import { motion } from 'framer-motion'
+import { motion, AnimateSharedLayout } from 'framer-motion'
 import { FaNewspaper, FaHome, FaRegSmile, FaCaretRight } from 'react-icons/fa'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useMedia } from 'react-use-media'
 
 import { ListItem } from './ListItem'
 
@@ -16,16 +15,6 @@ export const List: React.FC = () => {
 
   const { pathname } = useRouter()
 
-  // const isLaptop = useMedia({
-  //   maxWidth: 1500,
-  // })
-
-  // const isLaptopHeight = useMedia({
-  //   maxHeight: 1000,
-  // })
-
-  // // let sliceLen = isLaptop ? 6 : 8
-
   return (
     <Wrapper>
       <Link href="/profil">
@@ -33,7 +22,7 @@ export const List: React.FC = () => {
           style={{ marginBottom: '1.2rem', cursor: 'pointer' }}
           active={pathname === '/profil' ? true : false}
         >
-          <FaHome style={{ marginRight: 7 }} />
+          <FaHome style={{ marginRight: 10 }} />
           Accueil
         </Title>
       </Link>
@@ -42,7 +31,7 @@ export const List: React.FC = () => {
           style={{ marginBottom: '1.2rem', cursor: 'pointer' }}
           active={pathname === '/profil/moods' ? true : false}
         >
-          <FaRegSmile style={{ marginRight: 7 }} />
+          <FaRegSmile style={{ marginRight: 10 }} />
           Moods
         </Title>
       </Link>
@@ -51,16 +40,18 @@ export const List: React.FC = () => {
           style={{ marginBottom: '1rem', cursor: 'pointer' }}
           active={pathname.includes('/journal') ? true : false}
         >
-          <FaNewspaper style={{ marginRight: 7 }} />
+          <FaNewspaper style={{ marginRight: 10 }} />
           Publications
         </Title>
       </Link>
       <NavStyled>
-        <ListStyled>
-          {journals?.slice(0, 6).map(item => (
-            <ListItem key={item.id} {...item} />
-          ))}
-        </ListStyled>
+        <AnimateSharedLayout>
+          <ListStyled>
+            {journals?.slice(0, 6).map((item) => (
+              <ListItem layoutId="listItem" key={item.id} {...item} />
+            ))}
+          </ListStyled>
+        </AnimateSharedLayout>
       </NavStyled>
       {journals?.length > 6 && (
         <Link href="/journal/liste">
@@ -87,10 +78,9 @@ const Title = styled.h3`
   font-weight: 400;
   display: flex;
   align-items: center;
-  /* justify-content: center; */
   color: #440061;
   width: 100%;
-  background: ${props => props.theme.colors.sideBarItemBackground};
+  background: ${(props) => props.theme.colors.sideBarItemBackground};
   transition: color background 100ms ease-in-out;
   ${(props: { active?: boolean }) =>
     props.active &&

@@ -16,13 +16,14 @@ interface Props {
   text: string
   id: string | string[]
   mood?: string
+  layoutId: any
 }
 
 interface ItemProps {
   selected: boolean
 }
 
-export const ListItem: React.FC<Props> = ({ title, id }) => {
+export const ListItem: React.FC<Props> = ({ title, id, layoutId }) => {
   const { selectJournal } = useContext(JournalContext)
 
   const {
@@ -64,9 +65,22 @@ export const ListItem: React.FC<Props> = ({ title, id }) => {
             selectJournal(id)
           }}
         >
-          <Item selected={selected}>
+          <Item animate selected={selected}>
             <Text>{maxLength(title, 23)}</Text>
           </Item>
+          {selected && (
+            <motion.div
+              layoutId={layoutId}
+              style={{
+                position: 'absolute',
+                right: 0,
+                top: 0,
+                background: 'var(--primaryColor)',
+                height: '100%',
+                width: 5,
+              }}
+            />
+          )}
         </Wrapper>
         <AnimatePresence>
           {rightMenuVisible && (
@@ -84,7 +98,7 @@ export const ListItem: React.FC<Props> = ({ title, id }) => {
 }
 
 // Styles
-const Outer = styled.li`
+const Outer = styled(motion.li)`
   position: relative;
 `
 
@@ -94,8 +108,6 @@ const Wrapper = styled(motion.div)`
   padding: 1.5rem 3rem;
   list-style: none;
   background: ${(props: ItemProps) => (props.selected ? '#f9f9f9' : 'none')};
-  border-right: ${(props: ItemProps) =>
-    props.selected ? '5px solid var(--primaryColor)' : 'none'};
   border-bottom: 1px solid #eee;
   &:hover {
     background: ${(props: ItemProps) =>
@@ -107,19 +119,10 @@ const Wrapper = styled(motion.div)`
 
 const Item = styled(motion.span)`
   display: flex;
-  /* justify-content: center; */
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: ${(props: ItemProps) => (props.selected ? '600' : '400')};
   width: 100%;
   padding-left: 2rem;
-`
-
-const Mood = styled.img`
-  width: 24px;
-  margin-right: 10px;
-  background: #eee;
-  padding: 3px;
-  border-radius: 100%;
 `
 
 const Text = styled.span`
