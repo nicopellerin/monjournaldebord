@@ -24,7 +24,11 @@ import { ToggleDeleteModal } from './ToggleDeleteModal'
 import { JournalContext } from '../context/JournalProvider'
 import { dots } from '../utils/imagesBase64'
 
-const JournalSingle: React.FC = () => {
+interface Props {
+  togglePreview?: boolean
+}
+
+const JournalSingle: React.FC<Props> = ({ togglePreview }) => {
   const [exporting, setExporting] = useState(false)
 
   const {
@@ -130,11 +134,6 @@ const JournalSingle: React.FC = () => {
         animate={{
           y: [10, 0],
         }}
-        exit={
-          {
-            // y: -100,
-          }
-        }
       >
         <Content
           animate={{
@@ -179,44 +178,46 @@ const JournalSingle: React.FC = () => {
           <DotsWrapper>
             <Dots src={dots} alt="" />
           </DotsWrapper>
-          <ButtonWrapper>
-            <ButtonPDF
-              disabled={exporting}
-              onClick={exportToPDF}
-              whileHover={{ y: -1 }}
-              whileTap={{ y: 1 }}
-            >
-              {exporting ? (
-                <Circle />
-              ) : (
-                <>
-                  <FaFilePdf style={{ marginRight: 5 }} />
-                  Exporter format PDF
-                </>
-              )}
-            </ButtonPDF>
-            <Link
-              href={`/journal/edit/[id]`}
-              as={`/journal/edit/${selectedJournal?.id}`}
-            >
-              <ButtonEdit
-                onClick={() => toggleEditing(selectedJournal?.image)}
+          {!togglePreview && (
+            <ButtonWrapper>
+              <ButtonPDF
+                disabled={exporting}
+                onClick={exportToPDF}
                 whileHover={{ y: -1 }}
                 whileTap={{ y: 1 }}
               >
-                <FaEdit style={{ marginRight: 5 }} />
-                Éditer
-              </ButtonEdit>
-            </Link>
-            <ButtonDelete
-              onClick={toggleDeleteAction}
-              whileHover={{ y: -1 }}
-              whileTap={{ y: 1 }}
-            >
-              <FaTimes style={{ marginRight: 5 }} />
-              Supprimer
-            </ButtonDelete>
-          </ButtonWrapper>
+                {exporting ? (
+                  <Circle />
+                ) : (
+                  <>
+                    <FaFilePdf style={{ marginRight: 5 }} />
+                    Exporter format PDF
+                  </>
+                )}
+              </ButtonPDF>
+              <Link
+                href={`/journal/edit/[id]`}
+                as={`/journal/edit/${selectedJournal?.id}`}
+              >
+                <ButtonEdit
+                  onClick={() => toggleEditing(selectedJournal?.image)}
+                  whileHover={{ y: -1 }}
+                  whileTap={{ y: 1 }}
+                >
+                  <FaEdit style={{ marginRight: 5 }} />
+                  Éditer
+                </ButtonEdit>
+              </Link>
+              <ButtonDelete
+                onClick={toggleDeleteAction}
+                whileHover={{ y: -1 }}
+                whileTap={{ y: 1 }}
+              >
+                <FaTimes style={{ marginRight: 5 }} />
+                Supprimer
+              </ButtonDelete>
+            </ButtonWrapper>
+          )}
         </Content>
       </motion.div>
 

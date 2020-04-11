@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
-import { FaTimesCircle } from 'react-icons/fa'
+import { FaTimesCircle, FaEllipsisV } from 'react-icons/fa'
 
 import { JournalContext } from '../context/JournalProvider'
 
@@ -11,24 +11,55 @@ type Props = {
 }
 
 export const ImageContainer: React.FC<Props> = ({ setLoader }) => {
-  const { imageUploaded, removeUploadedImage } = useContext(JournalContext)
+  const {
+    imageUploaded,
+    removeUploadedImage,
+    toggleImageContainer,
+    setToggleImageContainer,
+  } = useContext(JournalContext)
 
   const removeImage = () => {
     setLoader('')
     removeUploadedImage()
   }
 
+  const toggleVariants = {
+    open: {
+      x: 20,
+      scale: 1,
+    },
+    closed: {
+      y: 140,
+      x: -185,
+      scale: 0.9,
+    },
+  }
+
   return (
     <Wrapper
-      initial={{ y: 140, x: -300, scale: 0.9 }}
-      animate={{ x: 20, scale: 1 }}
-      exit={{ x: -300, scale: 0.9 }}
-      transition={{ type: 'spring', damping: 20, stiffness: 150 }}
+      initial="closed"
+      animate={toggleImageContainer ? 'open' : 'closed'}
+      exit="closed"
+      variants={toggleVariants}
+      transition={{
+        type: 'spring',
+        damping: 50,
+        stiffness: 200,
+        delay: 0.05,
+      }}
     >
       <ImageWrapper>
-        <CloseIcon onClick={removeImage} />
-        <Image src={imageUploaded} alt="Image Upload" />
+        {toggleImageContainer && <CloseIcon onClick={removeImage} />}
+        <ImageStyled
+          animate
+          src={imageUploaded}
+          alt="Image Upload"
+          style={{ opacity: toggleImageContainer ? 1 : 0 }}
+        />
       </ImageWrapper>
+      <Handle onClick={() => setToggleImageContainer()}>
+        <FaEllipsisV color="var(--primaryColor)" size={16} />
+      </Handle>
     </Wrapper>
   )
 }
@@ -37,10 +68,10 @@ export const ImageContainer: React.FC<Props> = ({ setLoader }) => {
 const Wrapper = styled(motion.div)`
   position: absolute;
   top: 0;
-  right: -28rem;
+  right: -22rem;
   height: 60%;
-  background: #f4f4f4;
-  width: 31rem;
+  background: whitesmoke;
+  width: 25rem;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   border-top-right-radius: 23px;
   border-bottom-right-radius: 23px;
@@ -53,13 +84,14 @@ const Wrapper = styled(motion.div)`
 const ImageWrapper = styled.div`
   position: relative;
   padding: 1rem;
+  z-index: 100;
 `
 
-const Image = styled.img`
+const ImageStyled = styled(motion.img)`
   object-fit: cover;
   object-position: center;
-  max-width: 250px;
-  height: 250px;
+  max-width: 200px;
+  height: 200px;
   border-radius: 3px;
   margin-left: 1rem;
 `
@@ -78,7 +110,24 @@ const CloseIcon = styled(FaTimesCircle)`
   opacity: 0;
   transition: opacity 150ms ease-in-out;
 
-  ${Wrapper}:hover & {
+  ${ImageWrapper}:hover & {
     opacity: 1;
   }
+`
+
+const Handle = styled.div`
+  width: 1.2rem;
+  height: 4rem;
+  background: #eef;
+  position: absolute;
+  right: -11px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  z-index: 1;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `

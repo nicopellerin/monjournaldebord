@@ -32,6 +32,7 @@ interface ContextValue {
   toggleImageContainer: boolean
   darkMode: boolean
   toggleDelete: boolean
+  setToggleImageContainer: () => void
   selectJournal: (id: string | string[]) => void
   editSelectedJournal: (
     id: string,
@@ -72,6 +73,7 @@ const JournalValue: ContextValue = {
   toggleImageContainer: false,
   darkMode: false,
   toggleDelete: false,
+  setToggleImageContainer: () => {},
   selectJournal: () => {},
   editSelectedJournal: () => {},
   addNewJournal: () => {},
@@ -98,7 +100,7 @@ type ActionType = {
     | 'UNDO_NEW_JOURNAL'
     | 'UPLOADED_IMAGE'
     | 'REMOVE_UPLOADED_IMAGE'
-    | 'TOGGLE_OFF_IMAGE_CONTAINER'
+    | 'TOGGLE_IMAGE_CONTAINER'
     | 'TOGGLE_DARK_MODE'
     | 'TOGGLE_DELETE'
   payload?: any
@@ -192,7 +194,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
         editing: !state.editing,
         newState: false,
         imageUploaded: action.payload,
-        toggleImageContainer: action.payload ? true : false,
+        toggleImageContainer: false,
       }
     case 'SEARCH_JOURNALS':
       return {
@@ -216,10 +218,10 @@ const journalReducer = (state: StateType, action: ActionType) => {
         ...state,
         imageUploaded: '',
       }
-    case 'TOGGLE_OFF_IMAGE_CONTAINER':
+    case 'TOGGLE_IMAGE_CONTAINER':
       return {
         ...state,
-        toggleImageContainer: false,
+        toggleImageContainer: !state.toggleImageContainer,
       }
     case 'TOGGLE_DELETE':
       return {
@@ -463,9 +465,6 @@ export const JournalProvider = ({ children }) => {
 
   const toggleEditing = (image) => {
     dispatch({ type: 'TOGGLE_EDITING', payload: image })
-    if (image) {
-      dispatch({ type: 'UPLOADED_IMAGE', payload: image })
-    }
   }
 
   const addNewJournal = async (title, text, image, mood, status) => {
@@ -506,7 +505,7 @@ export const JournalProvider = ({ children }) => {
   }
 
   const removeUploadedImage = () => {
-    dispatch({ type: 'TOGGLE_OFF_IMAGE_CONTAINER' })
+    dispatch({ type: 'TOGGLE_IMAGE_CONTAINER' })
     setTimeout(() => dispatch({ type: 'REMOVE_UPLOADED_IMAGE' }), 1000)
   }
 
@@ -516,6 +515,10 @@ export const JournalProvider = ({ children }) => {
 
   const toggleDeleteAction = () => {
     dispatch({ type: 'TOGGLE_DELETE' })
+  }
+
+  const setToggleImageContainer = () => {
+    dispatch({ type: 'TOGGLE_IMAGE_CONTAINER' })
   }
 
   const value = useMemo(() => {
@@ -544,6 +547,7 @@ export const JournalProvider = ({ children }) => {
       removeUploadedImage,
       toggleDarkMode,
       toggleDeleteAction,
+      setToggleImageContainer,
     }
   }, [
     state.journals,

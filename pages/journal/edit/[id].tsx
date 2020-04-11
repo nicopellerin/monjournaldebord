@@ -2,12 +2,11 @@ import * as React from 'react'
 import { useContext } from 'react'
 import Head from 'next/head'
 import nextCookie from 'next-cookies'
+import styled from 'styled-components'
 
-import { Content } from '../../../components/Content'
+import { Book } from '../../../components/Book'
 
 import { JournalContext } from '../../../context/JournalProvider'
-import { Book } from '../../../components/Book'
-import styled from 'styled-components'
 
 const EditJournal = () => {
   const { selectedJournal } = useContext(JournalContext)

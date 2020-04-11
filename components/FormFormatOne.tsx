@@ -9,6 +9,7 @@ import {
   FaExclamationCircle,
   FaUserLock,
   FaUsers,
+  FaSearchPlus,
 } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import axios from 'axios'
@@ -43,10 +44,16 @@ export const emoticons = [
 
 type Props = {
   loader: string
-  setLoader: any
+  setLoader: React.Dispatch<React.SetStateAction<string>>
+  togglePreview: boolean
+  setTogglePreview: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
+export const FormFormatOne: React.FC<Props> = ({
+  loader,
+  setLoader,
+  setTogglePreview,
+}) => {
   const {
     selectedJournal,
     editSelectedJournal,
@@ -279,6 +286,15 @@ export const FormFormatOne: React.FC<Props> = ({ loader, setLoader }) => {
           ))}
 
         <ButtonWrapper>
+          <ButtonPreview
+            type="button"
+            onClick={() => setTogglePreview(true)}
+            whileHover={{ y: -1 }}
+            whileTap={{ y: 1 }}
+          >
+            <FaSearchPlus style={{ marginRight: 7 }} />
+            Aperçu
+          </ButtonPreview>
           <ButtonCancel
             type="button"
             whileHover={{ y: -1 }}
@@ -379,6 +395,22 @@ const Button = styled(motion.button)`
   cursor: pointer;
   font-size: 1.4rem;
   font-weight: bold;
+`
+
+const ButtonPreview = styled(motion.button)`
+  border: 1px solid #333;
+  padding: 1em 1.5em;
+  border-bottom: 3px solid #222;
+  background: none;
+  color: #333;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-inline-end: auto;
 `
 
 const ButtonCancel = styled(motion.button)`
@@ -502,5 +534,4 @@ const ToggleSwitchSwitch = styled.span`
   border: 1px solid #ccc;
   border-radius: 50%;
   transition: all 0.3s ease-in 0s;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 7px 15px;
 `
