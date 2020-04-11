@@ -6,6 +6,8 @@ import nextCookie from 'next-cookies'
 import { Content } from '../../../components/Content'
 
 import { JournalContext } from '../../../context/JournalProvider'
+import { Book } from '../../../components/Book'
+import styled from 'styled-components'
 
 const EditJournal = () => {
   const { selectedJournal } = useContext(JournalContext)
@@ -15,12 +17,14 @@ const EditJournal = () => {
       <Head>
         <title>Éditer - {selectedJournal?.title} | monjournaldebord</title>
       </Head>
-      <Content />
+      <Wrapper>
+        <Book />
+      </Wrapper>
     </>
   )
 }
 
-EditJournal.getInitialProps = async ctx => {
+EditJournal.getInitialProps = async (ctx) => {
   const { token_login: token } = nextCookie(ctx)
 
   if (!token) {
@@ -34,3 +38,12 @@ EditJournal.getInitialProps = async ctx => {
 }
 
 export default EditJournal
+
+// Styles
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: ${(props) => props.theme.colors.contentBackground};
+  min-height: 100%;
+`

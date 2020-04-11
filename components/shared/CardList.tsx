@@ -1,6 +1,11 @@
 import React, { useContext } from 'react'
 import styled, { css } from 'styled-components'
-import { motion, useInvertedScale, useMotionValue } from 'framer-motion'
+import {
+  motion,
+  useInvertedScale,
+  useMotionValue,
+  AnimateSharedLayout,
+} from 'framer-motion'
 
 import { Card } from './Card'
 
@@ -40,22 +45,28 @@ export const CardList: React.FC<Props> = ({ list, expand }) => {
   if (list) {
     return (
       <Wrapper>
-        <ListWrapper
-          variants={parentVariants}
-          initial={'initial'}
-          animate={'load'}
-          expand={expand}
-        >
-          {list.map((journal) => (
-            <motion.div style={{ scaleX, scaleY }}>
-              <motion.div
-                style={{ ...inverted, transformOrigin: 'top', height: '100%' }}
-              >
-                <Card key={journal.id} {...journal} />
+        <AnimateSharedLayout>
+          <ListWrapper
+            variants={parentVariants}
+            initial={'initial'}
+            animate={'load'}
+            expand={expand}
+          >
+            {list.map((journal) => (
+              <motion.div style={{ scaleX, scaleY }} animate>
+                <motion.div
+                  style={{
+                    ...inverted,
+                    transformOrigin: 'top',
+                    height: '100%',
+                  }}
+                >
+                  <Card key={journal.id} {...journal} />
+                </motion.div>
               </motion.div>
-            </motion.div>
-          ))}
-        </ListWrapper>
+            ))}
+          </ListWrapper>
+        </AnimateSharedLayout>
       </Wrapper>
     )
   }

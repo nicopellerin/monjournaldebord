@@ -3,7 +3,7 @@ import { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { FaSearch, FaTimesCircle } from 'react-icons/fa'
 import useDebouncedEffect from 'use-debounced-effect'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
 import { JournalContext } from '../context/JournalProvider'
@@ -14,12 +14,14 @@ export const NavbarSearch: React.FC = () => {
 
   const { searchJournals, search } = useContext(JournalContext)
 
+  const { pathname } = useRouter()
+
   useDebouncedEffect(() => searchJournals(titleInput, Router), 500, [
     titleInput,
   ])
 
   useEffect(() => {
-    if (!search.length && Router.router.pathname === '/journal/recherche') {
+    if (!search.length && pathname === '/journal/recherche') {
       Router.push('/profil')
     }
   }, [search])
@@ -40,7 +42,7 @@ export const NavbarSearch: React.FC = () => {
           name="title"
           value={titleInput}
           placeholder="Recherche publication par titre..."
-          onChange={e => setTitleInput(e.target.value)}
+          onChange={(e) => setTitleInput(e.target.value)}
           autoComplete="off"
         />
         {search && (

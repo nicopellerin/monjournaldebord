@@ -334,7 +334,7 @@ const InputField = styled.input`
 
 const TextAreaField = styled.textarea`
   width: 100%;
-  min-height: 25vh;
+  min-height: 24vh;
   padding: 1rem;
   font-size: 1.6rem;
   font-family: inherit;

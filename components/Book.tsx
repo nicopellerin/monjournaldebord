@@ -29,8 +29,11 @@ export const Book: React.FC = () => {
   return (
     <AnimatePresence>
       <Wrapper
-        // initial={{ y: -50 }}
-        animate={{ y: [-10, 0] }}
+        initial={{ y: -10 }}
+        animate={{
+          y: [-10, 0],
+          x: selectedJournal?.image && !newState ? [-80, -100] : 0,
+        }}
         exit={{ y: 50 }}
       >
         <FormWrapper>

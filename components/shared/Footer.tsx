@@ -50,36 +50,37 @@ export const Footer: React.FC<Props> = ({ profil, white }) => {
   }
 
   if (profil) {
-    return (
-      <WrapperProfil
-        noBackground={
-          pathname === '/profil' ||
-          pathname === '/profil/moods' ||
-          pathname === '/profil/info' ||
-          pathname === '/journal/liste' ||
-          pathname === '/journal/recherche'
-            ? true
-            : false
-        }
-      >
-        <Text>
-          &copy; {dateYear.getFullYear()} monjournaldebord. Fait avec{' '}
-          <motion.div
-            initial={{ y: 3 }}
-            animate={{
-              scale: [1, 1.1],
-              transition: {
-                yoyo: Infinity,
-                duration: 1,
-              },
-            }}
-          >
-            <FaHeart color="red" style={{ margin: '0 0.5rem' }} />
-          </motion.div>
-          par Nico Pellerin. Tous droits réservés.
-        </Text>
-      </WrapperProfil>
-    )
+    return null
+    // return (
+    //   <WrapperProfil
+    //     noBackground={
+    //       pathname === '/profil' ||
+    //       pathname === '/profil/moods' ||
+    //       pathname === '/profil/info' ||
+    //       pathname === '/journal/liste' ||
+    //       pathname === '/journal/recherche'
+    //         ? true
+    //         : false
+    //     }
+    //   >
+    //     <Text>
+    //       &copy; {dateYear.getFullYear()} monjournaldebord. Fait avec{' '}
+    //       <motion.div
+    //         initial={{ y: 3 }}
+    //         animate={{
+    //           scale: [1, 1.1],
+    //           transition: {
+    //             yoyo: Infinity,
+    //             duration: 1,
+    //           },
+    //         }}
+    //       >
+    //         <FaHeart color="red" style={{ margin: '0 0.5rem' }} />
+    //       </motion.div>
+    //       par Nico Pellerin. Tous droits réservés.
+    //     </Text>
+    //   </WrapperProfil>
+    // )
   }
 
   if (isMobile) {

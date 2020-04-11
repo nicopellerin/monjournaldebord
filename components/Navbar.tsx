@@ -21,7 +21,8 @@ export const Navbar: React.FC = () => {
   return (
     <Wrapper>
       <LogoWrapper>
-        <Logo />
+        {/* <Logo /> */}
+        <img src="logo.png" alt="" width={210} />
       </LogoWrapper>
       <RightWrapper>
         {userLoading ? null : username ? (

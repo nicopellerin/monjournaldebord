@@ -8,6 +8,8 @@ import nextCookie from 'next-cookies'
 import { Content } from '../../../components/Content'
 
 import { JournalContext } from '../../../context/JournalProvider'
+import styled from 'styled-components'
+import { Book } from '../../../components/Book'
 
 const NewJournal: NextPage = () => {
   const { newState } = useContext(JournalContext)
@@ -23,12 +25,14 @@ const NewJournal: NextPage = () => {
       <Head>
         <title>Nouveau | monjournaldebord</title>
       </Head>
-      <Content />
+      <Wrapper>
+        <Book />
+      </Wrapper>
     </>
   )
 }
 
-NewJournal.getInitialProps = async ctx => {
+NewJournal.getInitialProps = async (ctx) => {
   const { token_login: token } = nextCookie(ctx)
 
   if (!token) {
@@ -42,3 +46,12 @@ NewJournal.getInitialProps = async ctx => {
 }
 
 export default NewJournal
+
+// Styles
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: ${(props) => props.theme.colors.contentBackground};
+  min-height: 100%;
+`

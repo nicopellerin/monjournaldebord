@@ -16,12 +16,6 @@ interface StyledProps {
 export const Content: React.FC = () => {
   const { pathname } = useRouter()
 
-  const { selectedJournal } = useContext(JournalContext)
-
-  if (pathname === '/profil') {
-    return <Home />
-  }
-
   if (pathname.includes('edit') || pathname.includes('nouveau')) {
     return (
       <Wrapper>
@@ -35,9 +29,8 @@ export const Content: React.FC = () => {
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   background: ${(props) => props.theme.colors.contentBackground};
   min-height: 100%;
-  align-items: ${(props: StyledProps) =>
-    props.isJournal ? 'center' : 'flex-start'};
-  padding: 10em 9rem;
+  padding: 10em 9rem 14rem;
 `

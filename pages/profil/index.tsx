@@ -5,10 +5,10 @@ import styled from 'styled-components'
 import { ThreeBounce } from 'better-react-spinkit'
 import nextCookie from 'next-cookies'
 
-import { Content } from '../../components/Content'
+import { Home } from '../../components/Home'
+import { NoJournalsProfil } from '../../components/NoJournalsProfil'
 
 import { JournalContext } from '../../context/JournalProvider'
-import { NoJournalsProfil } from '../../components/NoJournalsProfil'
 import { withApollo } from '../../lib/apollo'
 
 const ProfilPage = () => {
@@ -44,7 +44,7 @@ const ProfilPage = () => {
       {journals?.length === 0 && !journalsLoading ? (
         <NoJournalsProfil />
       ) : (
-        <Content />
+        <Home />
       )}
     </>
   )

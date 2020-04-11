@@ -20,10 +20,10 @@ export const ImageContainer: React.FC<Props> = ({ setLoader }) => {
 
   return (
     <Wrapper
-      initial={{ y: 140, x: -50, scale: 0.9 }}
+      initial={{ y: 140, x: -300, scale: 0.9 }}
       animate={{ x: 20, scale: 1 }}
       exit={{ x: -300, scale: 0.9 }}
-      transition={{ damping: 300 }}
+      transition={{ type: 'spring', damping: 20, stiffness: 150 }}
     >
       <ImageWrapper>
         <CloseIcon onClick={removeImage} />
