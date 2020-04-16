@@ -47,7 +47,8 @@ export default MoodsPage
 // Styles
 const Wrapper = styled.div`
   padding: 8rem;
-  background: url('/dots.webp');
+  /* background: url('/dots.webp'); */
+  /* background: #fafafa; */
   min-height: 100vh;
 
   @media (max-width: 500px) {
@@ -60,6 +61,7 @@ const Title = styled.h2`
   font-weight: 700;
   text-align: center;
   margin-bottom: 8rem;
+  color: #440061;
 
   @media (max-width: 500px) {
     font-size: 3.8rem;

@@ -1,121 +1,29 @@
 import * as React from 'react'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import styled from 'styled-components'
-import {
-  FaCalendarAlt,
-  FaEdit,
-  FaTimes,
-  FaFilePdf,
-  FaUserLock,
-  FaUsers,
-} from 'react-icons/fa'
+import { FaCalendarAlt, FaUserLock, FaUsers } from 'react-icons/fa'
 import { motion } from 'framer-motion'
-import Router, { useRouter } from 'next/router'
-import Link from 'next/link'
-import axios from 'axios'
-import saveAs from 'file-saver'
 import dompurify from 'dompurify'
-import format from 'date-fns/format'
-import { Circle } from 'better-react-spinkit'
 
 import { DateNow } from './DateNow'
-import { ToggleDeleteModal } from './ToggleDeleteModal'
 
 import { JournalContext } from '../context/JournalProvider'
+
 import { dots } from '../utils/imagesBase64'
 
 interface Props {
-  togglePreview?: boolean
+  title: string
+  text: string
+  mood: string
+  status: string
 }
 
-const JournalSingle: React.FC<Props> = () => {
-  const [exporting, setExporting] = useState(false)
-
-  const {
-    selectJournal,
-    selectedJournal,
-    journalsLoading,
-    journals,
-    toggleEditing,
-    toggleDelete,
-    toggleDeleteAction,
-  } = useContext(JournalContext)
+const JournalPreview: React.FC<Props> = ({ title, text, mood, status }) => {
+  const { selectedJournal, imageUploaded } = useContext(JournalContext)
 
   const sanitizer = dompurify.sanitize
 
-  // const {
-  //   query: { id },
-  // } = useRouter()
-
-  // useEffect(() => {
-  //   if (!journals.length && !journalsLoading) {
-  //     Router.push('/profil', '/profil')
-  //   }
-  // }, [journals])
-
   const wrapperRef = useRef(null)
-
-  // useEffect(() => {
-  //   const currentIdx = journals?.findIndex(
-  //     (journal) => journal.id === selectedJournal?.id
-  //   )
-  //   const prevIdx = journals[currentIdx - 1]
-  //   const nextIdx = journals[currentIdx + 1]
-
-  //   const prevPublication = (e) => {
-  //     if (prevIdx && e.keyCode === 37) {
-  //       Router.push(`/journal/[id]`, `/journal/${prevIdx.id}`, {
-  //         shallow: true,
-  //       })
-  //       selectJournal(prevIdx.id)
-  //     }
-  //   }
-  //   document.addEventListener('keydown', prevPublication)
-
-  //   const nextPublication = (e) => {
-  //     if (currentIdx + 1 < 6 && e.keyCode === 39) {
-  //       Router.push(`/journal/[id]`, `/journal/${nextIdx.id}`, {
-  //         shallow: true,
-  //       })
-  //       selectJournal(nextIdx.id)
-  //     }
-  //   }
-
-  //   document.addEventListener('keydown', nextPublication)
-
-  //   return () => {
-  //     document.removeEventListener('keydown', prevPublication)
-  //     document.removeEventListener('keydown', nextPublication)
-  //   }
-  // }, [selectedJournal])
-
-  async function exportToPDF() {
-    const body = {
-      title: selectedJournal?.title,
-      text: selectedJournal?.text,
-      image: selectedJournal?.image,
-      createdAt: selectedJournal?.createdAt,
-    }
-
-    setExporting(true)
-
-    try {
-      const res = await axios.post('/api/generate-pdf', body, {
-        responseType: 'blob',
-      })
-
-      const datePDF = format(new Date(), 'yyyy-MM-dd')
-      const filename = `monjournaldebord-${datePDF}.pdf`
-
-      const pdfBlob = new Blob([res.data], { type: 'application/pdf' })
-
-      saveAs(pdfBlob, filename)
-    } catch (err) {
-      console.log(err)
-    } finally {
-      setExporting(false)
-    }
-  }
 
   function convertLinkToHTML(text) {
     const reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g
@@ -125,7 +33,7 @@ const JournalSingle: React.FC<Props> = () => {
     )
   }
 
-  const convertedText = convertLinkToHTML(sanitizer(selectedJournal?.text))
+  const convertedText = convertLinkToHTML(sanitizer(text))
 
   return (
     <Wrapper ref={wrapperRef}>
@@ -135,24 +43,16 @@ const JournalSingle: React.FC<Props> = () => {
           y: [10, 0],
         }}
       >
-        <Content
-          animate={{
-            opacity: toggleDelete ? 0.3 : 1,
-            transition: { duration: 0.2 },
-          }}
-          disabled={toggleDelete}
-        >
-          <Title>{selectedJournal?.title}</Title>
+        <Content>
+          <Title>{title}</Title>
           <Heading>
-            <Mood src={selectedJournal?.mood} alt="Mood" />
+            <Mood src={mood} alt="Mood" />
             <DateWrapper>
               <CalendarIcon size={14} />
               <DateNow dateInfo={selectedJournal?.createdAt} />
             </DateWrapper>
-            <Status
-              isPrivate={selectedJournal?.status === 'private' ? true : false}
-            >
-              {selectedJournal?.status === 'private' ? (
+            <Status isPrivate={status === 'private' ? true : false}>
+              {status === 'private' ? (
                 <>
                   <FaUserLock style={{ marginRight: 2 }} />
                   privé
@@ -165,9 +65,7 @@ const JournalSingle: React.FC<Props> = () => {
               )}
             </Status>
           </Heading>
-          {selectedJournal?.image && (
-            <Image src={selectedJournal?.image} alt="" />
-          )}
+          {imageUploaded && <Image src={imageUploaded} alt="" />}
           <Text
             dangerouslySetInnerHTML={{
               __html: convertedText
@@ -178,59 +76,13 @@ const JournalSingle: React.FC<Props> = () => {
           <DotsWrapper>
             <Dots src={dots} alt="" />
           </DotsWrapper>
-
-          <ButtonWrapper>
-            <ButtonPDF
-              disabled={exporting}
-              onClick={exportToPDF}
-              whileHover={{ y: -1 }}
-              whileTap={{ y: 1 }}
-            >
-              {exporting ? (
-                <Circle />
-              ) : (
-                <>
-                  <FaFilePdf style={{ marginRight: 5 }} />
-                  Exporter format PDF
-                </>
-              )}
-            </ButtonPDF>
-            <Link
-              href={`/journal/edit/[id]`}
-              as={`/journal/edit/${selectedJournal?.id}`}
-            >
-              <ButtonEdit
-                onClick={() => toggleEditing(selectedJournal?.image)}
-                whileHover={{ y: -1 }}
-                whileTap={{ y: 1 }}
-              >
-                <FaEdit style={{ marginRight: 5 }} />
-                Éditer
-              </ButtonEdit>
-            </Link>
-            <ButtonDelete
-              onClick={toggleDeleteAction}
-              whileHover={{ y: -1 }}
-              whileTap={{ y: 1 }}
-            >
-              <FaTimes style={{ marginRight: 5 }} />
-              Supprimer
-            </ButtonDelete>
-          </ButtonWrapper>
         </Content>
       </motion.div>
-
-      {toggleDelete && (
-        <ToggleDeleteModal
-          setToggleDelete={toggleDeleteAction}
-          journalTitle={selectedJournal?.title}
-        />
-      )}
     </Wrapper>
   )
 }
 
-export default JournalSingle
+export default JournalPreview
 
 // Styles
 const Wrapper = styled.div`
@@ -244,9 +96,7 @@ const Wrapper = styled.div`
   }
 `
 
-const Content = styled(motion.div)`
-  ${(props: { disabled: boolean }) => props.disabled && `pointer-events: none`};
-`
+const Content = styled(motion.div)``
 
 const Image = styled.img`
   width: 100%;

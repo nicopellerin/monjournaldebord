@@ -51,8 +51,8 @@ export const RightMenu: React.FC<RightMenuProps> = ({
         <Link href={`/journal/[id]`} as={`/journal/${id}`}>
           <RightMenuListItem
             onClick={() => {
-              setRightMenuVisible(false)
               toggleDeleteAction()
+              setRightMenuVisible(false)
             }}
           >
             <DeleteIcon />

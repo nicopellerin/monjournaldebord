@@ -19,14 +19,16 @@ export const StatsTotalJournals = () => {
 
 // Styles
 const Wrapper = styled.div`
-  background: ${props => props.theme.colors.statsCardBackground};
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
+  /* background: ${(props) => props.theme.colors.statsCardBackground}; */
+  background: #fafafa;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 7px 15px;
   padding: 2rem 3rem;
   border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-top: 5px solid #eef;
+  border: 1px solid #eee;
+  /* border-top: 2px solid #eee; */
   border-bottom: 3px solid #ddd;
 `
 
@@ -50,5 +52,5 @@ const Title = styled.h3`
 const Count = styled.h4`
   font-size: 2rem;
   margin-bottom: 0;
-  color: ${props => props.theme.colors.titleColor};
+  color: ${(props) => props.theme.colors.titleColor};
 `

@@ -37,7 +37,8 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+  /* font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji; */
+  font-family: 'Open Sans', sans-serif;
   color: #555;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -49,8 +50,18 @@ h1, h2, h3, h4, h5 {
   color: #333;
 }
 
+h1, h2 {
+  font-family: 'Playfair+Display', serif;
+  font-weight: 500;
+}
+
 input {
   font-family: inherit;
+}
+
+p {
+  font-family: "Playfair+Display", serif;
+  font-size: 1.8rem;
 }
 `
 

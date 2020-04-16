@@ -119,7 +119,7 @@ const Wrapper = styled(motion.div)`
 
 const Item = styled(motion.span)`
   display: flex;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: ${(props: ItemProps) => (props.selected ? '600' : '400')};
   width: 100%;
   padding-left: 2rem;

@@ -4,7 +4,7 @@ export default {
     sideBarBackground: 'whitesmoke',
     navBarBackground: 'white',
     cardBackground: 'ghostwhite',
-    contentBackground: 'ghostwhite',
+    contentBackground: 'white',
     statsCardBackground: 'white',
     sideBarItemBackground: '#eee',
     sideBarItemColor: '#333',

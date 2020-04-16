@@ -96,28 +96,30 @@ const Wrapper = styled(motion.div)`
   flex-direction: column;
   padding: 3rem;
   border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 7px 15px;
   cursor: pointer;
   height: 100%;
-  background: ${props => props.theme.colors.cardBackground};
+  /* background: ${(props) => props.theme.colors.cardBackground}; */
+  background: #fafafa;
   position: relative;
-  border-top: 5px solid #eef;
+  border: 1px solid #eee;
+  /* border-top: 2px solid #eee; */
   border-bottom: 3px solid #ddd;
   z-index: 20;
 `
 
 const Title = styled.h2`
-  font-size: 2.6rem;
+  font-size: 2.8rem;
   margin-bottom: 2rem;
-  color: ${props => props.theme.colors.titleColor};
-  /* font-weight: 400; */
+  color: ${(props) => props.theme.colors.titleColor};
 `
 
 const Text = styled.p`
   font-size: 1.6rem;
-  color: ${props => props.theme.colors.textColor};
+  color: ${(props) => props.theme.colors.textColor};
   word-wrap: break-word;
   line-height: 1.4em;
+  margin-top: 1rem;
   margin-bottom: 0;
 `
 

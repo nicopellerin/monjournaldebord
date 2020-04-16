@@ -22,9 +22,7 @@ export const Home: React.FC = () => {
 // Styles
 const Wrapper = styled.div`
   padding: 8rem;
-  background: ${props => props.theme.colors.background};
-  background: url('/dots.webp');
-
+  background: ${(props) => props.theme.colors.background};
   transition: background 100ms ease-in-out;
   min-height: 100%;
   width: 100%;
@@ -45,5 +43,7 @@ const RecentWrapper = styled.div`
 
 const Title = styled.h2`
   font-size: 2.4rem;
-  color: ${props => props.theme.colors.titleColor};
+  /* color: ${(props) => props.theme.colors.titleColor}; */
+  color: #440061;
+  font-family: 'Work Sans', sans-serif;
 `

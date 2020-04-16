@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { createContext, useReducer, useMemo, useEffect } from 'react'
+import { createContext, useReducer, useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { useRouter } from 'next/router'
@@ -171,7 +171,7 @@ const UserProvider = ({ children }) => {
   const [signoutUser] = useMutation(SIGNOUT)
   const [updateCity] = useMutation(UPDATE_CITY)
 
-  const { loading: userLoading } = useQuery(USER_INFO, {
+  const { loading: userLoading, error: userError } = useQuery(USER_INFO, {
     skip:
       pathname === '/connexion' ||
       pathname === '/inscription' ||
@@ -215,13 +215,6 @@ const UserProvider = ({ children }) => {
     return data.signinUser
   }
 
-  const logout = async () => {
-    await signoutUser()
-    dispatch({ type: 'LOGOUT' })
-
-    return true
-  }
-
   const signup = async (
     username: string,
     email: string,
@@ -238,6 +231,13 @@ const UserProvider = ({ children }) => {
     })
 
     return data?.signupUser
+  }
+
+  const logout = async () => {
+    await signoutUser()
+    dispatch({ type: 'LOGOUT' })
+
+    return true
   }
 
   const updateCityAction = async (username, city) => {

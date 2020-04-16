@@ -50,17 +50,19 @@ export const Sidebar: React.FC = () => {
 
 // Styles
 const Wrapper = styled.aside`
-  background: ${(props) => props.theme.colors.sideBarBackground};
+  /* background: ${(props) => props.theme.colors.sideBarBackground}; */
+  background: #fafafa;
   transition: background 100ms ease-in-out;
   width: 100%;
-  box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.1); */
   position: relative;
   /* z-index: 99; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 5rem 0;
+  padding: 4rem 0 5rem 0;
+  border-right: 1px solid #eee;
 `
 
 const ButtonGroup = styled.div`
@@ -71,7 +73,6 @@ const ButtonGroup = styled.div`
 
 const ButtonProfilPublic = styled(motion.button)`
   border: 1px solid var(--primaryColor);
-  border-bottom: 3px solid var(--primaryColor);
   padding: 1em 2em;
   background: ghostwhite;
   border-radius: 5px;
@@ -83,12 +84,11 @@ const ButtonProfilPublic = styled(motion.button)`
   margin-bottom: 2rem;
   color: var(--primaryColor);
   width: 100%;
-  font-weight: bold;
+  font-weight: 500;
 `
 
 const ButtonNewJournal = styled(motion.button)`
   border: none;
-  border-bottom: 3px solid #440061;
   padding: 1em 2em;
   background: var(--primaryColor);
   color: white;

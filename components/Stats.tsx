@@ -41,5 +41,7 @@ const Wrapper = styled(motion.div)`
 
 const Title = styled.h2`
   font-size: 2.4rem;
-  color: ${(props) => props.theme.colors.titleColor};
+  /* color: ${(props) => props.theme.colors.titleColor}; */
+  color: #440061;
+  font-family: 'Work Sans', sans-serif;
 `

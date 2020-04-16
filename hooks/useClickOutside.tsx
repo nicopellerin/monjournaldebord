@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-export const useClickOutside = setToggle => {
+export const useClickOutside = (setToggle) => {
   const node = useRef(null)
 
   function handleClick(e: MouseEvent) {
@@ -8,6 +8,8 @@ export const useClickOutside = setToggle => {
       setToggle(false)
     }
   }
+
+  console.log(node?.current)
 
   useEffect(() => {
     document.addEventListener('click', handleClick)

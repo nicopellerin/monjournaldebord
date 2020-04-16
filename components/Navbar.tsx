@@ -21,8 +21,7 @@ export const Navbar: React.FC = () => {
   return (
     <Wrapper>
       <LogoWrapper>
-        {/* <Logo /> */}
-        <img src="logo.png" alt="" width={210} />
+        <Logo />
       </LogoWrapper>
       <RightWrapper>
         {userLoading ? null : username ? (
@@ -82,7 +81,8 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05); */
+  border-bottom: 1px solid #eee;
   position: relative;
   z-index: 1000;
 `

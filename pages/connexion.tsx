@@ -72,6 +72,7 @@ const Connexion: NextPage = () => {
           // opacity: [0, 1],
           // transition: { delay: 0.1 },
         }}
+        style={{ pointerEvents: 'none' }}
       />
     </>
   )
@@ -142,7 +143,7 @@ const ConnexionForm: React.FC<FormProps> = ({
             name="email"
             type="email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <Label htmlFor="password">Mot de passe</Label>
           <InputField
@@ -150,7 +151,7 @@ const ConnexionForm: React.FC<FormProps> = ({
             name="password"
             type="password"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <Button
             type="submit"

@@ -9,10 +9,6 @@ import JournalSingle from '../../components/JournalSingle'
 
 import { JournalContext } from '../../context/JournalProvider'
 
-interface StyledProps {
-  isJournal?: boolean
-}
-
 const SinglePage = () => {
   const { selectJournal, selectedJournal } = useContext(JournalContext)
 
@@ -56,7 +52,6 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${(props) => props.theme.colors.contentBackground};
   min-height: 100%;
   padding: 10em 9rem 14rem;
 `

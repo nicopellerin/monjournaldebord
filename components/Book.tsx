@@ -9,12 +9,19 @@ import { ImageContainer } from './ImageContainer'
 
 import { JournalContext } from '../context/JournalProvider'
 import JournalSingle from './JournalSingle'
+import JournalPreview from './JournalPreview'
 
 export const Book: React.FC = () => {
   const [loader, setLoader] = useState('')
   const [togglePreview, setTogglePreview] = useState(false)
 
-  const { toggleImageContainer, selectedJournal, newState } = useContext(
+  const [title, setTitle] = useState('')
+  const [text, setText] = useState('')
+  const [mood, setMood] = useState('')
+  const [status, setStatus] = useState('private')
+  const [imageName, setImageName] = useState('')
+
+  const { imageUploaded, selectedJournal, newState } = useContext(
     JournalContext
   )
 
@@ -44,21 +51,39 @@ export const Book: React.FC = () => {
               setLoader={setLoader}
               togglePreview={togglePreview}
               setTogglePreview={setTogglePreview}
+              title={title}
+              setTitle={setTitle}
+              text={text}
+              setText={setText}
+              mood={mood}
+              setMood={setMood}
+              status={status}
+              setStatus={setStatus}
+              imageName={imageName}
+              setImageName={setImageName}
             />
           </FormWrapper>
-          {selectedJournal?.image && <ImageContainer setLoader={setLoader} />}
+          <AnimatePresence>
+            {imageUploaded && <ImageContainer setLoader={setLoader} />}
+          </AnimatePresence>
         </Wrapper>
 
         {togglePreview && (
           <>
-            <PreviewWrapper onClick={() => setTogglePreview(false)}>
+            <PreviewWrapper>
               <PreviewContainer animate layoutId="container">
                 <PreviewInner>
-                  <JournalSingle togglePreview={togglePreview} />
+                  <JournalPreview
+                    title={title}
+                    text={text}
+                    mood={mood}
+                    status={status}
+                  />
                 </PreviewInner>
               </PreviewContainer>
             </PreviewWrapper>
             <PreviewOverlay
+              onClick={() => setTogglePreview(false)}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{
@@ -78,17 +103,17 @@ const Wrapper = styled(motion.div)`
 `
 
 const FormWrapper = styled(motion.div)`
-  background: whitesmoke;
+  background: #fafafa;
   background-size: cover;
   width: 60rem;
-  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.02);
   border-radius: 23px;
   display: flex;
   justify-content: center;
   padding: 5rem 4rem;
   position: relative;
   z-index: 3;
-  border-top: 5px solid #eef;
+  border-top: 5px solid #eee;
   border-bottom: 3px solid #ddd;
 
   @media (max-width: 500px) {
@@ -101,8 +126,6 @@ const FormWrapper = styled(motion.div)`
 const PreviewWrapper = styled(motion.div)`
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
   bottom: 0;
   z-index: 2001;
   display: grid;
@@ -131,4 +154,5 @@ const PreviewOverlay = styled(motion.div)`
   z-index: 2000;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(7px);
+  cursor: pointer;
 `

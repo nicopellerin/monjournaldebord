@@ -68,7 +68,7 @@ const ListePage = () => {
   )
 }
 
-ListePage.getInitialProps = async ctx => {
+ListePage.getInitialProps = async (ctx) => {
   const { token_login: token } = nextCookie(ctx)
 
   if (!token) {
@@ -86,7 +86,7 @@ export default ListePage
 // Styles
 const Wrapper = styled.div`
   padding: 8rem;
-  background: url('/dots.webp');
+  /* background: #fafafa; */
   min-height: 100vh;
 
   @media (max-width: 500px) {
@@ -99,6 +99,7 @@ const Title = styled.h2`
   font-weight: 700;
   text-align: center;
   margin-bottom: 8rem;
+  color: #440061;
 
   @media (max-width: 500px) {
     font-size: 3.8rem;
@@ -113,7 +114,7 @@ const ButtonWrapper = styled.div`
 
 const ButtonExportAllPdfs = styled(motion.button)`
   border: none;
-  border-bottom: 3px solid #440061;
+  /* border-bottom: 3px solid #440061; */
   padding: 1em 1.5em;
   background: whitesmoke;
   color: #440061;

@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { Layout } from '../components/shared/Layout'
-import { ProfilLayout } from '../components/shared/ProfilLayout'
+import { Layout } from '../components/layout/Layout'
+import { ProfilLayout } from '../components/layout/ProfilLayout'
 
 import { JournalProvider } from '../context/JournalProvider'
 import UserProvider from '../context/UserProvider'

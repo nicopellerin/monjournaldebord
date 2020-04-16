@@ -81,6 +81,7 @@ const Title = styled.h3`
   color: #440061;
   width: 100%;
   background: ${(props) => props.theme.colors.sideBarItemBackground};
+  /* background: #f6f6f6; */
   transition: color background 100ms ease-in-out;
   ${(props: { active?: boolean }) =>
     props.active &&

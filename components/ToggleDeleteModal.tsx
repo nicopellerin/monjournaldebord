@@ -28,11 +28,9 @@ export const ToggleDeleteModal: React.FC<Props> = ({
     undoNewJournal,
   } = useContext(JournalContext)
 
-  const ref = useClickOutside(setToggleDelete)
-
   const deleteSelected = () => {
     const findIdx = journals.findIndex(
-      journal => journal.id === selectedJournal.id
+      (journal) => journal.id === selectedJournal.id
     )
     let idx
     findIdx + 1 < journals.length ? (idx = findIdx + 1) : (idx = findIdx - 1)
@@ -57,7 +55,6 @@ export const ToggleDeleteModal: React.FC<Props> = ({
         initial={{ opacity: 0, y: '-40%', x: '-50%' }}
         animate={{ opacity: 1, y: '-50%' }}
         exit={{ opacity: 0, y: '-40%' }}
-        ref={ref}
       >
         <Title>
           Supprimer <strong>{maxLength(journalTitle, 20)}</strong>?
@@ -85,9 +82,9 @@ export const ToggleDeleteModal: React.FC<Props> = ({
 
 // Styles
 const ModalWrapper = styled(motion.div)`
-  position: absolute;
+  position: fixed;
   top: 50%;
-  left: 50%;
+  left: calc(50% + 15rem);
   z-index: 200;
   background: whitesmoke;
   padding: 5rem;

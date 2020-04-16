@@ -70,20 +70,6 @@ ProfilPage.getInitialProps = async (ctx) => {
 export default withApollo(ProfilPage)
 
 // Styles
-const NullWrapper = styled.div`
-  height: calc(100vh - 75px);
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 75px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 40;
-`
-
 const LoadingWrapper = styled.div`
   height: calc(100vh - 75px);
   width: 100vw;

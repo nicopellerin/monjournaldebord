@@ -235,6 +235,7 @@ const journalReducer = (state: StateType, action: ActionType) => {
         newState: true,
         imageUploaded: '',
         toggleImageContainer: false,
+        toggleDelete: false,
       }
     case 'TOGGLE_DARK_MODE':
       return {

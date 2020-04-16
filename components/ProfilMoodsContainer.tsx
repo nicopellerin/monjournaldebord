@@ -33,9 +33,6 @@ export const ProfilMoodsContainer: React.FC<Props> = ({
 
   const { pathname } = useRouter()
 
-  // const x = useMotionValue(0)
-  // const opacity = useTransform(x, [-200, 0, 200], [0, 1, 0])
-
   if (pathname === '/journal/liste') {
     return (
       <AnimatePresence>
@@ -45,7 +42,7 @@ export const ProfilMoodsContainer: React.FC<Props> = ({
             {date}
           </Title>
           <List journal>
-            {lists.map(listsItem => (
+            {lists.map((listsItem) => (
               <AnimatePresence initial={false} key={listsItem.id}>
                 <ProfilMoodsItem key={listsItem.id} {...listsItem} />
               </AnimatePresence>
@@ -71,7 +68,7 @@ export const ProfilMoodsContainer: React.FC<Props> = ({
           showLess={showLess ? true : false}
           lessThanFour={lists?.length < 5}
         >
-          {lists.map(listsItem => (
+          {lists.map((listsItem) => (
             <AnimatePresence initial={false} key={listsItem.id}>
               <ProfilMoodsItem key={listsItem.id} {...listsItem} />
             </AnimatePresence>
@@ -107,8 +104,9 @@ export const ProfilMoodsContainer: React.FC<Props> = ({
 
 // Styles
 const Wrapper = styled(motion.div)`
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
-  background: ghostwhite;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 7px 15px;
+  background: #fafafa;
+  /* border: 1px solid #eee; */
   border-bottom: 3px solid #ddd;
 
   &:not(:last-of-type) {
@@ -117,17 +115,17 @@ const Wrapper = styled(motion.div)`
 `
 
 const Title = styled.h3`
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 500;
   background: ghostwhite;
   padding: 2rem 3rem;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 7px 15px;
   display: flex;
   align-items: center;
   color: #440061;
-  border-top: 5px solid #eef;
+  border-top: 2px solid #eee;
 
   @media (max-width: 500px) {
     padding: 2rem;
@@ -175,7 +173,7 @@ const ButtonWrapper = styled.div`
   background: ghostwhite;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 7px 15px;
   font-size: 1.2rem;
   font-weight: 600;
   color: var(--primaryColor);

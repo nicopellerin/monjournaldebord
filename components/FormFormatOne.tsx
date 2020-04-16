@@ -47,12 +47,32 @@ type Props = {
   setLoader: React.Dispatch<React.SetStateAction<string>>
   togglePreview: boolean
   setTogglePreview: React.Dispatch<React.SetStateAction<boolean>>
+  title: string
+  setTitle: React.Dispatch<React.SetStateAction<string>>
+  text: string
+  setText: React.Dispatch<React.SetStateAction<string>>
+  mood: string
+  setMood: React.Dispatch<React.SetStateAction<string>>
+  status: string
+  setStatus: React.Dispatch<React.SetStateAction<string>>
+  imageName: string
+  setImageName: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const FormFormatOne: React.FC<Props> = ({
   loader,
   setLoader,
   setTogglePreview,
+  title,
+  setTitle,
+  text,
+  setText,
+  mood,
+  setMood,
+  status,
+  setStatus,
+  imageName,
+  setImageName,
 }) => {
   const {
     selectedJournal,
@@ -67,11 +87,6 @@ export const FormFormatOne: React.FC<Props> = ({
     query: { id },
   } = useRouter()
 
-  const [title, setTitle] = useState('')
-  const [text, setText] = useState('')
-  const [mood, setMood] = useState('')
-  const [status, setStatus] = useState('private')
-  const [imageName, setImageName] = useState('')
   const [imageError, setImageError] = useState('')
   const [formErrors, setFormErrors] = useState([])
 
@@ -352,7 +367,7 @@ const TextAreaField = styled.textarea`
   width: 100%;
   min-height: 24vh;
   padding: 1rem;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-family: inherit;
   line-height: 1.4em;
   border: 1px solid #ddd;
@@ -384,7 +399,7 @@ const ButtonWrapper = styled.div`
 
 const Button = styled(motion.button)`
   border: none;
-  border-bottom: 3px solid #440061;
+  /* border-bottom: 3px solid #440061; */
   padding: 1em 2em;
   background: var(--primaryColor);
   color: white;
@@ -394,14 +409,13 @@ const Button = styled(motion.button)`
   justify-content: center;
   cursor: pointer;
   font-size: 1.4rem;
-  font-weight: bold;
+  font-weight: 500;
 `
 
 const ButtonPreview = styled(motion.button)`
-  border: 1px solid #333;
-  padding: 1em 1.5em;
-  border-bottom: 3px solid #222;
-  background: none;
+  border: 1px solid #ddd;
+  padding: 1em 2em;
+  background: #fff;
   color: #333;
   border-radius: 5px;
   display: flex;
@@ -409,15 +423,14 @@ const ButtonPreview = styled(motion.button)`
   justify-content: center;
   cursor: pointer;
   font-size: 1.4rem;
-  font-weight: bold;
+  font-weight: 500;
   margin-inline-end: auto;
 `
 
 const ButtonCancel = styled(motion.button)`
-  border: 1px solid red;
-  padding: 1em 1.5em;
-  border-bottom: 3px solid red;
-  background: whitesmoke;
+  border: 1px solid #ddd;
+  padding: 1em 2em;
+  background: #fff;
   color: red;
   border-radius: 5px;
   display: flex;
@@ -426,7 +439,7 @@ const ButtonCancel = styled(motion.button)`
   cursor: pointer;
   font-size: 1.4rem;
   margin-right: 2rem;
-  font-weight: bold;
+  font-weight: 500;
 `
 
 const ButtonUpload = styled(motion.button)`
@@ -442,7 +455,7 @@ const ButtonUpload = styled(motion.button)`
   font-size: 1.4rem;
   min-width: 18rem;
   margin-top: 0.7rem;
-  font-weight: bold;
+  font-weight: 500;
 `
 
 const ErrorMsg = styled(motion.span)`
@@ -495,9 +508,10 @@ const ToggleSwitchInner = styled.span`
     height: 25px;
     padding: 0;
     line-height: 25px;
-    font-size: 14px;
+    font-size: 1.4em;
     color: white;
-    font-weight: bold;
+    font-family: inherit;
+    font-weight: 500;
     box-sizing: border-box;
   }
 
@@ -510,7 +524,7 @@ const ToggleSwitchInner = styled.span`
 
   &:after {
     content: 'Blogue';
-    padding-right: 11px;
+    padding-right: 13px;
     background-color: #fff;
     color: green;
     text-align: right;
@@ -521,16 +535,16 @@ const ToggleSwitchSwitch = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 31px;
-  height: 31px;
+  width: 28px;
+  height: 28px;
   margin: 0px;
   background: ${(props: { isPrivate: boolean }) =>
     props.isPrivate ? '#440061' : 'green'};
   position: absolute;
-  top: -2px;
+  top: -1px;
   bottom: 0;
   right: ${(props: { isPrivate: boolean }) =>
-    props.isPrivate ? '0px' : '65px'};
+    props.isPrivate ? '0px' : '67px'};
   border: 1px solid #ccc;
   border-radius: 50%;
   transition: all 0.3s ease-in 0s;

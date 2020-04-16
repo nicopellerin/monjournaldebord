@@ -8,11 +8,6 @@ import Mood from './Mood'
 import getUserFromToken from '../../lib/getUserFromToken'
 import { createAccessToken } from '../../lib/auth'
 
-const cache = {
-  lastFetch: 0,
-  moods: [],
-}
-
 // Resolver
 export const usersResolvers = {
   Query: {
@@ -25,17 +20,9 @@ export const usersResolvers = {
     async getAllMoods(_, __, { user }) {
       if (!user) throw new AuthenticationError('Pas authorizé.')
 
-      // const timeSinceLastFetch = Date.now()
-
-      // if (timeSinceLastFetch <= 1800000) {
-      //   console.log(cache)
-      //   return cache.moods
-      // }
-
       try {
         const moods = await Mood.find({ author: user._id }).sort({ _id: -1 })
-        // cache.lastFetch = Date.now()
-        // cache.moods = moods
+
         return moods
       } catch (error) {
         throw new AuthenticationError('Pas authorizé.')
@@ -43,7 +30,7 @@ export const usersResolvers = {
     },
   },
   Mutation: {
-    async signupUser(parent, { username, email, password, avatar }, ctx, info) {
+    async signupUser(_, { username, email, password, avatar }, ctx) {
       if (!username || !email || !password) {
         throw new AuthenticationError('Veuillez remplir tous les champs requis')
       }
@@ -86,7 +73,7 @@ export const usersResolvers = {
       return newUser
     },
 
-    async signinUser(parent, { email, password }, { res }, info) {
+    async signinUser(_, { email, password }, ctx) {
       if (!email || !password) {
         throw new AuthenticationError(
           'Veuillez entre un courriel et mot de passe'
@@ -103,7 +90,7 @@ export const usersResolvers = {
       if (passwordsMatch) {
         const token = createAccessToken(user)
 
-        res.setHeader(
+        ctx.res.setHeader(
           'Set-Cookie',
           cookie.serialize('token_login', token, {
             httpOnly: true,
@@ -120,7 +107,7 @@ export const usersResolvers = {
       throw new AuthenticationError('Mauvais courriel ou mot de passe')
     },
 
-    async signoutUser(parent, args, ctx, info) {
+    async signoutUser(_, __, ctx) {
       ctx.res.setHeader(
         'Set-Cookie',
         cookie.serialize('token_login', '', {

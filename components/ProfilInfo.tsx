@@ -18,7 +18,7 @@ export const ProfilInfo = () => {
     }
   }, [city])
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     try {
@@ -49,7 +49,7 @@ export const ProfilInfo = () => {
             <InputField
               name="text"
               value={cityField}
-              onChange={e => setCityField(e.target.value)}
+              onChange={(e) => setCityField(e.target.value)}
             />
           </InputWrapper>
         </Form>
@@ -82,11 +82,12 @@ const Wrapper = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-top: 15px solid #eee;
+  background: #fafafa;
+  border: 1px solid #eee;
   border-bottom: 3px solid #ddd;
   padding: 5rem 9rem;
   border-radius: 23px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 7px 15px;
   @media (max-width: 500px) {
     padding: 5rem 6rem;
   }
@@ -117,26 +118,24 @@ const Email = styled.h3`
 const ButtonPassword = styled(motion.button)`
   border: none;
   border: 1px solid #440061;
-  border-bottom: 3px solid #440061;
-  padding: 0.9em 1.5em;
+  padding: 1em 1.5em;
   color: #440061;
-  background: none;
+  background: #fff;
   border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   font-size: 1.4rem;
-  font-weight: bold;
+  font-weight: 500;
 `
 
 const ButtonEmail = styled(motion.button)`
   border: none;
   border: 1px solid #440061;
-  border-bottom: 3px solid #440061;
-  padding: 0.9em 1.5em;
+  padding: 1em 1.5em;
   color: #440061;
-  background: none;
+  background: #fff;
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -144,7 +143,7 @@ const ButtonEmail = styled(motion.button)`
   cursor: pointer;
   font-size: 1.4rem;
   margin-bottom: 2rem;
-  font-weight: bold;
+  font-weight: 500;
   width: 100%;
 `
 
@@ -170,12 +169,12 @@ const DotsWrapper = styled.div`
 `
 
 const Dots = styled.img`
-  margin: 2rem 0 4rem;
+  margin: 2rem 0 2rem;
   text-align: center;
 `
 
 const Label = styled.label`
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 500;
   text-transform: uppercase;
   margin-bottom: 3px;
@@ -185,14 +184,14 @@ const Label = styled.label`
 const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 4.5rem;
+  margin-bottom: 2rem;
   width: 100%;
 `
 
 const InputField = styled.input`
   width: 100%;
   padding: 1rem;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-family: inherit;
   border: 1px solid #ddd;
   border-radius: 5px;

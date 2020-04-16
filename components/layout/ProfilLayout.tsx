@@ -8,7 +8,7 @@ import { Sidebar } from '../Sidebar'
 import { NavbarMobile } from '../NavbarMobile'
 import { useRouter } from 'next/router'
 
-import { Footer } from './Footer'
+import { Footer } from '../shared/Footer'
 
 import { ThemeProvider } from '../../context/ThemeProvider'
 

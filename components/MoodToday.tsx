@@ -178,25 +178,26 @@ const Wrapper = styled.div`
 const Content = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 7px 15px;
   border-radius: 5px;
   position: relative;
-  border-top: 5px solid #eef;
+  border: 1px solid #eee;
+  /* border-top: 2px solid #eee; */
   border-bottom: 3px solid #ddd;
   z-index: 2;
 `
 
-const Title = styled.h2`
-  font-size: 1.8rem;
-  color: ${(props) => props.theme.colors.textColor};
+const Title = styled.h3`
+  font-size: 1.6rem;
+  color: #440061;
   margin: 0;
   display: flex;
   align-items: center;
-  font-weight: 500;
 `
 
 const Form = styled.form`
   padding: 1.5rem 2rem 1.5rem 2rem;
+  /* background: whitesmoke; */
   background: whitesmoke;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -213,12 +214,12 @@ const Input = styled.input`
   border-radius: 5px;
   border-bottom: 1px dotted #ddd;
   padding: 1.6rem;
-  background: rgba(255, 255, 255, 0.4);
+  background: #fafafa;
   width: 100%;
   font-size: 1.6rem;
   color: ${(props) => props.theme.colors.textColor};
   font-weight: 400;
-  font-family: inherit;
+  font-family: 'Playfair Display', serif;
 
   &::placeholder {
     color: #aaa;
@@ -269,12 +270,13 @@ const ButtonSave = styled(motion.button)`
 
 const Heading = styled.div`
   width: 100%;
-  background: ${(props) => props.theme.colors.inputField};
+  /* background: ${(props) => props.theme.colors.inputField}; */
+  background: ghostwhite;
   border-bottom: 1px solid #eee;
   padding: 2.5rem 1.8rem;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  margin-bottom: 1rem;
+
 
   @media (max-width: 500px) {
     padding: 2.2rem 1.8rem;
@@ -303,10 +305,11 @@ const LastMood = styled(motion.div)`
 `
 
 const Mood = styled.p`
-  font-size: 2.2rem;
+  font-size: 2.4rem;
   text-align: center;
   line-height: 1.5em;
   margin-top: 0;
+  font-family: 'Playfair Display', serif;
 
   @media (max-width: 500px) {
     font-size: 1.8rem;
@@ -320,7 +323,8 @@ const MoodWrapper = styled.div`
 `
 
 const MoodDate = styled.span`
-  background: ghostwhite;
+  /* background: ghostwhite; */
+  background: #fafafa;
   color: #440061;
   padding: 0.5rem 1rem;
   border-radius: 5px;

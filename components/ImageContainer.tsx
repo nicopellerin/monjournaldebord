@@ -30,7 +30,11 @@ export const ImageContainer: React.FC<Props> = ({ setLoader }) => {
     },
     closed: {
       y: 140,
-      x: -185,
+      x: '-76%',
+      scale: 0.9,
+    },
+    exit: {
+      x: -300,
       scale: 0.9,
     },
   }
@@ -39,7 +43,7 @@ export const ImageContainer: React.FC<Props> = ({ setLoader }) => {
     <Wrapper
       initial="closed"
       animate={toggleImageContainer ? 'open' : 'closed'}
-      exit="closed"
+      exit="exit"
       variants={toggleVariants}
       transition={{
         type: 'spring',
@@ -54,11 +58,11 @@ export const ImageContainer: React.FC<Props> = ({ setLoader }) => {
           animate
           src={imageUploaded}
           alt="Image Upload"
-          style={{ opacity: toggleImageContainer ? 1 : 0 }}
+          // style={{ opacity: toggleImageContainer ? 1 : 0 }}
         />
       </ImageWrapper>
       <Handle onClick={() => setToggleImageContainer()}>
-        <FaEllipsisV color="var(--primaryColor)" size={16} />
+        <img src="/dots-v.svg" alt="dots" />
       </Handle>
     </Wrapper>
   )
@@ -70,7 +74,7 @@ const Wrapper = styled(motion.div)`
   top: 0;
   right: -22rem;
   height: 60%;
-  background: whitesmoke;
+  background: #fafafa;
   width: 25rem;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   border-top-right-radius: 23px;
@@ -92,8 +96,10 @@ const ImageStyled = styled(motion.img)`
   object-position: center;
   max-width: 200px;
   height: 200px;
-  border-radius: 3px;
+  border-radius: 100%;
   margin-left: 1rem;
+  padding: 4px;
+  border: 1px solid #eee;
 `
 
 const CloseIcon = styled(FaTimesCircle)`
@@ -116,11 +122,11 @@ const CloseIcon = styled(FaTimesCircle)`
 `
 
 const Handle = styled.div`
-  width: 1.2rem;
-  height: 4rem;
+  width: 1.6rem;
+  height: 6rem;
   background: #eef;
   position: absolute;
-  right: -11px;
+  right: -18px;
   top: 50%;
   transform: translateY(-50%);
   border-top-right-radius: 5px;

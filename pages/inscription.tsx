@@ -33,6 +33,7 @@ const Inscription: NextPage = () => {
         animate={{
           y: [300, 20],
         }}
+        style={{ pointerEvents: 'none' }}
       />
     </>
   )
