@@ -12,13 +12,13 @@ import {
 } from 'react-icons/fa'
 import { AnimatePresence, motion } from 'framer-motion'
 import Router, { useRouter } from 'next/router'
+import { useApolloClient } from '@apollo/react-hooks'
 
 import { Logo } from './Logo'
 import { User } from './User'
 
 import { UserContext } from '../context/UserProvider'
 import { JournalContext } from '../context/JournalProvider'
-import { useApolloClient } from '@apollo/react-hooks'
 
 export const NavbarMobile = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false)
@@ -28,7 +28,7 @@ export const NavbarMobile = () => {
   return (
     <div style={{ position: 'relative' }}>
       <Wrapper>
-        <MenuBar onClick={() => setToggleDropdown(prevState => !prevState)}>
+        <MenuBar onClick={() => setToggleDropdown((prevState) => !prevState)}>
           <Menu
             src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h
 0PSIyMCI+PHBhdGggZD0iTTEgMmExIDEgMCAwMTEtMWgyMGExIDEgMCAwMTEgMXYxYTEgMSAwID
@@ -42,7 +42,7 @@ wvc3ZnPg== "
         </MenuBar>
         <Logo toggle={setToggleDropdown} width={21} />
         <div>
-          <User username={username} avatar={avatar} />
+          <User />
         </div>
       </Wrapper>
       <AnimatePresence>
@@ -110,7 +110,7 @@ const NavbarMobileDropdown = ({ setToggleDropdown }) => {
           >
             <Link href="/profil">
               <DropdownListItem
-                onClick={() => setToggleDropdown(prevState => !prevState)}
+                onClick={() => setToggleDropdown((prevState) => !prevState)}
               >
                 <FaHome style={{ marginRight: 7 }} />
                 Accueil
@@ -118,7 +118,7 @@ const NavbarMobileDropdown = ({ setToggleDropdown }) => {
             </Link>
             <Link href="/profil/moods">
               <DropdownListItem
-                onClick={() => setToggleDropdown(prevState => !prevState)}
+                onClick={() => setToggleDropdown((prevState) => !prevState)}
               >
                 <FaRegSmile style={{ marginRight: 7 }} />
                 Moods
@@ -126,7 +126,7 @@ const NavbarMobileDropdown = ({ setToggleDropdown }) => {
             </Link>
             <Link href="/journal/liste">
               <DropdownListItem
-                onClick={() => setToggleDropdown(prevState => !prevState)}
+                onClick={() => setToggleDropdown((prevState) => !prevState)}
               >
                 <FaNewspaper style={{ marginRight: 7 }} />
                 Publications

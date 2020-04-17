@@ -115,7 +115,6 @@ const Image = styled.img`
 
 const Title = styled.h2`
   font-size: 6rem;
-  word-break: break-all;
   margin-bottom: 2.5rem;
   color: ${(props) => props.theme.colors.titleColor};
 

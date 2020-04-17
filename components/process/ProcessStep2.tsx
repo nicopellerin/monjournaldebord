@@ -16,10 +16,8 @@ export const ProcessStep2: React.FC<Props> = ({
 }) => {
   return (
     <Wrapper
-      initial={{ opacity: 0 }}
       animate={{
         y: [-20, 5, 0],
-        opacity: [0, 1],
         transition: { delay: 0.1 },
       }}
     >
@@ -29,9 +27,9 @@ export const ProcessStep2: React.FC<Props> = ({
         <TextAreaField
           error={false}
           value={journal.text}
-          onChange={e => {
+          onChange={(e) => {
             const text = e.target.value
-            setJournal(prevState => ({
+            setJournal((prevState) => ({
               ...prevState,
               text,
             }))
@@ -70,6 +68,7 @@ const Wrapper = styled(motion.div)`
 
 const Title = styled.h1`
   font-size: 6rem;
+  font-family: var(--systemFont);
 `
 
 const InputWrapper = styled.div`

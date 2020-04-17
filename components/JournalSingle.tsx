@@ -32,10 +32,7 @@ const JournalSingle: React.FC<Props> = () => {
   const [exporting, setExporting] = useState(false)
 
   const {
-    selectJournal,
     selectedJournal,
-    journalsLoading,
-    journals,
     toggleEditing,
     toggleDelete,
     toggleDeleteAction,
@@ -43,51 +40,7 @@ const JournalSingle: React.FC<Props> = () => {
 
   const sanitizer = dompurify.sanitize
 
-  // const {
-  //   query: { id },
-  // } = useRouter()
-
-  // useEffect(() => {
-  //   if (!journals.length && !journalsLoading) {
-  //     Router.push('/profil', '/profil')
-  //   }
-  // }, [journals])
-
   const wrapperRef = useRef(null)
-
-  // useEffect(() => {
-  //   const currentIdx = journals?.findIndex(
-  //     (journal) => journal.id === selectedJournal?.id
-  //   )
-  //   const prevIdx = journals[currentIdx - 1]
-  //   const nextIdx = journals[currentIdx + 1]
-
-  //   const prevPublication = (e) => {
-  //     if (prevIdx && e.keyCode === 37) {
-  //       Router.push(`/journal/[id]`, `/journal/${prevIdx.id}`, {
-  //         shallow: true,
-  //       })
-  //       selectJournal(prevIdx.id)
-  //     }
-  //   }
-  //   document.addEventListener('keydown', prevPublication)
-
-  //   const nextPublication = (e) => {
-  //     if (currentIdx + 1 < 6 && e.keyCode === 39) {
-  //       Router.push(`/journal/[id]`, `/journal/${nextIdx.id}`, {
-  //         shallow: true,
-  //       })
-  //       selectJournal(nextIdx.id)
-  //     }
-  //   }
-
-  //   document.addEventListener('keydown', nextPublication)
-
-  //   return () => {
-  //     document.removeEventListener('keydown', prevPublication)
-  //     document.removeEventListener('keydown', nextPublication)
-  //   }
-  // }, [selectedJournal])
 
   async function exportToPDF() {
     const body = {
@@ -265,7 +218,6 @@ const Image = styled.img`
 
 const Title = styled.h2`
   font-size: 6rem;
-  word-break: break-all;
   margin-bottom: 2.5rem;
   color: ${(props) => props.theme.colors.titleColor};
 

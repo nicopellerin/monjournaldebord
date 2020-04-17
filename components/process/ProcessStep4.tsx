@@ -57,10 +57,8 @@ export const ProcessStep4 = ({ journal, setJournal, paginate }) => {
 
   return (
     <Wrapper
-      initial={{ opacity: 0 }}
       animate={{
         y: [-20, 5, 0],
-        opacity: [0, 1],
         transition: { delay: 0.1 },
       }}
     >
@@ -137,6 +135,7 @@ const Wrapper = styled(motion.div)`
 const Title = styled(motion.h1)`
   font-size: 6rem;
   margin-bottom: 5rem;
+  font-family: var(--systemFont);
 `
 
 const InputWrapper = styled.div`

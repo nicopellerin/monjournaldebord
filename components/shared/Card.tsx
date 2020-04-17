@@ -96,7 +96,7 @@ const Wrapper = styled(motion.div)`
   flex-direction: column;
   padding: 3rem;
   border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 7px 15px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 7px 15px;
   cursor: pointer;
   height: 100%;
   /* background: ${(props) => props.theme.colors.cardBackground}; */

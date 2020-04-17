@@ -21,14 +21,13 @@ export const StatsTotalJournals = () => {
 const Wrapper = styled.div`
   /* background: ${(props) => props.theme.colors.statsCardBackground}; */
   background: #fafafa;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 7px 15px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 7px 15px;
   padding: 2rem 3rem;
   border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid #eee;
-  /* border-top: 2px solid #eee; */
   border-bottom: 3px solid #ddd;
 `
 

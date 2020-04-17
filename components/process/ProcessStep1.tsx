@@ -14,50 +14,71 @@ export const ProcessStep1: React.FC<Props> = ({
   setJournal,
   paginate,
 }) => {
+  const wrapperVariants = {
+    hidden: {
+      opacity: 0,
+      y: 30,
+    },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: 'spring',
+        damping: 10,
+        stiffness: 80,
+        velocity: 2,
+        staggerChildren: 0.1,
+      },
+    },
+    exit: {
+      opacity: 0,
+      transition: {
+        type: 'tween',
+        damping: 100,
+        stiffness: 80,
+        staggerChildren: 0.5,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: {
+      opacity: 0,
+      y: 30,
+    },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: 'spring',
+        damping: 10,
+        stiffness: 80,
+      },
+    },
+  }
+
   return (
     <Wrapper
-      initial={{ opacity: 0 }}
-      animate={{
-        y: [-20, 5, 0],
-        opacity: [0, 1],
-      }}
+      variants={wrapperVariants}
+      initial="hidden"
+      animate="show"
+      exit="exit"
     >
-      <Title
-        initial={{ opacity: 0 }}
-        animate={{
-          y: [-20, 5, 0],
-          opacity: [0, 1],
-          transition: { delay: 0.1 },
-        }}
-      >
+      <Title variants={itemVariants}>
         {"Allo! Tu n'as encore rien publié ;)"}
       </Title>
-      <InputWrapper
-        initial={{ opacity: 0 }}
-        animate={{
-          y: [-20, 5, 0],
-          opacity: [0, 1],
-          transition: { delay: 0.3 },
-        }}
-      >
+      <InputWrapper variants={itemVariants}>
         <Label>Titre</Label>
         <InputField
           error={false}
           value={journal.title}
-          onChange={e => {
+          onChange={(e) => {
             const title = e.target.value
-            setJournal(prevState => ({ ...prevState, title }))
+            setJournal((prevState) => ({ ...prevState, title }))
           }}
         />
       </InputWrapper>
-      <ButtonWrapper
-        initial={{ opacity: 0 }}
-        animate={{
-          y: [-20, 5, 0],
-          opacity: [0, 1],
-          transition: { delay: 0.5 },
-        }}
-      >
+      <ButtonWrapper variants={itemVariants}>
         <ButtonNext
           onClick={() => (journal.title ? paginate(1) : null)}
           whileHover={{ y: -1 }}
@@ -81,6 +102,7 @@ const Wrapper = styled(motion.div)`
 
 const Title = styled(motion.h1)`
   font-size: 6rem;
+  font-family: var(--systemFont);
 `
 
 const InputWrapper = styled(motion.div)`

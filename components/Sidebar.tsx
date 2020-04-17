@@ -54,7 +54,7 @@ const Wrapper = styled.aside`
   background: #fafafa;
   transition: background 100ms ease-in-out;
   width: 100%;
-  /* box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.1); */
+  box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.05);
   position: relative;
   /* z-index: 99; */
   display: flex;

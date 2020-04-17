@@ -9,8 +9,6 @@ export const useClickOutside = (setToggle) => {
     }
   }
 
-  console.log(node?.current)
-
   useEffect(() => {
     document.addEventListener('click', handleClick)
     document.addEventListener('contextmenu', handleClick)

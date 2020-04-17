@@ -1,11 +1,10 @@
-import { AuthenticationError, UserInputError } from 'apollo-server-micro'
-import bcrypt from 'bcryptjs'
+import { AuthenticationError } from 'apollo-server-micro'
+import * as bcrypt from 'bcryptjs'
 import cookie from 'cookie'
 
 import User from './User'
 import Mood from './Mood'
 
-import getUserFromToken from '../../lib/getUserFromToken'
 import { createAccessToken } from '../../lib/auth'
 
 // Resolver
@@ -22,7 +21,6 @@ export const usersResolvers = {
 
       try {
         const moods = await Mood.find({ author: user._id }).sort({ _id: -1 })
-
         return moods
       } catch (error) {
         throw new AuthenticationError('Pas authorizé.')
@@ -122,12 +120,16 @@ export const usersResolvers = {
       return true
     },
 
-    async updateCity(_, { city, username }, { user }) {
+    async updateUser(_, { city, email, avatar, username }, { user }) {
       if (!user) {
         throw new AuthenticationError('Invalid')
       }
 
-      const res = await User.findOneAndUpdate({ username }, { city })
+      const res = await User.findOneAndUpdate(
+        { username },
+        { city, email, avatar },
+        { new: true }
+      )
 
       return res
     },
@@ -142,25 +144,22 @@ export const usersResolvers = {
       return res
     },
 
-    async deleteSingleMood(_, { id }, ctx) {
-      const { token_login: token } = cookie.parse(ctx.req.headers.cookie || '')
+    async deleteSingleMood(_, { id }, { user }) {
+      if (!user) {
+        throw new AuthenticationError('Invalid')
+      }
 
-      if (token) {
-        try {
-          const res = await Mood.findByIdAndDelete(id)
+      try {
+        const res = await Mood.findByIdAndDelete(id)
 
-          return res
-        } catch (error) {
-          throw new AuthenticationError('Invalid')
-        }
+        return res
+      } catch (error) {
+        throw new AuthenticationError('Invalid')
       }
     },
   },
   Mood: {
-    author: async (parent, args, ctx) => {
-      const token = ctx.req.cookies['token_login']
-      const user = await getUserFromToken(token)
-
+    author: async (_, __, { user }) => {
       if (!user) {
         throw new AuthenticationError('Pas authorizé.')
       }

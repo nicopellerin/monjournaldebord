@@ -34,7 +34,6 @@ export const CtaCard: React.FC<Props> = ({ title, render }) => {
 // Styles
 const Wrapper = styled(motion.div)`
   padding: 6rem 5rem;
-  /* border: 1px solid #ddd; */
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
   width: 80ch;
@@ -57,8 +56,5 @@ const Title = styled.h2`
   margin-top: 2rem;
   margin-bottom: 3rem;
   color: #666;
-
-  /* @media (max-width: 500px) {
-    font-size: 2.2rem;
-  } */
+  font-family: 'Open Sans', sans-serif;
 `

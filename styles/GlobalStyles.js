@@ -4,6 +4,8 @@ const GlobalStyles = createGlobalStyle`
 
 :root {
   --primaryColor: #9D00E0;
+
+  --systemFont: font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
 }
 
 
@@ -37,8 +39,8 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  /* font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji; */
-  font-family: 'Open Sans', sans-serif;
+  font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+  /* font-family: 'Open Sans', sans-serif; */
   color: #555;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

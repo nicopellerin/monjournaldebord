@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { createContext, useReducer, useMemo } from 'react'
+import { createContext, useReducer, useMemo, useEffect } from 'react'
 import gql from 'graphql-tag'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { useRouter } from 'next/router'
@@ -17,7 +17,7 @@ interface UserContextValue {
   login: (email, password) => Promise<User>
   logout: () => Promise<boolean>
   signup: (username, email, password, avatar) => Promise<User>
-  updateCityAction: (username, city) => void
+  updateUserAction: (username, email, avatar, city) => void
   username: string
   email: string
   createdAt: string
@@ -42,7 +42,7 @@ const UserValue: UserContextValue = {
     avatar: '',
     city: '',
   }),
-  updateCityAction: async () => ({
+  updateUserAction: async () => ({
     username: '',
     email: '',
     createdAt: '',
@@ -60,7 +60,7 @@ const UserValue: UserContextValue = {
 export const UserContext = createContext(UserValue)
 
 type ActionType = {
-  type: 'USER_INFO' | 'LOGOUT' | 'UPDATE_DAILY_MOOD' | 'UPDATE_CITY'
+  type: 'USER_INFO' | 'LOGOUT' | 'UPDATE_DAILY_MOOD' | 'UPDATE_USER'
   payload?: any
 }
 
@@ -120,9 +120,19 @@ const USER_INFO = gql`
   }
 `
 
-const UPDATE_CITY = gql`
-  mutation updateCity($username: String!, $city: String!) {
-    updateCity(username: $username, city: $city) {
+const UPDATE_USER = gql`
+  mutation updateUser(
+    $username: String!
+    $email: String
+    $avatar: String
+    $city: String
+  ) {
+    updateUser(
+      username: $username
+      email: $email
+      avatar: $avatar
+      city: $city
+    ) {
       username
       avatar
       email
@@ -143,9 +153,11 @@ const reducer = (state: StateType, action: ActionType) => {
         avatar: action.payload.avatar,
         city: action.payload.city,
       }
-    case 'UPDATE_CITY':
+    case 'UPDATE_USER':
       return {
         ...state,
+        email: action.payload.email,
+        avatar: action.payload.avatar,
         city: action.payload.city,
       }
     default:
@@ -169,7 +181,8 @@ const UserProvider = ({ children }) => {
   const [signinUser] = useMutation(LOGIN)
   const [signupUser] = useMutation(SIGNUP)
   const [signoutUser] = useMutation(SIGNOUT)
-  const [updateCity] = useMutation(UPDATE_CITY)
+
+  const [updateUser] = useMutation(UPDATE_USER)
 
   const { loading: userLoading, error: userError } = useQuery(USER_INFO, {
     skip:
@@ -180,6 +193,12 @@ const UserProvider = ({ children }) => {
     onError: () => {
       push('/connexion')
     },
+    pollInterval:
+      pathname === '/connexion' ||
+      pathname === '/inscription' ||
+      pathname.includes('blogue')
+        ? 0
+        : 20000,
     onCompleted: ({ me }) => {
       dispatch({
         type: 'USER_INFO',
@@ -192,6 +211,12 @@ const UserProvider = ({ children }) => {
       })
     },
   })
+
+  useEffect(() => {
+    if (userError) {
+      push('/connexion')
+    }
+  }, [userError])
 
   // Actions
   const login = async (email, password) => {
@@ -240,18 +265,24 @@ const UserProvider = ({ children }) => {
     return true
   }
 
-  const updateCityAction = async (username, city) => {
-    const { data } = await updateCity({
+  const updateUserAction = async (username, email, avatar, city) => {
+    const { data } = await updateUser({
       variables: {
         username,
+        email,
+        avatar,
         city,
       },
     })
 
+    console.log(data)
+
     dispatch({
-      type: 'UPDATE_CITY',
+      type: 'UPDATE_USER',
       payload: {
-        city: data?.updateCity?.city,
+        email: data?.updateUser?.email,
+        avatar: data?.updateUser?.avatar,
+        city: data?.updateUser?.city,
       },
     })
   }
@@ -267,7 +298,7 @@ const UserProvider = ({ children }) => {
       login,
       logout,
       signup,
-      updateCityAction,
+      updateUserAction,
     }),
     [state.username, state.email, state.createdAt, state.avatar, state.city]
   )

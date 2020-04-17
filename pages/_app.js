@@ -1,4 +1,5 @@
 import React from 'react'
+import 'typeface-playfair-display'
 
 import { Layout } from '../components/layout/Layout'
 import { ProfilLayout } from '../components/layout/ProfilLayout'

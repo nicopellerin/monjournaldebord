@@ -22,16 +22,14 @@ export const ProcessStep3: React.FC<Props> = ({
 
   useEffect(() => {
     if (mood) {
-      setJournal(prevState => ({ ...prevState, mood }))
+      setJournal((prevState) => ({ ...prevState, mood }))
     }
   }, [mood])
 
   return (
     <Wrapper
-      initial={{ opacity: 0 }}
       animate={{
         y: [-20, 5, 0],
-        opacity: [0, 1],
         transition: { delay: 0.1 },
       }}
     >
@@ -74,6 +72,7 @@ const Wrapper = styled(motion.div)`
 
 const Title = styled.h1`
   font-size: 6rem;
+  font-family: var(--systemFont);
 `
 
 const ButtonWrapper = styled.div`

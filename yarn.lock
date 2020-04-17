@@ -4768,10 +4768,10 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
-framer-motion@^2.0.0-beta.42:
-  version "2.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-2.0.0-beta.42.tgz#7861caf5a067f3b950377e4057b7cc3ca6efc1f6"
-  integrity sha512-qTMac1WV0mTpqBLbuXLwz/ETQAX+U84DQD3TgLT6x2td5xr3CxK51dhzndQBPqyoWeV7qP1FcuBZWVPV6aSrbQ==
+framer-motion@^2.0.0-beta.49:
+  version "2.0.0-beta.49"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-2.0.0-beta.49.tgz#86eee12fb4f2bdaeb2fba035d105c9225d658a64"
+  integrity sha512-fSkY5v6NiCr4z5XyJ5Ui49IuzyMLQsoTGWcxVZaLgJ1G4vJVvD89docBGJZQ114gPwI0cOdE2GAgezXNmEZGoQ==
   dependencies:
     "@popmotion/easing" "^1.0.2"
     "@popmotion/popcorn" "^0.4.2"
@@ -8504,6 +8504,11 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+
+typeface-playfair-display@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/typeface-playfair-display/-/typeface-playfair-display-1.1.4.tgz#ef37c9847a48996e1250cfd726387c36b34ecd07"
+  integrity sha512-FhzVmu6EE3LMsYTxG4x3DFkzhGHnv7/5Ltf6U9i6kDnQZQ4STtB2sVdrZ+wEqvr7oX0s+E8IjfL5ycMzBofiWw==
 
 typescript@3.7.3:
   version "3.7.3"

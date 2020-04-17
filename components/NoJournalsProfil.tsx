@@ -9,7 +9,7 @@ import { ProcessStep3 } from './process/ProcessStep3'
 import { ProcessStep4 } from './process/ProcessStep4'
 
 const variants = {
-  enter: direction => {
+  enter: (direction) => {
     return {
       x: direction > 0 ? '100%' : '-100%',
       opacity: 0,
@@ -20,7 +20,7 @@ const variants = {
     x: 0,
     opacity: 1,
   },
-  exit: direction => {
+  exit: (direction) => {
     return {
       zIndex: 0,
       x: direction < 0 ? '100%' : '-100%',
@@ -40,13 +40,13 @@ export const NoJournalsProfil = () => {
 
   const [[page, direction], setPage] = useState([0, 0])
 
-  const paginate = newDirection => {
+  const paginate = (newDirection) => {
     setPage([page + newDirection, newDirection])
   }
 
   return (
     <Wrapper>
-      <AnimatePresence initial={false} custom={direction}>
+      <AnimatePresence custom={direction}>
         {page === 0 && (
           <motion.div
             style={{ position: 'absolute' }}
@@ -140,7 +140,7 @@ export const NoJournalsProfil = () => {
         animate={{
           y: [100, 20],
           opacity: [0, 1],
-          transition: { delay: 0.9 },
+          transition: { delay: 0.5 },
         }}
         style={{ position: 'absolute', bottom: 0 }}
         xmlns="http://www.w3.org/2000/svg"

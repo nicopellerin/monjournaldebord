@@ -178,11 +178,10 @@ const Wrapper = styled.div`
 const Content = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 7px 15px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 7px 15px;
   border-radius: 5px;
   position: relative;
   border: 1px solid #eee;
-  /* border-top: 2px solid #eee; */
   border-bottom: 3px solid #ddd;
   z-index: 2;
 `
@@ -256,10 +255,10 @@ const ButtonSave = styled(motion.button)`
   background: var(--primaryColor);
   color: white;
   font-size: 1.6rem;
-  font-weight: bold;
+  font-weight: 500;
   bottom: 0px;
   border: none;
-  border-bottom: 3px solid #440061;
+  /* border-bottom: 3px solid #440061; */
   border-radius: 5px;
   display: flex;
   align-items: center;

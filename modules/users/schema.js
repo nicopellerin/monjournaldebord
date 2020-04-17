@@ -36,7 +36,12 @@ export const users = gql`
     ): User!
     signinUser(email: String!, password: String!): User!
     signoutUser: Boolean
-    updateCity(username: String!, city: String!): User
+    updateUser(
+      username: String!
+      email: String
+      avatar: String
+      city: String
+    ): User
     updateDailyMood(mood: String!): Mood
     deleteSingleMood(id: ID!): Mood
   }

@@ -1,40 +1,113 @@
 import * as React from 'react'
-import { useContext, useState, useLayoutEffect } from 'react'
+import { useContext, useState, useLayoutEffect, useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FaRegEnvelope, FaEdit, FaCheckCircle } from 'react-icons/fa'
+import axios from 'axios'
+
 import { UserContext } from '../context/UserProvider'
-import { FaUserLock, FaRegEnvelope, FaEnvelope } from 'react-icons/fa'
+
 import { dots } from '../utils/imagesBase64'
 
 export const ProfilInfo = () => {
-  const { username, avatar, email, city, updateCityAction } = useContext(
+  const { username, avatar, email, city, updateUserAction } = useContext(
     UserContext
   )
-  const [cityField, setCityField] = useState('')
+  const [modifiedState, setModifiedState] = useState(false)
+  const [cityField, setCityField] = useState(city)
+  const [emailField, setEmailField] = useState(email)
+  const [newAvatar, setNewAvatar] = useState(avatar)
+  const [avatarName, setAvatarName] = useState('')
+  const [loader, setLoader] = useState('')
+  const [imageError, setImageError] = useState('')
+  const [saved, setSaved] = useState(false)
+
+  const uploadImageRef = useRef(null)
 
   useLayoutEffect(() => {
     if (city) {
       setCityField(city)
     }
-  }, [city])
+    setEmailField(email)
+    setNewAvatar(avatar)
+  }, [city, email, avatar])
+
+  useEffect(() => {
+    if (city !== cityField || avatar !== newAvatar) {
+      setModifiedState(true)
+    }
+  }, [cityField, newAvatar])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     try {
-      await updateCityAction(username, cityField)
+      updateUserAction(username, emailField, newAvatar, cityField)
+      setSaved(true)
+      setTimeout(() => setSaved(false), 2000)
     } catch (err) {
       console.log(err)
     }
   }
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0]
+
+    if (file.size > 1000000 * 3) {
+      return setImageError('Oupsss! Veuillez choisir une image de moins de 3MB')
+    }
+
+    const data = new FormData()
+    data.append('file', file)
+    data.append('upload_preset', 'monjournaldebord_profilepic')
+
+    setAvatarName(file.name)
+
+    try {
+      const res = await axios.post(
+        `https://api.cloudinary.com/v1_1/${process.env.cloudinary_name}/image/upload`,
+        data,
+        {
+          onUploadProgress: (progressEvent) => {
+            setLoader(
+              Math.round((progressEvent.loaded / progressEvent.total) * 100) +
+                '%'
+            )
+          },
+        }
+      )
+
+      setNewAvatar(res.data.secure_url)
+    } catch (err) {
+      setImageError('Une erreur est survenue. Veuillez réessayer!')
+    }
+  }
+
+  useEffect(() => {
+    if (loader === 100 + '%') {
+      setLoader(avatarName)
+    }
+  }, [loader])
+
   return (
     <>
       <Wrapper animate={{ y: [10, 0] }}>
-        <UserImage
-          src={avatar ? avatar : '/default-profile.png'}
-          alt="Profil"
-        />
+        <UserImageWrapper>
+          <UserImage
+            src={newAvatar ? newAvatar : '/default-profile.png'}
+            alt="Profil"
+          />
+          <EditIcon onClick={() => uploadImageRef.current.click()} />
+          <input
+            ref={uploadImageRef}
+            type="file"
+            name="file"
+            id="file"
+            hidden
+            onChange={(e) => handleImageUpload(e)}
+          />
+          {/* <ImageName>{loader}</ImageName> */}
+        </UserImageWrapper>
         <Username>{username}</Username>
         <Email>
           <FaRegEnvelope style={{ marginRight: 5 }} />
@@ -43,24 +116,43 @@ export const ProfilInfo = () => {
         <DotsWrapper>
           <Dots src={dots} alt="dots" />
         </DotsWrapper>
-        <Form onSubmit={handleSubmit}>
+        <Form>
           <InputWrapper>
             <Label>Ville</Label>
             <InputField
-              name="text"
+              name="city"
               value={cityField}
               onChange={(e) => setCityField(e.target.value)}
             />
           </InputWrapper>
+          <InputWrapper>
+            <Label>Courriel</Label>
+            <InputField
+              disabled
+              name="email"
+              value={emailField}
+              onChange={(e) => setEmailField(e.target.value)}
+            />
+          </InputWrapper>
         </Form>
-        <ButtonEmail whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
-          <FaEnvelope style={{ marginRight: 5 }} />
-          Modifier courriel
-        </ButtonEmail>
-        <ButtonPassword whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
-          <FaUserLock style={{ marginRight: 5 }} />
-          Nouveau mot de passe
-        </ButtonPassword>
+        <AnimatePresence>
+          {modifiedState && (
+            <ButtonSave
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              onClick={handleSubmit}
+              whileHover={{ y: -1 }}
+              whileTap={{ y: 1 }}
+              saved={saved}
+            >
+              {saved ? (
+                <FaCheckCircle size={24} color="white" />
+              ) : (
+                `Sauvegarder`
+              )}
+            </ButtonSave>
+          )}
+        </AnimatePresence>
       </Wrapper>
       <motion.div
         animate={{ y: [10, 0], opacity: [0, 1] }}
@@ -85,21 +177,53 @@ const Wrapper = styled(motion.div)`
   background: #fafafa;
   border: 1px solid #eee;
   border-bottom: 3px solid #ddd;
-  padding: 5rem 9rem;
+  padding: 5rem 5rem;
+  width: 40rem;
   border-radius: 23px;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 7px 15px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 7px 15px;
   @media (max-width: 500px) {
     padding: 5rem 6rem;
   }
+`
+const UserImageWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `
 
 const UserImage = styled.img`
   width: 15rem;
   height: 15rem;
+  object-fit: cover;
+  object-position: center;
   border-radius: 50%;
   border: 1px solid #ddd;
   padding: 2px;
   margin-bottom: 3rem;
+`
+
+const ImageName = styled.span`
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  white-space: nowrap;
+`
+
+const EditIcon = styled(FaEdit)`
+  font-size: 2.4rem;
+  position: absolute;
+  top: 0.5rem;
+  right: 1.2rem;
+  background: white;
+  border: 1px solid #ddd;
+  padding: 5px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px;
 `
 
 const Username = styled.h2`
@@ -115,34 +239,20 @@ const Email = styled.h3`
   align-items: center;
 `
 
-const ButtonPassword = styled(motion.button)`
+const ButtonSave = styled(motion.button)`
   border: none;
-  border: 1px solid #440061;
+  border: ${(props: { saved: boolean }) =>
+    props.saved ? '1px solid green' : '1px solid #440061'};
   padding: 1em 1.5em;
   color: #440061;
-  background: #fff;
+  background: ${(props: { saved: boolean }) =>
+    props.saved ? 'green' : '#fff'};
   border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   font-size: 1.4rem;
-  font-weight: 500;
-`
-
-const ButtonEmail = styled(motion.button)`
-  border: none;
-  border: 1px solid #440061;
-  padding: 1em 1.5em;
-  color: #440061;
-  background: #fff;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 1.4rem;
-  margin-bottom: 2rem;
   font-weight: 500;
   width: 100%;
 `
@@ -190,7 +300,7 @@ const InputWrapper = styled.div`
 
 const InputField = styled.input`
   width: 100%;
-  padding: 1rem;
+  padding: 0.8em;
   font-size: 1.4rem;
   font-family: inherit;
   border: 1px solid #ddd;

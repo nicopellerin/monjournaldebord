@@ -16,14 +16,15 @@ import { JournalContext } from '../context/JournalProvider'
 import { maxLength } from '../utils/maxLength'
 import { defaultProfile } from '../utils/imagesBase64'
 
-interface Props {
-  username: string
-  avatar?: string
-}
+// interface Props {
+//   username: string
+//   avatar?: string
+// }
 
-export const User: React.FC<Props> = ({ username, avatar }) => {
+export const User: React.FC = () => {
   const [toggle, setToggle] = useState(false)
 
+  const { username, avatar } = useContext(UserContext)
   const { journals } = useContext(JournalContext)
 
   const isDesktop = useMedia({
@@ -45,7 +46,7 @@ export const User: React.FC<Props> = ({ username, avatar }) => {
             src={avatar ? avatar : defaultProfile}
             alt="profile"
             onClick={() =>
-              isDesktop ? setToggle(prevState => !prevState) : null
+              isDesktop ? setToggle((prevState) => !prevState) : null
             }
           />
           {toggle && <UserDropdown />}

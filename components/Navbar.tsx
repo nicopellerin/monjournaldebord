@@ -14,7 +14,7 @@ import { UserContext } from '../context/UserProvider'
 import { JournalContext } from '../context/JournalProvider'
 
 export const Navbar: React.FC = () => {
-  const { toggleDark, dark } = useContext(ThemeContext)
+  // const { toggleDark, dark } = useContext(ThemeContext)
   const { username, avatar, userLoading } = useContext(UserContext)
   const { journals } = useContext(JournalContext)
 
@@ -32,7 +32,7 @@ export const Navbar: React.FC = () => {
               </NavbarSearchWrapper>
             )}
             <UserWrapper>
-              <User username={username} avatar={avatar} />
+              <User />
             </UserWrapper>
           </>
         ) : (
@@ -81,7 +81,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05); */
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid #eee;
   position: relative;
   z-index: 1000;
