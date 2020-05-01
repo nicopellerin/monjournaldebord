@@ -11,30 +11,35 @@ import { JournalContext } from '../context/JournalProvider'
 import { UserContext } from '../context/UserProvider'
 
 export const Sidebar: React.FC = () => {
-  const { newPage } = useContext(JournalContext)
+  const { newPageAction, journals } = useContext(JournalContext)
   const { username } = useContext(UserContext)
 
   function addNewPub() {
-    const id = newPage()
+    const id = newPageAction()
     Router.push(`/journal/nouveau/[id]`, `/journal/nouveau/${id}`)
   }
+
+  const hasPublicJournals = journals.some(
+    (journal) => journal.status === 'public'
+  )
 
   return (
     <Wrapper>
       <List />
       <ButtonGroup>
-        <a
-          style={{ textDecoration: 'none' }}
-          href={`https://blogue.monjournaldebord.ca/${username}`}
-          target="_blank"
-          rel="nofollowers"
-        >
-          <ButtonProfilPublic whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
-            <FaUsers style={{ marginRight: 7 }} />
-            Mon blogue
-          </ButtonProfilPublic>
-        </a>
-
+        {hasPublicJournals ? (
+          <a
+            style={{ textDecoration: 'none' }}
+            href={`https://blogue.monjournaldebord.ca/${username}`}
+            target="_blank"
+            rel="nofollowers"
+          >
+            <ButtonProfilPublic whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
+              <FaUsers style={{ marginRight: 7 }} />
+              Mon blogue
+            </ButtonProfilPublic>
+          </a>
+        ) : null}
         <ButtonNewJournal
           onClick={addNewPub}
           whileHover={{ y: -1 }}
@@ -56,7 +61,6 @@ const Wrapper = styled.aside`
   width: 100%;
   box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.05);
   position: relative;
-  /* z-index: 99; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;

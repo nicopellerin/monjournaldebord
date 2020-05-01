@@ -52,7 +52,7 @@ const InscriptionForm: React.FC = () => {
   const [formErrors, setFormErrors] = useState('')
   const [isSubmiting, setIsSubmiting] = useState(false)
 
-  const { signup } = useContext(UserContext)
+  const { signupAction } = useContext(UserContext)
 
   const imageInputRef = useRef(null)
 
@@ -82,7 +82,7 @@ const InscriptionForm: React.FC = () => {
 
     try {
       await client.resetStore()
-      const data = await signup(username, email, password, avatar)
+      const data = await signupAction(username, email, password, avatar)
 
       if (data?.username) {
         Router.push('/profil')

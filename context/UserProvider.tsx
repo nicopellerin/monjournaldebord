@@ -1,145 +1,20 @@
 import * as React from 'react'
 import { createContext, useReducer, useMemo, useEffect } from 'react'
-import gql from 'graphql-tag'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { useRouter } from 'next/router'
 import { withApollo } from '../lib/apollo'
 
-type User = {
-  username: string
-  email: string
-  createdAt: string
-  avatar: string
-  city: string
-}
+import {
+  LOGIN,
+  SIGNUP,
+  SIGNOUT,
+  USER_INFO,
+  UPDATE_USER,
+  UPDATE_USER_PASSWORD,
+} from './UserQueries'
+import { UserContextValue, ActionType, StateType } from './UserTypes'
 
-interface UserContextValue {
-  login: (email, password) => Promise<User>
-  logout: () => Promise<boolean>
-  signup: (username, email, password, avatar) => Promise<User>
-  updateUserAction: (username, email, avatar, city) => void
-  username: string
-  email: string
-  createdAt: string
-  avatar: string
-  city: string
-  userLoading: boolean
-}
-
-const UserValue: UserContextValue = {
-  login: async () => ({
-    username: '',
-    email: '',
-    createdAt: '',
-    avatar: '',
-    city: '',
-  }),
-  logout: async () => false,
-  signup: async () => ({
-    username: '',
-    email: '',
-    createdAt: '',
-    avatar: '',
-    city: '',
-  }),
-  updateUserAction: async () => ({
-    username: '',
-    email: '',
-    createdAt: '',
-    avatar: '',
-    city: '',
-  }),
-  username: '',
-  email: '',
-  createdAt: '',
-  avatar: '',
-  city: '',
-  userLoading: false,
-}
-
-export const UserContext = createContext(UserValue)
-
-type ActionType = {
-  type: 'USER_INFO' | 'LOGOUT' | 'UPDATE_DAILY_MOOD' | 'UPDATE_USER'
-  payload?: any
-}
-
-type StateType = {
-  username: string
-  email: string
-  password: string
-  createdAt: string
-  avatar: string
-  city: string
-}
-
-const LOGIN = gql`
-  mutation($email: String!, $password: String!) {
-    signinUser(email: $email, password: $password) {
-      username
-      avatar
-      email
-    }
-  }
-`
-
-const SIGNUP = gql`
-  mutation(
-    $username: String!
-    $email: String!
-    $password: String!
-    $avatar: String
-  ) {
-    signupUser(
-      username: $username
-      email: $email
-      password: $password
-      avatar: $avatar
-    ) {
-      username
-      avatar
-      email
-    }
-  }
-`
-
-const SIGNOUT = gql`
-  mutation {
-    signoutUser
-  }
-`
-
-const USER_INFO = gql`
-  {
-    me {
-      username
-      email
-      avatar
-      city
-    }
-  }
-`
-
-const UPDATE_USER = gql`
-  mutation updateUser(
-    $username: String!
-    $email: String
-    $avatar: String
-    $city: String
-  ) {
-    updateUser(
-      username: $username
-      email: $email
-      avatar: $avatar
-      city: $city
-    ) {
-      username
-      avatar
-      email
-      city
-    }
-  }
-`
+export const UserContext = createContext<UserContextValue>(null)
 
 const reducer = (state: StateType, action: ActionType) => {
   switch (action.type) {
@@ -174,15 +49,15 @@ const initialState = {
 }
 
 const UserProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState)
-
   const { pathname, push } = useRouter()
+
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   const [signinUser] = useMutation(LOGIN)
   const [signupUser] = useMutation(SIGNUP)
   const [signoutUser] = useMutation(SIGNOUT)
-
   const [updateUser] = useMutation(UPDATE_USER)
+  const [updateUserPassword] = useMutation(UPDATE_USER_PASSWORD)
 
   const { loading: userLoading, error: userError } = useQuery(USER_INFO, {
     skip:
@@ -219,7 +94,7 @@ const UserProvider = ({ children }) => {
   }, [userError])
 
   // Actions
-  const login = async (email, password) => {
+  const loginAction = async (email, password) => {
     const { data } = await signinUser({
       variables: {
         email,
@@ -240,7 +115,7 @@ const UserProvider = ({ children }) => {
     return data.signinUser
   }
 
-  const signup = async (
+  const signupAction = async (
     username: string,
     email: string,
     password: string,
@@ -258,10 +133,9 @@ const UserProvider = ({ children }) => {
     return data?.signupUser
   }
 
-  const logout = async () => {
+  const logoutAction = async () => {
     await signoutUser()
     dispatch({ type: 'LOGOUT' })
-
     return true
   }
 
@@ -275,8 +149,6 @@ const UserProvider = ({ children }) => {
       },
     })
 
-    console.log(data)
-
     dispatch({
       type: 'UPDATE_USER',
       payload: {
@@ -287,6 +159,15 @@ const UserProvider = ({ children }) => {
     })
   }
 
+  const updateUserPasswordAction = async (password) => {
+    try {
+      await updateUserPassword({ variables: password })
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
   const value = useMemo(
     () => ({
       username: state.username,
@@ -295,10 +176,11 @@ const UserProvider = ({ children }) => {
       avatar: state.avatar,
       city: state.city,
       userLoading,
-      login,
-      logout,
-      signup,
+      loginAction,
+      logoutAction,
+      signupAction,
       updateUserAction,
+      updateUserPasswordAction,
     }),
     [state.username, state.email, state.createdAt, state.avatar, state.city]
   )

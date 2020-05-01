@@ -24,8 +24,8 @@ export const ToggleDeleteModal: React.FC<Props> = ({
   const {
     selectedJournal,
     journals,
-    deleteSelectedJournal,
-    undoNewJournal,
+    deleteSelectedJournalAction,
+    undoNewJournalAction,
   } = useContext(JournalContext)
 
   const deleteSelected = () => {
@@ -38,9 +38,9 @@ export const ToggleDeleteModal: React.FC<Props> = ({
     setToggleDelete(false)
 
     if (!Router.router.pathname.includes('/nouveau')) {
-      deleteSelectedJournal(selectedJournal.id)
+      deleteSelectedJournalAction(selectedJournal.id)
     } else {
-      undoNewJournal(selectedJournal.id)
+      undoNewJournalAction(selectedJournal.id)
     }
     if (journals.length > 1) {
       Router.push(`/journal/[id]`, `/journal/${journals[idx].id}`)

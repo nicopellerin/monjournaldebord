@@ -40,7 +40,7 @@ export const usersResolvers = {
         )
       }
 
-      if (email.length < 6) {
+      if (password.length < 6) {
         throw new AuthenticationError(
           'Veuillez entrer un mot de passe de plus de 6 charactères'
         )
@@ -132,6 +132,31 @@ export const usersResolvers = {
       )
 
       return res
+    },
+
+    async updateUserPassword(_, { password }, { user }) {
+      if (!user) {
+        throw new AuthenticationError('Invalid')
+      }
+
+      if (password.length < 6) {
+        throw new Error(
+          'Veuillez entrer un mot de passe de plus de 6 charactères'
+        )
+      }
+      password = await bcrypt.hash(password, 10)
+
+      try {
+        await User.findOneAndUpdate(
+          { username: user.username },
+          { password },
+          { new: true }
+        )
+
+        return true
+      } catch (error) {
+        throw new Error('Erreur!')
+      }
     },
 
     async updateDailyMood(_, { mood }, { user }) {

@@ -25,7 +25,7 @@ export const RightMenu: React.FC<RightMenuProps> = ({
   yVal,
   setRightMenuVisible,
 }) => {
-  const { selectJournal, toggleDeleteAction } = useContext(JournalContext)
+  const { selectJournalAction, toggleDeleteAction } = useContext(JournalContext)
 
   return (
     <RightMenuWrapper
@@ -40,7 +40,7 @@ export const RightMenu: React.FC<RightMenuProps> = ({
         <Link href={`/journal/edit/[id]`} as={`/journal/edit/${id}`}>
           <RightMenuListItem
             onClick={() => {
-              selectJournal(id)
+              selectJournalAction(id)
               setRightMenuVisible(false)
             }}
           >

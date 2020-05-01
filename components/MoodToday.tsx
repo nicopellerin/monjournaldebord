@@ -192,6 +192,7 @@ const Title = styled.h3`
   margin: 0;
   display: flex;
   align-items: center;
+  font-weight: 500;
 `
 
 const Form = styled.form`
@@ -218,7 +219,6 @@ const Input = styled.input`
   font-size: 1.6rem;
   color: ${(props) => props.theme.colors.textColor};
   font-weight: 400;
-  font-family: 'Playfair Display', serif;
 
   &::placeholder {
     color: #aaa;

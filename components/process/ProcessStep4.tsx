@@ -22,15 +22,9 @@ interface Props {
 }
 
 export const ProcessStep4 = ({ journal, setJournal, paginate }) => {
-  const {
-    handleImageUpload,
-    // imageName,
-    // imageError,
-    imageURL,
-    loader,
-  } = useImageUpload(false)
+  const { handleImageUpload, imageURL, loader } = useImageUpload(false)
 
-  const { addNewJournal } = useContext(JournalContext)
+  const { addNewJournalAction } = useContext(JournalContext)
 
   const imageInputRef = useRef(null)
 
@@ -48,7 +42,7 @@ export const ProcessStep4 = ({ journal, setJournal, paginate }) => {
     console.log(status)
 
     try {
-      await addNewJournal(title, text, image, mood, status)
+      await addNewJournalAction(title, text, image, mood, status)
       Router.push(`/profil`, `/profil`)
     } catch (err) {
       console.error(err)

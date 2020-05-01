@@ -24,7 +24,7 @@ interface ItemProps {
 }
 
 export const ListItem: React.FC<Props> = ({ title, id, layoutId }) => {
-  const { selectJournal } = useContext(JournalContext)
+  const { selectJournalAction } = useContext(JournalContext)
 
   const {
     query: { id: queryId },
@@ -62,7 +62,7 @@ export const ListItem: React.FC<Props> = ({ title, id, layoutId }) => {
           selected={selected}
           onClick={() => {
             setRightMenuVisible(false)
-            selectJournal(id)
+            selectJournalAction(id)
           }}
         >
           <Item animate selected={selected}>

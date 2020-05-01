@@ -12,11 +12,11 @@ import { AnimatePresence } from 'framer-motion'
 export const NavbarSearch: React.FC = () => {
   const [titleInput, setTitleInput] = useState('')
 
-  const { searchJournals, search } = useContext(JournalContext)
+  const { searchJournalsAction, search } = useContext(JournalContext)
 
   const { pathname } = useRouter()
 
-  useDebouncedEffect(() => searchJournals(titleInput, Router), 500, [
+  useDebouncedEffect(() => searchJournalsAction(titleInput, Router), 500, [
     titleInput,
   ])
 

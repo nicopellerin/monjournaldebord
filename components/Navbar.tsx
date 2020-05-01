@@ -9,12 +9,10 @@ import { Logo } from './Logo'
 import { User } from './User'
 import { NavbarSearch } from './NavbarSearch'
 
-import { ThemeContext } from '../context/ThemeProvider'
 import { UserContext } from '../context/UserProvider'
 import { JournalContext } from '../context/JournalProvider'
 
 export const Navbar: React.FC = () => {
-  // const { toggleDark, dark } = useContext(ThemeContext)
   const { username, avatar, userLoading } = useContext(UserContext)
   const { journals } = useContext(JournalContext)
 

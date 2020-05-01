@@ -96,7 +96,7 @@ const ConnexionForm: React.FC<FormProps> = ({
   const [password, setPassword] = useState('')
   const [loginError, setLoginError] = useState('')
 
-  const { login } = useContext(UserContext)
+  const { loginAction } = useContext(UserContext)
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -109,7 +109,7 @@ const ConnexionForm: React.FC<FormProps> = ({
 
     try {
       await client.resetStore()
-      const { username } = await login(email, password)
+      const { username } = await loginAction(email, password)
 
       if (username) {
         setSuccess(true)
@@ -276,6 +276,7 @@ const Connected = styled.h2`
   font-size: 2.4rem;
   font-weight: 400;
   margin-top: 3rem;
+  font-family: var(--systemFont);
 `
 
 const Wave = styled(motion.img)`

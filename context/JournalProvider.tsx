@@ -1,123 +1,23 @@
 import * as React from 'react'
-import { createContext, useReducer, useMemo, useCallback } from 'react'
+import { createContext, useReducer, useMemo } from 'react'
 import {
   useQuery,
   useMutation,
   useLazyQuery,
   useApolloClient,
 } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import { v4 as uuidv4 } from 'uuid'
 
-type Journal = {
-  id: string
-  title: string
-  text: string
-  createdAt: Date
-  image: string
-  mood: string
-  status: string
-}
+import {
+  ALL_JOURNALS,
+  ADD_JOURNAL,
+  EDIT_JOURNAL,
+  GET_JOURNAL,
+  DELETE_JOURNAL,
+} from './JournalQueries'
+import { JournalValue, ActionType, StateType } from './JournalTypes'
 
-interface ContextValue {
-  journals: Journal[]
-  selectedJournal: Journal
-  editing: boolean
-  newState: boolean
-  length: number
-  search: string
-  journalsLoading: boolean
-  singleJournalLoading: boolean
-  imageUploaded: string
-  toggleImageContainer: boolean
-  darkMode: boolean
-  toggleDelete: boolean
-  setToggleImageContainer: () => void
-  selectJournal: (id: string | string[]) => void
-  editSelectedJournal: (
-    id: string,
-    title: string,
-    text: string,
-    image: string,
-    mood: string,
-    status: string
-  ) => void
-  addNewJournal: (
-    title: string,
-    text: string,
-    image: string,
-    mood: string,
-    status: string
-  ) => void
-  deleteSelectedJournal: (id: string) => void
-  toggleEditing: (image: string) => void
-  newPage: () => string
-  searchJournals: (input, router) => void
-  undoNewJournal: (id: string) => void
-  uploadImage: (image: string) => void
-  removeUploadedImage: () => void
-  toggleDarkMode: () => void
-  toggleDeleteAction: () => void
-}
-
-const JournalValue: ContextValue = {
-  journals: [],
-  selectedJournal: null,
-  editing: false,
-  newState: false,
-  length: 0,
-  search: '',
-  journalsLoading: false,
-  singleJournalLoading: false,
-  imageUploaded: '',
-  toggleImageContainer: false,
-  darkMode: false,
-  toggleDelete: false,
-  setToggleImageContainer: () => {},
-  selectJournal: () => {},
-  editSelectedJournal: () => {},
-  addNewJournal: () => {},
-  deleteSelectedJournal: () => {},
-  toggleEditing: () => {},
-  newPage: () => '',
-  searchJournals: () => {},
-  undoNewJournal: () => {},
-  uploadImage: () => {},
-  removeUploadedImage: () => {},
-  toggleDarkMode: () => {},
-  toggleDeleteAction: () => {},
-}
-
-type ActionType = {
-  type:
-    | 'SELECTED_JOURNAL'
-    | 'ADD_JOURNAL'
-    | 'EDIT_SELECTED_JOURNAL'
-    | 'DELETE_SELECTED_JOURNAL'
-    | 'TOGGLE_EDITING'
-    | 'NEW_PAGE'
-    | 'SEARCH_JOURNALS'
-    | 'UNDO_NEW_JOURNAL'
-    | 'UPLOADED_IMAGE'
-    | 'REMOVE_UPLOADED_IMAGE'
-    | 'TOGGLE_IMAGE_CONTAINER'
-    | 'TOGGLE_DARK_MODE'
-    | 'TOGGLE_DELETE'
-  payload?: any
-}
-
-type StateType = {
-  journals: any
-  selectedJournal: Journal
-  editing: boolean
-  newState: boolean
-  length: number
-  search: string
-  imageUploaded: string
-  toggleImageContainer: boolean
-  darkMode: boolean
-  toggleDelete: boolean
-}
+export const JournalContext = createContext<JournalValue>(null)
 
 const initialState = {
   journals: [],
@@ -133,8 +33,6 @@ const initialState = {
   singleJournalLoading: false,
   toggleDelete: false,
 }
-
-export const JournalContext = createContext(JournalValue)
 
 const journalReducer = (state: StateType, action: ActionType) => {
   switch (action.type) {
@@ -204,7 +102,6 @@ const journalReducer = (state: StateType, action: ActionType) => {
     case 'UNDO_NEW_JOURNAL':
       return {
         ...state,
-        // selectedJournal: null,
         newState: false,
       }
     case 'UPLOADED_IMAGE':
@@ -246,96 +143,6 @@ const journalReducer = (state: StateType, action: ActionType) => {
       return state
   }
 }
-
-const ALL_JOURNALS = gql`
-  {
-    journals {
-      id
-      title
-      text
-      image
-      createdAt
-      mood
-      status
-    }
-  }
-`
-
-const ADD_JOURNAL = gql`
-  mutation(
-    $title: String!
-    $text: String!
-    $image: String
-    $mood: String!
-    $status: String!
-  ) {
-    addJournal(
-      title: $title
-      text: $text
-      image: $image
-      mood: $mood
-      status: $status
-    ) {
-      id
-      title
-      text
-      image
-      createdAt
-      mood
-      status
-    }
-  }
-`
-
-const EDIT_JOURNAL = gql`
-  mutation(
-    $id: ID!
-    $title: String!
-    $text: String!
-    $image: String
-    $mood: String!
-    $status: String!
-  ) {
-    editJournal(
-      id: $id
-      title: $title
-      text: $text
-      image: $image
-      mood: $mood
-      status: $status
-    ) {
-      id
-      title
-      text
-      image
-      createdAt
-      mood
-      status
-    }
-  }
-`
-
-const GET_JOURNAL = gql`
-  query journal($id: ID!) {
-    journal(id: $id) {
-      id
-      title
-      text
-      image
-      createdAt
-      mood
-      status
-    }
-  }
-`
-
-const DELETE_JOURNAL = gql`
-  mutation($id: ID!) {
-    deleteJournal(id: $id) {
-      id
-    }
-  }
-`
 
 export const JournalProvider = ({ children }) => {
   const client = useApolloClient()
@@ -445,7 +252,7 @@ export const JournalProvider = ({ children }) => {
   })
 
   // Actions
-  const selectJournal = (id) => {
+  const selectJournalAction = (id) => {
     loadJournal({
       variables: {
         id,
@@ -453,22 +260,29 @@ export const JournalProvider = ({ children }) => {
     })
   }
 
-  const editSelectedJournal = async (id, title, text, image, mood, status) => {
+  const editSelectedJournalAction = async (
+    id,
+    title,
+    text,
+    image,
+    mood,
+    status
+  ) => {
     const res = await editJournal({
       variables: { id, title, text, image, mood, status },
     })
     return res?.data?.editJournal?.id
   }
 
-  const deleteSelectedJournal = async (id) => {
+  const deleteSelectedJournalAction = async (id) => {
     await deleteJournal({ variables: { id } })
   }
 
-  const toggleEditing = (image) => {
+  const toggleEditingAction = (image) => {
     dispatch({ type: 'TOGGLE_EDITING', payload: image })
   }
 
-  const addNewJournal = async (title, text, image, mood, status) => {
+  const addNewJournalAction = async (title, text, image, mood, status) => {
     const res = await addJournal({
       variables: {
         title,
@@ -481,18 +295,18 @@ export const JournalProvider = ({ children }) => {
     return res?.data?.addJournal?.id
   }
 
-  const newPage = () => {
+  const newPageAction = () => {
     const id = uuidv4()
     dispatch({ type: 'NEW_PAGE', payload: id })
     return id
   }
 
-  const searchJournals = (input, router) => {
+  const searchJournalsAction = (input, router) => {
     dispatch({ type: 'SEARCH_JOURNALS', payload: input })
     router.push('/journal/recherche', '/journal/recherche')
   }
 
-  const undoNewJournal = (id) => {
+  const undoNewJournalAction = (id) => {
     dispatch({ type: 'UNDO_NEW_JOURNAL' })
     loadJournal({
       variables: {
@@ -501,16 +315,16 @@ export const JournalProvider = ({ children }) => {
     })
   }
 
-  const uploadImage = (image) => {
+  const uploadImageAction = (image) => {
     dispatch({ type: 'UPLOADED_IMAGE', payload: image })
   }
 
-  const removeUploadedImage = () => {
+  const removeUploadedImageAction = () => {
     dispatch({ type: 'TOGGLE_IMAGE_CONTAINER' })
     setTimeout(() => dispatch({ type: 'REMOVE_UPLOADED_IMAGE' }), 1000)
   }
 
-  const toggleDarkMode = () => {
+  const toggleDarkModeAction = () => {
     dispatch({ type: 'TOGGLE_DARK_MODE' })
   }
 
@@ -518,7 +332,7 @@ export const JournalProvider = ({ children }) => {
     dispatch({ type: 'TOGGLE_DELETE' })
   }
 
-  const setToggleImageContainer = () => {
+  const setToggleImageContainerAction = () => {
     dispatch({ type: 'TOGGLE_IMAGE_CONTAINER' })
   }
 
@@ -536,19 +350,19 @@ export const JournalProvider = ({ children }) => {
       toggleDelete: state.toggleDelete,
       journalsLoading,
       singleJournalLoading,
-      addNewJournal,
-      selectJournal,
-      editSelectedJournal,
-      deleteSelectedJournal,
-      toggleEditing,
-      newPage,
-      searchJournals,
-      undoNewJournal,
-      uploadImage,
-      removeUploadedImage,
-      toggleDarkMode,
+      addNewJournalAction,
+      selectJournalAction,
+      editSelectedJournalAction,
+      deleteSelectedJournalAction,
+      toggleEditingAction,
+      newPageAction,
+      searchJournalsAction,
+      undoNewJournalAction,
+      uploadImageAction,
+      removeUploadedImageAction,
+      toggleDarkModeAction,
       toggleDeleteAction,
-      setToggleImageContainer,
+      setToggleImageContainerAction,
     }
   }, [
     state.journals,

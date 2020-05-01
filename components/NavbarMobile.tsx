@@ -23,8 +23,6 @@ import { JournalContext } from '../context/JournalProvider'
 export const NavbarMobile = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false)
 
-  const { username, avatar, userLoading } = useContext(UserContext)
-
   return (
     <div style={{ position: 'relative' }}>
       <Wrapper>
@@ -71,25 +69,24 @@ wvc3ZnPg== "
 }
 
 const NavbarMobileDropdown = ({ setToggleDropdown }) => {
-  const { newPage } = useContext(JournalContext)
   const client = useApolloClient()
-
-  const { logout } = useContext(UserContext)
-
   const router = useRouter()
+
+  const { newPageAction } = useContext(JournalContext)
+  const { logoutAction } = useContext(UserContext)
 
   function addNewPub() {
     if (Router.router.pathname.includes('nouveau')) {
       return
     }
     setToggleDropdown(false)
-    const id = newPage()
+    const id = newPageAction()
     Router.push(`/journal/nouveau/[id]`, `/journal/nouveau/${id}`)
   }
 
   async function signout() {
     await client.resetStore()
-    await logout()
+    await logoutAction()
     await router.push('/connexion')
   }
 

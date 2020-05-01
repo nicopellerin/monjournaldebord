@@ -16,11 +16,6 @@ import { JournalContext } from '../context/JournalProvider'
 import { maxLength } from '../utils/maxLength'
 import { defaultProfile } from '../utils/imagesBase64'
 
-// interface Props {
-//   username: string
-//   avatar?: string
-// }
-
 export const User: React.FC = () => {
   const [toggle, setToggle] = useState(false)
 
@@ -39,7 +34,12 @@ export const User: React.FC = () => {
     <Wrapper ref={node}>
       <UserInfoWrapper>
         <Link href={hasJournals ? '/profil/info' : '/profil'}>
-          <UsernameText>{username}</UsernameText>
+          <UsernameText>
+            <span style={{ marginRight: 5 }}>{username}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="9">
+              <path d="M 5 8.8 L 0.67 1.3 L 9.33 1.3 Z" fill="#440061"></path>
+            </svg>
+          </UsernameText>
         </Link>
         <div style={{ position: 'relative' }}>
           <UserImage
@@ -60,11 +60,11 @@ const UserDropdown: React.FC = () => {
   const client = useApolloClient()
   const router = useRouter()
 
-  const { logout, email } = useContext(UserContext)
+  const { logoutAction, email } = useContext(UserContext)
 
   async function signoutUser() {
     await client.resetStore()
-    await logout()
+    await logoutAction()
     router.push('/connexion')
   }
 
@@ -140,10 +140,6 @@ const UsernameText = styled.span`
   font-size: 1.6rem;
   margin-right: 2rem;
   cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
-  }
 
   @media (max-width: 500px) {
     display: none;

@@ -33,7 +33,7 @@ export const Card: React.FC<Props> = ({
 }) => {
   const [showImage, setShowImage] = useState(false)
 
-  const { selectJournal } = useContext(JournalContext)
+  const { selectJournalAction } = useContext(JournalContext)
 
   const isLaptop = useMedia({
     minWidth: 1500,
@@ -49,7 +49,7 @@ export const Card: React.FC<Props> = ({
           <Wrapper
             whileHover={{ y: -1 }}
             whileTap={{ y: 1 }}
-            onClick={() => selectJournal(id)}
+            onClick={() => selectJournalAction(id)}
           >
             {image && (
               <ImageIcon
@@ -99,11 +99,9 @@ const Wrapper = styled(motion.div)`
   box-shadow: rgba(0, 0, 0, 0.05) 0px 7px 15px;
   cursor: pointer;
   height: 100%;
-  /* background: ${(props) => props.theme.colors.cardBackground}; */
   background: #fafafa;
   position: relative;
   border: 1px solid #eee;
-  /* border-top: 2px solid #eee; */
   border-bottom: 3px solid #ddd;
   z-index: 20;
 `

@@ -10,7 +10,7 @@ import JournalSingle from '../../components/JournalSingle'
 import { JournalContext } from '../../context/JournalProvider'
 
 const SinglePage = () => {
-  const { selectJournal, selectedJournal } = useContext(JournalContext)
+  const { selectJournalAction, selectedJournal } = useContext(JournalContext)
 
   const {
     query: { id },
@@ -18,7 +18,7 @@ const SinglePage = () => {
 
   useEffect(() => {
     if (id) {
-      selectJournal(id)
+      selectJournalAction(id)
     }
   }, [id])
 

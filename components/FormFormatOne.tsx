@@ -76,10 +76,10 @@ export const FormFormatOne: React.FC<Props> = ({
 }) => {
   const {
     selectedJournal,
-    editSelectedJournal,
-    addNewJournal,
+    editSelectedJournalAction,
+    addNewJournalAction,
     newState,
-    uploadImage,
+    uploadImageAction,
     imageUploaded,
   } = useContext(JournalContext)
 
@@ -148,10 +148,10 @@ export const FormFormatOne: React.FC<Props> = ({
     let res
 
     if (newState) {
-      res = await addNewJournal(title, text, imageUploaded, mood, status)
+      res = await addNewJournalAction(title, text, imageUploaded, mood, status)
     } else {
       try {
-        res = await editSelectedJournal(
+        res = await editSelectedJournalAction(
           id,
           title,
           text,
@@ -202,7 +202,7 @@ export const FormFormatOne: React.FC<Props> = ({
           },
         }
       )
-      uploadImage(res.data.secure_url)
+      uploadImageAction(res.data.secure_url)
     } catch (err) {
       setImageError('Une erreur est survenue. Veuillez réessayer!')
     }

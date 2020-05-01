@@ -33,7 +33,7 @@ const JournalSingle: React.FC<Props> = () => {
 
   const {
     selectedJournal,
-    toggleEditing,
+    toggleEditingAction,
     toggleDelete,
     toggleDeleteAction,
   } = useContext(JournalContext)
@@ -153,7 +153,7 @@ const JournalSingle: React.FC<Props> = () => {
               as={`/journal/edit/${selectedJournal?.id}`}
             >
               <ButtonEdit
-                onClick={() => toggleEditing(selectedJournal?.image)}
+                onClick={() => toggleEditingAction(selectedJournal?.image)}
                 whileHover={{ y: -1 }}
                 whileTap={{ y: 1 }}
               >

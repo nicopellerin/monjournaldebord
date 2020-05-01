@@ -1,26 +1,26 @@
 import * as React from 'react'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
-import { FaTimesCircle, FaEllipsisV } from 'react-icons/fa'
+import { FaTimesCircle } from 'react-icons/fa'
 
 import { JournalContext } from '../context/JournalProvider'
 
-type Props = {
+interface Props {
   setLoader: any
 }
 
 export const ImageContainer: React.FC<Props> = ({ setLoader }) => {
   const {
     imageUploaded,
-    removeUploadedImage,
+    removeUploadedImageAction,
     toggleImageContainer,
-    setToggleImageContainer,
+    setToggleImageContainerAction,
   } = useContext(JournalContext)
 
   const removeImage = () => {
     setLoader('')
-    removeUploadedImage()
+    removeUploadedImageAction()
   }
 
   const toggleVariants = {
@@ -54,14 +54,9 @@ export const ImageContainer: React.FC<Props> = ({ setLoader }) => {
     >
       <ImageWrapper>
         {toggleImageContainer && <CloseIcon onClick={removeImage} />}
-        <ImageStyled
-          animate
-          src={imageUploaded}
-          alt="Image Upload"
-          // style={{ opacity: toggleImageContainer ? 1 : 0 }}
-        />
+        <ImageStyled animate src={imageUploaded} alt="Image Upload" />
       </ImageWrapper>
-      <Handle onClick={() => setToggleImageContainer()}>
+      <Handle onClick={() => setToggleImageContainerAction()}>
         <img src="/dots-v.svg" alt="dots" />
       </Handle>
     </Wrapper>

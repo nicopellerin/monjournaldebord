@@ -7,7 +7,7 @@ export const useImageUpload = (immediate, action?) => {
   const [loader, setLoader] = useState('')
   const [imageURL, setImageURL] = useState('')
 
-  const handleImageUpload = async e => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0]
 
     if (file.size > 1000000 * 3) {
@@ -25,7 +25,7 @@ export const useImageUpload = (immediate, action?) => {
         `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/image/upload`,
         data,
         {
-          onUploadProgress: progressEvent => {
+          onUploadProgress: (progressEvent) => {
             setLoader(
               Math.round((progressEvent.loaded / progressEvent.total) * 100) +
                 '%'
@@ -47,7 +47,7 @@ export const useImageUpload = (immediate, action?) => {
 
   useEffect(() => {
     if (immediate) {
-      e => handleImageUpload(e)
+      ;(e) => handleImageUpload(e)
     }
   }, [handleImageUpload, immediate])
 
