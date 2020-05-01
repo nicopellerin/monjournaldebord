@@ -44,7 +44,7 @@ export const StatsLongestText = () => {
 // Styles
 const Wrapper = styled.div`
   /* background: ${(props) => props.theme.colors.statsCardBackground}; */
-  background: #fafafa;
+  background: ghostwhite;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 7px 15px;
   padding: 2rem 3rem;
   border-radius: 5px;

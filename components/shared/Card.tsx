@@ -99,7 +99,7 @@ const Wrapper = styled(motion.div)`
   box-shadow: rgba(0, 0, 0, 0.05) 0px 7px 15px;
   cursor: pointer;
   height: 100%;
-  background: #fafafa;
+  background: white;
   position: relative;
   border: 1px solid #eee;
   border-bottom: 3px solid #ddd;

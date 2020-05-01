@@ -22,7 +22,11 @@ export const Home: React.FC = () => {
 // Styles
 const Wrapper = styled.div`
   padding: 8rem;
-  background: url('/dots.webp');
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.4),
+      rgba(255, 255, 255, 0.4)
+    ),
+    url('/dots.webp');
   transition: background 100ms ease-in-out;
   min-height: 100%;
   width: 100%;
