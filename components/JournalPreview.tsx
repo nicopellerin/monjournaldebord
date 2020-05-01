@@ -117,6 +117,7 @@ const Title = styled.h2`
   font-size: 6rem;
   margin-bottom: 2.5rem;
   color: ${(props) => props.theme.colors.titleColor};
+  word-break: break-all;
 
   @media (max-width: 500px) {
     padding: 0 2rem;

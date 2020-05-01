@@ -107,7 +107,7 @@ const Wrapper = styled(motion.div)`
   width: 100%;
   padding: 1.5rem 3rem;
   list-style: none;
-  background: ${(props: ItemProps) => (props.selected ? '#f9f9f9' : 'none')};
+  background: ${(props: ItemProps) => (props.selected ? '#f4f4f4' : 'none')};
   border-bottom: 1px solid #eee;
   &:hover {
     background: ${(props: ItemProps) =>

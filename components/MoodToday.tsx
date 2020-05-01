@@ -181,7 +181,7 @@ const Content = styled(motion.div)`
   box-shadow: rgba(0, 0, 0, 0.05) 0px 7px 15px;
   border-radius: 5px;
   position: relative;
-  border: 1px solid #eee;
+  /* border: 1px solid #eee; */
   border-bottom: 3px solid #ddd;
   z-index: 2;
 `
@@ -308,7 +308,6 @@ const Mood = styled.p`
   text-align: center;
   line-height: 1.5em;
   margin-top: 0;
-  font-family: 'Playfair Display', serif;
 
   @media (max-width: 500px) {
     font-size: 1.8rem;

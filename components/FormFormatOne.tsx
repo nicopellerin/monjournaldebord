@@ -302,6 +302,7 @@ export const FormFormatOne: React.FC<Props> = ({
 
         <ButtonWrapper>
           <ButtonPreview
+            disabled={!title || !mood || !text}
             type="button"
             onClick={() => setTogglePreview(true)}
             whileHover={{ y: -1 }}

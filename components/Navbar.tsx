@@ -80,7 +80,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
-  border-bottom: 1px solid #eee;
+  /* border-bottom: 1px solid #eee; */
   position: relative;
   z-index: 1000;
 `

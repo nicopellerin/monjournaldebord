@@ -53,8 +53,8 @@ h1, h2, h3, h4, h5 {
 }
 
 h1, h2 {
-  font-family: 'Playfair+Display', serif;
-  font-weight: 500;
+  /* font-family: 'Playfair+Display', serif; */
+  /* font-weight: 500; */
 }
 
 input {

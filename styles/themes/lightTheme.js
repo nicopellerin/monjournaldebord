@@ -6,7 +6,7 @@ export default {
     cardBackground: 'ghostwhite',
     contentBackground: 'white',
     statsCardBackground: 'white',
-    sideBarItemBackground: '#eee',
+    sideBarItemBackground: '#f2f2f2',
     sideBarItemColor: '#333',
     titleColor: '#333',
     textColor: '#555',

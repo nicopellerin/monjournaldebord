@@ -56,17 +56,17 @@ export const Sidebar: React.FC = () => {
 // Styles
 const Wrapper = styled.aside`
   /* background: ${(props) => props.theme.colors.sideBarBackground}; */
-  background: #fafafa;
+  background: #F8F8FF;
   transition: background 100ms ease-in-out;
   width: 100%;
-  box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.05);
+  /* box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.05); */
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 4rem 0 5rem 0;
-  border-right: 1px solid #eee;
+  /* border-right: 1px solid #eee; */
 `
 
 const ButtonGroup = styled.div`

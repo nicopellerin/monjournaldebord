@@ -39,7 +39,7 @@ export const Card: React.FC<Props> = ({
     minWidth: 1500,
   })
 
-  const titleLength = isLaptop ? 24 : 15
+  const titleLength = isLaptop ? 22 : 15
   const textLength = isLaptop ? 200 : 140
 
   return (
@@ -99,9 +99,9 @@ const Wrapper = styled(motion.div)`
   box-shadow: rgba(0, 0, 0, 0.05) 0px 7px 15px;
   cursor: pointer;
   height: 100%;
-  background: white;
+  background: ghostwhite;
   position: relative;
-  border: 1px solid #eee;
+  /* border: 1px solid #eee; */
   border-bottom: 3px solid #ddd;
   z-index: 20;
 `

@@ -80,6 +80,7 @@ const Title = styled.h3`
   align-items: center;
   color: #440061;
   width: 100%;
+  border: 1px solid #eee;
   background: ${(props) => props.theme.colors.sideBarItemBackground};
   /* background: #f6f6f6; */
   transition: color background 100ms ease-in-out;
@@ -88,7 +89,7 @@ const Title = styled.h3`
     css`
       font-weight: 600;
     `}
-  padding: 1.3rem 0;
+  padding: 1.6rem 0;
   padding-left: 5rem;
   margin: 0;
 `
