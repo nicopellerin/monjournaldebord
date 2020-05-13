@@ -3,14 +3,6 @@ const nextConfig = {
     modern: true,
     polyfillsOptimization: true,
   },
-  env: {
-    mongo_uri:
-      'mongodb+srv://nico:YAsyCpgdoAkOBD02@cluster0-dwm5u.mongodb.net/monjournaldebord?retryWrites=true&w=majority',
-    cloudinary_name: 'dl9mctxsb',
-    access_token_secret: 'dfdfdf3434344xxcxccx2232',
-    refresh_token_secret: 'sfdgfd3454545453435',
-  },
-
   webpack(config, { dev, isServer }) {
     const splitChunks = config.optimization && config.optimization.splitChunks
     if (splitChunks) {

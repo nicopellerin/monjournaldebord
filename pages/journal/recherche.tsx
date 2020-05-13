@@ -13,7 +13,7 @@ const SearchPage = () => {
 
   const { journals, search } = useContext(JournalContext)
 
-  const filteredList = journals.filter(journal =>
+  const filteredList = journals.filter((journal) =>
     journal.title.toLowerCase().includes(search.toLowerCase())
   )
 
@@ -31,7 +31,7 @@ const SearchPage = () => {
         <Header>
           <Title>{searchCount} &mdash;</Title>
           {filteredList.length > 3 && (
-            <Button onClick={() => setExpand(prevState => !prevState)}>
+            <Button onClick={() => setExpand((prevState) => !prevState)}>
               Changer format
             </Button>
           )}
@@ -48,7 +48,7 @@ const SearchPage = () => {
   )
 }
 
-SearchPage.getInitialProps = async ctx => {
+SearchPage.getInitialProps = async (ctx) => {
   const { token_login: token } = nextCookie(ctx)
 
   if (!token) {

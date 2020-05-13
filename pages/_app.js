@@ -33,10 +33,12 @@ const MyApp = ({ Component, pageProps, router }) => {
 
   if (router.pathname === '/') {
     return (
-      <Layout>
-        <Component {...pageProps} key={router.query.id} />
-        <GlobalStyles />
-      </Layout>
+      <UserProvider>
+        <Layout>
+          <Component {...pageProps} key={router.query.id} />
+          <GlobalStyles />
+        </Layout>
+      </UserProvider>
     )
   }
 
