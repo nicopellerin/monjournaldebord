@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Logo } from '../Logo'
+import { Logo } from './Logo'
 import { useMedia } from 'react-use-media'
 
 type Props = {

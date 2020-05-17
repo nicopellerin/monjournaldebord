@@ -5,11 +5,11 @@ import Head from 'next/head'
 import Router from 'next/router'
 import nextCookie from 'next-cookies'
 
-import { Content } from '../../../components/Content'
+import { Content } from '../../../components/journal/Content'
 
 import { JournalContext } from '../../../context/JournalProvider'
 import styled from 'styled-components'
-import { Book } from '../../../components/Book'
+import { Book } from '../../../components/journal/Book'
 
 const NewJournal: NextPage = () => {
   const { newState } = useContext(JournalContext)

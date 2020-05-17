@@ -18,11 +18,11 @@ import dompurify from 'dompurify'
 import format from 'date-fns/format'
 import { Circle } from 'better-react-spinkit'
 
-import { DateNow } from './DateNow'
-import { ToggleDeleteModal } from './ToggleDeleteModal'
+import { DateNow } from '../shared/DateNow'
+import { ToggleDeleteModal } from '../shared/ToggleDeleteModal'
 
-import { JournalContext } from '../context/JournalProvider'
-import { dots } from '../utils/imagesBase64'
+import { JournalContext } from '../../context/JournalProvider'
+import { dots } from '../../utils/imagesBase64'
 
 interface Props {
   togglePreview?: boolean
@@ -270,6 +270,7 @@ const Mood = styled.img`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   margin-top: 4rem;
 
   @media (max-width: 500px) {
@@ -292,6 +293,7 @@ const ButtonPDF = styled(motion.button)`
   width: 200px;
   margin-inline-end: auto;
   font-weight: bold;
+  white-space: nowrap;
 
   @media (max-width: 767px) {
     width: 200px;

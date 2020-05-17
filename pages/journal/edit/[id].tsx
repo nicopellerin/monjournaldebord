@@ -4,7 +4,7 @@ import Head from 'next/head'
 import nextCookie from 'next-cookies'
 import styled from 'styled-components'
 
-import { Book } from '../../../components/Book'
+import { Book } from '../../../components/journal/Book'
 
 import { JournalContext } from '../../../context/JournalProvider'
 

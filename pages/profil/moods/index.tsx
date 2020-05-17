@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import nextCookie from 'next-cookies'
 import Head from 'next/head'
 
-import { ProfilMoods } from '../../../components/ProfilMoods'
-import { NoMoods } from '../../../components/NoMoods'
+import { ProfilMoods } from '../../../components/moods/ProfilMoods'
+import { NoMoods } from '../../../components/moods/NoMoods'
 
 import { MoodsContext } from '../../../context/MoodsProvider'
 

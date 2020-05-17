@@ -6,7 +6,7 @@ import useDebouncedEffect from 'use-debounced-effect'
 import Router, { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
-import { JournalContext } from '../context/JournalProvider'
+import { JournalContext } from '../../context/JournalProvider'
 import { AnimatePresence } from 'framer-motion'
 
 export const NavbarSearch: React.FC = () => {

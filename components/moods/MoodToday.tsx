@@ -11,7 +11,7 @@ import {
 import format from 'date-fns/format'
 import { fr } from 'date-fns/locale'
 
-import { MoodsContext } from '../context/MoodsProvider'
+import { MoodsContext } from '../../context/MoodsProvider'
 import { useMedia } from 'react-use-media'
 
 export const MoodToday = () => {

@@ -7,7 +7,7 @@ import Router, { useRouter } from 'next/router'
 import { FormFormatOne } from './FormFormatOne'
 import { ImageContainer } from './ImageContainer'
 
-import { JournalContext } from '../context/JournalProvider'
+import { JournalContext } from '../../context/JournalProvider'
 import JournalSingle from './JournalSingle'
 import JournalPreview from './JournalPreview'
 

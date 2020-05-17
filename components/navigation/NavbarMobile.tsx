@@ -14,11 +14,11 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Router, { useRouter } from 'next/router'
 import { useApolloClient } from '@apollo/react-hooks'
 
-import { Logo } from './Logo'
+import { Logo } from '../shared/Logo'
 import { User } from './User'
 
-import { UserContext } from '../context/UserProvider'
-import { JournalContext } from '../context/JournalProvider'
+import { UserContext } from '../../context/UserProvider'
+import { JournalContext } from '../../context/JournalProvider'
 
 export const NavbarMobile = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false)

@@ -7,8 +7,8 @@ import Router from 'next/router'
 
 import { List } from './List'
 
-import { JournalContext } from '../context/JournalProvider'
-import { UserContext } from '../context/UserProvider'
+import { JournalContext } from '../../context/JournalProvider'
+import { UserContext } from '../../context/UserProvider'
 
 export const Sidebar: React.FC = () => {
   const { newPageAction, journals } = useContext(JournalContext)

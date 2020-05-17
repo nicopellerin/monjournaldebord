@@ -4,12 +4,12 @@ import styled from 'styled-components'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { motion, AnimatePresence } from 'framer-motion'
-import { RightMenu } from './RightMenu'
+import { RightMenu } from '../shared/RightMenu'
 
-import { JournalContext } from '../context/JournalProvider'
+import { JournalContext } from '../../context/JournalProvider'
 
-import { maxLength } from '../utils/maxLength'
-import { useClickOutside } from '../hooks/useClickOutside'
+import { maxLength } from '../../utils/maxLength'
+import { useClickOutside } from '../../hooks/useClickOutside'
 
 interface Props {
   title: string

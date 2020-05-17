@@ -8,13 +8,13 @@ import { useApolloClient } from '@apollo/react-hooks'
 import Link from 'next/link'
 import { useMedia } from 'react-use-media'
 
-import { useClickOutside } from '../hooks/useClickOutside'
+import { useClickOutside } from '../../hooks/useClickOutside'
 
-import { UserContext } from '../context/UserProvider'
-import { JournalContext } from '../context/JournalProvider'
+import { UserContext } from '../../context/UserProvider'
+import { JournalContext } from '../../context/JournalProvider'
 
-import { maxLength } from '../utils/maxLength'
-import { defaultProfile } from '../utils/imagesBase64'
+import { maxLength } from '../../utils/maxLength'
+import { defaultProfile } from '../../utils/imagesBase64'
 
 export const User: React.FC = () => {
   const [toggle, setToggle] = useState(false)

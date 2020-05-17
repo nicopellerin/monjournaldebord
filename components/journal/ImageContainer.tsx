@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { FaTimesCircle } from 'react-icons/fa'
 
-import { JournalContext } from '../context/JournalProvider'
+import { JournalContext } from '../../context/JournalProvider'
 
 interface Props {
   setLoader: any

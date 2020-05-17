@@ -5,7 +5,7 @@ import Head from 'next/head'
 import nextCookie from 'next-cookies'
 import styled from 'styled-components'
 
-import JournalSingle from '../../components/JournalSingle'
+import JournalSingle from '../../components/journal/JournalSingle'
 
 import { JournalContext } from '../../context/JournalProvider'
 

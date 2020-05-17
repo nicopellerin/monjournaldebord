@@ -6,11 +6,11 @@ import gql from 'graphql-tag'
 import { motion, AnimatePresence } from 'framer-motion'
 import Router from 'next/router'
 
-import { useClickOutside } from '../hooks/useClickOutside'
+import { useClickOutside } from '../../hooks/useClickOutside'
 
-import { JournalContext } from '../context/JournalProvider'
+import { JournalContext } from '../../context/JournalProvider'
 
-import { maxLength } from '../utils/maxLength'
+import { maxLength } from '../../utils/maxLength'
 
 type Props = {
   setToggleDelete: any

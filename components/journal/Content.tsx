@@ -5,9 +5,9 @@ import { useRouter } from 'next/router'
 
 import { Book } from './Book'
 import JournalSingle from './JournalSingle'
-import { Home } from './Home'
+import { Home } from '../Home'
 
-import { JournalContext } from '../context/JournalProvider'
+import { JournalContext } from '../../context/JournalProvider'
 
 interface StyledProps {
   isJournal?: boolean

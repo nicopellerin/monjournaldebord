@@ -5,11 +5,11 @@ import { FaCalendarAlt, FaUserLock, FaUsers } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import dompurify from 'dompurify'
 
-import { DateNow } from './DateNow'
+import { DateNow } from '../shared/DateNow'
 
-import { JournalContext } from '../context/JournalProvider'
+import { JournalContext } from '../../context/JournalProvider'
 
-import { dots } from '../utils/imagesBase64'
+import { dots } from '../../utils/imagesBase64'
 
 interface Props {
   title: string

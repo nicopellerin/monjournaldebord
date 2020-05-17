@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useMedia } from 'react-use-media'
 
-import { DateNow } from '../DateNow'
+import { DateNow } from './DateNow'
 
 import { JournalContext } from '../../context/JournalProvider'
 

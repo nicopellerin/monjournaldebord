@@ -2,9 +2,9 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import { CardList } from './shared/CardList'
-import { Stats } from './Stats'
+import { Stats } from './stats/Stats'
 
-import { MoodToday } from './MoodToday'
+import { MoodToday } from './moods/MoodToday'
 
 export const Home: React.FC = () => {
   return (
@@ -32,7 +32,7 @@ const Wrapper = styled.div`
   width: 100%;
 
   @media (max-width: 1500px) {
-    padding: 10em 9rem;
+    padding: 10em 6em;
   }
 
   @media (max-width: 500px) {

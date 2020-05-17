@@ -3,9 +3,9 @@ import { useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useMedia } from 'react-use-media'
 
-import { Navbar } from '../Navbar'
-import { Sidebar } from '../Sidebar'
-import { NavbarMobile } from '../NavbarMobile'
+import { Navbar } from '../navigation/Navbar'
+import { Sidebar } from '../navigation/Sidebar'
+import { NavbarMobile } from '../navigation/NavbarMobile'
 import { useRouter } from 'next/router'
 
 import { Footer } from '../shared/Footer'

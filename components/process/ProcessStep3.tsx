@@ -3,9 +3,9 @@ import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
-import { FormEmoticons } from '../FormEmoticons'
+import { FormEmoticons } from '../journal/FormEmoticons'
 
-import { emoticons } from '../FormFormatOne'
+import { emoticons } from '../journal/FormFormatOne'
 
 interface Props {
   setJournal: React.Dispatch<React.SetStateAction<object>>

@@ -5,12 +5,12 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { FaUserAlt, FaMoon, FaSun } from 'react-icons/fa'
 
-import { Logo } from './Logo'
+import { Logo } from '../shared/Logo'
 import { User } from './User'
 import { NavbarSearch } from './NavbarSearch'
 
-import { UserContext } from '../context/UserProvider'
-import { JournalContext } from '../context/JournalProvider'
+import { UserContext } from '../../context/UserProvider'
+import { JournalContext } from '../../context/JournalProvider'
 
 export const Navbar: React.FC = () => {
   const { username, avatar, userLoading } = useContext(UserContext)

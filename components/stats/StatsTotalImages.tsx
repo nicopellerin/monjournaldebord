@@ -1,17 +1,48 @@
 import * as React from 'react'
-import { useContext } from 'react'
+import { useContext, useMemo } from 'react'
 import styled from 'styled-components'
 
-import { JournalContext } from '../context/JournalProvider'
+import { JournalContext } from '../../context/JournalProvider'
 
-export const StatsTotalJournals = () => {
+export const StatsTotalImages = () => {
   const { journals } = useContext(JournalContext)
+
+  // Calculate number of total images
+  let count = 0
+  React.useMemo(
+    () =>
+      journals?.forEach((journal) => {
+        if (journal.image) {
+          count++
+        }
+      }),
+    [journals]
+  )
+
+  // Calculate most frequent mood
+  const mostFrequentMoodObj = useMemo(
+    () =>
+      journals?.reduce((prev, cur) => {
+        prev[cur.mood] = (prev[cur.mood] || 0) + 1
+
+        return prev
+      }, {}),
+    [journals]
+  )
+
+  const mostFrequentMood = Object.entries(mostFrequentMoodObj)
 
   return (
     <Wrapper>
       <TotalWrapper>
-        <Title>Nombre de publications</Title>
-        <Count>{journals?.length}</Count>
+        <Title>Mood le plus fréquent</Title>
+        <Count>
+          {mostFrequentMood && mostFrequentMood[0] ? (
+            <Mood src={mostFrequentMood[0][0]} alt="mood" />
+          ) : (
+            'N/A'
+          )}
+        </Count>
       </TotalWrapper>
     </Wrapper>
   )
@@ -24,9 +55,6 @@ const Wrapper = styled.div`
   box-shadow: rgba(0, 0, 0, 0.05) 0px 7px 15px;
   padding: 2rem 3rem;
   border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   /* border: 1px solid #eee; */
   border-bottom: 3px solid #ddd;
 `
@@ -52,4 +80,8 @@ const Count = styled.h4`
   font-size: 2rem;
   margin-bottom: 0;
   color: ${(props) => props.theme.colors.titleColor};
+`
+
+const Mood = styled.img`
+  width: 32px;
 `

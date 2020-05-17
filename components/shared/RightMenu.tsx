@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { FaEdit, FaTimes } from 'react-icons/fa'
 
-import { JournalContext } from '../context/JournalProvider'
+import { JournalContext } from '../../context/JournalProvider'
 
 interface RightMenuProps {
   id: string | string[]

@@ -7,12 +7,12 @@ import format from 'date-fns/format'
 import Link from 'next/link'
 import { useMedia } from 'react-use-media'
 
-import { RightMenu } from './RightMenu'
+import { RightMenu } from '../shared/RightMenu'
 
-import { MoodsContext } from '../context/MoodsProvider'
-import { useClickOutside } from '../hooks/useClickOutside'
+import { MoodsContext } from '../../context/MoodsProvider'
+import { useClickOutside } from '../../hooks/useClickOutside'
 
-import { maxLength } from '../utils/maxLength'
+import { maxLength } from '../../utils/maxLength'
 
 interface Props {
   id: string

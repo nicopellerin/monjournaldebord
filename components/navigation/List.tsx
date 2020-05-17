@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 
 import { ListItem } from './ListItem'
 
-import { JournalContext } from '../context/JournalProvider'
+import { JournalContext } from '../../context/JournalProvider'
 
 export const List: React.FC = () => {
   const { journals } = useContext(JournalContext)

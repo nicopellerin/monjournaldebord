@@ -6,7 +6,7 @@ import { fr } from 'date-fns/locale'
 import { motion } from 'framer-motion'
 
 import { ProfilMoodsContainer } from './ProfilMoodsContainer'
-import { dots } from '../utils/imagesBase64'
+import { dots } from '../../utils/imagesBase64'
 
 interface Props {
   list: any

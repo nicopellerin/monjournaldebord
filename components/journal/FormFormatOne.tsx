@@ -15,11 +15,11 @@ import { motion } from 'framer-motion'
 import axios from 'axios'
 import Router, { useRouter } from 'next/router'
 
-import { DateNow } from './DateNow'
+import { DateNow } from '../shared/DateNow'
 
-import { JournalContext } from '../context/JournalProvider'
+import { JournalContext } from '../../context/JournalProvider'
 import { FormEmoticons } from './FormEmoticons'
-import { maxLength } from '../utils/maxLength'
+import { maxLength } from '../../utils/maxLength'
 import {
   angry,
   sleepy,
@@ -29,7 +29,7 @@ import {
   love,
   crazy,
   happy,
-} from '../utils/emoticonsBase64'
+} from '../../utils/emoticonsBase64'
 
 export const emoticons = [
   { id: 1, type: 'Joyeux(se)', path: happy },

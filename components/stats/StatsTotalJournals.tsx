@@ -1,41 +1,17 @@
 import * as React from 'react'
-import { useContext, useCallback } from 'react'
+import { useContext } from 'react'
 import styled from 'styled-components'
 
-import { JournalContext } from '../context/JournalProvider'
+import { JournalContext } from '../../context/JournalProvider'
 
-import { maxLength } from '../utils/maxLength'
-import Link from 'next/link'
-
-export const StatsLongestText = () => {
+export const StatsTotalJournals = () => {
   const { journals } = useContext(JournalContext)
-
-  const longestText = useCallback(
-    journals?.reduce((prev: any, current: any) => {
-      if (prev.text.length > current.text.length) {
-        return prev
-      } else {
-        return current
-      }
-    }, journals[0]),
-    [journals]
-  )
 
   return (
     <Wrapper>
       <TotalWrapper>
-        <Title>Plus longue publication</Title>
-        <Count>
-          {longestText ? (
-            <Link as={`/journal/${longestText?.id}`} href={`/journal/[id]`}>
-              <a style={{ color: 'var(--primaryColor)' }}>
-                {maxLength(longestText?.title, 20)}
-              </a>
-            </Link>
-          ) : (
-            'N/A'
-          )}
-        </Count>
+        <Title>Nombre de publications</Title>
+        <Count>{journals?.length}</Count>
       </TotalWrapper>
     </Wrapper>
   )
@@ -48,6 +24,9 @@ const Wrapper = styled.div`
   box-shadow: rgba(0, 0, 0, 0.05) 0px 7px 15px;
   padding: 2rem 3rem;
   border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   /* border: 1px solid #eee; */
   border-bottom: 3px solid #ddd;
 `

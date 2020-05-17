@@ -10,7 +10,7 @@ import { motion } from 'framer-motion'
 import { Circle } from 'better-react-spinkit'
 import { FaFilePdf } from 'react-icons/fa'
 
-import { ProfilMoods } from '../../components/ProfilMoods'
+import { ProfilMoods } from '../../components/moods/ProfilMoods'
 
 import { JournalContext } from '../../context/JournalProvider'
 

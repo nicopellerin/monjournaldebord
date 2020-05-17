@@ -4,7 +4,7 @@ import Link from 'next/link'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
 
-import { ThemeContext } from '../context/ThemeProvider'
+import { ThemeContext } from '../../context/ThemeProvider'
 
 interface Props {
   width?: number

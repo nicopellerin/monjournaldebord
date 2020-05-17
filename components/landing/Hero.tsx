@@ -5,7 +5,7 @@ import { FaUserAlt, FaSignInAlt } from 'react-icons/fa'
 import Link from 'next/link'
 import { useMedia } from 'react-use-media'
 
-import { Logo } from '../Logo'
+import { Logo } from '../shared/Logo'
 import { dots, wave } from '../../utils/imagesBase64'
 
 export const Hero = () => {
