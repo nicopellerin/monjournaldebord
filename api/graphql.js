@@ -19,9 +19,15 @@ const schema = makeExecutableSchema({ typeDefs, resolvers })
 const apolloServer = new ApolloServer({
   schema,
   context: async (ctx) => {
-    const { token_login } = cookie.parse(ctx.req.headers.cookie || '')
-
-    const user = await getUserFromToken(token_login)
+    let user
+    try {
+      const { token_login } = cookie.parse(ctx.req.headers.cookie || '')
+      if (token_login) {
+        user = await getUserFromToken(token_login)
+      }
+    } catch (err) {
+      console.error(err)
+    }
 
     return { ...ctx, user }
   },

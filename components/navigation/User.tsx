@@ -94,7 +94,7 @@ const Wrapper = styled.div`
 
 const DropdownWrapper = styled(motion.div)`
   position: absolute;
-  width: 15rem;
+  width: min-content;
   bottom: -9.5rem;
   left: 50%;
   background: white;
