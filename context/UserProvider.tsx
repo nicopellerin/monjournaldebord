@@ -61,6 +61,7 @@ const UserProvider = ({ children }) => {
 
   const { loading: userLoading, error: userError } = useQuery(USER_INFO, {
     skip:
+      pathname === '/' ||
       pathname === '/connexion' ||
       pathname === '/inscription' ||
       pathname.includes('blogue'),
